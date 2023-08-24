@@ -24,14 +24,13 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
-# Set the action to run in the client sub directory
-defaults:
-  run:
-    working-directory: client
-
 jobs:
   # Build job
   build:
+    # Set the action to run in the client sub directory
+    defaults:
+      run:
+        working-directory: client
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
