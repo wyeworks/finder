@@ -30,7 +30,7 @@ jobs:
     # Set the action to run in the client sub directory
     defaults:
       run:
-        working-directory: client
+        working-directory: ./client
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
