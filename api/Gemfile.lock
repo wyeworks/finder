@@ -210,6 +210,8 @@ GEM
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
     ruby-progressbar (1.13.0)
+    shoulda-matchers (5.3.0)
+      activesupport (>= 5.2.0)
     thor (1.2.2)
     timeout (0.4.0)
     tzinfo (2.0.6)
@@ -235,6 +237,7 @@ DEPENDENCIES
   rails (~> 7.0.7, >= 7.0.7.2)
   rspec-rails (~> 6.0)
   rubocop-rails
+  shoulda-matchers (~> 5.0)
   tzinfo-data
 
 RUBY VERSION

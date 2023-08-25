@@ -20,3 +20,7 @@ end
 group :development do
   gem 'rubocop-rails', require: false
 end
+
+group :test do
+  gem 'shoulda-matchers', '~> 5.0'
+end
