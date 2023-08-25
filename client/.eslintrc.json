@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "prettier"
-  ],
-  //cannot use console.log
+  "extends": ["next/core-web-vitals", "prettier"],
   "rules": {
     "no-console": "error"
   }
