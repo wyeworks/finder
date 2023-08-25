@@ -3,7 +3,7 @@ import Input from "@/components/common/Input";
 
 export default function RegisterForm() {
     return (
-            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm" id="register-form">
                 <form className="space-y-6" action="#" method="POST">
                     <Input type="text" id="name" name="name" label="Nombre" placeholder="Nicolas Rodriguez" />
                     <Input type="email" id="email" name="email" label="Email" placeholder="nico22@fing.edu.uy"/>
