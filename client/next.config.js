@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'export',
-    basePath: '/finder'
+    images: {
+        domains: ['media.istockphoto.com'],
+      },
 }
 
 module.exports = nextConfig
