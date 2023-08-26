@@ -7,8 +7,8 @@ type AuthFlowProps = {
 
 export default function AuthFlow({children}:AuthFlowProps) {
     return (
-        <div className="h-screen flex items-center justify-center bg-gray-100 overflow-y-hidden" id="container">
-            <div className="max-w-5xl bg-white shadow-lg rounded-lg flex items-stretch h-full sm:h-auto" id="flex-container">
+        <div className="h-screen flex items-center justify-center bg-gray-100" id="container">
+            <div className="max-w-5xl bg-white shadow-lg rounded-lg flex items-stretch h-full sm:h-auto overflow-y-auto" id="flex-container">
                 {/* Left side (Image) - hidden on mobile */}
                 <div className="hidden md:flex w-1/2 justify-center items-center relative overflow-hidden flex-shrink-0" id="image-container">
                     <Image 
