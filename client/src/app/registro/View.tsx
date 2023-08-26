@@ -3,10 +3,10 @@ import RegisterForm from "./Form";
 
 export default function Form() {
     return (
-        <div className="grid grid-row-3 min-h-full justify-center px-6 py-12 lg:px-8" id="register-view">
+        <div className="grid grid-row-3 min-h-full justify-center px-6 sm:py-12 pb-6 lg:px-8" id="register-view">
             <div id="register-header">
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 block md:hidden">finder.com</h2>
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Registrarse</h2>
+                <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 block md:hidden">finder.com</h2>
+                <h2 className="sm:mt-10 mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Registrarse</h2>
                 <p className="mt-4 text-center tracking-tight text-gray-900">Crea tu cuenta para empezar a buscar grupos de estudio</p>
             </div>
             <div id="register-body">
