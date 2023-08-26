@@ -14,3 +14,12 @@ Style/FrozenStringLiteralComment:
 
 Style/Documentation:
   Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Rails/FilePath:
+  Enabled: false
+
+Lint/RedundantDirGlobSort:
+  Enabled: false
