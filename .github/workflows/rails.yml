@@ -1,0 +1,51 @@
+name: RSpec and Rubocop checks
+
+on:
+  # Runs on pushes and pull requests targeting main or develop branches
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  rspec-rubocop:
+    # Set the action to run in the `api` sub directory
+    defaults:
+      run:
+        working-directory: ./api
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: api
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.2.2
+    - name: Install dependencies
+      run: bundle install
+    - name: Setup DB and run RSpec
+      env:
+        RAILS_ENV: test
+        DB_USER: api
+        DB_PASSWORD: postgres
+        PGHOST: localhost
+        PGPORT: 5432
+      run: |
+        bundle exec rails db:create db:migrate
+        bundle exec rspec
+    - name: Run Rubocop
+      run: bundle exec rubocop
