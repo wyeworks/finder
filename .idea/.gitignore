@@ -3,3 +3,8 @@
 /workspace.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+/conventionalCommit.xml
+/dictionaries/dylan_smith.xml
+/jsLinters/eslint.xml
+/jsLibraryMappings.xml
+/inspectionProfiles/Project_Default.xml
