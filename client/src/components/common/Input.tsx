@@ -5,7 +5,7 @@ type InputParams = {
   name: string;
   placeholder?: string;
   required?: boolean;
-  error?: string;
+  validateText?: string;
 };
 
 export default function Input({
@@ -15,10 +15,8 @@ export default function Input({
   name,
   placeholder = '',
   required = false,
-  error = '',
+  validateText = `Por favor ingrese su ${label}`,
 }: InputParams) {
-  const errorText = error;
-  const hasError = Boolean(error);
   return (
     <div>
       {label && (
@@ -37,9 +35,11 @@ export default function Input({
           autoComplete={type}
           placeholder={placeholder}
           required={required}
-          className='block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6'
+          className='peer block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6'
         />
-        {hasError && <p className='text-sm text-red-600'>{errorText}</p>}
+        <p className='invisible text-sm text-red-600 peer-invalid:visible'>
+          {validateText}
+        </p>
       </div>
     </div>
   );
