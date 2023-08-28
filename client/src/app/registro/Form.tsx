@@ -1,5 +1,6 @@
 'use client';
 
+import Alert from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 
@@ -46,6 +47,7 @@ export default function Form() {
           required
         />
         <Button type='submit' text='Crear Cuenta' className='mt-5' />
+        <Alert isShow={false} />
       </form>
     </div>
   );
