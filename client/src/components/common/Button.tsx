@@ -4,7 +4,7 @@ type ButtonParams = {
     className?: string
 }
 
-export default function Button({ type = undefined, text, className}: ButtonParams) {
+export default function Button({ type = "button", text, className }: ButtonParams) {
     return (
         <div>
             <button type={type} className={`flex w-full justify-center rounded-md bg-blue-600 px-3 py-3 text-sm font-semibold leading-6
@@ -12,6 +12,6 @@ export default function Button({ type = undefined, text, className}: ButtonParam
              focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${className}`}>
                 {text}
             </button>
-        </div>     
+        </div>
     )
 };
