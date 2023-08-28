@@ -5,7 +5,7 @@ type AuthFlowProps = {
     children: ReactNode;
 }
 
-export default function AuthFlow({ children }: AuthFlowProps) {
+export default function AuthView({ children }: AuthFlowProps) {
     return (
         <div className="h-screen flex items-center justify-center bg-gray-100" id="container">
             <div className="max-w-5xl bg-white shadow-lg rounded-lg flex items-stretch h-full sm:h-auto overflow-y-auto" id="flex-container">

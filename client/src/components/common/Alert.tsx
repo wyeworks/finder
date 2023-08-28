@@ -1,15 +1,15 @@
 type AlertProps = {
-  isShow: boolean;
+  isVisible: boolean;
   errorMessage?: string;
   type?: string;
 };
 
 export default function Alert({
-  isShow,
+  isVisible,
   errorMessage = 'Ocurrio un error inesperado, intenta de nuevo',
   type = 'alert',
 }: AlertProps) {
-  if (isShow) {
+  if (isVisible) {
     return (
       <div
         className='border-l-4 border-red-500 bg-red-100 p-4 text-red-600'
