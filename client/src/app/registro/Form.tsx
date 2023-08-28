@@ -21,16 +21,39 @@ export default function Form() {
         password: '',
         confirmPassword: '',
     });
+    const [touched, setTouched] = useState({
+        name: false,
+        email: false,
+        password: false,
+        confirmPassword: false,
+    });
     const [isVisible, setIsVisible] = useState<boolean>(false);
+    const [alertMessage, setAlertMessage] = useState<string>('');
     const router = useRouter();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prevState => ({ ...prevState, [name]: value }));
+        setTouched(prevTouched => ({ ...prevTouched, [name]: true }));
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        setTouched({
+            name: true,
+            email: true,
+            password: true,
+            confirmPassword: true,
+        });
+
+        const isCurrentFormValid = event.currentTarget.checkValidity();
+
+        if (!isCurrentFormValid) {
+            setAlertMessage("Por favor rellene todos los campos correctamente");
+            setIsVisible(true);
+            return;
+        }
 
         try {
             const response = await fetch('/api/signup', {
@@ -47,6 +70,7 @@ export default function Form() {
 
             router.push('/confirmacion');
         } catch (error) {
+            setAlertMessage("Ocurrio un error inesperado, intenta de nuevo");
             setIsVisible(true);
         }
     };
@@ -67,6 +91,7 @@ export default function Form() {
                     required
                     value={formData.name}
                     onChange={handleChange}
+                    touched={touched.name}
                 />
                 <Input
                     type='email'
@@ -78,6 +103,7 @@ export default function Form() {
                     required
                     value={formData.email}
                     onChange={handleChange}
+                    touched={touched.email}
                 />
                 <Input
                     type='password'
@@ -88,6 +114,7 @@ export default function Form() {
                     required
                     value={formData.password}
                     onChange={handleChange}
+                    touched={touched.password}
                 />
                 <Input
                     type='password'
@@ -98,9 +125,10 @@ export default function Form() {
                     required
                     value={formData.confirmPassword}
                     onChange={handleChange}
+                    touched={touched.confirmPassword}
                 />
                 <Button type='submit' text='Crear Cuenta' className='mt-5' />
-                <Alert isVisible={isVisible} />
+                <Alert isVisible={isVisible} errorMessage={alertMessage} />
             </form>
         </div>
     );
