@@ -20,5 +20,27 @@ RSpec.describe User, type: :model do
         it { is_expected.to be_valid }
       end
     end
+
+    describe '#password_complexity' do
+      let(:subject) { build :user, password: }
+
+      context 'length requirement not met' do
+        let(:password) { '123' }
+
+        it { is_expected.not_to be_valid }
+      end
+
+      context 'complexity requirement not met' do
+        let(:password) { 'password' }
+
+        it { is_expected.not_to be_valid }
+      end
+
+      context 'valid password' do
+        let(:password) { 'Test#123' }
+
+        it { is_expected.to be_valid }
+      end
+    end
   end
 end
