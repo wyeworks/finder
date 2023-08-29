@@ -12,7 +12,7 @@ export default function Alert({
   if (isVisible) {
     return (
       <div
-        className='border-l-4 border-red-500 bg-red-100 p-4 text-red-600'
+        className='mt-2 h-fit content-center border-l-4 border-red-500 bg-red-100 p-3 text-sm text-red-600 '
         role={type}
       >
         <p className='font-bold'>Algo salio mal</p>

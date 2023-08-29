@@ -13,6 +13,9 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      gridTemplateRows: {
+        'register-form': '70px 70px 70px 70px 70px 80px',
+      },
     },
   },
   plugins: [],

@@ -8,6 +8,8 @@ type InputParams = {
   required?: boolean;
   validateText?: string;
   value?: string;
+  // disabled temporary
+  // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -24,7 +26,7 @@ export default function Input({
   onChange,
 }: InputParams) {
   return (
-    <div>
+    <div className='max-w-sm justify-center'>
       {label && (
         <label
           htmlFor={id}
@@ -33,7 +35,7 @@ export default function Input({
           {label}
         </label>
       )}
-      <div className='-mb-2 '>
+      <div className='-mb-3'>
         <input
           id={id}
           name={name}
@@ -45,10 +47,11 @@ export default function Input({
           onChange={onChange}
           className='peer block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6'
         />
-        {touched &&
+        {touched && (
           <p className='invisible text-sm text-red-600 peer-invalid:visible'>
             {validateText}
-          </p>}
+          </p>
+        )}
       </div>
     </div>
   );
