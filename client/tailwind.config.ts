@@ -15,6 +15,7 @@ const config: Config = {
       },
       gridTemplateRows: {
         'register-form': '70px 70px 70px 70px 70px 80px',
+        'login-form': '70px 70px 70px 80px',
       },
     },
   },
