@@ -15,6 +15,9 @@ Style/FrozenStringLiteralComment:
 Style/Documentation:
   Enabled: false
 
+Metrics/BlockLength:
+  Enabled: false
+
 Metrics/MethodLength:
   Enabled: false
 
