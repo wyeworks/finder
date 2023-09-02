@@ -8,6 +8,7 @@ gem 'rails', '~> 7.0.7', '>= 7.0.7.2'
 gem 'bootsnap', require: false
 gem 'devise', '~> 4.9'
 gem 'devise-jwt', '~> 0.10'
+gem 'jsonapi-serializer', '~> 2.2'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rack-cors', '~> 2.0'
