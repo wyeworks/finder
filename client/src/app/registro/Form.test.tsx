@@ -13,7 +13,7 @@ describe('Form Component', () => {
   it('should show an alert when form is submitted with invalid data', async () => {
     const { getByText, queryByText } = render(<Form />);
 
-    fireEvent.click(getByText('Crear Cuenta'));
+    fireEvent.click(getByText(strings.signup.createAccountButton.text));
 
     await waitFor(() => {
       expect(
@@ -28,18 +28,18 @@ describe('Form Component', () => {
     const { getByLabelText, getByText } = render(<Form />);
 
     // Fill the form
-    fireEvent.change(getByLabelText('Nombre'), {
+    fireEvent.change(getByLabelText(strings.signup.nameInput.label), {
       target: { value: 'John Doe' },
     });
-    fireEvent.change(getByLabelText('Email'), {
+    fireEvent.change(getByLabelText(strings.signup.emailInput.label), {
       target: { value: 'john.doe@example.com' },
     });
-    fireEvent.change(getByLabelText('Contraseña'), {
+    fireEvent.change(getByLabelText(strings.signup.passwordInput.label), {
       target: { value: 'password123' },
     });
 
     // Submit the form
-    fireEvent.click(getByText('Crear Cuenta'));
+    fireEvent.click(getByText(strings.signup.createAccountButton.text));
 
     // Wait for the fetch to be called
     await waitFor(() => {
@@ -55,18 +55,18 @@ describe('Form Component', () => {
     const { getByLabelText, getByText, queryByText } = render(<Form />);
 
     // Fill the form
-    fireEvent.change(getByLabelText('Nombre'), {
+    fireEvent.change(getByLabelText(strings.signup.nameInput.label), {
       target: { value: 'John Doe' },
     });
-    fireEvent.change(getByLabelText('Email'), {
+    fireEvent.change(getByLabelText(strings.signup.emailInput.label), {
       target: { value: 'john.doe@example.com' },
     });
-    fireEvent.change(getByLabelText('Contraseña'), {
+    fireEvent.change(getByLabelText(strings.signup.passwordInput.label), {
       target: { value: 'password123' },
     });
 
     // Submit the form
-    fireEvent.click(getByText('Crear Cuenta'));
+    fireEvent.click(getByText(strings.signup.createAccountButton.text));
 
     // Wait for the error message to appear
     await waitFor(() => {
