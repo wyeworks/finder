@@ -1,0 +1,29 @@
+{
+  "common": {
+    "error": {
+      "unexpectedError": "Ocurrió un error inesperado, intenta de nuevo",
+      "completeFields": "Por favor completa todos los campos correctamente"
+    },
+    "submitButton": {
+      "text": "Enviar"
+    }
+  },
+  "signup": {
+    "nameInput": {
+      "label": "Nombre",
+      "placeholder": "Ingresa tu Nombre"
+    },
+    "emailInput": {
+      "label": "Email",
+      "placeholder": "ejemplo@fing.edu.uy",
+      "validateText": "Ingresa un email válido"
+    },
+    "passwordInput": {
+      "label": "Contraseña",
+      "placeholder": "Ingresa tu Contraseña"
+    },
+    "createAccountButton": {
+      "text": "Crear Cuenta"
+    }
+  }
+}

@@ -3,8 +3,8 @@
 import Alert from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
+import strings from '@/locales/strings.json';
 import { useRouter } from 'next/navigation';
-
 import { useState } from 'react';
 
 type SignUpFormData = {
@@ -50,7 +50,7 @@ export default function Form() {
     const isCurrentFormValid = event.currentTarget.checkValidity();
 
     if (!isCurrentFormValid) {
-      setAlertMessage('Por favor rellene todos los campos correctamente');
+      setAlertMessage(strings.common.error.completeFields);
       setIsVisible(true);
       return;
     }
@@ -65,12 +65,19 @@ export default function Form() {
       });
 
       if (!response.ok) {
-        throw new Error('Server responded with an error status');
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || strings.common.error.unexpectedError
+        );
       }
 
       router.push('/confirmacion');
     } catch (error) {
-      setAlertMessage('Ocurrio un error inesperado, intenta de nuevo');
+      setAlertMessage(
+        error instanceof Error
+          ? error.message
+          : strings.common.error.unexpectedError
+      );
       setIsVisible(true);
     }
   };
@@ -86,8 +93,8 @@ export default function Form() {
           type='text'
           id='name'
           name='name'
-          label='Nombre'
-          placeholder='Ingrese su Nombre'
+          label={strings.signup.nameInput.label}
+          placeholder={strings.signup.nameInput.placeholder}
           required
           value={formData.name}
           onChange={handleChange}
@@ -97,9 +104,9 @@ export default function Form() {
           type='email'
           id='email'
           name='email'
-          label='Email'
-          placeholder='ejemplo@fing.edu.uy'
-          validateText='Ingrese un mail valido'
+          label={strings.signup.emailInput.label}
+          placeholder={strings.signup.emailInput.placeholder}
+          validateText={strings.signup.emailInput.validateText}
           required
           value={formData.email}
           onChange={handleChange}
@@ -109,25 +116,18 @@ export default function Form() {
           type='password'
           id='password'
           name='password'
-          label='Contraseña'
-          placeholder='Ingrese su Contraseña'
+          label={strings.signup.passwordInput.label}
+          placeholder={strings.signup.passwordInput.placeholder}
           required
           value={formData.password}
           onChange={handleChange}
           touched={touched.password}
         />
-        <Input
-          type='password'
-          id='confirmPassword'
-          name='confirmPassword'
-          label='Confirmar Contraseña'
-          placeholder='Ingrese su Contraseña nuevamente'
-          required
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          touched={touched.confirmPassword}
+        <Button
+          type='submit'
+          text={strings.signup.createAccountButton.text}
+          className='mt-5'
         />
-        <Button type='submit' text='Crear Cuenta' className='mt-5' />
         <Alert isVisible={isVisible} errorMessage={alertMessage} />
       </form>
     </div>
