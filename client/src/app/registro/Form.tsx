@@ -11,7 +11,6 @@ type SignUpFormData = {
   name: string;
   email: string;
   password: string;
-  confirmPassword: string;
 };
 
 export default function Form() {
@@ -19,13 +18,11 @@ export default function Form() {
     name: '',
     email: '',
     password: '',
-    confirmPassword: '',
   });
   const [touched, setTouched] = useState({
     name: false,
     email: false,
     password: false,
-    confirmPassword: false,
   });
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
@@ -44,7 +41,6 @@ export default function Form() {
       name: true,
       email: true,
       password: true,
-      confirmPassword: true,
     });
 
     const isCurrentFormValid = event.currentTarget.checkValidity();

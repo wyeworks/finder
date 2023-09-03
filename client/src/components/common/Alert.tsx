@@ -1,3 +1,5 @@
+import strings from '@/locales/strings.json';
+
 type AlertProps = {
   isVisible: boolean;
   errorMessage?: string;
@@ -6,7 +8,7 @@ type AlertProps = {
 
 export default function Alert({
   isVisible,
-  errorMessage = 'Ocurrio un error inesperado, intenta de nuevo',
+  errorMessage = strings.common.error.unexpectedError,
   type = 'alert',
 }: AlertProps) {
   if (isVisible) {
