@@ -1,5 +1,10 @@
+import AuthView from '@/components/shared/AuthView';
+import View from './View';
+
 export default function Confirmacion() {
-    return (
-        <h1>Confirmacion</h1>
-    )
-};
+  return (
+    <AuthView>
+      <View />
+    </AuthView>
+  );
+}

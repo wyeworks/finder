@@ -1,10 +1,10 @@
-import View from "./View";
-import AuthFlow from "@/components/shared/AuthView";
+import View from './View';
+import AuthView from '@/components/shared/AuthView';
 
 export default function Registro() {
-    return (
-        <AuthFlow>
-            <View />
-        </AuthFlow>
-    )
-};
+  return (
+    <AuthView>
+      <View />
+    </AuthView>
+  );
+}

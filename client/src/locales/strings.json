@@ -25,5 +25,13 @@
     "createAccountButton": {
       "text": "Crear Cuenta"
     }
+  },
+  "confirmation": {
+    "imageAlt": "Confirmar email",
+    "headerText": "Confirme su dirección de email",
+    "infoText": "Se ha enviado un correo electrónico a xxxx.xxxxx.xxxxx@fing.edu.uy con los siguientes pasos necesarios para confirmar su registro",
+    "loginButton": {
+      "text": "Iniciar sesión"
+    }
   }
 }
