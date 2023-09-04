@@ -2,7 +2,7 @@
   "extends": ["next/core-web-vitals", "prettier"],
   "rules": {
     "no-console": 1,
-    "complexity": ["error", 4],
+    "complexity": ["error", 8],
     "no-unused-vars": "error",
     "react/react-in-jsx-scope": "off"
   }

@@ -1,11 +1,5 @@
 {
-  "*.ts": [
-    "prettier --write",
-    "npm run lint"
-  ],
-  "*.html": [
-    "npm run lint",
-    "prettier --write"
-  ],
+  "*.ts": ["prettier --write", "npm run lint"],
+  "*.html": ["npm run lint", "prettier --write"],
   "*.scss": "prettier --write"
 }
