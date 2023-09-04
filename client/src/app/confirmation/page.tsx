@@ -1,7 +1,7 @@
 import AuthView from '@/components/shared/AuthView';
 import View from './View';
 
-export default function Confirmacion() {
+export default function Confirmation() {
   return (
     <AuthView>
       <View />

@@ -28,8 +28,9 @@
   },
   "confirmation": {
     "imageAlt": "Confirmar email",
-    "headerText": "Confirme su dirección de email",
-    "infoText": "Se ha enviado un correo electrónico a xxxx.xxxxx.xxxxx@fing.edu.uy con los siguientes pasos necesarios para confirmar su registro",
+    "title": "finder.com",
+    "headerText": "Confirme su dirección de correo",
+    "infoText": "Se ha enviado un correo electrónico a xxxx.xxxxx.xxxxx@fing.edu.uy con los pasos necesarios para confirmar su registro",
     "loginButton": {
       "text": "Iniciar sesión"
     }

@@ -15,11 +15,11 @@ export default function View() {
 
   return (
     <div
-      className='flex min-h-screen flex-col items-center justify-center px-4 pb-6 sm:px-6 sm:py-12 lg:px-8'
+      className='flex flex-col items-center justify-center px-4 pb-6 sm:px-6 sm:py-12 lg:px-8'
       id='confirm-view'
     >
       <h1 className='mb-8 mt-4 block w-full text-center text-2xl font-bold sm:hidden'>
-        Finder.com
+        {strings.confirmation.title}
       </h1>
 
       <div
