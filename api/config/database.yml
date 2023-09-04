@@ -57,9 +57,10 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: api_test
-  username: <%= ENV["DB_USER"] %>
-  password: <%= ENV["DB_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
+  database: <%= ENV["API_DATABASE_NAME"] %>
+  username: <%= ENV["API_DATABASE_USER"] %>
+  password: <%= ENV["API_DATABASE_PASSWORD"] %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -83,6 +84,7 @@ test:
 #
 production:
   <<: *default
-  database: api_production
-  username: api
+  url: <%= ENV["DATABASE_URL"] %>
+  database: <%= ENV["API_DATABASE_NAME"] %>
+  username: <%= ENV["API_DATABASE_USER"] %>
   password: <%= ENV["API_DATABASE_PASSWORD"] %>
