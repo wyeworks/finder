@@ -8,7 +8,7 @@
       "text": "Enviar"
     },
     "SearchInput": {
-      "placeholder": "Búsqueda..."
+      "placeholder": "Buscar"
     }
   },
   "signup": {
@@ -34,7 +34,7 @@
       "notifications": "Notificaciones",
       "messages": "Mensajes",
       "editProfile": "Editar Perfil",
-      "endSession": "Cerrar sesión"
+      "endSession": "Cerrar Sesión"
     }
   }
 }

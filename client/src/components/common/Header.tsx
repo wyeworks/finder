@@ -145,7 +145,7 @@ export default function Header() {
               </div>
             </div>
 
-            {/* opciones del menu en mobile */}
+            {/* options for mobile menu */}
             <Disclosure.Panel className='md:hidden'>
               <div className='space-y-1 px-2 pb-3 pt-2 sm:px-3'>
                 <InputSearch />
