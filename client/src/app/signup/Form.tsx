@@ -67,7 +67,7 @@ export default function Form() {
         );
       }
 
-      router.push('/confirmacion');
+      router.push('/confirmation');
     } catch (error) {
       setAlertMessage(
         error instanceof Error
