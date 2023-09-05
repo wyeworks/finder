@@ -16,6 +16,14 @@ const config: Config = {
       gridTemplateRows: {
         'register-form': '70px 70px 70px 70px 80px',
       },
+      backgroundColor: {
+        azulHeader: '#242760',
+      },
+      textColor: {
+        whiteTextHeader: '#FAFAFA',
+        iconTextHeader: '#A0A0A0',
+        inputTextColor: '#a0a0a0',
+      },
     },
   },
   plugins: [],
