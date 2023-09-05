@@ -52,7 +52,7 @@ const handler = NextAuth({
   },
   secret: 'supersecret',
   pages: {
-    signIn: '/login',
+    signIn: '/signin',
   },
 });
 

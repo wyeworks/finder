@@ -25,11 +25,11 @@ export default function View() {
         <p className='mt-5 text-center text-sm text-gray-500'>
           Ya estas registrado?
           <Link
-            href='/iniciar_sesion'
+            href='/signin'
             className='font-semibold leading-6 text-blue-600 hover:text-blue-500'
           >
             {' '}
-            Login
+            Inicia Sesion
           </Link>
         </p>
       </div>
