@@ -9,10 +9,10 @@ const handler = NextAuth({
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        email: { label: 'Email', type: 'text', placeholder: 'jsmith' },
+        email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials) {
+      authorize: async (credentials) => {
         const { email, password } = credentials as {
           email: string;
           password: string;
@@ -23,7 +23,13 @@ const handler = NextAuth({
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({
+            user: {
+              email,
+              password,
+            },
+          }),
+          credentials: 'include',
         });
         const user = await res.json();
         if (res.ok && user) {

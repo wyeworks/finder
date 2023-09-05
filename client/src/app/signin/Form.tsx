@@ -3,6 +3,7 @@
 import Alert from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 import { useState } from 'react';
@@ -48,21 +49,17 @@ export default function Form() {
     }
 
     try {
-      const response = await fetch('/api/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      const response = await signIn('credentials', {
+        redirect: false,
+        email: formData.email,
+        password: formData.password,
       });
 
-      if (!response.ok) {
+      if (!response?.ok) {
         throw new Error('Server responded with an error status');
       }
 
-      const authorizationHeader = response.headers.get('Authorization') ?? '';
-      localStorage.setItem('token', authorizationHeader);
-      router.push('/home');
+      router.push('/homePage');
     } catch (error) {
       setAlertMessage('Ocurrio un error inesperado, intenta de nuevo');
       setIsVisible(true);
