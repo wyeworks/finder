@@ -6,6 +6,9 @@
     },
     "submitButton": {
       "text": "Enviar"
+    },
+    "SearchInput": {
+      "placeholder": "Buscar"
     }
   },
   "signup": {
@@ -24,6 +27,14 @@
     },
     "createAccountButton": {
       "text": "Crear Cuenta"
+    }
+  },
+  "header": {
+    "navOptions": {
+      "notifications": "Notificaciones",
+      "messages": "Mensajes",
+      "editProfile": "Editar Perfil",
+      "endSession": "Cerrar Sesión"
     }
   },
   "confirmation": {
