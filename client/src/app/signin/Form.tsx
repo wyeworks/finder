@@ -60,7 +60,9 @@ export default function Form() {
         throw new Error('Server responded with an error status');
       }
 
-      router.push('/confirmacion');
+      const authorizationHeader = response.headers.get('Authorization') ?? '';
+      localStorage.setItem('token', authorizationHeader);
+      router.push('/home');
     } catch (error) {
       setAlertMessage('Ocurrio un error inesperado, intenta de nuevo');
       setIsVisible(true);

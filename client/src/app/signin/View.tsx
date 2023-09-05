@@ -25,7 +25,7 @@ export default function View() {
         <p className='mt-5 text-center text-sm text-gray-500'>
           No tenes cuenta?
           <Link
-            href='/registro'
+            href='/signup'
             className='font-semibold leading-6 text-blue-600 hover:text-blue-500'
           >
             {' '}
