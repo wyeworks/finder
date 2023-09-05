@@ -10,7 +10,7 @@ export default function View() {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push('/login');
+    router.push('/signin');
   };
 
   return (
