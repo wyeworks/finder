@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     throw new Error('RAILS_API_URL is not defined');
   }
 
-  const URL = process.env.RAILS_API_URL + '/signup';
+  const URL = process.env.RAILS_API_URL + '/users/signup';
 
   try {
     const response = await fetch(URL, {
@@ -20,6 +20,7 @@ export async function POST(request: Request) {
           name: requestBody.name,
           email: requestBody.email,
           password: requestBody.password,
+          birth_date: '2023-08-25 23:32:19.261991000 +0000',
         },
       }),
     });
