@@ -59,4 +59,25 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
+
+  #
+  #
+  # Logging
+
+  # Ensure highest availability of diagnostic information
+  # when problems arise.
+  # Rails default log_level is `debug`, but it is set anyways to make it explicit.
+  config.log_level = :debug
+
+  # Prepend all log lines with the following tags.
+  config.log_tags = [:request_id]
+
+  # Use default logging formatter so that PID and timestamp are not suppressed.
+  config.log_formatter = ::Logger::Formatter.new
+
+  # Print deprecation notices to the Rails logger.
+  config.active_support.deprecation = :log
+
+  # Highlight code that triggered database queries in logs.
+  config.active_record.verbose_query_logs = true
 end
