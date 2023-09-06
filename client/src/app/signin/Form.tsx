@@ -55,7 +55,7 @@ export default function Form() {
         password: formData.password,
       });
 
-      if (!response?.ok) {
+      if (response?.error) {
         throw new Error('Server responded with an error status');
       }
 
