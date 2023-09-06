@@ -32,8 +32,8 @@ const handler = NextAuth({
           credentials: 'include',
         });
         const user = await res.json();
-        if (res.ok && user) {
-          return user;
+        if (res.ok && user && user.user) {
+          return user.user;
         } else {
           return null;
         }
@@ -41,12 +41,14 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    jwt: async ({ token, user }) => {
-      if (user) token = user as unknown as { [key: string]: any };
+    async jwt({ token, user }) {
+      if (user) token.user = user;
       return token;
     },
-    session: async ({ session, token }) => {
-      session.user = { ...token };
+    async session({ session, token }) {
+      if (token && token.user) {
+        session.user = token.user;
+      }
       return session;
     },
   },
