@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_one_attached :avatar
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :validatable, :confirmable, :jwt_authenticatable,
          jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null
@@ -6,7 +7,7 @@ class User < ApplicationRecord
   PASSWORD_REGEX = /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.])/
 
   # Validations
-  validates :name, :birth_date, presence: true
+  validates :name, presence: true
   validate :password_complexity
 
   private
