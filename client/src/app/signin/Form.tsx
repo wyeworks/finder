@@ -59,7 +59,7 @@ export default function Form() {
         throw new Error('Server responded with an error status');
       }
 
-      router.push('/homePage');
+      router.push('/protected/home');
     } catch (error) {
       setAlertMessage('Ocurrio un error inesperado, intenta de nuevo');
       setIsVisible(true);

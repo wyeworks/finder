@@ -52,9 +52,10 @@ const handler = NextAuth({
       return session;
     },
   },
-  secret: 'supersecret',
+  secret: process.env.NEXTAUTH_SECRET as string,
   pages: {
     signIn: '/signin',
+    newUser: '/signup',
   },
 });
 
