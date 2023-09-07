@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   # Validations
   validates :name, presence: true
-  validate :password_complexity
+  validate :password_complexity, if: :password_present?
 
   private
 
@@ -15,5 +15,9 @@ class User < ApplicationRecord
 
     errors.add :password, 'Complexity requirement not met. ' \
                           'Please use: 1 uppercase, 1 lowercase, 1 digit and 1 special character'
+  end
+
+  def password_present?
+    password.present?
   end
 end
