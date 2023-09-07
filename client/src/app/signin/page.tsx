@@ -1,3 +1,10 @@
+import View from './View';
+import AuthFlow from '@/components/shared/AuthView';
+
 export default function Signin() {
-  return <h1>Sign in</h1>;
+  return (
+    <AuthFlow>
+      <View />
+    </AuthFlow>
+  );
 }
