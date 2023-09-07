@@ -1,4 +1,4 @@
-class UpdateUsers < ActiveRecord::Migration[6.0] # You may have a different version
+class UpdateUsers < ActiveRecord::Migration[6.0]
   def change
     change_column_null :users, :birth_date, true
     add_column :users, :bio, :text
