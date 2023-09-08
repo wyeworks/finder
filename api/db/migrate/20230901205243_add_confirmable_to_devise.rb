@@ -1,10 +1,13 @@
 class AddConfirmableToDevise < ActiveRecord::Migration[7.0]
   def up
-    add_column :users, :confirmation_token, :string
-    add_column :users, :confirmed_at, :datetime
-    add_column :users, :confirmation_sent_at, :datetime
+    change_table :users, bulk: true do |t|
+      t.string :confirmation_token
+      t.datetime :confirmed_at
+      t.datetime :confirmation_sent_at
+    end
     add_index :users, :confirmation_token, unique: true
-    User.update_all confirmed_at: DateTime.now
+
+    User.update confirmed_at: DateTime.now
   end
 
   def down

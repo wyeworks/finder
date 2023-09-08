@@ -271,7 +271,7 @@ DEPENDENCIES
   rails (~> 7.0.7, >= 7.0.7.2)
   rspec-rails (~> 6.0)
   rubocop-rails
-  sendgrid-ruby
+  sendgrid-ruby (~> 6.0)
   shoulda-matchers (~> 5.0)
   tzinfo-data
 
