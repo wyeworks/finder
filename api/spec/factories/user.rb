@@ -5,5 +5,10 @@ FactoryBot.define do
     password { 'Test#123' }
     confirmed_at { DateTime.now }
     birth_date { Date.parse('2023-01-01') }
+
+    trait :with_confirmation_token do
+      confirmed_at { nil }
+      confirmation_token { 'some_token' }
+    end
   end
 end
