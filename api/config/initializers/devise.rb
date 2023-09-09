@@ -143,10 +143,7 @@ Devise.setup do |config|
   # without confirming their account.
   # Default is 0.days, meaning the user cannot access the website without
   # confirming their account.
-
-  #TODO post demo: cambiar para no permitir el ingreso hasta que se confirme el mail.
-  # no lo cambio ahora porque implica actualizar los test
-  config.allow_unconfirmed_access_for = 7.days
+  #config.allow_unconfirmed_access_for = 7.days
 
   # A period that the user is allowed to confirm their account before their
   # token becomes invalid. For example, if set to 3.days, the user can confirm
