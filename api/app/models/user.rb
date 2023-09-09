@@ -10,7 +10,7 @@ class User < ApplicationRecord
   private
 
   def password_complexity
-    return if password =~ /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
+    return if password =~ /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.])/
 
     errors.add :password, 'Complexity requirement not met. ' \
                           'Please use: 1 uppercase, 1 lowercase, 1 digit and 1 special character'
