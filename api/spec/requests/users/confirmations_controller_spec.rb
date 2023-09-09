@@ -9,7 +9,7 @@ RSpec.describe Users::ConfirmationsController, type: :request do
         get user_confirmation_path(confirmation_token: user.confirmation_token)
       end
 
-      it 'returns http success' do
+      it 'returns http found' do
         expect(response).to have_http_status(:found)
       end
 
@@ -23,7 +23,7 @@ RSpec.describe Users::ConfirmationsController, type: :request do
         get user_confirmation_path(confirmation_token: 'invalid_token')
       end
 
-      it 'returns http success' do
+      it 'returns http found' do
         expect(response).to have_http_status(:found)
       end
 
