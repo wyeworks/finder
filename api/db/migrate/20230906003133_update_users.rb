@@ -1,7 +1,17 @@
 class UpdateUsers < ActiveRecord::Migration[6.0]
-  def change
-    change_column_null :users, :birth_date, true
-    add_column :users, :bio, :text
-    add_column :users, :avatar, :string
+  def up
+    change_table :users, bulk: true do |t|
+      t.change :birth_date, :date, null: true
+      t.text :bio
+      t.string :avatar
+    end
+  end
+
+  def down
+    change_table :users, bulk: true do |t|
+      t.change :birth_date, :date, null: false
+      t.remove :bio
+      t.remove :avatar
+    end
   end
 end
