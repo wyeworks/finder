@@ -14,10 +14,17 @@ import EditIcon from '@/assets/Icons/EditIcon';
 import LogOutIcon from '@/assets/Icons/LogOutIcon';
 import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
+import { signOut } from 'next-auth/react';
 
 const userNavigation = [
   { name: strings.header.navOptions.editProfile, href: '#' },
-  { name: strings.header.navOptions.endSession, href: '#' },
+  {
+    name: strings.header.navOptions.endSession,
+    href: '#',
+    onClick: () => {
+      signOut();
+    },
+  },
 ];
 
 const userNavigationMobile = [
@@ -125,6 +132,7 @@ export default function Header({ user }: HeaderProps) {
                               <a
                                 href={item.href}
                                 className='block px-4 py-2 text-sm text-gray-700 active:bg-gray-100'
+                                onClick={item.onClick}
                               >
                                 {item.name}
                               </a>
