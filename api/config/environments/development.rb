@@ -90,5 +90,5 @@ Rails.application.configure do
   config.active_record.verbose_query_logs = true
 
   # Front base url
-  config.client_base_url = "localhost:3333/"
+  config.client_base_url = "http://localhost:3333/"
 end
