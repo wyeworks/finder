@@ -14,9 +14,10 @@ import EditIcon from '@/assets/Icons/EditIcon';
 import LogOutIcon from '@/assets/Icons/LogOutIcon';
 import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
+import { useRouter } from 'next/navigation';
 
 const userNavigation = [
-  { name: strings.header.navOptions.editProfile, href: '#' },
+  { name: strings.header.navOptions.editProfile, href: 'configprofile' },
   { name: strings.header.navOptions.endSession, href: '#' },
 ];
 
@@ -48,6 +49,12 @@ type HeaderProps = {
 };
 
 export default function Header({ user }: HeaderProps) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push('configprofile');
+  };
+
   return (
     <>
       <Disclosure as='nav' className='bg-azulHeader'>
@@ -122,12 +129,12 @@ export default function Header({ user }: HeaderProps) {
                         <Menu.Items className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
                           {userNavigation.map((item) => (
                             <Menu.Item key={item.name}>
-                              <a
-                                href={item.href}
-                                className='block px-4 py-2 text-sm text-gray-700 active:bg-gray-100'
+                              <button
+                                className='block w-full px-4 py-2 text-start text-sm text-gray-700 active:bg-gray-100'
+                                onClick={handleClick}
                               >
                                 {item.name}
-                              </a>
+                              </button>
                             </Menu.Item>
                           ))}
                         </Menu.Items>
@@ -135,9 +142,9 @@ export default function Header({ user }: HeaderProps) {
                     </Menu>
                   </div>
                 </div>
-                <div className='-mr-2 flex md:hidden'>
+                <div className='flex md:hidden'>
                   {/* Mobile menu button */}
-                  <Disclosure.Button className='relative m-5 inline-flex items-center justify-center rounded-md bg-transparent p-2 text-gray-400 hover:text-white'>
+                  <Disclosure.Button className='mr-2 text-gray-400 hover:text-white'>
                     {open ? (
                       <CrossIcon className='h-8 w-8' />
                     ) : (
