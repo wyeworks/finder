@@ -51,9 +51,6 @@ Rails.application.configure do
     enable_starttls_auto: true
   }
 
-  # Print deprecation notices to the Rails logger.
-  config.active_support.deprecation = :log
-
   # Raise exceptions for disallowed deprecations.
   config.active_support.disallowed_deprecation = :raise
 
@@ -63,10 +60,6 @@ Rails.application.configure do
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
-  # Highlight code that triggered database queries in logs.
-  config.active_record.verbose_query_logs = true
-
-
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
@@ -75,4 +68,25 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+
+  #
+  #
+  # Logging
+
+  # Ensure highest availability of diagnostic information
+  # when problems arise.
+  # Rails default log_level is `debug`, but it is set anyways to make it explicit.
+  config.log_level = :debug
+
+  # Prepend all log lines with the following tags.
+  config.log_tags = [:request_id]
+
+  # Use default logging formatter so that PID and timestamp are not suppressed.
+  config.log_formatter = ::Logger::Formatter.new
+
+  # Print deprecation notices to the Rails logger.
+  config.active_support.deprecation = :log
+
+  # Highlight code that triggered database queries in logs.
+  config.active_record.verbose_query_logs = true
 end

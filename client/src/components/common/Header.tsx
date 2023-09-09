@@ -13,12 +13,8 @@ import ArrowDownIcon from '@/assets/Icons/ArrowDownIcon';
 import EditIcon from '@/assets/Icons/EditIcon';
 import LogOutIcon from '@/assets/Icons/LogOutIcon';
 import strings from '@/locales/strings.json';
+import { User } from '@/types/User';
 
-const user = {
-  name: 'Josefina Alvez',
-  email: 'josefina.alvez@fing.edu.uy',
-  imageUrl: 'https://randomuser.me/api/portraits/women/81.jpg',
-};
 const userNavigation = [
   { name: strings.header.navOptions.editProfile, href: '#' },
   { name: strings.header.navOptions.endSession, href: '#' },
@@ -47,7 +43,11 @@ const userNavigationMobile = [
   },
 ];
 
-export default function Header() {
+type HeaderProps = {
+  user: User;
+};
+
+export default function Header({ user }: HeaderProps) {
   return (
     <>
       <Disclosure as='nav' className='bg-azulHeader'>
@@ -97,7 +97,10 @@ export default function Header() {
                           <div className='relative h-12 w-12'>
                             <Image
                               alt='Man'
-                              src={user.imageUrl}
+                              src={
+                                user.image ??
+                                'https://randomuser.me/api/portraits/women/81.jpg'
+                              }
                               className='rounded-full shadow-sm'
                               width={100}
                               height={100}
@@ -155,7 +158,10 @@ export default function Header() {
                   <div className='flex-shrink-0'>
                     <Image
                       alt='Man'
-                      src={user.imageUrl}
+                      src={
+                        user.image ??
+                        'https://randomuser.me/api/portraits/women/81.jpg'
+                      }
                       className='rounded-full shadow-sm'
                       width={50}
                       height={50}
