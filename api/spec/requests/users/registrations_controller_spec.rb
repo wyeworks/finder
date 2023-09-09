@@ -4,7 +4,6 @@ RSpec.describe Users::RegistrationsController, type: :request do
   describe 'POST /users/signup' do
     let(:email) { 'test_user@fing.edu.uy' }
     let(:name) { 'Test User' }
-    let(:birth_date) { '2023-09-01T00:00:00' }
 
     before do
       post user_registration_path,
@@ -13,7 +12,6 @@ RSpec.describe Users::RegistrationsController, type: :request do
                email:,
                password:,
                name:,
-               birth_date:
              }
            }
     end

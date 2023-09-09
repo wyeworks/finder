@@ -54,7 +54,7 @@ module Users
         }, status: :ok
       else
         render json: {
-          message: "User couldn't be updated successfully. " \
+          message: "User couldn't be created successfully. " \
                    "#{current_user.errors.full_messages.to_sentence}"
         }, status: :unprocessable_entity
       end
