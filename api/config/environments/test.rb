@@ -82,5 +82,5 @@ Rails.application.configure do
   config.active_record.verbose_query_logs = true
 
   # Front base url
-  config.client_base_url = "https://finder-git-develop-frodo2412.vercel.app/"
+  config.client_base_url = 'https://finder-git-develop-frodo2412.vercel.app/'
 end

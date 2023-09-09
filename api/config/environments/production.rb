@@ -90,5 +90,5 @@ Rails.application.configure do
   end
 
   # Front base url
-  config.client_base_url = "https://finder-tau.vercel.app/"
+  config.client_base_url = 'https://finder-tau.vercel.app/'
 end
