@@ -37,7 +37,7 @@ describe('Form Component', () => {
       target: { value: 'john.doe@fing.edu.uy' },
     });
     fireEvent.change(getByLabelText(strings.form.passwordInput.label), {
-      target: { value: 'password#123' },
+      target: { value: 'Password#123' },
     });
 
     // Submit the form
@@ -65,7 +65,7 @@ describe('Form Component', () => {
       target: { value: 'john@fing.edu.uy' },
     });
     fireEvent.change(getByLabelText(strings.form.passwordInput.label), {
-      target: { value: 'password#123' },
+      target: { value: 'Password#123' },
     });
 
     // Submit the form
