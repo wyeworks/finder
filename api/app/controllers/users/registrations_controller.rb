@@ -21,7 +21,8 @@ module Users
 
         render json: {
           message: "User couldn't be created successfully. " \
-                   "#{current_user.errors.full_messages.to_sentence}"
+                   "#{current_user.errors.full_messages.to_sentence}",
+          errors: current_user.errors.messages
         }, status: :unprocessable_entity
       end
     end
