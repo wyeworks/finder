@@ -4,14 +4,14 @@ RSpec.describe Users::RegistrationsController, type: :request do
   describe 'POST /users/signup' do
     let(:email) { 'test_user@fing.edu.uy' }
     let(:name) { 'Test User' }
-
+    # deleted bdate form here
     before do
       post user_registration_path,
            params: {
              user: {
                email:,
                password:,
-               name:,
+               name:
              }
            }
     end
