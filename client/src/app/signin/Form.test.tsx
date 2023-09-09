@@ -2,8 +2,10 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@/__mocks__/next/router';
 import strings from '@/locales/strings.json';
 import Form from './Form';
+import * as nextAuthReact from 'next-auth/react';
 
-global.fetch = jest.fn();
+jest.mock('next-auth/react');
+const nextAuthReactMocked = nextAuthReact as jest.Mocked<typeof nextAuthReact>;
 
 describe('Form Component', () => {
   it('should render without crashing', () => {
@@ -13,7 +15,7 @@ describe('Form Component', () => {
   it('should show an alert when form is submitted with invalid data', async () => {
     const { getByText, queryByText } = render(<Form />);
 
-    fireEvent.click(getByText(strings.form.createAccountButton.text));
+    fireEvent.click(getByText(strings.form.logInButton.text));
 
     await waitFor(() => {
       expect(
@@ -23,55 +25,56 @@ describe('Form Component', () => {
   });
 
   it('should make a successful API call when form is submitted with valid data', async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({ ok: true }); // Mock a successful fetch call
+    // mock response to NextAuth
+    nextAuthReactMocked.signIn.mockImplementation(() =>
+      Promise.resolve({ error: '', status: 200, ok: true, url: '' })
+    );
 
     const { getByLabelText, getByText } = render(<Form />);
 
     // Fill the form
-    fireEvent.change(getByLabelText(strings.form.nameInput.label), {
-      target: { value: 'John Doe' },
-    });
     fireEvent.change(getByLabelText(strings.form.emailInput.label), {
-      target: { value: 'john.doe@example.com' },
+      target: { value: 'john.doe@fing.edu.com' },
     });
     fireEvent.change(getByLabelText(strings.form.passwordInput.label), {
       target: { value: 'password123' },
     });
 
     // Submit the form
-    fireEvent.click(getByText(strings.form.createAccountButton.text));
+    fireEvent.click(getByText(strings.form.logInButton.text));
 
-    // Wait for the fetch to be called
+    // Wait for the singIn to be called
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('/api/signup', expect.anything());
+      expect(nextAuthReactMocked.signIn).toHaveBeenCalledTimes(1);
     });
   });
 
   it('should show an error alert when the API call fails', async () => {
-    (fetch as jest.Mock).mockRejectedValueOnce(
-      new Error(strings.common.error.unexpectedError)
-    ); // Mock a failed fetch call
-
+    nextAuthReactMocked.signIn.mockImplementation(() =>
+      Promise.resolve({
+        error: 'Internal Error',
+        status: 403,
+        ok: false,
+        url: '',
+      })
+    );
     const { getByLabelText, getByText, queryByText } = render(<Form />);
 
     // Fill the form
-    fireEvent.change(getByLabelText(strings.form.nameInput.label), {
-      target: { value: 'John Doe' },
-    });
     fireEvent.change(getByLabelText(strings.form.emailInput.label), {
-      target: { value: 'john.doe@example.com' },
+      target: { value: 'john@fing.edu.com' },
     });
     fireEvent.change(getByLabelText(strings.form.passwordInput.label), {
-      target: { value: 'password123' },
+      target: { value: 'password#123' },
     });
 
     // Submit the form
-    fireEvent.click(getByText(strings.form.createAccountButton.text));
+    fireEvent.click(getByText(strings.form.logInButton.text));
 
     // Wait for the error message to appear
     await waitFor(() => {
       expect(
-        queryByText(strings.common.error.unexpectedError)
+        queryByText(strings.common.error.logInInvalid)
       ).toBeInTheDocument();
     });
   });
