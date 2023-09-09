@@ -7,6 +7,9 @@ module Users
     private
 
     def respond_with(current_user, _opts = {})
+      Rails.logger.info "User with ID ##{current_user.id} and " \
+                        "email '#{current_user.email}' was successfully logged in."
+
       render json: {
         message: 'Logged in successfully.',
         user: UserSerializer.new(current_user).serializable_hash[:data][:attributes]
@@ -21,10 +24,15 @@ module Users
       end
 
       if current_user
+        Rails.logger.info "User with ID ##{current_user.id} and " \
+                          "email '#{current_user.email}' was successfully logged out."
+
         render json: {
           message: 'Logged out successfully.'
         }, status: :ok
       else
+        Rails.logger.info "Couldn't find an active session for logging out."
+
         render json: {
           message: "Couldn't find an active session."
         }, status: :unauthorized
