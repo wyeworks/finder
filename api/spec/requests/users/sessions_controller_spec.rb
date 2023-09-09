@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Users::SessionsController, type: :request do
   describe 'POST /users/login' do
-    let!(:user) { create :user, password: 'CorrectPassword#123', confirmed_at: Time.zone.now }
-    let!(:unconfirmed_user) { create :user, password: 'CorrectPassword#123' }
+    let!(:user) { create :user, password: 'CorrectPassword#123' }
 
     before do
       post user_session_path,
@@ -45,6 +44,7 @@ RSpec.describe Users::SessionsController, type: :request do
     end
 
     context 'when user is not confirmed' do
+      let!(:unconfirmed_user) { create :user, password: 'CorrectPassword#123', confirmed_at: nil }
       let(:password) { 'CorrectPassword#123' }
 
       before do
@@ -69,7 +69,7 @@ RSpec.describe Users::SessionsController, type: :request do
   end
 
   describe 'DELETE /users/logout' do
-    let!(:user) { create :user, confirmed_at: Time.zone.now }
+    let!(:user) { create :user }
 
     context 'when user gets successfully logged out' do
       let(:headers) { { 'Authorization' => response.headers['Authorization'] } }
