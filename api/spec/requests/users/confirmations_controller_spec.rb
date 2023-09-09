@@ -26,7 +26,7 @@ RSpec.describe Users::ConfirmationsController, type: :request do
       it 'returns http success' do
         expect(response).to have_http_status(:found)
       end
-      
+
       it 'does not confirm the user' do
         expect(user.reload.confirmed_at).to be_nil
       end
