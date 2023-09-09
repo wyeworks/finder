@@ -16,6 +16,8 @@ const config: Config = {
       gridTemplateRows: {
         'register-form': '70px 70px 70px 70px 80px',
         'login-form': '70px 70px 70px 80px',
+        'personal-info-form': '70px 70px 70px 80px',
+        'change-password-form': '70px 70px 70px 80px',
       },
       backgroundColor: {
         azulHeader: '#242760',

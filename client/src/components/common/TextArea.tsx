@@ -10,11 +10,10 @@ type InputParams = {
   value?: string;
   // disabled temporary
   // eslint-disable-next-line no-unused-vars
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
-export default function Input({
-  type,
+export default function TextArea({
   id,
   label,
   name,
@@ -26,7 +25,7 @@ export default function Input({
   onChange,
 }: InputParams) {
   return (
-    <div className='w-full max-w-sm justify-center'>
+    <div className='justify-center'>
       {label && (
         <label
           htmlFor={id}
@@ -36,19 +35,18 @@ export default function Input({
         </label>
       )}
       <div className='-mb-3'>
-        <input
-          id={id}
-          name={name}
-          type={type}
-          autoComplete={type}
-          placeholder={placeholder}
+        <textarea
+          id='message'
+          rows={4}
           required={required}
+          name={name}
+          className='block w-full resize-none rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500'
+          placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className='peer block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6'
-        />
+        ></textarea>
         {touched && (
-          <p className='invisible text-sm text-red-600 peer-invalid:visible'>
+          <p className='visible text-sm text-red-600 peer-invalid:visible'>
             {validateText}
           </p>
         )}
