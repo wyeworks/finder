@@ -82,7 +82,6 @@ module Users
       end
     end
 
-    #empty comment to trigger workflow
     def account_update_params
       params.require(:user).permit(:email, :password, :password_confirmation, :name, :birth_date, :bio)
     end
