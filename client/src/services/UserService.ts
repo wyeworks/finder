@@ -18,8 +18,6 @@ function findById(id: string) {
     bio: 'I have crippling depression, I study programming because I want to earn petro dollars and escape from Latin America, the place where dreams go to die',
     profileImage:
       'https://media.licdn.com/dms/image/C4E03AQGXuUN8kAhrPg/profile-displayphoto-shrink_800_800/0/1643247705278?e=1699488000&v=beta&t=WNVQ8jIJuJ5nt1BH_AXLaHpLXsHmP0uOo6N8_E4NWIs',
-    bannerImage:
-      'https://media.licdn.com/dms/image/C4E16AQELcC0h3DgQcg/profile-displaybackgroundimage-shrink_350_1400/0/1634470199535?e=1699488000&v=beta&t=UXFliwimhid64zS8vn3FyWRxLKZtT2Ru1EQfZh2bzns',
     department: 'Montevideo',
     socialNetworks: mySocialNetworks,
   } as User);

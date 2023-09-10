@@ -20,7 +20,7 @@ export default function UserBanner(props: { user: User }) {
   return (
     <div className={'flex w-full flex-col bg-transparent'}>
       <Image
-        src={props.user.bannerImage}
+        src={'/default_user_banner.svg'}
         alt='Banner'
         sizes='100vw'
         width={1920}
@@ -32,12 +32,12 @@ export default function UserBanner(props: { user: User }) {
       />
       <div
         className={
-          'flex flex-col justify-center md:flex-row md:justify-between md:pl-20'
+          'mt-10 flex flex-col justify-center md:mt-0 md:flex-row md:justify-between md:pl-20'
         }
       >
         <div className={'mb-5 flex flex-col items-center md:mb-0 md:flex-row'}>
           <Image
-            src={props.user.profileImage}
+            src={'/default_user_profile.jpeg'}
             alt={'Foto de perfil'}
             width={250}
             height={250}
@@ -57,9 +57,7 @@ export default function UserBanner(props: { user: User }) {
               className={'mb-2 flex w-fit self-center md:mt-4 md:self-start'}
             >
               <LocationIcon className={'flex-shrink-0'} />
-              <h1 className={'ml-2 text-2xl text-[#212B36]'}>
-                {props.user.department}
-              </h1>
+              <h1 className={'ml-2 text-2xl text-[#212B36]'}>Montevideo</h1>
             </div>
             <h1
               className={
