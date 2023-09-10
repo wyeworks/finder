@@ -15,7 +15,7 @@ function findById(id: string) {
   return Promise.resolve({
     name: 'Bruno Lemus',
     email: 'bruno.lemus@fing.edu.uy',
-    bio: 'I have crippling depression',
+    bio: 'I have crippling depression, I study programming because I want to earn petro dollars and escape from Latin America, the place where dreams go to die',
     profileImage:
       'https://media.licdn.com/dms/image/C4E03AQGXuUN8kAhrPg/profile-displayphoto-shrink_800_800/0/1643247705278?e=1699488000&v=beta&t=WNVQ8jIJuJ5nt1BH_AXLaHpLXsHmP0uOo6N8_E4NWIs',
     bannerImage:
