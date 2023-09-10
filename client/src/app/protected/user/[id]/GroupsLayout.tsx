@@ -38,18 +38,18 @@ export default function GroupsLayout(props: GroupsLayoutProps) {
   return (
     <div
       className={
-        'overflow-hidden border-[#E7E7E7] bg-[#F3F4F6] md:m-20 md:rounded-2xl md:border-2 md:bg-white'
+        'overflow-hidden border-[#E7E7E7] bg-[#F3F4F6] lg:m-20 lg:rounded-2xl lg:border-2 lg:bg-white'
       }
     >
       <div
         className={
-          'p-5 text-[#2B2D54] md:border-b-2 md:bg-[#2B2D54] md:text-white'
+          'p-5 text-[#2B2D54] lg:border-b-2 lg:bg-[#2B2D54] lg:text-white'
         }
       >
         <h1 className={'text-4xl font-extrabold'}>Grupos</h1>
       </div>
       <div
-        className={'flex flex-row flex-wrap justify-center md:justify-start'}
+        className={'flex flex-row flex-wrap justify-center lg:justify-start'}
       >
         {props.groups.map((group) => (
           <GroupCard key={group.name} group={group} />
