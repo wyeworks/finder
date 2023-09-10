@@ -40,6 +40,17 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.sendgrid.net',
+    port: 25,
+    user_name: 'apikey',
+    password: Rails.application.credentials.sendgird_api_key,
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
+
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
