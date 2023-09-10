@@ -10,9 +10,8 @@ import {
 } from '@/components/common/SocialNetworkButton';
 
 export default function UserBanner(props: { user: User }) {
-  // TODO: QUE EL FONDO NO SEA AMARILLO POR FAVOR
   return (
-    <div className={'flex w-full flex-col border-2 border-red-600'}>
+    <div className={'flex w-full flex-col'}>
       <Image
         src={props.user.bannerImage}
         alt='Banner'
@@ -50,18 +49,18 @@ export default function UserBanner(props: { user: User }) {
         </div>
         <div className={'0 mr-7 flex flex-col justify-around'}>
           <div className={'flex flex-row justify-evenly'}>
-            {props.user.socialNetworks.instagram ? (
+            {props.user.socialNetworks.instagram && (
               <InstagramButton link={props.user.socialNetworks.instagram} />
-            ) : null}
-            {props.user.socialNetworks.linkedin ? (
+            )}
+            {props.user.socialNetworks.linkedin && (
               <LinkedInButton link={props.user.socialNetworks.linkedin} />
-            ) : null}
-            {props.user.socialNetworks.twitter ? (
+            )}
+            {props.user.socialNetworks.twitter && (
               <TwitterButton link={props.user.socialNetworks.twitter} />
-            ) : null}
-            {props.user.socialNetworks.discord ? (
+            )}
+            {props.user.socialNetworks.discord && (
               <DiscordButton link={props.user.socialNetworks.discord} />
-            ) : null}
+            )}
           </div>
           <button
             className={
