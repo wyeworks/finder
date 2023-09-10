@@ -4,6 +4,8 @@ RSpec.describe Users::RegistrationsController, type: :request do
   describe 'POST /users/signup' do
     let(:email) { 'test_user@fing.edu.uy' }
     let(:name) { 'Test User' }
+    let(:password) { 'Test#123' }
+
     before do
       post user_registration_path,
            params: {
@@ -16,8 +18,6 @@ RSpec.describe Users::RegistrationsController, type: :request do
     end
 
     context 'when user gets successfully created' do
-      let(:password) { 'Test#123' }
-
       it 'returns http success' do
         expect(response).to have_http_status(:success)
       end
@@ -48,7 +48,7 @@ RSpec.describe Users::RegistrationsController, type: :request do
   end
 
   describe 'PATCH /users/signup' do
-    let(:user) { create(:user, birth_date: '1990-01-01') }
+    let(:user) { create(:user, birth_date: '1990-01-01', bio: 'generic') }
     let(:new_birth_date) { Date.parse('2023-08-13') }
     let(:new_bio) { 'hello1234' }
     let(:new_password) { 'ComplexPassword129!' }
@@ -80,7 +80,6 @@ RSpec.describe Users::RegistrationsController, type: :request do
 
       it 'updates user details' do
         json_response = response.parsed_body
-
         expect(json_response['user']['birth_date']).to eq(new_birth_date.to_s)
         expect(json_response['user']['bio']).to eq(new_bio)
       end
@@ -100,8 +99,8 @@ RSpec.describe Users::RegistrationsController, type: :request do
 
       it 'returns JSON containing error message' do
         json_response = response.parsed_body
-
-        expect(json_response['message']).to include("User couldn't be created successfully")
+        puts json_response  # Debugging output
+        expect(json_response['message']).to include("User couldn't be updated successfully")
       end
     end
   end
