@@ -1,5 +1,8 @@
 'use client';
 
+import EmailIcon from '@/assets/Icons/EmailIcon';
+import LockIcon from '@/assets/Icons/LockIcon';
+import UserIcon from '@/assets/Icons/UserIcon';
 import Alert from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
@@ -95,6 +98,7 @@ export default function Form() {
           value={formData.name}
           onChange={handleChange}
           touched={touched.name}
+          Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
         />
         <Input
           type='email'
@@ -107,6 +111,7 @@ export default function Form() {
           value={formData.email}
           onChange={handleChange}
           touched={touched.email}
+          Icon={<EmailIcon className='h-5 w-5 text-gray-400' />}
         />
         <Input
           type='password'
@@ -118,6 +123,7 @@ export default function Form() {
           value={formData.password}
           onChange={handleChange}
           touched={touched.password}
+          Icon={<LockIcon className='h-5 w-5 text-gray-400' />}
         />
         <Button
           type='submit'
