@@ -40,6 +40,39 @@ export default function ConfigProfile() {
   const [currentFormNavMobile, SetCurrentFormNavMobile] =
     useState<string>('hidden');
 
+  // const getUserData = async () => {
+  //   // event.preventDefault();
+
+  //   // const isCurrentFormValid = event.currentTarget.checkValidity();
+
+  //   // if (!isCurrentFormValid) {
+  //   //   // setAlertMessage(strings.common.error.completeFields);
+  //   //   // setIsVisible(true);
+  //   //   return;
+  //   // }
+
+  //   try {
+  //     const response = await fetch('/api/users/signup/edit', {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+
+  //     if (!response.ok) {
+  //       const errorData = await response.json();
+  //       throw new Error(errorData.message);
+  //     }
+  //   } catch (error) {
+  //     // setAlertMessage(
+  //     //   error instanceof Error
+  //     //     ? error.message
+  //     //     : strings.common.error.unexpectedError
+  //     // );
+  //     // setIsVisible(true);
+  //   }
+  // };
+
   return (
     <>
       <div className='hidden w-full bg-azulHeader md:flex'>
