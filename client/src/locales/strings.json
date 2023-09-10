@@ -45,5 +45,53 @@
     "loginButton": {
       "text": "Iniciar sesión"
     }
+  },
+  "configProfile": {
+    "page": {
+      "navOptions": {
+        "personalInfo": "Información personal",
+        "changePassword": "Cambiar contraseña",
+        "socialNetworks": "Redes sociales",
+        "notifications": "Notificaciones"
+      }
+    },
+    "forms": {
+      "changePassword": {
+        "cancelButton": {
+          "text": "Cancelar"
+        },
+        "submitButton": {
+          "text": "Actualizar"
+        },
+        "oldPassInput": {
+          "label": "Contraseña antigua",
+          "placeholder": "Ingresa tu Contraseña"
+        },
+        "newPassInput": {
+          "label": "Contraseña nueva",
+          "placeholder": "Ingresa tu Contraseña nueva"
+        }
+      },
+      "personalInfo": {
+        "cancelButton": {
+          "text": "Cancelar"
+        },
+        "submitButton": {
+          "text": "Guardar cambios"
+        },
+        "nameInput": {
+          "label": "Nombre",
+          "placeholder": "Ingresa tu Nombre"
+        },
+        "birthdateInput": {
+          "label": "Fecha de nacimiento",
+          "placeholder": "Ingresa tu Fecha de nacimiento"
+        },
+        "bioTextArea": {
+          "label": "Biografía",
+          "placeholder": "Escribe tu Biografía"
+        }
+      }
+    }
   }
 }

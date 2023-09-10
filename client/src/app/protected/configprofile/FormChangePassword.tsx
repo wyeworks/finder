@@ -37,8 +37,10 @@ export default function FormChangePassword() {
           type='password'
           id='password'
           name='password'
-          label={'Contraseña antigua'}
-          placeholder={strings.signup.nameInput.placeholder}
+          label={strings.configProfile.forms.changePassword.oldPassInput.label}
+          placeholder={
+            strings.configProfile.forms.changePassword.oldPassInput.placeholder
+          }
           required
           value={formData.password}
           onChange={handleChange}
@@ -48,8 +50,10 @@ export default function FormChangePassword() {
           type='password'
           id='newPassword'
           name='newPassword'
-          label={'Contraseña nueva'}
-          placeholder={strings.signup.nameInput.placeholder}
+          label={strings.configProfile.forms.changePassword.newPassInput.label}
+          placeholder={
+            strings.configProfile.forms.changePassword.newPassInput.placeholder
+          }
           required
           value={formData.newPassword}
           onChange={handleChange}
@@ -59,10 +63,14 @@ export default function FormChangePassword() {
           <Button
             type='button'
             id='cancel-button'
-            text='Cancelar'
+            text={strings.configProfile.forms.changePassword.cancelButton.text}
             className='w-1/2 bg-red-700 hover:bg-red-400 hover:text-white'
           />
-          <Button type='button' id='confirm-button' text='Actualizar' />
+          <Button
+            type='button'
+            id='confirm-button'
+            text={strings.configProfile.forms.changePassword.submitButton.text}
+          />
         </div>
         {/* <Alert isVisible={isVisible} errorMessage={alertMessage} /> */}
       </form>

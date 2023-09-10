@@ -5,33 +5,47 @@ import FormPersonalInfo from './FormPersonalInfo';
 import FormChangePassword from './FormChangePassword';
 import { useState } from 'react';
 import ArrowLeftIcon from '@/assets/Icons/ArrowLeftIcon';
+import strings from '@/locales/strings.json';
 
 export default function ConfigProfile() {
+  // eslint-disable-next-line no-unused-vars
+  enum EnumNavOptions {
+    // eslint-disable-next-line no-unused-vars
+    PERSONALINFO = 'personal_info',
+    // eslint-disable-next-line no-unused-vars
+    CHANGEPASSWORD = 'change_password',
+    // eslint-disable-next-line no-unused-vars
+    SOCIALNETWORKS = 'social_networks',
+    // eslint-disable-next-line no-unused-vars
+    NOTIFICATIONS = 'notifications',
+  }
   const OptionsConfig = [
     {
-      key: 1,
-      text: 'Información personal',
+      key: EnumNavOptions.PERSONALINFO,
+      text: strings.configProfile.page.navOptions.personalInfo,
     },
     {
-      key: 2,
-      text: 'Cambiar contraseña',
+      key: EnumNavOptions.CHANGEPASSWORD,
+      text: strings.configProfile.page.navOptions.changePassword,
     },
     {
-      key: 3,
-      text: 'Redes sociales',
+      key: EnumNavOptions.SOCIALNETWORKS,
+      text: strings.configProfile.page.navOptions.socialNetworks,
     },
     {
-      key: 4,
-      text: 'Notificaciones',
+      key: EnumNavOptions.NOTIFICATIONS,
+      text: strings.configProfile.page.navOptions.notifications,
     },
   ];
 
-  const [currentForm, SetCurrentForm] = useState<string>('1');
+  const [currentForm, SetCurrentForm] = useState<EnumNavOptions>(
+    EnumNavOptions.PERSONALINFO
+  );
   const handleNavigationConfig = function (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) {
     const value = event.currentTarget.value;
-    SetCurrentForm(value);
+    SetCurrentForm(value as EnumNavOptions);
     // options for hiding on mobile screen
     SetFormNavMobile('hidden');
     SetCurrentFormNavMobile('grid');
@@ -72,6 +86,7 @@ export default function ConfigProfile() {
   //     // setIsVisible(true);
   //   }
   // };
+  // await getUserData()
 
   return (
     <>
@@ -129,8 +144,10 @@ export default function ConfigProfile() {
               <strong>Editar Perfil</strong>
             </p>
           </button>
-          {currentForm === '1' && <FormPersonalInfo />}
-          {currentForm === '2' && <FormChangePassword />}
+          {currentForm === EnumNavOptions.PERSONALINFO && <FormPersonalInfo />}
+          {currentForm === EnumNavOptions.CHANGEPASSWORD && (
+            <FormChangePassword />
+          )}
         </div>
       </div>
     </>

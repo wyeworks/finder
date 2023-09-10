@@ -47,8 +47,10 @@ export default function FormPersonalInfo() {
           type='text'
           id='name'
           name='name'
-          label={'Nombre'}
-          placeholder={strings.signup.nameInput.placeholder}
+          label={strings.configProfile.forms.personalInfo.nameInput.label}
+          placeholder={
+            strings.configProfile.forms.personalInfo.nameInput.placeholder
+          }
           required
           value={formData.name}
           onChange={handleChange}
@@ -58,9 +60,10 @@ export default function FormPersonalInfo() {
           type='date'
           id='birthdate'
           name='birthdate'
-          label={'Fecha de nacimiento'}
-          placeholder={strings.signup.emailInput.placeholder}
-          validateText={strings.signup.emailInput.validateText}
+          label={strings.configProfile.forms.personalInfo.birthdateInput.label}
+          placeholder={
+            strings.configProfile.forms.personalInfo.birthdateInput.placeholder
+          }
           required
           value={formData.birthdate}
           onChange={handleChange}
@@ -71,8 +74,10 @@ export default function FormPersonalInfo() {
             id='biography'
             name='biography'
             type='string'
-            label='Biografía'
-            placeholder='Escribe tu biografía'
+            label={strings.configProfile.forms.personalInfo.bioTextArea.label}
+            placeholder={
+              strings.configProfile.forms.personalInfo.bioTextArea.placeholder
+            }
             value={formData.biography}
             onChange={HandleChangeTextArea}
           />
@@ -80,10 +85,14 @@ export default function FormPersonalInfo() {
             <Button
               type='button'
               id='cancel-button'
-              text='Cancelar'
+              text={strings.configProfile.forms.personalInfo.cancelButton.text}
               className='w-1/2 bg-red-700 hover:bg-red-400 hover:text-white'
             />
-            <Button type='button' id='confirm-button' text='Guardar Cambios' />
+            <Button
+              type='button'
+              id='confirm-button'
+              text={strings.configProfile.forms.personalInfo.submitButton.text}
+            />
           </div>
         </div>
       </form>
