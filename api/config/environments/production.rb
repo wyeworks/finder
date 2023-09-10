@@ -88,4 +88,7 @@ Rails.application.configure do
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
+
+  # Front base url
+  config.client_base_url = 'https://finder-tau.vercel.app/'
 end
