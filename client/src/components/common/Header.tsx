@@ -110,7 +110,7 @@ export default function Header({ user }: HeaderProps) {
                         <Menu.Button className='relative flex max-w-xs items-center rounded-full bg-transparent text-sm'>
                           <p className='mr-3 hidden text-left text-lg sm:block'>
                             <strong className='block font-medium text-whiteTextHeader'>
-                              {user.email}
+                              {user.name}
                             </strong>
                           </p>
 
@@ -192,10 +192,10 @@ export default function Header({ user }: HeaderProps) {
                   </div>
                   <div className='ml-3'>
                     <div className='text-base font-medium leading-none text-white'>
-                      {user.email}
+                      {user.name}
                     </div>
                     <div className='text-sm font-medium leading-none text-gray-400'>
-                      {user.email}
+                      {user.name}
                     </div>
                   </div>
                 </div>

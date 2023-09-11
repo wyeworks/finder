@@ -6,6 +6,7 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
+import { User } from '@/types/User';
 import { useState } from 'react';
 
 type PersonalInfoFormData = {
@@ -14,11 +15,15 @@ type PersonalInfoFormData = {
   biography: string;
 };
 
-export default function FormPersonalInfo() {
+type FormPersonalInfoProps = {
+  user: User;
+};
+
+export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
   const [formData, setFormData] = useState<PersonalInfoFormData>({
-    name: '',
-    birthdate: '',
-    biography: '',
+    name: user?.name ?? '',
+    birthdate: user?.birth_date ?? '',
+    biography: user?.bio ?? '',
   });
   const [touched, setTouched] = useState({
     name: false,

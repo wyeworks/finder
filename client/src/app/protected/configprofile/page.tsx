@@ -146,7 +146,9 @@ export default function ConfigProfile() {
               <strong>Editar Perfil</strong>
             </p>
           </button>
-          {currentForm === EnumNavOptions.PERSONALINFO && <FormPersonalInfo />}
+          {currentForm === EnumNavOptions.PERSONALINFO && user && (
+            <FormPersonalInfo user={user} />
+          )}
           {currentForm === EnumNavOptions.CHANGEPASSWORD && (
             <FormChangePassword />
           )}

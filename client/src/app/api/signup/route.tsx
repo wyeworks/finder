@@ -1,4 +1,5 @@
 import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]/auth';
 
 export async function POST(request: Request) {
   const requestBody = await request.json();
@@ -47,8 +48,7 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-  const session = await getServerSession();
-  const token = session?.user?.name;
+  const session = await getServerSession(authOptions);
 
   const requestBody = await request.json();
   const RAILS_API_URL = process.env.RAILS_API_URL;
@@ -57,11 +57,11 @@ export async function PATCH(request: Request) {
     throw new Error('RAILS_API_URL is not defined');
   }
 
-  if (!token) {
-    throw new Error('Token is not defined');
+  if (!session?.user.accessToken) {
+    throw new Error('Access token is not defined');
   }
 
-  const URL = process.env.RAILS_API_URL + 'users/signup';
+  const URL = process.env.RAILS_API_URL + '/users/signup';
 
   let bodyAux = '';
   // For testing only sending password
@@ -86,7 +86,7 @@ export async function PATCH(request: Request) {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: token,
+        Authorization: session?.user.accessToken,
       },
       body: bodyAux,
     });
