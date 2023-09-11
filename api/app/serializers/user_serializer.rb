@@ -4,5 +4,6 @@ class UserSerializer
   attributes :id,
              :email,
              :name,
+             :birth_date,
              :social_networks
 end
