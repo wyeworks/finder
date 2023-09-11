@@ -1,8 +1,12 @@
 import { getServerSession } from 'next-auth';
+import { authOptions } from '../../auth/[...nextauth]/auth';
 
-export async function GET() {
-  const session = await getServerSession();
-  const token = session?.user?.name;
+export async function GET(
+  request: Request,
+  { params }: { params: { slug: string } }
+) {
+  const session = await getServerSession(authOptions);
+  const userId = params.slug;
 
   const RAILS_API_URL = process.env.RAILS_API_URL;
 
@@ -10,18 +14,18 @@ export async function GET() {
     throw new Error('RAILS_API_URL is not defined');
   }
 
-  if (!token) {
-    throw new Error('Token is not defined');
+  if (!session?.user.accessToken) {
+    throw new Error('Access token is not defined');
   }
 
-  const URL = process.env.RAILS_API_URL + '/users/signup/edit';
+  const URL = process.env.RAILS_API_URL + '/users/' + userId;
 
   try {
     const response = await fetch(URL, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: token,
+        Authorization: session?.user.accessToken,
       },
     });
 

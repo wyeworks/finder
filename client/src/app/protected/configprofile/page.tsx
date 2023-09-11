@@ -3,11 +3,17 @@
 import ArrowRightIcon from '@/assets/Icons/ArrowRightIcon';
 import FormPersonalInfo from './FormPersonalInfo';
 import FormChangePassword from './FormChangePassword';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ArrowLeftIcon from '@/assets/Icons/ArrowLeftIcon';
 import strings from '@/locales/strings.json';
+import { User } from '@/types/User';
+import { useSession } from 'next-auth/react';
 
 export default function ConfigProfile() {
+  // eslint-disable-next-line no-unused-vars
+  const [user, setUser] = useState<User | null>(null);
+  const { data: session } = useSession();
+
   // eslint-disable-next-line no-unused-vars
   enum EnumNavOptions {
     // eslint-disable-next-line no-unused-vars
@@ -55,39 +61,34 @@ export default function ConfigProfile() {
     SetCurrentFormNavMobile('grid');
   };
 
-  // const getUserData = async () => {
-  //   // event.preventDefault();
+  useEffect(() => {
+    const getUserData = async () => {
+      if (!session) {
+        return;
+      }
 
-  //   // const isCurrentFormValid = event.currentTarget.checkValidity();
+      const baseURL = '/api/users/' + session.user.id;
 
-  //   // if (!isCurrentFormValid) {
-  //   //   // setAlertMessage(strings.common.error.completeFields);
-  //   //   // setIsVisible(true);
-  //   //   return;
-  //   // }
+      try {
+        const response = await fetch(baseURL, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-  //   try {
-  //     const response = await fetch('/api/users/signup/edit', {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
+        }
 
-  //     if (!response.ok) {
-  //       const errorData = await response.json();
-  //       throw new Error(errorData.message);
-  //     }
-  //   } catch (error) {
-  //     // setAlertMessage(
-  //     //   error instanceof Error
-  //     //     ? error.message
-  //     //     : strings.common.error.unexpectedError
-  //     // );
-  //     // setIsVisible(true);
-  //   }
-  // };
-  // await getUserData()
+        const userData = await response.json();
+        setUser(userData);
+      } catch (error) {}
+    };
+
+    getUserData();
+  }, [session]);
 
   return (
     <>
