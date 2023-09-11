@@ -40,6 +40,17 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+  config.action_mailer.delivery_method = :smtp
+  
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.sendgrid.net',
+    port: 25,
+    user_name: 'apikey',
+    password: Rails.application.credentials.sendgird_api_key,
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
+
   # Raise exceptions for disallowed deprecations.
   config.active_support.disallowed_deprecation = :raise
 
@@ -78,4 +89,7 @@ Rails.application.configure do
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
+
+  # Front base url
+  config.client_base_url = 'http://localhost:3333/'
 end
