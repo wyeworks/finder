@@ -1,4 +1,5 @@
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '@/__mocks__/next/router';
 import strings from '@/locales/strings.json';
 import Form from './Form';
@@ -11,13 +12,12 @@ describe('Form Component', () => {
   });
 
   it('should show an alert when form is submitted with invalid data', async () => {
-    const { getByText, queryByText } = render(<Form />);
-
-    fireEvent.click(getByText(strings.form.createAccountButton.text));
+    render(<Form />);
+    userEvent.click(screen.getByText(strings.form.createAccountButton.text));
 
     await waitFor(() => {
       expect(
-        queryByText(strings.common.error.completeFields)
+        screen.queryByText(strings.common.error.completeFields)
       ).toBeInTheDocument();
     });
   });
@@ -25,21 +25,18 @@ describe('Form Component', () => {
   it('should make a successful API call when form is submitted with valid data', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({ ok: true }); // Mock a successful fetch call
 
-    const { getByLabelText, getByText } = render(<Form />);
+    render(<Form />);
 
     // Fill the form
-    fireEvent.change(getByLabelText(strings.form.nameInput.label), {
-      target: { value: 'John Doe' },
-    });
-    fireEvent.change(getByLabelText(strings.form.emailInput.label), {
-      target: { value: 'john.doe@example.com' },
-    });
-    fireEvent.change(getByLabelText(strings.form.passwordInput.label), {
-      target: { value: 'password123' },
-    });
+    screen.getByLabelText(strings.form.nameInput.label).focus();
+    userEvent.paste('John Doe');
+    screen.getByLabelText(strings.form.emailInput.label).focus();
+    userEvent.paste('john.doe@fing.edu.uy');
+    screen.getByLabelText(strings.form.passwordInput.label).focus();
+    userEvent.paste('Password#123');
 
     // Submit the form
-    fireEvent.click(getByText(strings.form.createAccountButton.text));
+    userEvent.click(screen.getByText(strings.form.createAccountButton.text));
 
     // Wait for the fetch to be called
     await waitFor(() => {
@@ -52,26 +49,23 @@ describe('Form Component', () => {
       new Error(strings.common.error.unexpectedError)
     ); // Mock a failed fetch call
 
-    const { getByLabelText, getByText, queryByText } = render(<Form />);
+    render(<Form />);
 
     // Fill the form
-    fireEvent.change(getByLabelText(strings.form.nameInput.label), {
-      target: { value: 'John Doe' },
-    });
-    fireEvent.change(getByLabelText(strings.form.emailInput.label), {
-      target: { value: 'john.doe@example.com' },
-    });
-    fireEvent.change(getByLabelText(strings.form.passwordInput.label), {
-      target: { value: 'password123' },
-    });
+    screen.getByLabelText(strings.form.nameInput.label).focus();
+    userEvent.paste('John Doe');
+    screen.getByLabelText(strings.form.emailInput.label).focus();
+    userEvent.paste('john.doe@fing.edu.uy');
+    screen.getByLabelText(strings.form.passwordInput.label).focus();
+    userEvent.paste('Password#123');
 
     // Submit the form
-    fireEvent.click(getByText(strings.form.createAccountButton.text));
+    userEvent.click(screen.getByText(strings.form.createAccountButton.text));
 
     // Wait for the error message to appear
     await waitFor(() => {
       expect(
-        queryByText(strings.common.error.unexpectedError)
+        screen.queryByText(strings.common.error.unexpectedError)
       ).toBeInTheDocument();
     });
   });
