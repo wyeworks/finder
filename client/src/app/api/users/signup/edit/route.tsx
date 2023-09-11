@@ -1,8 +1,17 @@
+import { getServerSession } from 'next-auth';
+
 export async function GET() {
+  const session = await getServerSession();
+  const token = session?.user?.name;
+
   const RAILS_API_URL = process.env.RAILS_API_URL;
 
   if (!RAILS_API_URL) {
     throw new Error('RAILS_API_URL is not defined');
+  }
+
+  if (!token) {
+    throw new Error('Token is not defined');
   }
 
   const URL = process.env.RAILS_API_URL + '/users/signup/edit';
@@ -12,7 +21,7 @@ export async function GET() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        // 'Authorization': 'Bearer ' + nextCookies._parsed.get('next-auth.csrf-token').value,
+        Authorization: token,
       },
     });
 

@@ -36,11 +36,32 @@ export default function FormPersonalInfo() {
     setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
   };
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch('/api/users/signup', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || strings.common.error.unexpectedError
+        );
+      }
+    } catch (error) {}
+  };
+
   return (
     <div className='mt-3 sm:w-full'>
       <form
         className='grid grid-rows-personal-info-form gap-5 pl-7 pr-7'
-        // onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
         noValidate
       >
         <Input
@@ -89,7 +110,7 @@ export default function FormPersonalInfo() {
               className='w-1/2 bg-red-700 hover:bg-red-400 hover:text-white'
             />
             <Button
-              type='button'
+              type='submit'
               id='confirm-button'
               text={strings.configProfile.forms.personalInfo.submitButton.text}
             />

@@ -33,6 +33,9 @@ const handler = NextAuth({
         });
         const user = await res.json();
         if (res.ok && user && user.user) {
+          const authToken = res.headers.get('Authorization');
+          // console.log("accessToken ", authToken);
+          user.user.name = authToken;
           return user.user;
         } else {
           return null;
@@ -48,6 +51,7 @@ const handler = NextAuth({
     async session({ session, token }) {
       if (token && token.user) {
         session.user = token.user;
+        session.apiJwt = token;
       }
       return session;
     },
