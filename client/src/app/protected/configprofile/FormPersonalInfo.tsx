@@ -20,9 +20,16 @@ type FormPersonalInfoProps = {
 };
 
 export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
+  let birthdate = '';
+
+  // parse birthdate
+  if (user.birth_date) {
+    birthdate = user.birth_date.split('T')[0];
+  }
+
   const [formData, setFormData] = useState<PersonalInfoFormData>({
     name: user?.name ?? '',
-    birthdate: user?.birth_date ?? '',
+    birthdate: birthdate,
     biography: user?.bio ?? '',
   });
   const [touched, setTouched] = useState({

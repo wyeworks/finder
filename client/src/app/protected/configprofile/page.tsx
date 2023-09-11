@@ -100,7 +100,6 @@ export default function ConfigProfile() {
         </button>
       </div>
       <div className='mt-5 grid h-[100%] w-[100vw] auto-cols-max grid-flow-col justify-center'>
-        {/* <div className='hidden w-auto justify-end rounded-lg border border-[#e6e6e6] md:flex'> */}
         <div
           className={`${formNavMobile} w-auto justify-end rounded-lg border border-[#e6e6e6] md:flex `}
         >
@@ -149,9 +148,12 @@ export default function ConfigProfile() {
           {currentForm === EnumNavOptions.PERSONALINFO && user && (
             <FormPersonalInfo user={user} />
           )}
-          {currentForm === EnumNavOptions.CHANGEPASSWORD && (
-            <FormChangePassword />
-          )}
+          {/* For the moment, hidden  */}
+          <div className='hidden'>
+            {currentForm === EnumNavOptions.CHANGEPASSWORD && (
+              <FormChangePassword />
+            )}
+          </div>
         </div>
       </div>
     </>

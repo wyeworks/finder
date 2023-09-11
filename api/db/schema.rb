@@ -24,6 +24,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_11_000101) do
     t.datetime "birth_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "bio"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
