@@ -24,7 +24,6 @@ module Users
         resource.update(params)
       end
     end
-    
 
     private
 
