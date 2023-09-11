@@ -39,7 +39,7 @@ export default function View() {
         <Button
           type='button'
           id='confirm-button'
-          text={strings.confirmation.loginButton.text}
+          text={strings.form.logInButton.text}
           className='mx-auto mb-4 mt-5 w-full sm:mb-0'
           onClick={handleClick}
         />

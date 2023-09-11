@@ -2,7 +2,8 @@
   "common": {
     "error": {
       "unexpectedError": "Ocurrió un error inesperado, intenta de nuevo",
-      "completeFields": "Por favor completa todos los campos correctamente"
+      "completeFields": "Por favor completa todos los campos correctamente",
+      "logInInvalid": "Email o Contraseña inválida"
     },
     "submitButton": {
       "text": "Enviar"
@@ -14,7 +15,7 @@
       "requestOk": "El resultado fue exitoso"
     }
   },
-  "signup": {
+  "form": {
     "nameInput": {
       "label": "Nombre",
       "placeholder": "Ingresa tu Nombre"
@@ -30,6 +31,9 @@
     },
     "createAccountButton": {
       "text": "Crear Cuenta"
+    },
+    "logInButton": {
+      "text": "Iniciar Sesión"
     }
   },
   "header": {
