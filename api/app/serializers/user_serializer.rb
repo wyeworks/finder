@@ -7,10 +7,8 @@ class UserSerializer
   attributes :id,
              :email,
              :name,
-             :birth_date,
              :bio,
              :social_networks
-  attributes :id, :email, :name, :bio
 
   end
 end
