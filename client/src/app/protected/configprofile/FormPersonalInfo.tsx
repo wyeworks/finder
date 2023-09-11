@@ -1,5 +1,7 @@
 'use client';
 
+import Alert from '@/components/common/Alert';
+import AlertSuccess from '@/components/common/AlertSuccess';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
@@ -23,6 +25,10 @@ export default function FormPersonalInfo() {
     birthdate: false,
     biography: false,
   });
+  const [successVisible, setSuccessVisible] = useState<boolean>(false);
+  const [errorVisible, setErrorVisible] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -38,14 +44,24 @@ export default function FormPersonalInfo() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setSuccessVisible(false);
+    setErrorVisible(false);
+
+    const isCurrentFormValid = event.currentTarget.checkValidity();
+
+    if (!isCurrentFormValid) {
+      setErrorMessage('Por favor rellene todos los campos correctamente');
+      setErrorVisible(true);
+      return;
+    }
 
     try {
-      const response = await fetch('/api/users/signup', {
+      const response = await fetch('/api/signup', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify(formData),
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
@@ -54,7 +70,12 @@ export default function FormPersonalInfo() {
           errorData.message || strings.common.error.unexpectedError
         );
       }
-    } catch (error) {}
+      setSuccessVisible(true);
+      setSuccessMessage('Los cambios se han efectuado con exito');
+    } catch (error) {
+      setErrorMessage('Ocurrio un error inesperado, intenta de nuevo');
+      setErrorVisible(true);
+    }
   };
 
   return (
@@ -102,6 +123,16 @@ export default function FormPersonalInfo() {
             value={formData.biography}
             onChange={HandleChangeTextArea}
           />
+          <div className='mt-5'>
+            <AlertSuccess
+              isVisible={successVisible}
+              successMessage={successMessage}
+            />
+          </div>
+          <div className='mt-5'>
+            <Alert isVisible={errorVisible} errorMessage={errorMessage} />
+          </div>
+
           <div className='mt-4 flex justify-end gap-3'>
             <Button
               type='button'

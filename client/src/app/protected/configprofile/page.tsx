@@ -38,6 +38,10 @@ export default function ConfigProfile() {
     },
   ];
 
+  const [formNavMobile, SetFormNavMobile] = useState<string>('flex');
+  const [currentFormNavMobile, SetCurrentFormNavMobile] =
+    useState<string>('hidden');
+
   const [currentForm, SetCurrentForm] = useState<EnumNavOptions>(
     EnumNavOptions.PERSONALINFO
   );
@@ -50,9 +54,6 @@ export default function ConfigProfile() {
     SetFormNavMobile('hidden');
     SetCurrentFormNavMobile('grid');
   };
-  const [formNavMobile, SetFormNavMobile] = useState<string>('flex');
-  const [currentFormNavMobile, SetCurrentFormNavMobile] =
-    useState<string>('hidden');
 
   // const getUserData = async () => {
   //   // event.preventDefault();

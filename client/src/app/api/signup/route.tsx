@@ -46,10 +46,11 @@ export async function POST(request: Request) {
   }
 }
 
-export async function PATCH() {
+export async function PATCH(request: Request) {
   const session = await getServerSession();
   const token = session?.user?.name;
 
+  const requestBody = await request.json();
   const RAILS_API_URL = process.env.RAILS_API_URL;
 
   if (!RAILS_API_URL) {
@@ -62,6 +63,24 @@ export async function PATCH() {
 
   const URL = process.env.RAILS_API_URL + 'users/signup';
 
+  let bodyAux = '';
+  // For testing only sending password
+  if (requestBody.newPassword) {
+    bodyAux = JSON.stringify({
+      user: {
+        password: requestBody.newPassword,
+      },
+    });
+  } else {
+    bodyAux = JSON.stringify({
+      user: {
+        name: requestBody.name,
+        bio: requestBody.biography,
+        birth_date: requestBody.birthdate,
+      },
+    });
+  }
+
   try {
     const response = await fetch(URL, {
       method: 'PATCH',
@@ -69,13 +88,7 @@ export async function PATCH() {
         'Content-Type': 'application/json',
         Authorization: token,
       },
-      body: JSON.stringify({
-        user: {
-          name: 'Nico Cambiado prueba',
-          bio: 'Estoy cambiando la bio',
-          birth_date: '1934-04-04',
-        },
-      }),
+      body: bodyAux,
     });
 
     return new Response(response.body, {

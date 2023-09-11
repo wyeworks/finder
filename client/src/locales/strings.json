@@ -9,6 +9,9 @@
     },
     "SearchInput": {
       "placeholder": "Buscar"
+    },
+    "success": {
+      "requestOk": "El resultado fue exitoso"
     }
   },
   "signup": {
