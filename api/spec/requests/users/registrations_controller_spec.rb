@@ -48,15 +48,14 @@ RSpec.describe Users::RegistrationsController, type: :request do
   end
 
   describe 'PATCH /users/signup' do
-    let(:user) { create(:user, birth_date: '1990-01-01', bio: 'generic') }
+    let(:user) { FactoryBot.create(:user) }
     let(:new_birth_date) { Date.parse('2023-08-13') }
     let(:new_bio) { 'hello1234' }
     let(:new_password) { 'ComplexPassword129!' }
-    let(:new_password_confirmation) { 'ComplexPassword129!' }
 
     before do
       post user_session_path, params: { user: { email: user.email, password: user.password } }
-      token = response.headers['Authorization'].split.last
+      authorization_header = response.headers['Authorization']
 
       patch user_registration_path,
             params: {
@@ -64,11 +63,11 @@ RSpec.describe Users::RegistrationsController, type: :request do
                 birth_date: new_birth_date,
                 bio: new_bio,
                 password: new_password,
-                password_confirmation: new_password_confirmation
+                password_confirmation: new_password
               }
             }.to_json,
             headers: {
-              'Authorization' => "Bearer #{token}",
+              'Authorization' => authorization_header,
               'Content-Type' => 'application/json'
             }
     end
