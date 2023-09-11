@@ -11,4 +11,6 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
     confirmations: 'users/confirmations'
   }
+
+  resources :users, only: :show
 end
