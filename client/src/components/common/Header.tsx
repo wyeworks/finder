@@ -15,10 +15,20 @@ import LogOutIcon from '@/assets/Icons/LogOutIcon';
 import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
 import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 
 const userNavigation = [
-  { name: strings.header.navOptions.editProfile, href: 'configprofile' },
-  { name: strings.header.navOptions.endSession, href: '#' },
+  {
+    name: strings.header.navOptions.editProfile,
+    href: '#',
+  },
+  {
+    name: strings.header.navOptions.endSession,
+    href: '#',
+    onClick: () => {
+      signOut();
+    },
+  },
 ];
 
 const userNavigationMobile = [
@@ -41,6 +51,9 @@ const userNavigationMobile = [
     name: strings.header.navOptions.endSession,
     href: '#',
     icon: <LogOutIcon className='mr-2 h-5 w-5' />,
+    onClick: () => {
+      signOut();
+    },
   },
 ];
 
@@ -97,7 +110,7 @@ export default function Header({ user }: HeaderProps) {
                         <Menu.Button className='relative flex max-w-xs items-center rounded-full bg-transparent text-sm'>
                           <p className='mr-3 hidden text-left text-lg sm:block'>
                             <strong className='block font-medium text-whiteTextHeader'>
-                              {user.name}
+                              {user.email}
                             </strong>
                           </p>
 
@@ -129,12 +142,15 @@ export default function Header({ user }: HeaderProps) {
                         <Menu.Items className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
                           {userNavigation.map((item) => (
                             <Menu.Item key={item.name}>
-                              <button
-                                className='block w-full px-4 py-2 text-start text-sm text-gray-700 active:bg-gray-100'
-                                onClick={handleClick}
+                              <a
+                                href={item.href}
+                                className='block px-4 py-2 text-sm text-gray-700 active:bg-gray-100'
+                                onClick={
+                                  item.onClick ? item.onClick : handleClick
+                                }
                               >
                                 {item.name}
-                              </button>
+                              </a>
                             </Menu.Item>
                           ))}
                         </Menu.Items>
@@ -176,7 +192,7 @@ export default function Header({ user }: HeaderProps) {
                   </div>
                   <div className='ml-3'>
                     <div className='text-base font-medium leading-none text-white'>
-                      {user.name}
+                      {user.email}
                     </div>
                     <div className='text-sm font-medium leading-none text-gray-400'>
                       {user.email}
@@ -190,6 +206,7 @@ export default function Header({ user }: HeaderProps) {
                       as='a'
                       href={item.href}
                       className='flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white'
+                      onClick={item.onClick ? item.onClick : handleClick}
                     >
                       {item.icon}
                       {item.name}

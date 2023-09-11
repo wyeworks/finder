@@ -20,7 +20,7 @@ export default function HomePage() {
             <h1>User Information</h1>
             <ul>
               <li>
-                <strong>Name:</strong> {session.user?.name}
+                <strong>Name:</strong> {session.user?.email}
               </li>
               <li>
                 <strong>Email:</strong> {session.user?.email}

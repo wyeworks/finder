@@ -68,6 +68,19 @@ export default function FormChangePassword() {
     }
   };
 
+  const handleCancel = () => {
+    setSuccessVisible(false);
+    setErrorVisible(false);
+    setFormData({
+      newPassword: '',
+      password: '',
+    });
+    setTouched({
+      password: false,
+      newPassword: false,
+    });
+  };
+
   return (
     <div className='mt-3 sm:w-full' id='register-form'>
       <form
@@ -119,6 +132,7 @@ export default function FormChangePassword() {
             id='cancel-button'
             text={strings.configProfile.forms.changePassword.cancelButton.text}
             className='w-1/2 bg-red-700 hover:bg-red-400 hover:text-white'
+            onClick={handleCancel}
           />
           <Button
             type='submit'

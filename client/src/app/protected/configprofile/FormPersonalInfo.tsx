@@ -78,6 +78,21 @@ export default function FormPersonalInfo() {
     }
   };
 
+  const handleCancel = () => {
+    setSuccessVisible(false);
+    setErrorVisible(false);
+    setFormData({
+      biography: '',
+      birthdate: '',
+      name: '',
+    });
+    setTouched({
+      biography: false,
+      birthdate: false,
+      name: false,
+    });
+  };
+
   return (
     <div className='mt-3 sm:w-full'>
       <form
@@ -138,6 +153,7 @@ export default function FormPersonalInfo() {
               type='button'
               id='cancel-button'
               text={strings.configProfile.forms.personalInfo.cancelButton.text}
+              onClick={handleCancel}
               className='w-1/2 bg-red-700 hover:bg-red-400 hover:text-white'
             />
             <Button
