@@ -1,4 +1,5 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Input from '../Input';
 
 describe('Input Component', () => {
@@ -7,14 +8,14 @@ describe('Input Component', () => {
   });
 
   it('should display the provided label', () => {
-    const { getByText } = render(
+    render(
       <Input type='text' id='label-input' name='testName' label='Input Label' />
     );
-    expect(getByText('Input Label')).toBeInTheDocument();
+    expect(screen.getByText('Input Label')).toBeInTheDocument();
   });
 
   it('should have default placeholder and validation text when not provided', () => {
-    const { getByPlaceholderText, getByText } = render(
+    render(
       <Input
         type='text'
         id='default-input'
@@ -23,12 +24,12 @@ describe('Input Component', () => {
         touched={true}
       />
     );
-    expect(getByPlaceholderText('')).toBeInTheDocument();
-    expect(getByText('Por favor ingrese su Test')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('')).toBeInTheDocument();
+    expect(screen.getByText('Por favor ingrese su Test')).toBeInTheDocument();
   });
 
   it('should display validation text when input is touched and contains an invalid value', () => {
-    const { getByText } = render(
+    render(
       <Input
         type='text'
         id='invalid-input'
@@ -38,12 +39,12 @@ describe('Input Component', () => {
         required={true}
       />
     );
-    expect(getByText('Por favor ingrese su Test')).toBeInTheDocument();
+    expect(screen.getByText('Por favor ingrese su Test')).toBeInTheDocument();
   });
 
   it('should handle input changes', () => {
     const handleChange = jest.fn();
-    const { getByLabelText } = render(
+    render(
       <Input
         type='text'
         id='change-input'
@@ -52,8 +53,8 @@ describe('Input Component', () => {
         onChange={handleChange}
       />
     );
-    const input = getByLabelText('Test');
-    fireEvent.change(input, { target: { value: 'new value' } });
+    screen.getByLabelText('Test').focus();
+    userEvent.paste('new value');
     expect(handleChange).toHaveBeenCalled();
   });
 
@@ -62,12 +63,12 @@ describe('Input Component', () => {
     const MockIcon = () => <div data-testid='mock-icon'>Icon</div>;
 
     // Render the Input component with the Icon prop
-    const { getByTestId } = render(
+    render(
       <Input type='text' id='test-input' name='test' Icon={<MockIcon />} />
     );
 
     // Verify that the icon is rendered
-    const iconElement = getByTestId('mock-icon');
+    const iconElement = screen.getByTestId('mock-icon');
     expect(iconElement).toBeInTheDocument();
   });
 });
