@@ -35,8 +35,14 @@ RSpec.describe User, type: :model do
         it { is_expected.not_to be_valid }
       end
 
-      context 'valid password' do
+      context 'valid password with # as a special character' do
         let(:password) { 'Test#123' }
+
+        it { is_expected.to be_valid }
+      end
+
+      context 'valid password with . as a special character' do
+        let(:password) { 'Test.123' }
 
         it { is_expected.to be_valid }
       end

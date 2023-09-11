@@ -41,6 +41,8 @@ RSpec.describe Users::RegistrationsController, type: :request do
         json_response = response.parsed_body
 
         expect(json_response['message']).to include("User couldn't be created successfully")
+        expect(json_response['errors']['password'][0]).to include('is too short')
+        expect(json_response['errors']['password'][1]).to include('Complexity requirement not met')
       end
     end
   end

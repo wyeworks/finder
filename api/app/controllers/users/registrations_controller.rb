@@ -63,14 +63,21 @@ module Users
 
     def respond_with(resource, _opts = {})
       if resource.persisted?
+        Rails.logger.info "User with ID ##{current_user.id} and " \
+                          "email '#{current_user.email}' was successfully created."
+
         render json: {
           message: resource.id_was.nil? ? 'Signed up successfully.' : 'Updated successfully.',
           user: UserSerializer.new(resource).serializable_hash[:data][:attributes]
         }, status: :ok
       else
-        action = resource.id_was.nil? ? 'created' : 'updated'
+        Rails.logger.info "User with email '#{current_user.email}' couldn't be created due to " \
+                          "the following errors: #{current_user.errors.full_messages}"
+
         render json: {
-          message: "User couldn't be #{action} successfully. #{resource.errors.full_messages.to_sentence}"
+          message: "User couldn't be created successfully. " \
+                   "#{current_user.errors.full_messages.to_sentence}",
+          errors: current_user.errors.messages
         }, status: :unprocessable_entity
       end
     end
