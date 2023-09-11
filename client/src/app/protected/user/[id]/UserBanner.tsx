@@ -37,7 +37,11 @@ export default function UserBanner(props: { user: User }) {
       >
         <div className={'mb-5 flex flex-col items-center lg:mb-0 lg:flex-row'}>
           <Image
-            src={'/default_user_profile.jpeg'}
+            src={
+              props.user.profileImage
+                ? props.user.profileImage
+                : '/default_user_profile.jpeg'
+            }
             alt={'Foto de perfil'}
             width={250}
             height={250}
@@ -73,27 +77,29 @@ export default function UserBanner(props: { user: User }) {
             'mb-10 flex flex-col items-center lg:mb-0 lg:mr-20 lg:justify-around'
           }
         >
-          <div
-            className={
-              'mb-5 flex max-w-[375px] flex-row items-center justify-evenly'
-            }
-          >
-            {props.user.socialNetworks.instagram && (
-              <InstagramButton link={props.user.socialNetworks.instagram} />
-            )}
-            {props.user.socialNetworks.linkedin && (
-              <LinkedInButton link={props.user.socialNetworks.linkedin} />
-            )}
-            {props.user.socialNetworks.twitter && (
-              <TwitterButton link={props.user.socialNetworks.twitter} />
-            )}
-            {props.user.socialNetworks.discord && (
-              <DiscordButton link={props.user.socialNetworks.discord} />
-            )}
-          </div>
+          {props.user.socialNetworks && (
+            <div
+              className={
+                'mb-5 flex max-w-[375px] flex-row items-center justify-evenly'
+              }
+            >
+              {props.user.socialNetworks.instagram && (
+                <InstagramButton link={props.user.socialNetworks.instagram} />
+              )}
+              {props.user.socialNetworks.linkedin && (
+                <LinkedInButton link={props.user.socialNetworks.linkedin} />
+              )}
+              {props.user.socialNetworks.twitter && (
+                <TwitterButton link={props.user.socialNetworks.twitter} />
+              )}
+              {props.user.socialNetworks.discord && (
+                <DiscordButton link={props.user.socialNetworks.discord} />
+              )}
+            </div>
+          )}
           {session.data?.user?.email === props.user.email && (
             <button
-              onClick={() => router.replace('/protected/configuser')}
+              onClick={() => router.push('/protected/configuser')}
               className={
                 'flex w-fit items-center rounded-md bg-[#2B2D54] p-2 lg:self-end'
               }
