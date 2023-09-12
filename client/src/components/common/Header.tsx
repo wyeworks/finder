@@ -105,7 +105,7 @@ export default function Header({ user }: HeaderProps) {
                             <Image
                               alt='Man'
                               src={
-                                user.image ??
+                                user.profileImage ??
                                 'https://randomuser.me/api/portraits/women/81.jpg'
                               }
                               className='rounded-full shadow-sm'
@@ -167,7 +167,7 @@ export default function Header({ user }: HeaderProps) {
                     <Image
                       alt='Man'
                       src={
-                        user.image ??
+                        user.profileImage ??
                         'https://randomuser.me/api/portraits/women/81.jpg'
                       }
                       className='rounded-full shadow-sm'
