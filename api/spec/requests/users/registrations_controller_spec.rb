@@ -41,14 +41,14 @@ RSpec.describe Users::RegistrationsController, type: :request do
         json_response = response.parsed_body
 
         expect(json_response['message']).to include("User couldn't be created successfully")
-        expect(json_response['message']).to include('Password is too short')
-        expect(json_response['message']).to include('Complexity requirement not met')
+        expect(json_response['errors']['password'][0]).to include('is too short')
+        expect(json_response['errors']['password'][1]).to include('Complexity requirement not met')
       end
     end
   end
 
   describe 'PATCH /users/signup' do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { create(:user) }
     let(:new_birth_date) { Date.parse('2023-08-13') }
     let(:new_bio) { 'hello1234' }
     let(:new_password) { 'ComplexPassword129!' }
@@ -74,7 +74,7 @@ RSpec.describe Users::RegistrationsController, type: :request do
 
     context 'when user updates details successfully' do
       it 'returns http success' do
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:ok)
       end
 
       it 'updates user details' do
@@ -90,7 +90,6 @@ RSpec.describe Users::RegistrationsController, type: :request do
 
     context 'when user update fails' do
       let(:new_password) { '123' }
-      let(:new_password_confirmation) { '123' }
 
       it 'returns http unprocessable entity' do
         expect(response).to have_http_status(:unprocessable_entity)
@@ -98,7 +97,6 @@ RSpec.describe Users::RegistrationsController, type: :request do
 
       it 'returns JSON containing error message' do
         json_response = response.parsed_body
-        puts json_response  # Debugging output
         expect(json_response['message']).to include("User couldn't be updated successfully")
       end
     end
