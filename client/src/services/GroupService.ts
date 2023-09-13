@@ -1,10 +1,9 @@
-/* eslint-disable */
-// TODO: Habilitar el eslint cuando estos datos se consigan del back
-
 import { User } from '@/types/User';
 import { StudyGroup } from '@/types/StudyGroup';
 
-function getActiveGroups(user: User): Promise<StudyGroup[]> {
+// disable temporary because we hardcode groups so far
+// eslint-disable-next-line no-unused-vars
+function getActiveGroups(user: User): StudyGroup[] {
   const BasesDeDatos: StudyGroup = {
     name: 'Lab Bases de Datos',
     description: 'Estamos buscando gente para el lab de bases de datos',
@@ -23,7 +22,7 @@ function getActiveGroups(user: User): Promise<StudyGroup[]> {
     subject: 'Redes de Computadoras',
     isLab: false,
   };
-  return Promise.resolve([BasesDeDatos, TProg, RedesComp]);
+  return [BasesDeDatos, TProg, RedesComp];
 }
 
 export default getActiveGroups;

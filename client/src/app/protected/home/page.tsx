@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function HomePage() {
   const { data: session } = useSession();
-
+  const user = session?.user;
   // this logout button is temporary. The idea is test login easier
   return (
     <>
@@ -16,9 +16,12 @@ export default function HomePage() {
             <ul>
               <li>
                 <strong>Name:</strong>{' '}
-                {session.user && (
-                  <Link href={'/protected/user/' + session.user.id}>
-                    {session.user.name}
+                {user && (
+                  <Link
+                    href={`/protected/user/${user.id}`}
+                    className='text-blue-500'
+                  >
+                    {user.name}
                   </Link>
                 )}
               </li>
