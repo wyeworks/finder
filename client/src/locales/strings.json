@@ -2,7 +2,8 @@
   "common": {
     "error": {
       "unexpectedError": "Ocurrió un error inesperado, intenta de nuevo",
-      "completeFields": "Por favor completa todos los campos correctamente"
+      "completeFields": "Por favor completa todos los campos correctamente",
+      "logInInvalid": "Email o Contraseña inválida"
     },
     "submitButton": {
       "text": "Enviar"
@@ -11,7 +12,7 @@
       "placeholder": "Buscar"
     }
   },
-  "signup": {
+  "form": {
     "nameInput": {
       "label": "Nombre",
       "placeholder": "Ingresa tu Nombre"
@@ -27,6 +28,9 @@
     },
     "createAccountButton": {
       "text": "Crear Cuenta"
+    },
+    "logInButton": {
+      "text": "Iniciar Sesión"
     }
   },
   "header": {
@@ -41,9 +45,6 @@
     "imageAlt": "Confirmar email",
     "title": "finder.com",
     "headerText": "Confirme su dirección de correo",
-    "infoText": "Se ha enviado un correo electrónico a xxxx.xxxxx.xxxxx@fing.edu.uy con los pasos necesarios para confirmar su registro",
-    "loginButton": {
-      "text": "Iniciar sesión"
-    }
+    "infoText": "Se ha enviado un correo electrónico a xxxx.xxxxx.xxxxx@fing.edu.uy con los pasos necesarios para confirmar su registro"
   }
 }

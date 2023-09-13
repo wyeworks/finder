@@ -7,6 +7,7 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import strings from '@/locales/strings.json';
 
 import { useState } from 'react';
 
@@ -45,7 +46,7 @@ export default function Form() {
     const isCurrentFormValid = event.currentTarget.checkValidity();
 
     if (!isCurrentFormValid) {
-      setAlertMessage('Por favor rellene todos los campos correctamente');
+      setAlertMessage(strings.common.error.completeFields);
       setIsVisible(true);
       return;
     }
@@ -63,7 +64,7 @@ export default function Form() {
 
       router.push('/protected/home');
     } catch (error) {
-      setAlertMessage('Ocurrio un error inesperado, intenta de nuevo');
+      setAlertMessage(strings.common.error.logInInvalid);
       setIsVisible(true);
     }
   };
@@ -79,9 +80,9 @@ export default function Form() {
           type='email'
           id='email'
           name='email'
-          label='Email'
-          placeholder='ejemplo@fing.edu.uy'
-          validateText='Ingrese un mail valido'
+          label={strings.form.emailInput.label}
+          placeholder={strings.form.emailInput.placeholder}
+          validateText={strings.form.emailInput.validateText}
           required
           value={formData.email}
           onChange={handleChange}
@@ -92,15 +93,19 @@ export default function Form() {
           type='password'
           id='password'
           name='password'
-          label='Contraseña'
-          placeholder='Ingrese su Contraseña'
+          label={strings.form.passwordInput.label}
+          placeholder={strings.form.passwordInput.placeholder}
           required
           value={formData.password}
           onChange={handleChange}
           touched={touched.password}
           Icon={<EmailIcon className='h-5 w-5 text-gray-400' />}
         />
-        <Button type='submit' text='Iniciar Sesion' className='mt-5' />
+        <Button
+          type='submit'
+          text={strings.form.logInButton.text}
+          className='mt-5'
+        />
         <Alert isVisible={isVisible} errorMessage={alertMessage} />
       </form>
     </div>

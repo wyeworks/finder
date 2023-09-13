@@ -1,5 +1,6 @@
 'use client';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 export default function HomePage() {
   const { data: session } = useSession();
@@ -13,7 +14,12 @@ export default function HomePage() {
             <h1>User Information</h1>
             <ul>
               <li>
-                <strong>Name:</strong> {session.user?.name}
+                <strong>Name:</strong>{' '}
+                {session.user && (
+                  <Link href={'protected/user/' + session.user.id}>
+                    {session.user.name}
+                  </Link>
+                )}
               </li>
               <li>
                 <strong>Email:</strong> {session.user?.email}

@@ -92,8 +92,8 @@ export default function Form() {
           type='text'
           id='name'
           name='name'
-          label={strings.signup.nameInput.label}
-          placeholder={strings.signup.nameInput.placeholder}
+          label={strings.form.nameInput.label}
+          placeholder={strings.form.nameInput.placeholder}
           required
           value={formData.name}
           onChange={handleChange}
@@ -104,9 +104,9 @@ export default function Form() {
           type='email'
           id='email'
           name='email'
-          label={strings.signup.emailInput.label}
-          placeholder={strings.signup.emailInput.placeholder}
-          validateText={strings.signup.emailInput.validateText}
+          label={strings.form.emailInput.label}
+          placeholder={strings.form.emailInput.placeholder}
+          validateText={strings.form.emailInput.validateText}
           required
           value={formData.email}
           onChange={handleChange}
@@ -117,8 +117,8 @@ export default function Form() {
           type='password'
           id='password'
           name='password'
-          label={strings.signup.passwordInput.label}
-          placeholder={strings.signup.passwordInput.placeholder}
+          label={strings.form.passwordInput.label}
+          placeholder={strings.form.passwordInput.placeholder}
           required
           value={formData.password}
           onChange={handleChange}
@@ -127,7 +127,7 @@ export default function Form() {
         />
         <Button
           type='submit'
-          text={strings.signup.createAccountButton.text}
+          text={strings.form.createAccountButton.text}
           className='mt-5'
         />
         <Alert isVisible={isVisible} errorMessage={alertMessage} />
