@@ -1,5 +1,3 @@
-'use client';
-
 import { User } from '@/types/User';
 import Image from 'next/image';
 import LocationIcon from '@/assets/Icons/LocationIcon';
@@ -10,12 +8,11 @@ import {
   LinkedInButton,
   TwitterButton,
 } from '@/components/common/SocialNetworkButton';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { getServerSession } from 'next-auth';
 
-export default function UserBanner(props: { user: User }) {
-  const session = useSession();
-  const router = useRouter();
+export default async function UserBanner(props: { user: User }) {
+  const session = await getServerSession();
 
   return (
     <div className={'flex w-full flex-col bg-transparent'}>
@@ -97,18 +94,19 @@ export default function UserBanner(props: { user: User }) {
               )}
             </div>
           )}
-          {session.data?.user?.email === props.user.email && (
-            <button
-              onClick={() => router.push('/protected/configuser')}
-              className={
-                'flex w-fit items-center rounded-md bg-[#2B2D54] p-2 lg:self-end'
-              }
-            >
-              <EditIcon className={'m-2 h-5 w-5 fill-white'} />
-              <p className={'mr-2 text-lg font-medium text-white'}>
-                Editar Perfil
-              </p>
-            </button>
+          {session?.user?.email === props.user.email && (
+            <Link href={'/protected/configuser'}>
+              <button
+                className={
+                  'flex w-fit items-center rounded-md bg-[#2B2D54] p-2 lg:self-end'
+                }
+              >
+                <EditIcon className={'m-2 h-5 w-5 fill-white'} />
+                <p className={'mr-2 text-lg font-medium text-white'}>
+                  Editar Perfil
+                </p>
+              </button>
+            </Link>
           )}
         </div>
       </div>
