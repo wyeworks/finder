@@ -118,8 +118,8 @@ export default function Header({ user }: HeaderProps) {
                             <Image
                               alt='Man'
                               src={
-                                user.image ??
-                                'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg'
+                                user.profileImage ??
+                                'https://randomuser.me/api/portraits/women/81.jpg'
                               }
                               className='rounded-full shadow-sm'
                               width={100}
@@ -182,8 +182,8 @@ export default function Header({ user }: HeaderProps) {
                     <Image
                       alt='Man'
                       src={
-                        user.image ??
-                        'https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg'
+                        user.profileImage ??
+                        'https://randomuser.me/api/portraits/women/81.jpg'
                       }
                       className='rounded-full shadow-sm'
                       width={50}
