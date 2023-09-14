@@ -9,7 +9,6 @@ module Users
       set_prev_unconfirmed_email
 
       resource_updated = update_resource(resource, account_update_params)
-      Rails.logger.debug { "Resource Errors after update attempt: #{resource.errors.full_messages}" }
 
       yield resource if block_given?
       handle_resource_update_response(resource_updated)
@@ -42,11 +41,6 @@ module Users
 
     def set_prev_unconfirmed_email
       @prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
-    end
-
-    def log_update(resource_updated)
-      Rails.logger.debug { "Resource Updated? #{resource_updated}" }
-      Rails.logger.debug { "Errors: #{resource.errors.full_messages.to_sentence}" } unless resource_updated
     end
 
     def handle_resource_update_response(resource_updated)
