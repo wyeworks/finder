@@ -9,7 +9,7 @@ module Users
       set_prev_unconfirmed_email
 
       resource_updated = update_resource(resource, account_update_params)
-      log_update(resource_updated)
+      Rails.logger.debug { "Resource Errors after update attempt: #{resource.errors.full_messages}" }
 
       yield resource if block_given?
       handle_resource_update_response(resource_updated)
@@ -18,10 +18,19 @@ module Users
     protected
 
     def update_resource(resource, params)
-      if params[:password].blank? && params[:password_confirmation].blank?
-        resource.update_without_password(params)
+      if params[:password].present?
+        resource.update_with_password(params)
       else
-        resource.update(params)
+        resource.update_without_password(params)
+      end
+
+      resource.password = params[:password] if params[:password].present?
+      resource.valid?
+
+      if resource.errors.any?
+        false
+      else
+        resource.save
       end
     end
 
@@ -51,7 +60,6 @@ module Users
 
     def handle_successful_update
       flash_for_successful_update if is_flashing_format?
-      # bypass_sign_in(resource) <-- Remove this line
     end
 
     def flash_for_successful_update
@@ -63,17 +71,24 @@ module Users
       set_flash_message :notice, flash_key
     end
 
-    def respond_with(resource, _opts = {})
-      if resource.errors.empty?
+    def respond_with(current_user, _opts = {})
+      if current_user.errors.any?
+        Rails.logger.info "User with email '#{current_user.email}' couldn't be updated due to " \
+                          "the following errors: #{current_user.errors.full_messages}"
+
         render json: {
-          message: resource.id_was.nil? ? 'Signed up successfully.' : 'Updated successfully.',
-          user: UserSerializer.new(resource).serializable_hash[:data][:attributes]
-        }, status: :ok
-      else
-        action = resource.id_was.nil? ? 'created' : 'updated'
-        render json: {
-          message: "User couldn't be #{action} successfully. #{resource.errors.full_messages.to_sentence}"
+          message: "User couldn't be updated successfully. " \
+                   "#{current_user.errors.full_messages.to_sentence}",
+          errors: current_user.errors.messages
         }, status: :unprocessable_entity
+      else
+        Rails.logger.info "User with ID ##{current_user.id} and " \
+                          "email '#{current_user.email}' was successfully updated."
+
+        render json: {
+          message: 'Updated successfully.',
+          user: UserSerializer.new(current_user).serializable_hash[:data][:attributes]
+        }, status: :ok
       end
     end
 

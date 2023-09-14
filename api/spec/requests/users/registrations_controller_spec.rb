@@ -1,49 +1,25 @@
 require 'rails_helper'
 
-RSpec.describe Users::RegistrationsController, type: :request do
-  describe 'POST /users/signup' do
-    let(:email) { 'test_user@fing.edu.uy' }
-    let(:name) { 'Test User' }
-    let(:password) { 'Test#123' }
+RSpec.describe UsersController, type: :request do
+  describe 'GET /users/:id' do
+    let(:user) { create :user, :with_social_networks }
 
     before do
-      post user_registration_path,
-           params: {
-             user: {
-               email:,
-               password:,
-               name:
-             }
-           }
+      get user_path(user)
     end
 
-    context 'when user gets successfully created' do
-      it 'returns http success' do
-        expect(response).to have_http_status(:success)
-      end
-
-      it 'returns JSON containing user data' do
-        json_response = response.parsed_body
-
-        expect(json_response['user']['email']).to eq(email)
-        expect(json_response['user']['name']).to eq(name)
-      end
+    it 'returns a successful response' do
+      expect(response).to be_successful
     end
 
-    context "when user couldn't be created successfully" do
-      let(:password) { '123' }
+    it 'returns JSON containing user data' do
+      json_response = response.parsed_body
 
-      it 'returns http unprocessable entity' do
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-
-      it 'returns JSON containing error message' do
-        json_response = response.parsed_body
-
-        expect(json_response['message']).to include("User couldn't be created successfully")
-        expect(json_response['errors']['password'][0]).to include('is too short')
-        expect(json_response['errors']['password'][1]).to include('Complexity requirement not met')
-      end
+      expect(json_response['id']).to eq(user.id)
+      expect(json_response['email']).to eq(user.email)
+      expect(json_response['name']).to eq(user.name)
+      expect(DateTime.parse(json_response['birth_date'])).to eq(user.birth_date)
+      expect(json_response['social_networks']).to eq(user.social_networks)
     end
   end
 
