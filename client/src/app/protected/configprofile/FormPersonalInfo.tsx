@@ -21,8 +21,6 @@ type FormPersonalInfoProps = {
 
 export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
   let birthdate = '';
-
-  debugger;
   // parse birthdate
   if (user.birthDate) {
     birthdate = user.birthDate.split('T')[0];
