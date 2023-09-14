@@ -22,6 +22,7 @@ type FormPersonalInfoProps = {
 export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
   let birthdate = '';
 
+  debugger;
   // parse birthdate
   if (user.birthDate) {
     birthdate = user.birthDate.split('T')[0];
@@ -90,21 +91,6 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
     }
   };
 
-  const handleCancel = () => {
-    setSuccessVisible(false);
-    setErrorVisible(false);
-    setFormData({
-      biography: '',
-      birthdate: '',
-      name: '',
-    });
-    setTouched({
-      biography: false,
-      birthdate: false,
-      name: false,
-    });
-  };
-
   return (
     <div className='mt-3 sm:w-full'>
       <form
@@ -150,29 +136,22 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
             value={formData.biography}
             onChange={HandleChangeTextArea}
           />
-          <div className='mt-5'>
-            <AlertSuccess
-              isVisible={successVisible}
-              successMessage={successMessage}
-            />
-          </div>
-          <div className='mt-5'>
-            <Alert isVisible={errorVisible} errorMessage={errorMessage} />
-          </div>
 
           <div className='mt-4 flex justify-end gap-3'>
-            <Button
-              type='button'
-              id='cancel-button'
-              text={strings.configProfile.forms.personalInfo.cancelButton.text}
-              onClick={handleCancel}
-              className='w-1/2 bg-red-700 hover:bg-red-400 hover:text-white'
-            />
             <Button
               type='submit'
               id='confirm-button'
               text={strings.configProfile.forms.personalInfo.submitButton.text}
             />
+          </div>
+          <div>
+            <AlertSuccess
+              isVisible={successVisible}
+              successMessage={successMessage}
+            />
+          </div>
+          <div>
+            <Alert isVisible={errorVisible} errorMessage={errorMessage} />
           </div>
         </div>
       </form>
