@@ -35,6 +35,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_14_233236) do
     t.index ["user_id"], name: "index_members_on_user_id"
   end
 
+  create_table "subjects", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.integer "credits"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_subjects_on_code", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
