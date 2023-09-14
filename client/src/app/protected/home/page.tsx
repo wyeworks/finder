@@ -1,10 +1,9 @@
-'use client';
-
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 
-export default function HomePage() {
-  const { data: session } = useSession();
+export default async function HomePage() {
+  const session = await getServerSession(authOptions);
 
   // this logout button is temporary. The idea is test login easier
   return (

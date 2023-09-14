@@ -1,9 +1,9 @@
 import { StudyGroup } from '@/types/StudyGroup';
 import Image from 'next/image';
 
-interface GroupsLayoutProps {
+type GroupsLayoutProps = {
   groups: StudyGroup[];
-}
+};
 
 function GroupCard(props: { group: StudyGroup }) {
   return (

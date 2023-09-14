@@ -10,9 +10,10 @@ import {
 } from '@/components/common/SocialNetworkButton';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 
 export default async function UserBanner(props: { user: User }) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   return (
     <div className={'flex w-full flex-col bg-transparent'}>
