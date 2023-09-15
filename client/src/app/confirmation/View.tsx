@@ -28,7 +28,7 @@ export default function View() {
           <p className='mt-2'>{strings.confirmation.infoText}</p>
         </div>
 
-        <Link href={'/singin'}>
+        <Link href={'/signin'}>
           <Button
             type='button'
             id='confirm-button'
