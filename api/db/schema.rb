@@ -18,7 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_14_233236) do
     t.string "name", null: false
     t.text "description", default: ""
     t.string "course", null: false
-    t.integer "size"
+    t.integer "size", null: false
     t.string "days"
     t.string "time_preference"
     t.datetime "created_at", null: false
@@ -28,7 +28,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_14_233236) do
   create_table "members", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "group_id", null: false
-    t.string "role"
+    t.string "role", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_members_on_group_id"

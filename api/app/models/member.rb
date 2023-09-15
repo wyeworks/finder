@@ -3,5 +3,6 @@ class Member < ApplicationRecord
   belongs_to :group
 
   # Validations
-  validates :role, inclusion: { in: %w[admin student] }
+  validates :role, presence: true
+  validates :role, inclusion: { in: %w[admin participant] }
 end
