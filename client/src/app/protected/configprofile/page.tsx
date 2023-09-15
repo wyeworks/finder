@@ -99,9 +99,9 @@ export default function ConfigProfile() {
           </p>
         </button>
       </div>
-      <div className='mt-5 grid h-[100%] w-[100vw] auto-cols-max grid-flow-col justify-center'>
+      <div className='mt-5 grid min-h-[500px] auto-cols-max grid-flow-col justify-center'>
         <div
-          className={`${formNavMobile} w-auto justify-end rounded-lg border border-[#e6e6e6] md:flex `}
+          className={`${formNavMobile} w-auto justify-end rounded-l-lg border border-[#e6e6e6] md:flex `}
         >
           <ul className='max-w-md divide-pink-500 dark:divide-gray-700'>
             {OptionsConfig.map((item) => {
@@ -130,7 +130,7 @@ export default function ConfigProfile() {
           </ul>
         </div>
         <div
-          className={`${currentFormNavMobile} w-[100vw] md:flex md:w-[40vw]`}
+          className={`${currentFormNavMobile} w-[100vw] rounded-r-lg border border-[#e6e6e6] border-l-transparent md:flex md:w-[40vw]`}
         >
           <button
             className='flex w-full items-center pl-7 md:hidden'

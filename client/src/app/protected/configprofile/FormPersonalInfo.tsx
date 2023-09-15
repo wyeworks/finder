@@ -1,5 +1,6 @@
 'use client';
 
+import UserIcon from '@/assets/Icons/UserIcon';
 import Alert from '@/components/common/Alert';
 import AlertSuccess from '@/components/common/AlertSuccess';
 import Button from '@/components/common/Button';
@@ -108,6 +109,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
           value={formData.name}
           onChange={handleChange}
           touched={touched.name}
+          Icon={<UserIcon className='h-5 w-5' />}
         />
         <Input
           type='date'
