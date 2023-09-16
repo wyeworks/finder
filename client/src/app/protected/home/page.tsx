@@ -16,9 +16,12 @@ export default async function HomePage() {
               <li>
                 <strong>Name:</strong>{' '}
                 {session.user && (
-                  <Link href={'/protected/user/' + session.user.id}>
-                    {session.user.name}
-                  </Link>
+                  <>
+                    <strong>{session.user.name}</strong>
+                    <Link href={'/protected/user/' + session.user.id}>
+                      Ver mi perfil
+                    </Link>
+                  </>
                 )}
               </li>
               <li>
