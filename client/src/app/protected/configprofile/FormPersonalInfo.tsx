@@ -75,7 +75,6 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
         },
         body: JSON.stringify(formData),
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(

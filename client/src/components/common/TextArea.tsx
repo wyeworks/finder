@@ -36,7 +36,8 @@ export default function TextArea({
       )}
       <div className='-mb-3'>
         <textarea
-          id='message'
+          data-testid={id}
+          id={id}
           rows={4}
           required={required}
           name={name}
