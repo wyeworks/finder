@@ -17,7 +17,13 @@ const getUser = async (id: string) => {
   return (await json) as User;
 };
 
-export default async function Page({ params }: { params: { id: string } }) {
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+export default async function Page({ params }: Props) {
   const user = await getUser(params.id);
   const groups = await getActiveGroups(user);
 
