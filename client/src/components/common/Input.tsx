@@ -12,6 +12,7 @@ type InputParams = {
   // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   Icon?: React.ReactNode;
+  pattern?: string;
 };
 
 export default function Input({
@@ -26,6 +27,7 @@ export default function Input({
   value,
   onChange,
   Icon,
+  pattern,
 }: InputParams) {
   return (
     <div className='max-w-sm justify-center'>
@@ -44,6 +46,7 @@ export default function Input({
           </span>
         )}
         <input
+          pattern={pattern}
           id={id}
           name={name}
           type={type}

@@ -20,11 +20,12 @@
     "emailInput": {
       "label": "Email",
       "placeholder": "ejemplo@fing.edu.uy",
-      "validateText": "Ingresa un email válido"
+      "validateText": "Ingresa un email válido @fing.edu.uy"
     },
     "passwordInput": {
       "label": "Contraseña",
-      "placeholder": "Ingresa tu Contraseña"
+      "placeholder": "Ingresa tu Contraseña",
+      "validateText": "Ingresa una contraseña válida"
     },
     "createAccountButton": {
       "text": "Crear Cuenta"

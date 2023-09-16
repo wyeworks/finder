@@ -104,6 +104,7 @@ export default function Form() {
           type='email'
           id='email'
           name='email'
+          pattern='^[^@\s]+@fing\.edu\.uy$'
           label={strings.form.emailInput.label}
           placeholder={strings.form.emailInput.placeholder}
           validateText={strings.form.emailInput.validateText}
@@ -117,8 +118,10 @@ export default function Form() {
           type='password'
           id='password'
           name='password'
+          pattern='^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*]).{8,}$'
           label={strings.form.passwordInput.label}
           placeholder={strings.form.passwordInput.placeholder}
+          validateText={strings.form.passwordInput.validateText}
           required
           value={formData.password}
           onChange={handleChange}
