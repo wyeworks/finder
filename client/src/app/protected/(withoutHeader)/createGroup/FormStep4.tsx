@@ -1,0 +1,54 @@
+import Button from '@/components/common/Button';
+import Dropdown, { Option } from '@/components/common/DropDown';
+
+type FormStep4Props = {
+  nextPage: () => void;
+};
+
+export default function FormStep4({ nextPage }: FormStep4Props) {
+  const subjects: Option[] = [
+    { label: 'Sin Preferencia' },
+    { label: 'Mañana' },
+    { label: 'Tarde' },
+    { label: 'Noche' },
+  ];
+  const days = [
+    'Domingo',
+    'Lunes',
+    'Martes',
+    'Miercoles',
+    'Jueves',
+    'Viernes',
+    'Sabado',
+  ];
+  return (
+    <div className='grid grid-rows-[110px,auto,80px] justify-center'>
+      <div className='flex flex-col pb-2'>
+        <span className='pt-4 text-2xl font-bold text-[#242760]'>
+          Si tiene horarios para juntarse...
+        </span>
+        <span className='max-w-lg text-sm text-gray-500'>
+          En el caso de que el grupo tenga alguna preferencia horaria para sus
+          sessiones, dejalo claro con los integrantes pero también podrás
+          actualizarlo más tarde
+        </span>
+      </div>
+      <div className='my-3'>
+        {days.map((day, index) => {
+          return (
+            <div key={index}>
+              <Dropdown id='dropdown-group' options={subjects} label={day} />
+            </div>
+          );
+        })}
+      </div>
+      <Button
+        text='Siguiente'
+        type='button'
+        className='rounded-2xl bg-sky-950 hover:bg-sky-800'
+        classNameWrapper='w-1/3 mt-2'
+        onClick={nextPage}
+      />
+    </div>
+  );
+}

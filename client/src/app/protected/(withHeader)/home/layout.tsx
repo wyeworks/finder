@@ -4,7 +4,7 @@ import SessionProvider from '@/components/providers/SessionProvider';
 import { redirect } from 'next/navigation';
 import { User } from '@/types/User';
 
-export default async function protectedLayout({
+export default async function ProtectedLayout({
   children, // will be a page or nested layout
 }: {
   children: React.ReactNode;

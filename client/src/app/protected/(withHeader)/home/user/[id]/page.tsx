@@ -1,6 +1,6 @@
-import UserBanner from '@/app/protected/user/[id]/UserBanner';
+import UserBanner from './UserBanner';
 import getActiveGroups from '@/services/GroupService';
-import GroupsLayout from '@/app/protected/user/[id]/GroupsLayout';
+import GroupsLayout from './GroupsLayout';
 import { User } from '@/types/User';
 
 export default async function Page({ params }: { params: { id: string } }) {

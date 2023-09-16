@@ -1,9 +1,11 @@
 'use client';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
   const { data: session } = useSession();
+  const router = useRouter();
 
   // this logout button is temporary. The idea is test login easier
   return (
@@ -26,6 +28,15 @@ export default function HomePage() {
               </li>
               <li>
                 <strong>Expires:</strong> {session.expires}
+              </li>
+              <li>
+                {/* this is a temporary button to test functionality easier */}
+                <button
+                  className='m-3 rounded-md bg-blue-700 p-3'
+                  onClick={() => router.push('/protected/createGroup')}
+                >
+                  Crear Grupo
+                </button>
               </li>
             </ul>
           </div>
