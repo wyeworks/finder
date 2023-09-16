@@ -2,7 +2,26 @@
 
 module Users
   class RegistrationsController < Devise::RegistrationsController
-    respond_to :json
+    include RegistrationsJsonResponse
+
+    def create
+      build_resource(sign_up_params)
+
+      resource.save
+      yield resource if block_given?
+
+      if resource.persisted?
+        if resource.active_for_authentication?
+          sign_up(resource_name, resource)
+        else
+          expire_data_after_sign_in!
+        end
+        render_user_created_successfully(resource, requires_confirmation: true)
+      else
+        clean_up_passwords resource
+        render_user_creation_error(resource)
+      end
+    end
 
     def update
       load_resource
@@ -30,6 +49,18 @@ module Users
         false
       else
         resource.save
+      end
+    end
+
+    def respond_with(resource, _opts = {})
+      if action_name == 'update'
+        if resource.errors.any?
+          render_user_update_error(resource)
+        else
+          render_user_update_successfully(resource)
+        end
+      else
+        super
       end
     end
 
@@ -63,27 +94,6 @@ module Users
                     :updated
                   end
       set_flash_message :notice, flash_key
-    end
-
-    def respond_with(current_user, _opts = {})
-      if current_user.errors.any?
-        Rails.logger.info "User with email '#{current_user.email}' couldn't be updated due to " \
-                          "the following errors: #{current_user.errors.full_messages}"
-
-        render json: {
-          message: "User couldn't be updated successfully. " \
-                   "#{current_user.errors.full_messages.to_sentence}",
-          errors: current_user.errors.messages
-        }, status: :unprocessable_entity
-      else
-        Rails.logger.info "User with ID ##{current_user.id} and " \
-                          "email '#{current_user.email}' was successfully updated."
-
-        render json: {
-          message: 'Updated successfully.',
-          user: UserSerializer.new(current_user).serializable_hash[:data][:attributes]
-        }, status: :ok
-      end
     end
 
     def account_update_params
