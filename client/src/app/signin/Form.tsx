@@ -106,7 +106,11 @@ export default function Form() {
           text={strings.form.logInButton.text}
           className='mt-5'
         />
-        <Alert isVisible={isVisible} errorMessage={alertMessage} />
+        <Alert
+          isVisible={isVisible}
+          errorMessage={alertMessage}
+          title={strings.common.error.signin}
+        />
       </form>
     </div>
   );

@@ -1,9 +1,14 @@
 {
   "common": {
     "error": {
+      "defaultError": "Algo salió mal",
       "unexpectedError": "Ocurrió un error inesperado, intenta de nuevo",
       "completeFields": "Por favor completa todos los campos correctamente",
-      "logInInvalid": "Email o Contraseña inválida"
+      "logInInvalid": "Email o Contraseña inválida",
+      "signin": "El login no se pudo completar",
+      "signup": "El usuario no pudo ser creado",
+      "email": "Email debe ser ***@fing.edu.uy",
+      "password": "Formato de la contraseña no es correcto"
     },
     "submitButton": {
       "text": "Enviar"
