@@ -39,18 +39,18 @@ export default function CreateGroup() {
             >
               <LeftArrowIcon className='h-4 w-4' /> Volver
             </button>
-            <h1 className='text-center text-3xl font-bold text-[#242760]'>
+            <h1 className='text-primaryBlue text-center text-3xl font-bold'>
               finder.com
             </h1>
           </div>
           <div className='mb-4 mt-4 overflow-hidden bg-gray-200'>
-            <div style={{ width: barWidth }} className='h-2 bg-[#242760]' />
+            <div style={{ width: barWidth }} className='h-2 bg-primaryBlue' />
           </div>
           <div className='text-center text-[#71717A]'>
             Paso {actualStep} de 5
           </div>
         </div>
-        <div className='bg-[#FAFAFA]'>
+        <div className='m-3 bg-[#FAFAFA]'>
           {actualStep === 1 && <FormStep1 nextPage={nextPage} />}
           {actualStep === 2 && <FormStep2 nextPage={nextPage} />}
           {actualStep === 3 && <FormStep3 nextPage={nextPage} />}

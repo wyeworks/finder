@@ -8,13 +8,14 @@ type FormStep1Props = {
 
 export default function FormStep1({ nextPage }: FormStep1Props) {
   const subjects: Option[] = [
-    { label: 'Industrial' },
-    { label: 'Computacion' },
-    { label: 'Civil' },
+    { label: 'Materia 1' },
+    { label: 'Materia 2' },
+    { label: 'Materia ...' },
+    { label: 'Materia N' },
   ];
   return (
     <div className='grid grid-rows-3 justify-center gap-5'>
-      <div className='pt-4 text-2xl font-bold text-[#242760]'>
+      <div className='text-primaryBlue pt-4 text-2xl font-bold'>
         Primero elije la materia del grupo
       </div>
       <Dropdown

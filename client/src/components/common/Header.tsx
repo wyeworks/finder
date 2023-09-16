@@ -57,7 +57,7 @@ type HeaderProps = {
 export default function Header({ user }: HeaderProps) {
   return (
     <>
-      <Disclosure as='nav' className='bg-azulHeader'>
+      <Disclosure as='nav' className='bg-primaryBlue'>
         {({ open }) => (
           <>
             <div className='w-full'>

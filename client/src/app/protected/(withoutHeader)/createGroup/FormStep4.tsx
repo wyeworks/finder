@@ -22,9 +22,9 @@ export default function FormStep4({ nextPage }: FormStep4Props) {
     'Sabado',
   ];
   return (
-    <div className='grid grid-rows-[110px,auto,80px] justify-center'>
+    <div className='grid grid-rows-[160px,auto,80px] justify-center sm:grid-rows-[110px,auto,80px]'>
       <div className='flex flex-col pb-2'>
-        <span className='pt-4 text-2xl font-bold text-[#242760]'>
+        <span className='text-primaryBlue pt-4 text-2xl font-bold'>
           Si tiene horarios para juntarse...
         </span>
         <span className='max-w-lg text-sm text-gray-500'>

@@ -18,7 +18,7 @@ const config: Config = {
         'login-form': '70px 70px 70px 80px',
       },
       backgroundColor: {
-        azulHeader: '#242760',
+        primaryBlue: '#242760',
       },
       textColor: {
         whiteTextHeader: '#FAFAFA',

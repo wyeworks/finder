@@ -7,9 +7,9 @@ type FormStep3Props = {
 
 export default function FormStep3({ nextPage }: FormStep3Props) {
   return (
-    <div className='grid grid-rows-[80px,140px,80px] justify-center gap-3'>
+    <div className='grid grid-rows-[120px,140px,80px] justify-center gap-3 sm:grid-rows-[80px,140px,80px]'>
       <div className='flex flex-col gap-2 pb-2'>
-        <span className='pt-4 text-2xl font-bold text-[#242760]'>
+        <span className='text-primaryBlue pt-4 text-2xl font-bold'>
           Describe tu Grupo
         </span>
         <span className='max-w-[30rem] text-sm text-gray-500 '>
