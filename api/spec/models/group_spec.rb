@@ -28,7 +28,7 @@ RSpec.describe Group, type: :model do
     end
 
     describe 'validations' do
-      let(:group) { create(:group, name: 'Group1') }
+      let!(:group) { create(:group, name: 'Group1') }
 
       it 'validates uniqueness of name' do
         new_group = build(:group, name: 'Group1')
