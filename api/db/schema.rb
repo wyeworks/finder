@@ -23,6 +23,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_14_233236) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_groups_on_name", unique: true
+    t.integer "subject_id"
+    t.index ["subject_id"], name: "index_groups_on_subject_id"
   end
 
   create_table "members", force: :cascade do |t|
@@ -64,6 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_14_233236) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "groups", "subjects"
   add_foreign_key "members", "groups"
   add_foreign_key "members", "users"
 end
