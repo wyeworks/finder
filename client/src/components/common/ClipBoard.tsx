@@ -22,7 +22,7 @@ export default function ClipBoard({ id, name, value }: ClipBoardProps) {
           disabled
         />
         <span
-          className='absolute inset-y-0 right-0 mt-2 flex h-fit items-center pr-3 text-gray-400 transition duration-300 ease-in-out hover:text-gray-500 active:text-gray-800'
+          className='absolute inset-y-0 right-0 mt-2 flex h-fit items-center pr-3 text-gray-400 transition duration-300 ease-in-out hover:text-gray-700 active:text-gray-900'
           onClick={handleCopyClick}
         >
           <ClipBoardIcon className='h-4 w-4' />

@@ -10,10 +10,10 @@ type ButtonParams = {
 export default function Button({
   type = 'button',
   text,
-  className,
+  className = '',
   onClick,
   id,
-  classNameWrapper,
+  classNameWrapper = '',
 }: ButtonParams) {
   return (
     <div className={`${classNameWrapper}`}>
