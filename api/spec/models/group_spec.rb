@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Group, type: :model do
+  describe 'associations' do
+    it { should have_many(:members).dependent(:destroy) }
+    it { should have_many(:users).through(:members) }
+    it { should belong_to(:subject) }
+  end
+
   describe 'validations' do
     subject { create(:group) }
     it { should validate_presence_of(:name) }
