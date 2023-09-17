@@ -37,7 +37,7 @@ export default function FormStep4({ nextPage }: FormStep4Props) {
         {days.map((day, index) => {
           return (
             <div key={index}>
-              <Dropdown id='dropdown-group' options={subjects} label={day} />
+              <Dropdown id={`dropdown-${day}`} options={subjects} label={day} />
             </div>
           );
         })}

@@ -1,4 +1,3 @@
-import SearchIcon from '@/assets/Icons/SearchIcon';
 import Button from '@/components/common/Button';
 import Dropdown, { Option } from '@/components/common/DropDown';
 
@@ -18,11 +17,7 @@ export default function FormStep1({ nextPage }: FormStep1Props) {
       <div className='text-primaryBlue pt-4 text-2xl font-bold'>
         Primero elije la materia del grupo
       </div>
-      <Dropdown
-        id='dropdown-group'
-        options={subjects}
-        Icon={<SearchIcon className='h-4 w-4' />}
-      />
+      <Dropdown id='gender' options={subjects} required={true} />
       <Button
         text='Siguiente'
         type='button'
