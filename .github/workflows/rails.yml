@@ -40,6 +40,7 @@ jobs:
     - name: Setup DB and run RSpec
       env:
         RAILS_ENV: test
+        DB_NAME: api_test
         DB_USER: api
         DB_PASSWORD: postgres
         PGHOST: localhost
