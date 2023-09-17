@@ -4,7 +4,6 @@ FactoryBot.define do
     description { 'Description' }
     sequence(:course) { |n| "Course_#{n}" }
     size { 3 }
-    days { 'Monday' }
-    time_preference { 'Morning' }
+    time_preferences { { 'Monday' => 'Morning', 'Tuesday' => 'Afternoon' } }
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_16_215004) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_14_233236) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,8 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_16_215004) do
     t.text "description", default: ""
     t.string "course", null: false
     t.integer "size", null: false
-    t.string "days"
-    t.string "time_preference"
+    t.jsonb "time_preferences", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_groups_on_name", unique: true

@@ -5,10 +5,10 @@ class CreateGroups < ActiveRecord::Migration[7.0]
       t.text :description, default: ''
       t.string :course, null: false
       t.integer :size, null: false
-      t.string :days
-      t.string :time_preference
+      t.jsonb :time_preferences, default: {}
 
       t.timestamps
     end
+    add_index :groups, :name, unique: true
   end
 end
