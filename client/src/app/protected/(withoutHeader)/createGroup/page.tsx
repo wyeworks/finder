@@ -43,7 +43,7 @@ export default function CreateGroup() {
               finder.com
             </h1>
           </div>
-          <div className='mb-4 mt-4 overflow-hidden bg-whiteCustom'>
+          <div className='mb-4 mt-4 overflow-hidden bg-gray-200'>
             <div style={{ width: barWidth }} className='h-2 bg-primaryBlue' />
           </div>
           <div className='text-center text-grayText'>
