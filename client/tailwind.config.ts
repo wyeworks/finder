@@ -19,11 +19,14 @@ const config: Config = {
       },
       backgroundColor: {
         primaryBlue: '#242760',
+        hoverPrimaryBlue: '#075985',
+        whiteCustom: '#FAFAFA',
       },
       textColor: {
         whiteTextHeader: '#FAFAFA',
         iconTextHeader: '#A0A0A0',
         inputTextColor: '#a0a0a0',
+        grayText: '#71717A',
       },
     },
   },

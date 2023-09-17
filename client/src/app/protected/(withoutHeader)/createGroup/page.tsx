@@ -29,9 +29,9 @@ export default function CreateGroup() {
   }
 
   return (
-    <div className='h-screen bg-[#FAFAFA]'>
+    <div className='h-screen bg-whiteCustom '>
       <div className='grid-rows-[150px, auto] grid'>
-        <div className='grid grid-rows-3 gap-4 bg-[#FAFAFA] pt-4'>
+        <div className='grid grid-rows-3 gap-4 bg-whiteCustom pt-4'>
           <div className='grid grid-cols-3'>
             <button
               className='flex items-center gap-3 pl-3 text-start'
@@ -43,14 +43,14 @@ export default function CreateGroup() {
               finder.com
             </h1>
           </div>
-          <div className='mb-4 mt-4 overflow-hidden bg-gray-200'>
+          <div className='mb-4 mt-4 overflow-hidden bg-whiteCustom'>
             <div style={{ width: barWidth }} className='h-2 bg-primaryBlue' />
           </div>
-          <div className='text-center text-[#71717A]'>
+          <div className='text-center text-grayText'>
             Paso {actualStep} de 5
           </div>
         </div>
-        <div className='m-3 bg-[#FAFAFA]'>
+        <div className='m-3 bg-whiteCustom'>
           {actualStep === 1 && <FormStep1 nextPage={nextPage} />}
           {actualStep === 2 && <FormStep2 nextPage={nextPage} />}
           {actualStep === 3 && <FormStep3 nextPage={nextPage} />}

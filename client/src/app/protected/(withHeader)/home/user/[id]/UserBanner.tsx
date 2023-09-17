@@ -46,7 +46,7 @@ export default function UserBanner(props: { user: User }) {
             width={250}
             height={250}
             className={
-              '-mb-28 -translate-y-1/2 justify-self-center rounded-full border-8 border-white lg:-mb-16 lg:-translate-y-1/4 lg:border-[#FAFAFA]'
+              'lg:border-whiteCustom -mb-28 -translate-y-1/2 justify-self-center rounded-full border-8 border-white lg:-mb-16 lg:-translate-y-1/4'
             }
           />
           <div className={'m-5 flex flex-col lg:ml-10 lg:justify-start'}>

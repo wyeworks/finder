@@ -32,7 +32,7 @@ export default function HomePage() {
               <li>
                 {/* this is a temporary button to test functionality easier */}
                 <button
-                  className='m-3 rounded-md bg-blue-700 p-3'
+                  className='m-3 rounded-md bg-primaryBlue p-3 text-white'
                   onClick={() => router.push('/protected/createGroup')}
                 >
                   Crear Grupo

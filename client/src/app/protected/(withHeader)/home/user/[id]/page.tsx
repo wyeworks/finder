@@ -13,7 +13,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const groups = await getActiveGroups(user);
 
   return (
-    <div className={'bg-white md:bg-[#FAFAFA]'}>
+    <div className={'bg-white md:bg-whiteCustom'}>
       <UserBanner user={user} />
       <GroupsLayout groups={groups} />
     </div>

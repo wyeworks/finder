@@ -26,7 +26,7 @@ export default function FormStep1({ nextPage }: FormStep1Props) {
       <Button
         text='Siguiente'
         type='button'
-        className='rounded-2xl bg-sky-950 hover:bg-sky-800'
+        className='rounded-2xl bg-primaryBlue hover:bg-hoverPrimaryBlue'
         classNameWrapper='w-1/3'
         onClick={nextPage}
       />

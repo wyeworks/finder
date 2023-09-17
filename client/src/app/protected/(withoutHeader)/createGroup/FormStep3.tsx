@@ -12,7 +12,7 @@ export default function FormStep3({ nextPage }: FormStep3Props) {
         <span className='text-primaryBlue pt-4 text-2xl font-bold'>
           Describe tu Grupo
         </span>
-        <span className='max-w-[30rem] text-sm text-gray-500 '>
+        <span className='max-w-[30rem] text-sm text-grayText '>
           Esto será lo que verá cualquier persona uando encuentre tu grupo,pero
           támbien podrás actualizarlo más trade
         </span>
@@ -28,7 +28,7 @@ export default function FormStep3({ nextPage }: FormStep3Props) {
       <Button
         text='Siguiente'
         type='button'
-        className='rounded-2xl bg-sky-950 hover:bg-sky-800'
+        className='rounded-2xl bg-primaryBlue hover:bg-hoverPrimaryBlue'
         classNameWrapper='w-1/3'
         onClick={nextPage}
       />

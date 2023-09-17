@@ -27,7 +27,7 @@ export default function FormStep4({ nextPage }: FormStep4Props) {
         <span className='text-primaryBlue pt-4 text-2xl font-bold'>
           Si tiene horarios para juntarse...
         </span>
-        <span className='max-w-lg text-sm text-gray-500'>
+        <span className='max-w-lg text-sm text-grayText'>
           En el caso de que el grupo tenga alguna preferencia horaria para sus
           sessiones, dejalo claro con los integrantes pero también podrás
           actualizarlo más tarde
@@ -45,7 +45,7 @@ export default function FormStep4({ nextPage }: FormStep4Props) {
       <Button
         text='Siguiente'
         type='button'
-        className='rounded-2xl bg-sky-950 hover:bg-sky-800'
+        className='rounded-2xl bg-primaryBlue hover:bg-hoverPrimaryBlue'
         classNameWrapper='w-1/3 mt-2'
         onClick={nextPage}
       />

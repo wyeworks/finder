@@ -23,7 +23,7 @@ export default function FormStep5({ nextPage }: FormStep5Props) {
         <span className='text-primaryBlue text-2xl font-bold'>
           Ahora solo faltan las personas
         </span>
-        <span className='max-w-lg text-sm text-gray-500'>
+        <span className='max-w-lg text-sm text-grayText'>
           El grupo \nombre\ ya está pronto para recibir al resto de sus
           integrantes bajo la siguiente URL. Asegurese de compartitla con ellos.
         </span>
@@ -36,7 +36,7 @@ export default function FormStep5({ nextPage }: FormStep5Props) {
       <Button
         text='Listo'
         type='button'
-        className='rounded-2xl bg-sky-950 hover:bg-sky-800'
+        className='rounded-2xl bg-primaryBlue hover:bg-hoverPrimaryBlue'
         classNameWrapper='w-1/3 pt-3 ml-[33%] '
         onClick={handleButtonAction}
       />
