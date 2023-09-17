@@ -8,7 +8,7 @@ import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type PersonalInfoFormData = {
   name: string;
@@ -41,6 +41,24 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
   const [errorVisible, setErrorVisible] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string>('');
+  const [disabledSubmittButton, setDisabledSubmittButton] =
+    useState<boolean>(true);
+
+  // returns true if changes were made
+  const changesWereMade = () => {
+    if (
+      formData.name === user.name &&
+      formData.biography === (user.bio ?? '') &&
+      formData.birthdate === birthdate
+    ) {
+      setDisabledSubmittButton(true);
+    } else {
+      setDisabledSubmittButton(false);
+    }
+  };
+  useEffect(() => {
+    changesWereMade();
+  }, [formData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -142,6 +160,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
               type='submit'
               id='confirm-button'
               text={strings.configProfile.forms.personalInfo.submitButton.text}
+              disabled={disabledSubmittButton}
             />
           </div>
           <div>
