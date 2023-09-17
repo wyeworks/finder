@@ -11,6 +11,7 @@ export default function ClipBoardIcon({ className }: Props) {
       strokeWidth='1.5'
       stroke='currentColor'
       className={className}
+      data-testid='clip-board-icon'
     >
       <path
         strokeLinecap='round'

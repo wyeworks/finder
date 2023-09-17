@@ -1,6 +1,7 @@
 import Button from '@/components/common/Button';
 import ClipBoard from '@/components/common/ClipBoard';
 import { useRouter } from 'next/navigation';
+import strings from '@/locales/strings.json';
 
 type FormStep5Props = {
   nextPage: () => void;
@@ -34,7 +35,7 @@ export default function FormStep5({ nextPage }: FormStep5Props) {
         name='name'
       />
       <Button
-        text='Listo'
+        text={strings.form.doneButton.text}
         type='button'
         className='rounded-2xl bg-primaryBlue hover:bg-hoverPrimaryBlue'
         classNameWrapper='w-1/3 pt-3 ml-[33%] '

@@ -31,6 +31,20 @@
     },
     "logInButton": {
       "text": "Iniciar Sesión"
+    },
+    "nameGroupInput": {
+      "placeholder": "Grupo de <Materia>",
+      "validateText": "Ingresa un Nombre de Grupo"
+    },
+    "descriptionGroupInput": {
+      "placeholder": "Descripcion de <Materia>",
+      "validateText": "Ingresa una Descripción de Grupo"
+    },
+    "nextButton": {
+      "text": "Siguiente"
+    },
+    "doneButton": {
+      "text": "Listo"
     }
   },
   "header": {

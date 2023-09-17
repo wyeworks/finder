@@ -1,5 +1,6 @@
 import Button from '@/components/common/Button';
 import Dropdown, { Option } from '@/components/common/DropDown';
+import strings from '@/locales/strings.json';
 
 type FormStep4Props = {
   nextPage: () => void;
@@ -43,7 +44,7 @@ export default function FormStep4({ nextPage }: FormStep4Props) {
         })}
       </div>
       <Button
-        text='Siguiente'
+        text={strings.form.nextButton.text}
         type='button'
         className='rounded-2xl bg-primaryBlue hover:bg-hoverPrimaryBlue'
         classNameWrapper='w-1/3 mt-2'
