@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Input from '../Input';
 
@@ -70,5 +70,28 @@ describe('Input Component', () => {
     // Verify that the icon is rendered
     const iconElement = screen.getByTestId('mock-icon');
     expect(iconElement).toBeInTheDocument();
+  });
+
+  it('should toggle password visibility when the eye icon is clicked', async () => {
+    render(<Input type='password' id='test-password' name='password' />);
+
+    const passwordInput = screen.getByTestId('test-password');
+    const toggleVisibilityButton = screen.getByTestId(
+      'visibility-toggle-button'
+    );
+
+    expect(passwordInput).toHaveAttribute('type', 'password');
+
+    userEvent.click(toggleVisibilityButton);
+
+    await waitFor(() => {
+      expect(passwordInput).toHaveAttribute('type', 'text');
+    });
+
+    userEvent.click(toggleVisibilityButton);
+
+    await waitFor(() => {
+      expect(passwordInput).toHaveAttribute('type', 'password');
+    });
   });
 });
