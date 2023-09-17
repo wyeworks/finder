@@ -26,7 +26,7 @@ export default function FormStep5({ nextPage }: FormStep5Props) {
         </span>
         <span className='max-w-lg text-sm text-grayText'>
           El grupo \nombre\ ya está pronto para recibir al resto de sus
-          integrantes bajo la siguiente URL. Asegurese de compartitla con ellos.
+          integrantes bajo la siguiente URL. Asegurese de compartirla con ellos.
         </span>
       </div>
       <ClipBoard

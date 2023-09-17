@@ -30,8 +30,8 @@ export default function FormStep4({ nextPage }: FormStep4Props) {
         </span>
         <span className='max-w-lg text-sm text-grayText'>
           En el caso de que el grupo tenga alguna preferencia horaria para sus
-          sessiones, dejalo claro con los integrantes pero también podrás
-          actualizarlo más tarde
+          sesiones, dejalo claro con los integrantes pero también podrás
+          actualizarlo más tarde.
         </span>
       </div>
       <div className='my-3'>

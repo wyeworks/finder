@@ -33,7 +33,7 @@ export default function FormStep2({ nextPage }: FormStep2Props) {
           Indica un nombre para el grupo
         </span>
         <span className='text-sm text-grayText'>
-          Elije un nombre que ayude las personasa saber e que trata el grupo
+          Elije un nombre que ayude las personasa saber de que trata el grupo.
         </span>
       </div>
       <form
