@@ -1,11 +1,9 @@
-'use client';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 
-export default function HomePage() {
-  const { data: session } = useSession();
-  const router = useRouter();
+export default async function HomePage() {
+  const session = await getServerSession(authOptions);
 
   // this logout button is temporary. The idea is test login easier
   return (
@@ -18,9 +16,12 @@ export default function HomePage() {
               <li>
                 <strong>Name:</strong>{' '}
                 {session.user && (
-                  <Link href={'protected/user/' + session.user.id}>
-                    {session.user.name}
-                  </Link>
+                  <>
+                    <strong>{session.user.name}</strong>
+                    <Link href={'/protected/user/' + session.user.id}>
+                      Ver mi perfil
+                    </Link>
+                  </>
                 )}
               </li>
               <li>
@@ -29,14 +30,14 @@ export default function HomePage() {
               <li>
                 <strong>Expires:</strong> {session.expires}
               </li>
-              <li>
+              <li className='mt-3'>
                 {/* this is a temporary button to test functionality easier */}
-                <button
-                  className='m-3 rounded-md bg-primaryBlue p-3 text-white'
-                  onClick={() => router.push('/protected/createGroup')}
+                <Link
+                  href='/protected/createGroup'
+                  className='rounded-md bg-primaryBlue p-3 text-white'
                 >
                   Crear Grupo
-                </button>
+                </Link>
               </li>
             </ul>
           </div>

@@ -3,10 +3,13 @@ class User < ApplicationRecord
          :rememberable, :validatable, :confirmable, :jwt_authenticatable,
          jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null
 
+  has_many :members, dependent: :destroy
+  has_many :groups, through: :members
+
   PASSWORD_REGEX = /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.])/
 
   # Validations
-  validates :name, :birth_date, presence: true
+  validates :name, presence: true
   validate :password_complexity
 
   private
