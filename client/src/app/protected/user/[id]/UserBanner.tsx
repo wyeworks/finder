@@ -76,7 +76,7 @@ export default async function UserBanner({ user }: UserBannerProps) {
             </div>
           )}
           {session?.user?.email === user.email && (
-            <Link href={'/protected/configuser'}>
+            <Link href={'/protected/configprofile'}>
               <button className='flex w-fit items-center rounded-md bg-[#2B2D54] p-2 lg:self-end'>
                 <EditIcon className='m-2 h-5 w-5 fill-white' />
                 <p className='mr-2 text-lg font-medium text-white'>
