@@ -23,8 +23,8 @@ type FormPersonalInfoProps = {
 export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
   let birthdate = '';
   // parse birthdate
-  if (user.birthDate) {
-    birthdate = user.birthDate.split('T')[0];
+  if (user.birth_date) {
+    birthdate = user.birth_date.split('T')[0];
   }
 
   const [formData, setFormData] = useState<PersonalInfoFormData>({

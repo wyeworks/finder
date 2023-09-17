@@ -7,5 +7,5 @@ export type User = {
   profileImage?: string;
   bio?: string;
   socialNetworks?: SocialNetworks;
-  birthDate?: string;
+  birth_date?: string;
 };
