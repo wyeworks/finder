@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import SessionProvider from '@/components/providers/SessionProvider';
 import { redirect } from 'next/navigation';
 import { User } from '@/types/User';
-import { authOptions } from '../api/auth/[...nextauth]/auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 
 export default async function protectedLayout({
   children, // will be a page or nested layout

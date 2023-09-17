@@ -3,17 +3,32 @@ import getActiveGroups from '@/services/GroupService';
 import GroupsLayout from '@/app/protected/user/[id]/GroupsLayout';
 import { User } from '@/types/User';
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const url = process.env.NEXTAUTH_URL + '/api/users/' + params.id;
-  let res = await fetch(url, {
-    method: 'GET',
-  });
+const getUser = async (id: string) => {
+  const RAILS_API_URL = process.env.RAILS_API_URL;
+
+  if (!RAILS_API_URL) {
+    throw new Error('RAILS_API_URL is not defined');
+  }
+
+  const URL = process.env.RAILS_API_URL + '/users/' + id;
+
+  const res = await fetch(URL);
   let json: any = await res.json();
-  const user = (await json) as User;
+  return (await json) as User;
+};
+
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+export default async function Page({ params }: Props) {
+  const user = await getUser(params.id);
   const groups = await getActiveGroups(user);
 
   return (
-    <div className={'bg-white md:bg-[#FAFAFA]'}>
+    <div className='bg-white md:bg-[#FAFAFA]'>
       <UserBanner user={user} />
       <GroupsLayout groups={groups} />
     </div>

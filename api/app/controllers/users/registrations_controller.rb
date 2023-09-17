@@ -1,13 +1,33 @@
+# frozen_string_literal: true
+
 module Users
   class RegistrationsController < Devise::RegistrationsController
-    respond_to :json
+    include RegistrationsJsonResponse
+
+    def create
+      build_resource(sign_up_params)
+
+      resource.save
+      yield resource if block_given?
+
+      if resource.persisted?
+        if resource.active_for_authentication?
+          sign_up(resource_name, resource)
+        else
+          expire_data_after_sign_in!
+        end
+        render_user_created_successfully(resource, requires_confirmation: true)
+      else
+        clean_up_passwords resource
+        render_user_creation_error(resource)
+      end
+    end
 
     def update
       load_resource
       set_prev_unconfirmed_email
 
       resource_updated = update_resource(resource, account_update_params)
-      log_update(resource_updated)
 
       yield resource if block_given?
       handle_resource_update_response(resource_updated)
@@ -16,10 +36,31 @@ module Users
     protected
 
     def update_resource(resource, params)
-      if params[:password].blank? && params[:password_confirmation].blank?
-        resource.update_without_password(params)
+      if params[:password].present?
+        resource.update_with_password(params)
       else
-        resource.update(params)
+        resource.update_without_password(params)
+      end
+
+      resource.password = params[:password] if params[:password].present?
+      resource.valid?
+
+      if resource.errors.any?
+        false
+      else
+        resource.save
+      end
+    end
+
+    def respond_with(resource, _opts = {})
+      if action_name == 'update'
+        if resource.errors.any?
+          render_user_update_error(resource)
+        else
+          render_user_update_successfully(resource)
+        end
+      else
+        super
       end
     end
 
@@ -33,11 +74,6 @@ module Users
       @prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
     end
 
-    def log_update(resource_updated)
-      Rails.logger.debug { "Resource Updated? #{resource_updated}" }
-      Rails.logger.debug { "Errors: #{resource.errors.full_messages.to_sentence}" } unless resource_updated
-    end
-
     def handle_resource_update_response(resource_updated)
       if resource_updated
         handle_successful_update
@@ -49,7 +85,6 @@ module Users
 
     def handle_successful_update
       flash_for_successful_update if is_flashing_format?
-      # bypass_sign_in(resource) <-- Remove this line
     end
 
     def flash_for_successful_update
@@ -61,29 +96,8 @@ module Users
       set_flash_message :notice, flash_key
     end
 
-    def respond_with(resource, _opts = {})
-      if resource.persisted?
-        Rails.logger.info "User with ID ##{current_user.id} and " \
-                          "email '#{current_user.email}' was successfully created."
-
-        render json: {
-          message: resource.id_was.nil? ? 'Signed up successfully.' : 'Updated successfully.',
-          user: UserSerializer.new(resource).serializable_hash[:data][:attributes]
-        }, status: :ok
-      else
-        Rails.logger.info "User with email '#{current_user.email}' couldn't be created due to " \
-                          "the following errors: #{current_user.errors.full_messages}"
-
-        render json: {
-          message: "User couldn't be created successfully. " \
-                   "#{current_user.errors.full_messages.to_sentence}",
-          errors: current_user.errors.messages
-        }, status: :unprocessable_entity
-      end
-    end
-
     def account_update_params
-      params.require(:user).permit(:email, :password, :password_confirmation, :name, :birth_date, :avatar, :bio)
+      params.require(:user).permit(:email, :password, :password_confirmation, :name, :birth_date, :bio)
     end
   end
 end
