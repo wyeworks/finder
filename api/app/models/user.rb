@@ -9,7 +9,7 @@ class User < ApplicationRecord
   PASSWORD_REGEX = /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.])/
 
   # Validations
-  validates :name, :birth_date, presence: true
+  validates :name, presence: true
   validate :password_complexity
 
   private
