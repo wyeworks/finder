@@ -17,7 +17,7 @@ export default function AlertSuccess({
         className='mt-2 h-fit content-center border-l-4 border-green-500 bg-green-100 p-3 text-sm text-green-600 '
         role={type}
       >
-        <p className='font-bold'>¡Exito!</p>
+        <p className='font-bold'>¡Éxito!</p>
         <p>{successMessage}</p>
       </div>
     );

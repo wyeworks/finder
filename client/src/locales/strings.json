@@ -12,7 +12,8 @@
       "placeholder": "Buscar"
     },
     "success": {
-      "requestOk": "El resultado fue exitoso"
+      "requestOk": "El resultado fue exitoso",
+      "changeSuccess": "Los cambios se han efectuado con éxito"
     }
   },
   "form": {

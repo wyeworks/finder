@@ -8,6 +8,7 @@ import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
+import { formatDate } from '@/utils/Formatter';
 import { useEffect, useState } from 'react';
 
 type PersonalInfoFormData = {
@@ -18,13 +19,15 @@ type PersonalInfoFormData = {
 
 type FormPersonalInfoProps = {
   user: User;
+  // eslint-disable-next-line no-unused-vars
+  onRefresh?: (refresh: boolean) => void;
 };
 
 export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
   let birthdate = '';
   // parse birthdate
   if (user.birth_date) {
-    birthdate = user.birth_date.split('T')[0];
+    birthdate = formatDate(user.birth_date);
   }
 
   const [formData, setFormData] = useState<PersonalInfoFormData>({
@@ -45,20 +48,21 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
     useState<boolean>(true);
 
   // returns true if changes were made
-  const changesWereMade = () => {
-    if (
-      formData.name === user.name &&
-      formData.biography === (user.bio ?? '') &&
-      formData.birthdate === birthdate
-    ) {
-      setDisabledSubmittButton(true);
-    } else {
-      setDisabledSubmittButton(false);
-    }
-  };
+
   useEffect(() => {
+    const changesWereMade = () => {
+      if (
+        formData.name.trim() === user.name &&
+        formData.biography.trim() === (user.bio ?? '') &&
+        formData.birthdate === birthdate
+      ) {
+        setDisabledSubmittButton(true);
+      } else {
+        setDisabledSubmittButton(false);
+      }
+    };
     changesWereMade();
-  }, [formData]);
+  }, [birthdate, formData, user.bio, user.name]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -80,7 +84,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
     const isCurrentFormValid = event.currentTarget.checkValidity();
 
     if (!isCurrentFormValid) {
-      setErrorMessage('Por favor rellene todos los campos correctamente');
+      setErrorMessage(strings.common.error.completeFields);
       setErrorVisible(true);
       return;
     }
@@ -101,9 +105,9 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
         );
       }
       setSuccessVisible(true);
-      setSuccessMessage('Los cambios se han efectuado con exito');
+      setSuccessMessage(strings.common.success.changeSuccess);
     } catch (error) {
-      setErrorMessage('Ocurrio un error inesperado, intenta de nuevo');
+      setErrorMessage(strings.common.error.unexpectedError);
       setErrorVisible(true);
     }
   };
@@ -137,10 +141,8 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
           placeholder={
             strings.configProfile.forms.personalInfo.birthdateInput.placeholder
           }
-          required
           value={formData.birthdate}
           onChange={handleChange}
-          touched={touched.birthdate}
         />
         <div className='block w-full'>
           <TextArea
