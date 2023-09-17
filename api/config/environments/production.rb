@@ -50,7 +50,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { host: 'finder-backend-qa.onrender.com' }
+  config.action_mailer.default_url_options = { host: 'finder-backend-prod.onrender.com' }
 
   config.action_mailer.delivery_method = :smtp
 
