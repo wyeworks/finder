@@ -20,9 +20,10 @@ class Group < ApplicationRecord
   # Associations
   has_many :members, dependent: :destroy
   has_many :users, through: :members
+  belongs_to :subject
 
   # Validations
-  validates :name, :course, :size, presence: true
+  validates :name, :size, presence: true
   validates :name, uniqueness: true
   validates :size, numericality: { less_than_or_equal_to: 25, only_integer: true }
   validate :validate_time_preferences
