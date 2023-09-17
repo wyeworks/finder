@@ -10,14 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_16_005021) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_17_201053) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", default: ""
-    t.string "course", null: false
     t.integer "size", null: false
     t.jsonb "time_preferences", default: {}
     t.datetime "created_at", null: false
