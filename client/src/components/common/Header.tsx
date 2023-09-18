@@ -17,7 +17,10 @@ import { User } from '@/types/User';
 import { signOut } from 'next-auth/react';
 
 const userNavigation = [
-  { name: strings.header.navOptions.editProfile, href: '#' },
+  {
+    name: strings.header.navOptions.editProfile,
+    href: '/protected/user/[id]',
+  },
   {
     name: strings.header.navOptions.endSession,
     href: '#',

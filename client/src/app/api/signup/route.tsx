@@ -1,5 +1,11 @@
+import { Logger } from '@/services/Logger';
+
 export async function POST(request: Request) {
   const requestBody = await request.json();
+  Logger.debug(
+    "Initializing POST request to '/api/signup' with body:",
+    requestBody
+  );
 
   const RAILS_API_URL = process.env.RAILS_API_URL;
 
@@ -10,6 +16,7 @@ export async function POST(request: Request) {
   const URL = process.env.RAILS_API_URL + '/users/signup';
 
   try {
+    Logger.debug('Sending POST request to:', URL);
     const response = await fetch(URL, {
       method: 'POST',
       headers: {
@@ -24,6 +31,7 @@ export async function POST(request: Request) {
         },
       }),
     });
+    Logger.debug('Received response:', response);
 
     return new Response(response.body, {
       status: response.status,
@@ -32,6 +40,7 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
+    Logger.error('Failed to process request:' + error);
     return new Response(
       JSON.stringify({ error: 'Failed to process request' }),
       {
