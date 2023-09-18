@@ -33,7 +33,7 @@ export default async function HomePage() {
               <li className='mt-3'>
                 {/* this is a temporary button to test functionality easier */}
                 <Link
-                  href='/protected/createGroup'
+                  href='/createGroup'
                   className='rounded-md bg-primaryBlue p-3 text-white'
                 >
                   Crear Grupo
