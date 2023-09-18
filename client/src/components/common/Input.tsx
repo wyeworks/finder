@@ -1,5 +1,5 @@
-// import EyeClosedIcon from '@/assets/Icons/EyeClosedIcon';
-// import EyeIcon from '@/assets/Icons/EyeIcon';
+import EyeClosedIcon from '@/assets/Icons/EyeClosedIcon';
+import EyeIcon from '@/assets/Icons/EyeIcon';
 import { useState } from 'react';
 
 type InputParams = {
@@ -111,11 +111,11 @@ function VisibilityToggleButton({
       className='absolute inset-y-0 left-0 mt-2 flex h-fit items-center pl-3'
       onClick={toggleVisibility}
     >
-      {isVisible
-        ? // <EyeClosedIcon className='h-5 w-5 text-gray-400' />
-          'das'
-        : // <EyeIcon className='h-5 w-5 text-gray-400' />
-          'dasa'}
+      {isVisible ? (
+        <EyeClosedIcon className='h-5 w-5 text-gray-400' />
+      ) : (
+        <EyeIcon className='h-5 w-5 text-gray-400' />
+      )}
     </button>
   );
 }
