@@ -5,7 +5,7 @@ import Alert from '@/components/common/Alert';
 import AlertSuccess from '@/components/common/AlertSuccess';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
-import TextArea from '@/components/common/TextArea';
+import TextAreaTemp from '@/components/common/TextAreaTemp';
 import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
 import { formatDate } from '@/utils/Formatter';
@@ -145,7 +145,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
           onChange={handleChange}
         />
         <div className='block w-full'>
-          <TextArea
+          <TextAreaTemp
             id='biography'
             name='biography'
             type='string'

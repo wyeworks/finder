@@ -13,7 +13,7 @@ type InputParams = {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
-export default function TextArea({
+export default function TextAreaTemp({
   id,
   label,
   name,
