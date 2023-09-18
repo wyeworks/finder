@@ -12,7 +12,7 @@ export default function View() {
           finder.com
         </h2>
         <h2 className='mt-4 text-center text-2xl font-normal leading-9 tracking-tight text-gray-900 sm:mt-10'>
-          Iniciar Sesion
+          Iniciar Sesión
         </h2>
         <p className='mt-1 text-center text-sm tracking-tight text-gray-400'>
           Ingresa a tu cuenta para contactarte con tus compañeros

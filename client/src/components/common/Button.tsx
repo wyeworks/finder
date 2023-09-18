@@ -4,19 +4,21 @@ type ButtonParams = {
   className?: string;
   onClick?: () => void;
   id?: string;
+  classNameWrapper?: string;
   disabled?: boolean;
 };
 
 export default function Button({
   type = 'button',
   text,
-  className,
+  className = '',
   onClick,
   id,
+  classNameWrapper = '',
   disabled = false,
 }: ButtonParams) {
   return (
-    <div>
+    <div className={`${classNameWrapper}`}>
       <button
         id={id}
         type={type}

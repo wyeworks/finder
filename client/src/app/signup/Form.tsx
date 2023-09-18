@@ -1,12 +1,12 @@
 'use client';
 
 import EmailIcon from '@/assets/Icons/EmailIcon';
-import LockIcon from '@/assets/Icons/LockIcon';
 import UserIcon from '@/assets/Icons/UserIcon';
 import Alert from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import strings from '@/locales/strings.json';
+import { BackendError } from '@/types/BackendError';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -65,18 +65,24 @@ export default function Form() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(
-          errorData.message || strings.common.error.unexpectedError
-        );
+        const parsedError = errorData as BackendError;
+        const errorMessages = [];
+
+        if (parsedError.errors.email) {
+          errorMessages.push(strings.common.error.email);
+        }
+        if (parsedError.errors.password) {
+          errorMessages.push(strings.common.error.password);
+        }
+
+        setAlertMessage(errorMessages.join('\n'));
+        setIsVisible(true);
+        return;
       }
 
       router.push('/confirmation');
     } catch (error) {
-      setAlertMessage(
-        error instanceof Error
-          ? error.message
-          : strings.common.error.unexpectedError
-      );
+      setAlertMessage(strings.common.error.unexpectedError);
       setIsVisible(true);
     }
   };
@@ -123,14 +129,17 @@ export default function Form() {
           value={formData.password}
           onChange={handleChange}
           touched={touched.password}
-          Icon={<LockIcon className='h-5 w-5 text-gray-400' />}
         />
         <Button
           type='submit'
           text={strings.form.createAccountButton.text}
           className='mt-5'
         />
-        <Alert isVisible={isVisible} errorMessage={alertMessage} />
+        <Alert
+          isVisible={isVisible}
+          errorMessage={alertMessage}
+          title={strings.common.error.signup}
+        />
       </form>
     </div>
   );
