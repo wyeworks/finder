@@ -34,7 +34,7 @@ export default function FormStep3({ nextPage }: FormStep3Props) {
         </span>
         <span className='max-w-[30rem] text-sm text-grayText '>
           Esto será lo que verá cualquier persona que encuentre tu grupo,pero
-          támbien podrás actualizarlo más tarde
+          támbien podrás actualizarlo más tarde.
         </span>
       </div>
       <form

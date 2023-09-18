@@ -28,7 +28,7 @@ export default async function Page({ params }: Props) {
   const groups = await getActiveGroups(user);
 
   return (
-    <div className={'bg-white md:bg-whiteCustom'}>
+    <div className='bg-white md:bg-whiteCustom'>
       <UserBanner user={user} />
       <GroupsLayout groups={groups} />
     </div>
