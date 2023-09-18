@@ -3,11 +3,11 @@
 import LeftArrowIcon from '@/assets/Icons/LeftArrowIcon';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import FormStep1 from './FormStep1';
-import FormStep2 from './FormStep2';
-import FormStep3 from './FormStep3';
-import FormStep4 from './FormStep4';
-import FormStep5 from './FormStep5';
+import FormStep1 from './Forms/FormStep1';
+import FormStep2 from './Forms/FormStep2';
+import FormStep3 from './Forms/FormStep3';
+import FormStep4 from './Forms/FormStep4';
+import FormStep5 from './Forms/FormStep5';
 
 export default function CreateGroup() {
   const router = useRouter();
