@@ -20,7 +20,7 @@
     "emailInput": {
       "label": "Email",
       "placeholder": "ejemplo@fing.edu.uy",
-      "validateText": "Ingresa un email válido @fing.edu.uy"
+      "validateText": "Ingresa un email válido, con el formato: 'ejemplo@fing.edu.uy'"
     },
     "passwordInput": {
       "label": "Contraseña",
