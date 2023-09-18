@@ -1,6 +1,6 @@
-import UserBanner from './UserBanner';
+import UserBanner from '@/app/protected/user/[id]/UserBanner';
 import getActiveGroups from '@/services/GroupService';
-import GroupsLayout from './GroupsLayout';
+import GroupsLayout from '@/app/protected/user/[id]/GroupsLayout';
 import { User } from '@/types/User';
 
 const getUser = async (id: string) => {
