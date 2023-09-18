@@ -20,7 +20,7 @@ const config: Config = {
         'change-password-form': '70px 70px 70px 80px',
       },
       backgroundColor: {
-        primaryBlue: '#242760',
+        primaryBlue: { DEFAULT: '#242760', 100: '#7479db' },
         hoverPrimaryBlue: '#075985',
         whiteCustom: '#FAFAFA',
       },

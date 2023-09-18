@@ -1,11 +1,10 @@
 'use client';
-
 import UserIcon from '@/assets/Icons/UserIcon';
 import Alert from '@/components/common/Alert';
 import AlertSuccess from '@/components/common/AlertSuccess';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
-import TextAreaTemp from '@/components/common/TextAreaTemp';
+import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
 import { formatDate } from '@/utils/Formatter';
@@ -145,24 +144,26 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
           onChange={handleChange}
         />
         <div className='block w-full'>
-          <TextAreaTemp
+          <TextArea
             id='biography'
-            name='biography'
-            type='string'
             label={strings.configProfile.forms.personalInfo.bioTextArea.label}
+            name='biography'
             placeholder={
               strings.configProfile.forms.personalInfo.bioTextArea.placeholder
             }
+            className='w-full resize-none'
             value={formData.biography}
             onChange={HandleChangeTextArea}
+            maxWidth={false}
           />
 
-          <div className='mt-4 flex justify-end gap-3'>
+          <div className='mt-3 flex justify-end gap-3'>
             <Button
               type='submit'
               id='confirm-button'
               text={strings.configProfile.forms.personalInfo.submitButton.text}
               disabled={disabledSubmittButton}
+              className='bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-primaryBlue-100'
             />
           </div>
           <div>

@@ -91,7 +91,7 @@ export default function ConfigProfile() {
 
   return (
     <>
-      <div className='hidden w-full justify-center bg-azulHeader md:flex'>
+      <div className='hidden w-full justify-center bg-primaryBlue md:flex'>
         <p className='flex w-[98%] items-center border-t-2 border-gray-500 py-5 text-2xl text-white'>
           <strong className='ml-12'>Editar Perfil</strong>
         </p>
