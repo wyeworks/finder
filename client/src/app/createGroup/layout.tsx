@@ -1,16 +1,13 @@
-import Header from '@/components/common/Header';
 import { getServerSession } from 'next-auth';
 import SessionProvider from '@/components/providers/SessionProvider';
 import { redirect } from 'next/navigation';
-import { User } from '@/types/User';
-import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 
 export default async function ProtectedLayout({
   children, // will be a page or nested layout
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession();
 
   if (!session) {
     redirect('/signin');
@@ -18,10 +15,7 @@ export default async function ProtectedLayout({
 
   return (
     <section>
-      <SessionProvider session={session}>
-        {session.user && <Header user={session.user as User} />}
-        {children}
-      </SessionProvider>
+      <SessionProvider session={session}>{children}</SessionProvider>
     </section>
   );
 }

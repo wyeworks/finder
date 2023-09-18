@@ -18,12 +18,15 @@ const config: Config = {
         'login-form': '70px 70px 70px 80px',
       },
       backgroundColor: {
-        azulHeader: '#242760',
+        primaryBlue: '#242760',
+        hoverPrimaryBlue: '#075985',
+        whiteCustom: '#FAFAFA',
       },
       textColor: {
         whiteTextHeader: '#FAFAFA',
         iconTextHeader: '#A0A0A0',
         inputTextColor: '#a0a0a0',
+        grayText: '#71717A',
       },
     },
   },
