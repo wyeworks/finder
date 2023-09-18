@@ -2,25 +2,31 @@
 // TODO: Habilitar el eslint cuando estos datos se consigan del back
 
 import { User } from '@/types/User';
-import { StudyGroup } from '@/types/StudyGroup';
+import { Group } from '@/types/Group';
 
-function getActiveGroups(user: User): Promise<StudyGroup[]> {
-  const BasesDeDatos: StudyGroup = {
+function getActiveGroups(user: User): Promise<Group[]> {
+  const BasesDeDatos: Group = {
     name: 'Lab Bases de Datos',
     description: 'Estamos buscando gente para el lab de bases de datos',
-    subject: 'Fundamentos de Bases de Datos',
+    course: 'Fundamentos de Bases de Datos',
+    size: 3,
+    days: 'Monday',
     isLab: true,
   };
-  const TProg: StudyGroup = {
+  const TProg: Group = {
     name: 'Lab Taller de Programación',
     description: 'Estamos buscando gente para el taller de programación',
-    subject: 'Taller de Programación',
+    course: 'Taller de Programación',
+    size: 3,
+    days: 'Monday',
     isLab: true,
   };
-  const RedesComp: StudyGroup = {
+  const RedesComp: Group = {
     name: 'Los Pibardos Preparan Redes',
     description: 'Estamos tratando de estudiar para el parcial de redes',
-    subject: 'Redes de Computadoras',
+    course: 'Redes de Computadoras',
+    size: 3,
+    days: 'Monday',
     isLab: false,
   };
   return Promise.resolve([BasesDeDatos, TProg, RedesComp]);
