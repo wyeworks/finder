@@ -24,7 +24,7 @@ class Group < ApplicationRecord
 
   # Validations
   validates :name, :size, presence: true
-  validates :name, uniqueness: true
+  validates :name, uniqueness: { case_sensitive: false }
   validates :size, numericality: { less_than_or_equal_to: 25, only_integer: true }
   validate :validate_time_preferences
 
