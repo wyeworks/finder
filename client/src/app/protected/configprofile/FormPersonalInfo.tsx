@@ -1,7 +1,6 @@
 'use client';
 import UserIcon from '@/assets/Icons/UserIcon';
-import Alert from '@/components/common/Alert';
-import AlertSuccess from '@/components/common/AlertSuccess';
+import Alert, { alertTypes } from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
@@ -39,10 +38,11 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
     birthdate: false,
     biography: false,
   });
-  const [successVisible, setSuccessVisible] = useState<boolean>(false);
-  const [errorVisible, setErrorVisible] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [successMessage, setSuccessMessage] = useState<string>('');
+
+  const [alertVisible, setAlertVisible] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
+  const [alertType, setAlertType] = useState<alertTypes>('error');
+
   const [disabledSubmittButton, setDisabledSubmittButton] =
     useState<boolean>(true);
 
@@ -77,14 +77,14 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSuccessVisible(false);
-    setErrorVisible(false);
+    setAlertVisible(false);
 
     const isCurrentFormValid = event.currentTarget.checkValidity();
 
     if (!isCurrentFormValid) {
-      setErrorMessage(strings.common.error.completeFields);
-      setErrorVisible(true);
+      setAlertMessage(strings.common.error.completeFields);
+      setAlertVisible(true);
+      setAlertType('error');
       return;
     }
 
@@ -103,11 +103,13 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
           errorData.message || strings.common.error.unexpectedError
         );
       }
-      setSuccessVisible(true);
-      setSuccessMessage(strings.common.success.changeSuccess);
+      setAlertVisible(true);
+      setAlertMessage(strings.common.success.changeSuccess);
+      setAlertType('success');
     } catch (error) {
-      setErrorMessage(strings.common.error.unexpectedError);
-      setErrorVisible(true);
+      setAlertMessage(strings.common.error.unexpectedError);
+      setAlertVisible(true);
+      setAlertType('error');
     }
   };
 
@@ -167,13 +169,11 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
             />
           </div>
           <div>
-            <AlertSuccess
-              isVisible={successVisible}
-              successMessage={successMessage}
+            <Alert
+              isVisible={alertVisible}
+              message={alertMessage}
+              alertType={alertType}
             />
-          </div>
-          <div>
-            <Alert isVisible={errorVisible} errorMessage={errorMessage} />
           </div>
         </div>
       </form>

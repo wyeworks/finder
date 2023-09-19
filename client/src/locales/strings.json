@@ -17,8 +17,17 @@
       "placeholder": "Buscar"
     },
     "success": {
-      "requestOk": "El resultado fue exitoso",
+      "defaultSuccess": "¡Éxito!",
+      "successMessage": "Todo ha salido bien",
       "changeSuccess": "Los cambios se han efectuado con éxito"
+    },
+    "warning": {
+      "defaultWarning": "Cuidado",
+      "warningMessage": "Debes tener más cuidado"
+    },
+    "info": {
+      "defaultInfo": "Info",
+      "infoMessage": "Esta info es importante"
     }
   },
   "form": {
