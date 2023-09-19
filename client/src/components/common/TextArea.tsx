@@ -47,7 +47,7 @@ export default function TextArea({
           </span>
         )}
         <textarea
-          id='message'
+          id={id}
           name={name}
           data-testid={id}
           rows={4}

@@ -1,10 +1,4 @@
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@/__mocks__/next/router';
 import strings from '@/locales/strings.json';
@@ -26,18 +20,24 @@ describe('Form Personal Info Component', () => {
 
   it('should show an alert when form is submitted with invalid data', async () => {
     render(<FormPersonalInfo user={user} />);
+
+    // clean the input
+    await userEvent.clear(
+      screen.getByLabelText(
+        strings.configProfile.forms.personalInfo.nameInput.label
+      )
+    );
+
+    screen
+      .getByLabelText(strings.configProfile.forms.personalInfo.nameInput.label)
+      .focus();
+    userEvent.paste('');
+
     userEvent.click(
       screen.getByText(
         strings.configProfile.forms.personalInfo.submitButton.text
       )
     );
-
-    const inputElement = screen.getByLabelText(
-      strings.configProfile.forms.personalInfo.nameInput.label
-    );
-
-    // Use fireEvent to change the input value to an empty string
-    fireEvent.change(inputElement, { target: { value: '' } });
 
     await waitFor(async () => {
       expect(
