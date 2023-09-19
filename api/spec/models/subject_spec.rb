@@ -12,5 +12,6 @@ RSpec.describe Subject, type: :model do
     it { should validate_presence_of(:credits) }
     it { should validate_presence_of(:code) }
     it { should validate_uniqueness_of(:code).case_insensitive }
+    it { should validate_numericality_of(:credits).only_integer }
   end
 end

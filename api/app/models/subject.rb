@@ -5,4 +5,5 @@ class Subject < ApplicationRecord
   # Validations
   validates :name, :credits, :code, presence: true
   validates :code, uniqueness: { case_sensitive: false }
+  validates :credits, numericality: { only_integer: true }
 end
