@@ -106,8 +106,9 @@ export default function Form() {
         />
         <Alert
           isVisible={isVisible}
-          errorMessage={alertMessage}
+          message={alertMessage}
           title={strings.common.error.signin}
+          alertType='error'
         />
       </form>
     </div>

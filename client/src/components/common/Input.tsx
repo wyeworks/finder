@@ -41,16 +41,22 @@ export default function Input({
     setIsVisible(!isVisible);
   };
 
-  return (
-    <div className={`${maxWidth && 'max-w-sm'} justify-center`}>
-      {label && (
+  function renderLabel() {
+    if (label) {
+      return (
         <label
           htmlFor={id}
           className='block text-sm font-medium leading-6 text-gray-900'
         >
           {label}
         </label>
-      )}
+      );
+    }
+  }
+
+  return (
+    <div className={`${maxWidth && 'max-w-sm'} justify-center`}>
+      {renderLabel()}
       <div className={`relative -mb-3 ${className}`}>
         {Icon && (
           <span className='pointer-events-none absolute inset-y-0 left-0 mt-2 flex h-fit items-center pl-3'>
