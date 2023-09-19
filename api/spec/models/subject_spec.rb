@@ -6,6 +6,8 @@ RSpec.describe Subject, type: :model do
   end
 
   describe 'validations' do
+    subject { create(:subject) }
+
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:credits) }
     it { should validate_presence_of(:code) }
