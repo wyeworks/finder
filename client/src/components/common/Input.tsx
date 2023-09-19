@@ -16,6 +16,7 @@ type InputParams = {
   // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   Icon?: React.ReactNode;
+  pattern?: string;
   maxWidth?: boolean;
   className?: string;
 };
@@ -32,6 +33,7 @@ export default function Input({
   value,
   onChange,
   Icon,
+  pattern,
   maxWidth = true,
   className = '',
 }: InputParams) {
@@ -72,6 +74,7 @@ export default function Input({
         )}
 
         <input
+          pattern={pattern}
           id={id}
           data-testid={id}
           name={name}
