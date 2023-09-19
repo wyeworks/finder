@@ -16,14 +16,20 @@ const config: Config = {
       gridTemplateRows: {
         'register-form': '70px 70px 70px 70px 100px',
         'login-form': '70px 70px 70px 80px',
+        'personal-info-form': '70px 70px auto',
+        'change-password-form': '70px 70px 70px 80px',
       },
       backgroundColor: {
-        azulHeader: '#242760',
+        primaryBlue: { DEFAULT: '#242760', 100: '#7479db' },
+        hoverPrimaryBlue: '#075985',
+        whiteCustom: '#FAFAFA',
+        backgroundInput: '#f8f9fa',
       },
       textColor: {
         whiteTextHeader: '#FAFAFA',
         iconTextHeader: '#A0A0A0',
         inputTextColor: '#a0a0a0',
+        grayText: '#71717A',
       },
     },
   },

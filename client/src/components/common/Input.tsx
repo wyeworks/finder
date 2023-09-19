@@ -16,6 +16,8 @@ type InputParams = {
   // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   Icon?: React.ReactNode;
+  maxWidth?: boolean;
+  className?: string;
 };
 
 export default function Input({
@@ -30,6 +32,8 @@ export default function Input({
   value,
   onChange,
   Icon,
+  maxWidth = true,
+  className = '',
 }: InputParams) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -37,17 +41,23 @@ export default function Input({
     setIsVisible(!isVisible);
   };
 
-  return (
-    <div className='max-w-sm justify-center'>
-      {label && (
+  function renderLabel() {
+    if (label) {
+      return (
         <label
           htmlFor={id}
           className='block text-sm font-medium leading-6 text-gray-900'
         >
           {label}
         </label>
-      )}
-      <div className='relative -mb-3'>
+      );
+    }
+  }
+
+  return (
+    <div className={`${maxWidth && 'max-w-sm'} justify-center`}>
+      {renderLabel()}
+      <div className={`relative -mb-3 ${className}`}>
         {Icon && (
           <span className='pointer-events-none absolute inset-y-0 left-0 mt-2 flex h-fit items-center pl-3'>
             {Icon}

@@ -19,7 +19,7 @@ export default async function Page({ params }: Props) {
   const session = await getServerSession(authOptions);
 
   return (
-    <div className='bg-white md:bg-[#FAFAFA]'>
+    <div className='bg-white md:bg-whiteCustom'>
       <UserBanner user={user} session={session} />
       <GroupsLayout groups={groups} />
     </div>
