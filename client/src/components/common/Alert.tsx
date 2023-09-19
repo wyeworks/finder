@@ -13,11 +13,11 @@ type AlertProps = {
 
 export default function Alert({
   isVisible,
-  title,
-  message,
   type = 'alert',
   id = 'alert',
   alertType = 'warning',
+  title = getAlertTypeDefaultTitle(alertType),
+  message = getAlertTypeDefaultMessage(alertType),
 }: AlertProps) {
   if (isVisible) {
     return (
@@ -28,10 +28,8 @@ export default function Alert({
         )}`}
         role={type}
       >
-        <p className='font-bold'>
-          {title ?? getAlertTypeDefaultTitle(alertType)}
-        </p>
-        <p>{message ?? getAlertTypeDefaultMessage(alertType)}</p>
+        <p className='font-bold'>{title}</p>
+        <p>{message}</p>
       </div>
     );
   }
