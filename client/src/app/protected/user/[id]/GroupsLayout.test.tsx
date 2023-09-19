@@ -32,7 +32,7 @@ describe('GroupsLayout Component', () => {
 
       render(<GroupsLayout groups={[grupoConNombre]} />);
 
-      expect(screen.getByTestId('groupName')).toHaveTextContent(
+      expect(screen.getByTestId('groupName-Bases de datos')).toHaveTextContent(
         'Bases de datos'
       );
     });
@@ -44,9 +44,9 @@ describe('GroupsLayout Component', () => {
 
       render(<GroupsLayout groups={[grupoConDescripcion]} />);
 
-      expect(screen.getByTestId('groupDescription')).toHaveTextContent(
-        'Grupo de bases de datos'
-      );
+      expect(
+        screen.getByTestId('groupDescription-Grupo de bases de datos')
+      ).toHaveTextContent('Grupo de bases de datos');
     });
 
     it('should show the group banner', () => {
@@ -68,9 +68,9 @@ describe('GroupsLayout Component', () => {
 
       render(<GroupsLayout groups={[grupoConSubject]} />);
 
-      expect(screen.getByTestId('groupSubject')).toHaveTextContent(
-        'Estudiamos bases de datos'
-      );
+      expect(
+        screen.getByTestId('groupSubject-Estudiamos bases de datos')
+      ).toHaveTextContent('Estudiamos bases de datos');
     });
   });
 });

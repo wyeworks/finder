@@ -22,19 +22,19 @@ function GroupCard({ group }: GroupCardProps) {
       />
       <div className='bg-white p-5'>
         <h1
-          data-testid='groupSubject'
+          data-testid={`groupSubject-${group.subject}`}
           className='text-base font-bold text-[#242760]'
         >
           {group.subject}
         </h1>
         <h1
-          data-testid='groupName'
+          data-testid={`groupName-${group.name}`}
           className='text-xl font-normal text-[#050838]'
         >
           {group.name}
         </h1>
         <p
-          data-testid='groupDescription'
+          data-testid={`groupDescription-${group.description}`}
           className='text-base font-light text-[#A0A0A0]'
         >
           {group.description}
