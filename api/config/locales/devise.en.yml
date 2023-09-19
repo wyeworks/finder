@@ -18,15 +18,15 @@ en:
       unconfirmed: "You have to confirm your email address before continuing."
     mailer:
       confirmation_instructions:
-        subject: "Confirmation instructions"
+        subject: "Finder - Instrucciones de confirmación"
       reset_password_instructions:
-        subject: "Reset password instructions"
+        subject: "Finder - Instrucciones de cambio de contraseña"
       unlock_instructions:
-        subject: "Unlock instructions"
+        subject: "Finder - Instrucciones de desbloqueo"
       email_changed:
-        subject: "Email Changed"
+        subject: "Finder - Email modificado"
       password_change:
-        subject: "Password Changed"
+        subject: "Finder - Contraseña modificada"
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."

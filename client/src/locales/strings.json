@@ -1,15 +1,33 @@
 {
   "common": {
     "error": {
+      "defaultError": "Algo salió mal",
       "unexpectedError": "Ocurrió un error inesperado, intenta de nuevo",
       "completeFields": "Por favor completa todos los campos correctamente",
-      "logInInvalid": "Email o Contraseña inválida"
+      "logInInvalid": "Email o Contraseña inválida",
+      "signin": "El login no se pudo completar",
+      "signup": "El usuario no pudo ser creado",
+      "email": "Email debe ser ***@fing.edu.uy",
+      "password": "Formato de la contraseña no es correcto"
     },
     "submitButton": {
       "text": "Enviar"
     },
     "SearchInput": {
       "placeholder": "Buscar"
+    },
+    "success": {
+      "defaultSuccess": "¡Éxito!",
+      "successMessage": "Todo ha salido bien",
+      "changeSuccess": "Los cambios se han efectuado con éxito"
+    },
+    "warning": {
+      "defaultWarning": "Cuidado",
+      "warningMessage": "Debes tener más cuidado"
+    },
+    "info": {
+      "defaultInfo": "Info",
+      "infoMessage": "Esta info es importante"
     }
   },
   "form": {
@@ -32,6 +50,20 @@
     },
     "logInButton": {
       "text": "Iniciar Sesión"
+    },
+    "nameGroupInput": {
+      "placeholder": "Grupo de <Materia>",
+      "validateText": "Ingresa un Nombre de Grupo"
+    },
+    "descriptionGroupInput": {
+      "placeholder": "Descripcion de <Materia>",
+      "validateText": "Ingresa una Descripción de Grupo"
+    },
+    "nextButton": {
+      "text": "Siguiente"
+    },
+    "doneButton": {
+      "text": "Listo"
     }
   },
   "header": {
@@ -46,6 +78,57 @@
     "imageAlt": "Confirmar email",
     "title": "finder.com",
     "headerText": "Confirme su dirección de correo",
-    "infoText": "Se ha enviado un correo electrónico a xxxx.xxxxx.xxxxx@fing.edu.uy con los pasos necesarios para confirmar su registro"
+    "infoText": "Se ha enviado un correo electrónico a xxxx.xxxxx.xxxxx@fing.edu.uy con los pasos necesarios para confirmar su registro",
+    "loginButton": {
+      "text": "Iniciar sesión"
+    }
+  },
+  "configProfile": {
+    "page": {
+      "navOptions": {
+        "personalInfo": "Información personal",
+        "changePassword": "Cambiar contraseña",
+        "socialNetworks": "Redes sociales",
+        "notifications": "Notificaciones"
+      }
+    },
+    "forms": {
+      "changePassword": {
+        "cancelButton": {
+          "text": "Cancelar"
+        },
+        "submitButton": {
+          "text": "Actualizar"
+        },
+        "oldPassInput": {
+          "label": "Contraseña antigua",
+          "placeholder": "Ingresa tu Contraseña"
+        },
+        "newPassInput": {
+          "label": "Contraseña nueva",
+          "placeholder": "Ingresa tu Contraseña nueva"
+        }
+      },
+      "personalInfo": {
+        "cancelButton": {
+          "text": "Cancelar"
+        },
+        "submitButton": {
+          "text": "Guardar cambios"
+        },
+        "nameInput": {
+          "label": "Nombre",
+          "placeholder": "Ingresa tu Nombre"
+        },
+        "birthdateInput": {
+          "label": "Fecha de nacimiento",
+          "placeholder": "Ingresa tu Fecha de nacimiento"
+        },
+        "bioTextArea": {
+          "label": "Biografía",
+          "placeholder": "Escribe tu Biografía"
+        }
+      }
+    }
   }
 }

@@ -6,6 +6,7 @@ const nextConfig = {
       'randomuser.me',
       'media.licdn.com',
       'www.figma.com',
+      'static.vecteezy.com',
     ],
   },
 };
