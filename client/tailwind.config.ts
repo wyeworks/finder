@@ -23,6 +23,7 @@ const config: Config = {
         primaryBlue: { DEFAULT: '#242760', 100: '#7479db' },
         hoverPrimaryBlue: '#075985',
         whiteCustom: '#FAFAFA',
+        backgroundInput: '#f8f9fa',
       },
       textColor: {
         whiteTextHeader: '#FAFAFA',

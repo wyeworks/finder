@@ -153,7 +153,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
             placeholder={
               strings.configProfile.forms.personalInfo.bioTextArea.placeholder
             }
-            className='w-full resize-none'
+            className='w-full resize-none bg-backgroundInput'
             value={formData.biography}
             onChange={HandleChangeTextArea}
             maxWidth={false}
