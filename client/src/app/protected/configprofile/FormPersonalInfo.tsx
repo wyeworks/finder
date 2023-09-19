@@ -1,14 +1,13 @@
 'use client';
-
 import UserIcon from '@/assets/Icons/UserIcon';
-import Alert from '@/components/common/Alert';
-import AlertSuccess from '@/components/common/AlertSuccess';
+import Alert, { alertTypes } from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
-import { useState } from 'react';
+import { formatDate } from '@/utils/Formatter';
+import { useEffect, useState } from 'react';
 
 type PersonalInfoFormData = {
   name: string;
@@ -18,13 +17,15 @@ type PersonalInfoFormData = {
 
 type FormPersonalInfoProps = {
   user: User;
+  // eslint-disable-next-line no-unused-vars
+  onRefresh?: (refresh: boolean) => void;
 };
 
 export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
   let birthdate = '';
   // parse birthdate
-  if (user.birthDate) {
-    birthdate = user.birthDate.split('T')[0];
+  if (user.birth_date) {
+    birthdate = formatDate(user.birth_date);
   }
 
   const [formData, setFormData] = useState<PersonalInfoFormData>({
@@ -37,10 +38,30 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
     birthdate: false,
     biography: false,
   });
-  const [successVisible, setSuccessVisible] = useState<boolean>(false);
-  const [errorVisible, setErrorVisible] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [successMessage, setSuccessMessage] = useState<string>('');
+
+  const [alertVisible, setAlertVisible] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
+  const [alertType, setAlertType] = useState<alertTypes>('error');
+
+  const [disabledSubmittButton, setDisabledSubmittButton] =
+    useState<boolean>(true);
+
+  // returns true if changes were made
+
+  useEffect(() => {
+    const changesWereMade = () => {
+      if (
+        formData.name.trim() === user.name &&
+        formData.biography.trim() === (user.bio ?? '') &&
+        formData.birthdate === birthdate
+      ) {
+        setDisabledSubmittButton(true);
+      } else {
+        setDisabledSubmittButton(false);
+      }
+    };
+    changesWereMade();
+  }, [birthdate, formData, user.bio, user.name]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -56,14 +77,14 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSuccessVisible(false);
-    setErrorVisible(false);
+    setAlertVisible(false);
 
     const isCurrentFormValid = event.currentTarget.checkValidity();
 
     if (!isCurrentFormValid) {
-      setErrorMessage('Por favor rellene todos los campos correctamente');
-      setErrorVisible(true);
+      setAlertMessage(strings.common.error.completeFields);
+      setAlertVisible(true);
+      setAlertType('error');
       return;
     }
 
@@ -81,11 +102,13 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
           errorData.message || strings.common.error.unexpectedError
         );
       }
-      setSuccessVisible(true);
-      setSuccessMessage('Los cambios se han efectuado con exito');
+      setAlertVisible(true);
+      setAlertMessage(strings.common.success.changeSuccess);
+      setAlertType('success');
     } catch (error) {
-      setErrorMessage('Ocurrio un error inesperado, intenta de nuevo');
-      setErrorVisible(true);
+      setAlertMessage(strings.common.error.unexpectedError);
+      setAlertVisible(true);
+      setAlertType('error');
     }
   };
 
@@ -118,39 +141,38 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
           placeholder={
             strings.configProfile.forms.personalInfo.birthdateInput.placeholder
           }
-          required
           value={formData.birthdate}
           onChange={handleChange}
-          touched={touched.birthdate}
         />
         <div className='block w-full'>
           <TextArea
             id='biography'
-            name='biography'
-            type='string'
             label={strings.configProfile.forms.personalInfo.bioTextArea.label}
+            name='biography'
             placeholder={
               strings.configProfile.forms.personalInfo.bioTextArea.placeholder
             }
+            className='w-full resize-none bg-backgroundInput'
             value={formData.biography}
             onChange={HandleChangeTextArea}
+            maxWidth={false}
           />
 
-          <div className='mt-4 flex justify-end gap-3'>
+          <div className='mt-3 flex justify-end gap-3'>
             <Button
               type='submit'
               id='confirm-button'
               text={strings.configProfile.forms.personalInfo.submitButton.text}
+              disabled={disabledSubmittButton}
+              className='bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-primaryBlue-100'
             />
           </div>
           <div>
-            <AlertSuccess
-              isVisible={successVisible}
-              successMessage={successMessage}
+            <Alert
+              isVisible={alertVisible}
+              message={alertMessage}
+              alertType={alertType}
             />
-          </div>
-          <div>
-            <Alert isVisible={errorVisible} errorMessage={errorMessage} />
           </div>
         </div>
       </form>

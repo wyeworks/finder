@@ -47,10 +47,10 @@ export default function ConfigProfile() {
   const [formNavMobile, SetFormNavMobile] = useState<string>('flex');
   const [currentFormNavMobile, SetCurrentFormNavMobile] =
     useState<string>('hidden');
-
   const [currentForm, SetCurrentForm] = useState<EnumNavOptions>(
     EnumNavOptions.PERSONALINFO
   );
+
   const handleNavigationConfig = function (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) {
@@ -66,7 +66,6 @@ export default function ConfigProfile() {
       if (!session) {
         return;
       }
-
       const baseURL = '/api/users/' + session.user.id;
 
       try {
@@ -92,16 +91,14 @@ export default function ConfigProfile() {
 
   return (
     <>
-      <div className='hidden w-full bg-azulHeader md:flex'>
-        <button>
-          <p className='ml-16 flex items-center py-5 text-2xl text-white'>
-            <strong>Editar Perfil</strong>
-          </p>
-        </button>
+      <div className='hidden w-full justify-center bg-primaryBlue md:flex'>
+        <p className='flex w-[98%] items-center border-t-2 border-gray-500 py-5 text-2xl text-white'>
+          <strong className='ml-12'>Editar Perfil</strong>
+        </p>
       </div>
       <div className='mt-5 grid min-h-[500px] auto-cols-max grid-flow-col justify-center'>
         <div
-          className={`${formNavMobile} w-auto justify-end rounded-l-lg border border-[#e6e6e6] md:flex `}
+          className={`${formNavMobile} w-auto justify-end rounded-lg border md:flex md:rounded-r-none md:border-[#e6e6e6] `}
         >
           <ul className='max-w-md divide-pink-500 dark:divide-gray-700'>
             {OptionsConfig.map((item) => {
@@ -130,7 +127,7 @@ export default function ConfigProfile() {
           </ul>
         </div>
         <div
-          className={`${currentFormNavMobile} w-[100vw] rounded-r-lg border border-[#e6e6e6] border-l-transparent md:flex md:w-[40vw]`}
+          className={`${currentFormNavMobile} w-[100vw] rounded-r-lg md:flex md:w-[40vw] md:border md:border-[#e6e6e6] md:border-l-transparent`}
         >
           <button
             className='flex w-full items-center pl-7 md:hidden'

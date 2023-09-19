@@ -1,5 +1,4 @@
-type InputParams = {
-  type: string;
+type TextAreaParams = {
   id: string;
   label?: string;
   name: string;
@@ -8,24 +7,31 @@ type InputParams = {
   required?: boolean;
   validateText?: string;
   value?: string;
-  // disabled temporary
   // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  Icon?: React.ReactNode;
+  className?: string;
+  classNameWrapper?: string;
+  maxWidth?: boolean;
 };
 
 export default function TextArea({
   id,
   label,
   name,
+  touched = false,
   placeholder = '',
   required = false,
-  validateText = `Por favor ingrese su ${label}`,
-  touched = false,
+  validateText = `Por favor escriba aquí`,
   value,
   onChange,
-}: InputParams) {
+  Icon,
+  className = '',
+  classNameWrapper = '',
+  maxWidth = true,
+}: TextAreaParams) {
   return (
-    <div className='justify-center'>
+    <div className={`${maxWidth && 'max-w-sm'} justify-center`}>
       {label && (
         <label
           htmlFor={id}
@@ -34,20 +40,26 @@ export default function TextArea({
           {label}
         </label>
       )}
-      <div className='-mb-3'>
+      <div className={`${classNameWrapper}`}>
+        {Icon && (
+          <span className='pointer-events-none absolute inset-y-0 left-0 mt-2 flex h-fit items-center pl-3'>
+            {Icon}
+          </span>
+        )}
         <textarea
-          data-testid={id}
-          id={id}
-          rows={4}
-          required={required}
+          id='message'
           name={name}
-          className='block w-full resize-none rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500'
+          rows={4}
+          className={`peer block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 ${
+            Icon && 'pl-10'
+          } ${className}`}
           placeholder={placeholder}
+          required={required}
           value={value}
           onChange={onChange}
-        ></textarea>
+        />
         {touched && (
-          <p className='visible text-sm text-red-600 peer-invalid:visible'>
+          <p className='invisible text-sm text-red-600 peer-invalid:visible'>
             {validateText}
           </p>
         )}

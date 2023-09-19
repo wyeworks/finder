@@ -1,7 +1,6 @@
 'use client';
 
-import Alert from '@/components/common/Alert';
-import AlertSuccess from '@/components/common/AlertSuccess';
+import Alert, { alertTypes } from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import strings from '@/locales/strings.json';
@@ -21,10 +20,10 @@ export default function FormChangePassword() {
     password: false,
     newPassword: false,
   });
-  const [successVisible, setSuccessVisible] = useState<boolean>(false);
-  const [errorVisible, setErrorVisible] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [successMessage, setSuccessMessage] = useState<string>('');
+
+  const [alertVisible, setAlertVisible] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
+  const [alertType, setAlertType] = useState<alertTypes>('error');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -34,14 +33,14 @@ export default function FormChangePassword() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSuccessVisible(false);
-    setErrorVisible(false);
+    setAlertVisible(false);
 
     const isCurrentFormValid = event.currentTarget.checkValidity();
 
     if (!isCurrentFormValid) {
-      setErrorMessage('Por favor rellene todos los campos correctamente');
-      setErrorVisible(true);
+      setAlertMessage(strings.common.error.completeFields);
+      setAlertVisible(true);
+      setAlertType('error');
       return;
     }
 
@@ -60,25 +59,14 @@ export default function FormChangePassword() {
           errorData.message || strings.common.error.unexpectedError
         );
       }
-      setSuccessVisible(true);
-      setSuccessMessage('Los cambios se han efectuado con exito');
+      setAlertVisible(true);
+      setAlertMessage(strings.common.success.changeSuccess);
+      setAlertType('success');
     } catch (error) {
-      setErrorMessage('Ocurrio un error inesperado, intenta de nuevo');
-      setErrorVisible(true);
+      setAlertMessage(strings.common.error.unexpectedError);
+      setAlertVisible(true);
+      setAlertType('error');
     }
-  };
-
-  const handleCancel = () => {
-    setSuccessVisible(false);
-    setErrorVisible(false);
-    setFormData({
-      newPassword: '',
-      password: '',
-    });
-    setTouched({
-      password: false,
-      newPassword: false,
-    });
   };
 
   return (
@@ -121,19 +109,12 @@ export default function FormChangePassword() {
           touched={touched.newPassword}
         />
 
-        <AlertSuccess
-          isVisible={successVisible}
-          successMessage={successMessage}
+        <Alert
+          isVisible={alertVisible}
+          message={alertMessage}
+          alertType={alertType}
         />
-        <Alert isVisible={errorVisible} errorMessage={errorMessage} />
         <div className='flex justify-end gap-3'>
-          <Button
-            type='button'
-            id='cancel-button'
-            text={strings.configProfile.forms.changePassword.cancelButton.text}
-            className='w-1/2 bg-red-700 hover:bg-red-400 hover:text-white'
-            onClick={handleCancel}
-          />
           <Button
             type='submit'
             id='confirm-button'

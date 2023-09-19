@@ -3,11 +3,16 @@ class User < ApplicationRecord
          :rememberable, :validatable, :confirmable, :jwt_authenticatable,
          jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null
 
+  # Constants
   PASSWORD_REGEX = /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.])/
+
+  # Associations
+  has_many :members, dependent: :destroy
+  has_many :groups, through: :members
 
   # Validations
   validates :name, presence: true
-  validate :password_complexity, if: :password_present?
+  validate :password_complexity
 
   private
 
@@ -16,9 +21,5 @@ class User < ApplicationRecord
 
     errors.add :password, 'Complexity requirement not met. ' \
                           'Please use: 1 uppercase, 1 lowercase, 1 digit and 1 special character'
-  end
-
-  def password_present?
-    password.present?
   end
 end

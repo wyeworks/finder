@@ -1,18 +1,10 @@
-'use client';
-
 import Image from 'next/image';
 import confirmImage from '@/assets/images/confirm.png';
 import Button from '@/components/common/Button';
 import strings from '@/locales/strings.json';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function View() {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push('/signin');
-  };
-
   return (
     <div
       className='flex flex-col items-center justify-center px-4 pb-6 sm:px-6 sm:py-12 lg:px-8'
@@ -36,13 +28,14 @@ export default function View() {
           <p className='mt-2'>{strings.confirmation.infoText}</p>
         </div>
 
-        <Button
-          type='button'
-          id='confirm-button'
-          text={strings.form.logInButton.text}
-          className='mx-auto mb-4 mt-5 w-full sm:mb-0'
-          onClick={handleClick}
-        />
+        <Link href={'/signin'}>
+          <Button
+            type='button'
+            id='confirm-button'
+            text={strings.form.logInButton.text}
+            className='mx-auto mb-4 mt-5 w-full sm:mb-0'
+          />
+        </Link>
       </div>
     </div>
   );

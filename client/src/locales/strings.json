@@ -1,9 +1,14 @@
 {
   "common": {
     "error": {
+      "defaultError": "Algo salió mal",
       "unexpectedError": "Ocurrió un error inesperado, intenta de nuevo",
       "completeFields": "Por favor completa todos los campos correctamente",
-      "logInInvalid": "Email o Contraseña inválida"
+      "logInInvalid": "Email o Contraseña inválida",
+      "signin": "El login no se pudo completar",
+      "signup": "El usuario no pudo ser creado",
+      "email": "Email debe ser ***@fing.edu.uy",
+      "password": "Formato de la contraseña no es correcto"
     },
     "submitButton": {
       "text": "Enviar"
@@ -12,7 +17,17 @@
       "placeholder": "Buscar"
     },
     "success": {
-      "requestOk": "El resultado fue exitoso"
+      "defaultSuccess": "¡Éxito!",
+      "successMessage": "Todo ha salido bien",
+      "changeSuccess": "Los cambios se han efectuado con éxito"
+    },
+    "warning": {
+      "defaultWarning": "Cuidado",
+      "warningMessage": "Debes tener más cuidado"
+    },
+    "info": {
+      "defaultInfo": "Info",
+      "infoMessage": "Esta info es importante"
     }
   },
   "form": {
@@ -34,6 +49,20 @@
     },
     "logInButton": {
       "text": "Iniciar Sesión"
+    },
+    "nameGroupInput": {
+      "placeholder": "Grupo de <Materia>",
+      "validateText": "Ingresa un Nombre de Grupo"
+    },
+    "descriptionGroupInput": {
+      "placeholder": "Descripcion de <Materia>",
+      "validateText": "Ingresa una Descripción de Grupo"
+    },
+    "nextButton": {
+      "text": "Siguiente"
+    },
+    "doneButton": {
+      "text": "Listo"
     }
   },
   "header": {
