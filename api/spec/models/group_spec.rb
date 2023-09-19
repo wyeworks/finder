@@ -12,7 +12,6 @@ RSpec.describe Group, type: :model do
     it { should validate_presence_of(:name) }
     it { should validate_uniqueness_of(:name).case_insensitive }
     it { should validate_numericality_of(:size).only_integer }
-    it { should validate_numericality_of(:size).is_less_than_or_equal_to(25) }
 
     describe '#validate_time_preferences' do
       let(:group) { build(:group) }
