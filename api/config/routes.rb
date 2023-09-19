@@ -12,5 +12,6 @@ Rails.application.routes.draw do
     confirmations: 'users/confirmations'
   }
 
+  resources :subjects, only: [:index, :show]
   resources :users, only: :show
 end

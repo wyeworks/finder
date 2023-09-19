@@ -9,7 +9,7 @@ function GroupCard({ group }: GroupCardProps) {
   return (
     <div className='m-10 flex w-[444px] flex-col overflow-hidden rounded-2xl shadow-2xl'>
       <Image
-        src={'/default_group_banner.png'}
+        src='/default_group_banner.png'
         alt={group.name}
         width={891}
         height={306}

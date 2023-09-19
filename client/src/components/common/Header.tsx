@@ -14,10 +14,14 @@ import EditIcon from '@/assets/Icons/EditIcon';
 import LogOutIcon from '@/assets/Icons/LogOutIcon';
 import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
+import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 
 const userNavigation = [
-  { name: strings.header.navOptions.editProfile, href: '#' },
+  {
+    name: strings.header.navOptions.editProfile,
+    href: '#',
+  },
   {
     name: strings.header.navOptions.endSession,
     href: '#',
@@ -47,6 +51,9 @@ const userNavigationMobile = [
     name: strings.header.navOptions.endSession,
     href: '#',
     icon: <LogOutIcon className='mr-2 h-5 w-5' />,
+    onClick: () => {
+      signOut();
+    },
   },
 ];
 
@@ -55,9 +62,15 @@ type HeaderProps = {
 };
 
 export default function Header({ user }: HeaderProps) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push('configprofile');
+  };
+
   return (
     <>
-      <Disclosure as='nav' className='bg-azulHeader'>
+      <Disclosure as='nav' className='bg-primaryBlue'>
         {({ open }) => (
           <>
             <div className='w-full'>
@@ -132,7 +145,9 @@ export default function Header({ user }: HeaderProps) {
                               <a
                                 href={item.href}
                                 className='block px-4 py-2 text-sm text-gray-700 active:bg-gray-100'
-                                onClick={item.onClick}
+                                onClick={
+                                  item.onClick ? item.onClick : handleClick
+                                }
                               >
                                 {item.name}
                               </a>
@@ -143,9 +158,9 @@ export default function Header({ user }: HeaderProps) {
                     </Menu>
                   </div>
                 </div>
-                <div className='-mr-2 flex md:hidden'>
+                <div className='flex md:hidden'>
                   {/* Mobile menu button */}
-                  <Disclosure.Button className='relative m-5 inline-flex items-center justify-center rounded-md bg-transparent p-2 text-gray-400 hover:text-white'>
+                  <Disclosure.Button className='mr-2 text-gray-400 hover:text-white'>
                     {open ? (
                       <CrossIcon className='h-8 w-8' />
                     ) : (
@@ -191,6 +206,7 @@ export default function Header({ user }: HeaderProps) {
                       as='a'
                       href={item.href}
                       className='flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white'
+                      onClick={item.onClick ? item.onClick : handleClick}
                     >
                       {item.icon}
                       {item.name}

@@ -30,6 +30,15 @@ export default async function HomePage() {
               <li>
                 <strong>Expires:</strong> {session.expires}
               </li>
+              <li className='mt-3'>
+                {/* this is a temporary button to test functionality easier */}
+                <Link
+                  href='/createGroup'
+                  className='rounded-md bg-primaryBlue p-3 text-white'
+                >
+                  Crear Grupo
+                </Link>
+              </li>
             </ul>
           </div>
         </>

@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { User } from '@/types/User';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 
-export default async function protectedLayout({
+export default async function ProtectedLayout({
   children, // will be a page or nested layout
 }: {
   children: React.ReactNode;
