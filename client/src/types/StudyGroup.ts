@@ -1,7 +1,7 @@
-export type Group = {
+export type StudyGroup = {
   name: string;
   description?: string;
-  course: string;
+  subject: string;
   size: number;
   days: string;
   time_preference?: string;

@@ -1,8 +1,8 @@
-import { Group } from '@/types/Group';
+import { StudyGroup } from '@/types/StudyGroup';
 import Image from 'next/image';
 
 type GroupCardProps = {
-  group: Group;
+  group: StudyGroup;
 };
 
 function GroupCard({ group }: GroupCardProps) {
@@ -16,7 +16,7 @@ function GroupCard({ group }: GroupCardProps) {
         className='w-full'
       />
       <div className='bg-white p-5'>
-        <h1 className='text-base font-bold text-[#242760]'>{group.course}</h1>
+        <h1 className='text-base font-bold text-[#242760]'>{group.subject}</h1>
         <h1 className='text-xl font-normal text-[#050838]'>{group.name}</h1>
         <p className='text-base font-light text-[#A0A0A0]'>
           {group.description}
@@ -27,7 +27,7 @@ function GroupCard({ group }: GroupCardProps) {
 }
 
 type GroupsLayoutProps = {
-  groups: Group[];
+  groups: StudyGroup[];
 };
 
 export default function GroupsLayout({ groups }: GroupsLayoutProps) {
