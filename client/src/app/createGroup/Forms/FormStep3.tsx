@@ -6,9 +6,14 @@ import { Dispatch, SetStateAction, useState } from 'react';
 type FormStep3Props = {
   nextPage: () => void;
   setValue: Dispatch<SetStateAction<string>>;
+  groupName: string;
 };
 
-export default function FormStep3({ nextPage, setValue }: FormStep3Props) {
+export default function FormStep3({
+  nextPage,
+  setValue,
+  groupName,
+}: FormStep3Props) {
   const [dataForm, setDataForm] = useState<{
     description: string;
     touched: boolean;
@@ -46,7 +51,7 @@ export default function FormStep3({ nextPage, setValue }: FormStep3Props) {
         <TextArea
           id='name'
           name='name'
-          placeholder={strings.form.descriptionGroupInput.placeholder}
+          placeholder={`Escriba la descripcion de ${groupName} aquí`}
           maxWidth={false}
           className='pt-3'
           classNameWrapper='mt-3'

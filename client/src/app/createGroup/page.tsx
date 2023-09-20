@@ -106,7 +106,11 @@ export default function CreateGroup() {
             <FormStep2 nextPage={nextPage} setValue={setGroupName} />
           )}
           {actualStep === 3 && (
-            <FormStep3 nextPage={nextPage} setValue={setDescription} />
+            <FormStep3
+              nextPage={nextPage}
+              setValue={setDescription}
+              groupName={groupName}
+            />
           )}
           {actualStep === 4 && (
             <FormStep4 nextPage={nextPage} setValue={setTimePreference} />
