@@ -45,8 +45,8 @@ export default function ConfigProfile() {
           <strong className='pl-6 md:ml-12'>Editar Perfil</strong>
         </p>
       </div>
-      <div className='mt-5 grid min-h-[500px] auto-cols-max grid-flow-col justify-center'>
-        <div className={`block w-[100vw] rounded-r-lg md:w-[40vw]`}>
+      <div className='mt-5 flex min-h-[500px] justify-center'>
+        <div className='block w-[98vw] rounded-lg md:w-[40%]'>
           {user && <FormPersonalInfo user={user} />}
         </div>
       </div>

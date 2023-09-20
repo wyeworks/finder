@@ -115,10 +115,10 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
   return (
     <div className='mt-3 sm:w-full'>
       <p className='mb-4 pl-7 pr-7 text-2xl text-black md:px-0'>
-        <strong>{strings.configProfile.forms.personalInfo.title}</strong>
+        {strings.configProfile.forms.personalInfo.title}
       </p>
       <form
-        className='grid grid-rows-personal-info-form gap-5 pl-7 pr-7'
+        className='grid grid-rows-personal-info-form gap-5 rounded-lg border border-gray-200 bg-white pl-7 pr-7 pt-2'
         onSubmit={handleSubmit}
         noValidate
       >

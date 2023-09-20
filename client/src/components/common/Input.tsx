@@ -18,7 +18,7 @@ type InputParams = {
   Icon?: React.ReactNode;
   pattern?: string;
   maxWidth?: boolean;
-  className?: string;
+  classNameWrapper?: string;
   classNameInput?: string;
 };
 
@@ -36,7 +36,7 @@ export default function Input({
   Icon,
   pattern,
   maxWidth = true,
-  className = '',
+  classNameWrapper = '',
   classNameInput = '',
 }: InputParams) {
   const [isVisible, setIsVisible] = useState(false);
@@ -61,7 +61,7 @@ export default function Input({
   return (
     <div className={`${maxWidth && 'max-w-sm'} justify-center`}>
       {renderLabel()}
-      <div className={`relative -mb-3 ${className}`}>
+      <div className={`relative -mb-3 ${classNameWrapper}`}>
         {Icon && (
           <span className='pointer-events-none absolute inset-y-0 left-0 mt-2 flex h-fit items-center pl-3'>
             {Icon}
