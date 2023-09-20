@@ -1,5 +1,6 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { Logger } from '@/services/Logger';
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -13,11 +14,13 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       authorize: async (credentials) => {
+        Logger.debug('Authorizing user with credentials: ' + credentials);
         const { email, password } = credentials as {
           email: string;
           password: string;
         };
         const URL = process.env.RAILS_API_URL + '/users/login';
+        Logger.debug('Fetching from URL: ' + URL);
         const res = await fetch(URL, {
           method: 'POST',
           headers: {
@@ -31,12 +34,14 @@ export const authOptions: NextAuthOptions = {
           }),
           credentials: 'include',
         });
+        Logger.debug('Received response: ' + res);
         const user = await res.json();
         if (res.ok && user && user.user) {
-          const authToken = res.headers.get('Authorization');
-          user.user.accessToken = authToken;
+          Logger.debug('User authorized: ' + user.user);
+          user.user.accessToken = res.headers.get('Authorization');
           return user.user;
         } else {
+          Logger.debug('User not authorized');
           return null;
         }
       },
