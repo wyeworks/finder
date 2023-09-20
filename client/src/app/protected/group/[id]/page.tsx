@@ -20,8 +20,8 @@ export default async function Page({ params }: Props) {
   };
 
   return (
-    <div className='grid h-screen w-full grid-rows-4 flex-col bg-transparent'>
-      <div className='row-span-1'>
+    <div className='flex h-screen w-full flex-col md:grid md:grid-rows-4'>
+      <div className='flex-none md:row-span-1'>
         <Image
           src='/default_group_banner.png'
           alt='Banner'
@@ -30,10 +30,10 @@ export default async function Page({ params }: Props) {
           className='h-full w-full object-cover'
         />
       </div>
-      <div className='row-span-1'>
+      <div className='flex-none md:row-span-1'>
         <GroupInfo group={testGroup} />
       </div>
-      <div className='row-span-2 flex-grow overflow-y-auto'></div>
+      <div className='flex-grow overflow-y-auto md:row-span-2'></div>
     </div>
   );
 }

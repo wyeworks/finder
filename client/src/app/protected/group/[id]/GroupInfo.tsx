@@ -15,22 +15,24 @@ export default function GroupInfo({ group }: GroupInfoProps) {
   const { name, subject, description, size } = group;
 
   return (
-    <div className='mt-4 grid grid-cols-5'>
-      <div className='col-span-1'></div>
-      <div className='col-span-3'>
+    <div className='mt-4 grid grid-cols-1 p-4 sm:grid-cols-5'>
+      <div className='sm:col-span-1'></div>
+      <div className='text-center sm:col-span-3 sm:text-left'>
         <h1 className='mb-2 text-2xl'>{name}</h1>
         <p className='mb-2 font-bold'>{subject}</p>
         <p className='mb-2'>{description}</p>
-        <div className='mb-2 flex items-center'>
-          <GroupSizeIcon className='mr-2 h-5 w-5' />
-          <span className='mr-4'>{size} integrantes</span>
+        <div className='mb-2 flex flex-col items-center justify-center sm:flex-row sm:justify-start'>
+          <div className='mb-2 mr-2 flex items-center sm:mb-0'>
+            <GroupSizeIcon className='mr-1 h-5 w-5' />
+            <span>{size} integrantes</span>
+          </div>
 
-          <div>
+          <div className='block'>
             <Menu as='div'>
               {({ open }) => (
                 <>
                   <Menu.Button className='flex items-center'>
-                    <CalendarIcon className='mr-2 h-5 w-5' />
+                    <CalendarIcon className='mr-1 h-5 w-5' />
                     <span>horarios</span>
                     <ArrowDownIcon
                       className={`mr-3 ms-1 h-5 w-5 ${
@@ -77,7 +79,7 @@ export default function GroupInfo({ group }: GroupInfoProps) {
           </div>
         </div>
       </div>
-      <div className='col-span-1'></div>
+      <div className='sm:col-span-1'></div>
     </div>
   );
 }
