@@ -29,7 +29,7 @@ export default function View() {
             className='font-semibold leading-6 text-blue-600 hover:text-blue-500'
           >
             {' '}
-            Inicia Sesion
+            Inicia Sesión
           </Link>
         </p>
       </div>

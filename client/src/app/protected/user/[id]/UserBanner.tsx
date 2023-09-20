@@ -11,6 +11,7 @@ import {
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
+import defaultUser from '@/assets/images/default_user.png';
 
 type UserBannerProps = {
   user: User;
@@ -35,11 +36,7 @@ export default async function UserBanner({ user }: UserBannerProps) {
       <div className='mt-10 flex flex-col justify-center lg:mt-0 lg:flex-row lg:justify-between lg:pl-20'>
         <div className='mb-5 flex flex-col items-center lg:mb-0 lg:flex-row'>
           <Image
-            src={
-              user.profileImage
-                ? user.profileImage
-                : '/default_user_profile.jpeg'
-            }
+            src={user.profileImage ? user.profileImage : defaultUser}
             alt={'Foto de perfil'}
             width={250}
             height={250}
