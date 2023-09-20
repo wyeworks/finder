@@ -9,6 +9,7 @@ class User < ApplicationRecord
   # Associations
   has_many :members, dependent: :destroy
   has_many :groups, through: :members
+  has_and_belongs_to_many :careers
 
   # Validations
   validates :name, presence: true
