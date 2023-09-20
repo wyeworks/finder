@@ -7,12 +7,10 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    # TODO: Change this to the domain of the FE application
-    origins '*'
-
+    origins 'http://localhost:3333', 'https://finder-tau.vercel.app', 'https://finder-git-develop-frodo2412.vercel.app'
     resource '*',
-      headers: :any,
-      methods: %i[get post put patch delete options head],
-      expose: [:Authorization]
+             headers: :any,
+             methods: %i[get post put patch delete options head],
+             expose: [:Authorization]
   end
 end
