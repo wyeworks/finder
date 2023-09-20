@@ -109,6 +109,7 @@
         }
       },
       "personalInfo": {
+        "title": "Información personal",
         "cancelButton": {
           "text": "Cancelar"
         },
