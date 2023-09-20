@@ -34,7 +34,7 @@ describe('Form Component', () => {
 
     // Fill the form
     screen.getByLabelText(strings.form.emailInput.label).focus();
-    userEvent.paste('john.doe@fing.edu.uy');
+    userEvent.paste('john.doe@email.com');
     screen.getByLabelText(strings.form.passwordInput.label).focus();
     userEvent.paste('Password#123');
 
@@ -61,7 +61,7 @@ describe('Form Component', () => {
 
     // Fill the form
     screen.getByLabelText(strings.form.emailInput.label).focus();
-    userEvent.paste('john.doe@fing.edu.uy');
+    userEvent.paste('john.doe@email.com');
     screen.getByLabelText(strings.form.passwordInput.label).focus();
     userEvent.paste('Password#123');
 

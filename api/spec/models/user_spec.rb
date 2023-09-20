@@ -20,7 +20,7 @@ RSpec.describe User, type: :model do
       end
 
       context 'valid format' do
-        let(:email) { 'test@fing.edu.uy' }
+        let(:email) { 'test@email.com' }
 
         it { is_expected.to be_valid }
       end

@@ -10,7 +10,7 @@ global.fetch = jest.fn();
 const user: User = {
   id: '1',
   name: 'Test',
-  email: 'test@fing.edu.uy',
+  email: 'test@email.com',
 };
 
 describe('Form Personal Info Component', () => {

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :user do
     sequence(:name) { |n| "Name_#{n}" }
-    sequence(:email) { |n| "email_#{n}@fing.edu.uy" }
+    sequence(:email) { |n| "email_#{n}@email.com" }
     password { 'Test#123' }
     confirmed_at { DateTime.now }
     birth_date { DateTime.parse('2023-01-01') }

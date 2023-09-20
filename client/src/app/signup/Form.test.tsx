@@ -11,7 +11,7 @@ const fillAndSubmitForm = () => {
   screen.getByLabelText(strings.form.nameInput.label).focus();
   userEvent.paste('John Doe');
   screen.getByLabelText(strings.form.emailInput.label).focus();
-  userEvent.paste('john.doe@fing.edu.uy');
+  userEvent.paste('john.doe@email.com');
   screen.getByLabelText(strings.form.passwordInput.label).focus();
   userEvent.paste('Password#123');
 
