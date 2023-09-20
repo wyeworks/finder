@@ -172,7 +172,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
               className='bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-primaryBlue-100'
             />
           </div>
-          <div>
+          <div className='mb-3'>
             <Alert
               isVisible={alertVisible}
               message={alertMessage}
