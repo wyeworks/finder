@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_19_211952) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_19_234830) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,6 +23,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_211952) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_careers_on_code", unique: true
+  end
+
+  create_table "careers_subjects", id: false, force: :cascade do |t|
+    t.bigint "career_id", null: false
+    t.bigint "subject_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["career_id", "subject_id"], name: "index_careers_subjects_on_career_id_and_subject_id", unique: true
+    t.index ["career_id"], name: "index_careers_subjects_on_career_id"
+    t.index ["subject_id"], name: "index_careers_subjects_on_subject_id"
+  end
+
+  create_table "careers_users", id: false, force: :cascade do |t|
+    t.bigint "career_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["career_id", "user_id"], name: "index_careers_users_on_career_id_and_user_id", unique: true
+    t.index ["career_id"], name: "index_careers_users_on_career_id"
+    t.index ["user_id"], name: "index_careers_users_on_user_id"
   end
 
   create_table "groups", force: :cascade do |t|
