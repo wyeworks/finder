@@ -135,6 +135,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
           onChange={handleChange}
           touched={touched.name}
           Icon={<UserIcon className='h-5 w-5' />}
+          classNameInput='bg-backgroundInput'
         />
         <Input
           type='date'
@@ -146,6 +147,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
           }
           value={formData.birthdate}
           onChange={handleChange}
+          classNameInput='bg-backgroundInput'
         />
         <div className='block w-full'>
           <TextArea
