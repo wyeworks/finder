@@ -1,13 +1,14 @@
 import Button from '@/components/common/Button';
 import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 type FormStep3Props = {
   nextPage: () => void;
+  setValue: Dispatch<SetStateAction<string>>;
 };
 
-export default function FormStep3({ nextPage }: FormStep3Props) {
+export default function FormStep3({ nextPage, setValue }: FormStep3Props) {
   const [dataForm, setDataForm] = useState<{
     description: string;
     touched: boolean;
@@ -52,6 +53,7 @@ export default function FormStep3({ nextPage }: FormStep3Props) {
           required
           touched={dataForm.touched}
           validateText={strings.form.descriptionGroupInput.validateText}
+          onChange={(e) => setValue(e.target.value)}
         />
         <Button
           text={strings.form.nextButton.text}

@@ -1,13 +1,14 @@
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import strings from '@/locales/strings.json';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 type FormStep2Props = {
   nextPage: () => void;
+  setValue: Dispatch<SetStateAction<string>>;
 };
 
-export default function FormStep2({ nextPage }: FormStep2Props) {
+export default function FormStep2({ nextPage, setValue }: FormStep2Props) {
   const [dataForm, setDataForm] = useState<{
     nameGroup: string;
     touched: boolean;
@@ -51,6 +52,7 @@ export default function FormStep2({ nextPage }: FormStep2Props) {
           required
           touched={dataForm.touched}
           validateText={strings.form.nameGroupInput.validateText}
+          onChange={(e) => setValue(e.target.value)}
         />
         <Button
           text={strings.form.nextButton.text}

@@ -1,27 +1,38 @@
 import Button from '@/components/common/Button';
 import Dropdown, { Option } from '@/components/common/DropDown';
 import strings from '@/locales/strings.json';
+import { removeAccents } from '@/utils/Formatter';
+import { Dispatch, SetStateAction } from 'react';
 
 type FormStep4Props = {
   nextPage: () => void;
+  setValue: Dispatch<SetStateAction<string>>;
 };
 
-export default function FormStep4({ nextPage }: FormStep4Props) {
-  const subjects: Option[] = [
-    { label: 'Sin Preferencia' },
-    { label: 'Mañana' },
-    { label: 'Tarde' },
-    { label: 'Noche' },
+export default function FormStep4({ nextPage, setValue }: FormStep4Props) {
+  const preferences: Option[] = [
+    { key: '0', label: 'Sin Preferencia' },
+    { key: '1', label: 'Mañana' },
+    { key: '2', label: 'Tarde' },
+    { key: '3', label: 'Noche' },
   ];
   const days = [
     'Domingo',
     'Lunes',
     'Martes',
-    'Miercoles',
+    'Miércoles',
     'Jueves',
     'Viernes',
-    'Sabado',
+    'Sábado',
   ];
+
+  function setTimePreference(day: string, newValue: string) {
+    setValue((prevState: any) => ({
+      ...prevState,
+      [removeAccents(day)]: newValue,
+    }));
+  }
+
   return (
     <div className='grid grid-rows-[160px,auto,80px] justify-center sm:grid-rows-[110px,auto,80px]'>
       <div className='flex flex-col pb-2'>
@@ -36,9 +47,17 @@ export default function FormStep4({ nextPage }: FormStep4Props) {
       </div>
       <div className='my-3'>
         {days.map((day, index) => {
+          function handleTime(value: string) {
+            setTimePreference(day, value);
+          }
           return (
             <div key={index}>
-              <Dropdown id={`dropdown-${day}`} options={subjects} label={day} />
+              <Dropdown
+                id={`dropdown-${day}`}
+                options={preferences}
+                label={day}
+                onSelect={handleTime}
+              />
             </div>
           );
         })}
