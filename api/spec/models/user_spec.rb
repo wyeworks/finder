@@ -8,7 +8,7 @@ RSpec.describe User, type: :model do
       let(:subject) { build :user, email: }
 
       context 'invalid format' do
-        let(:email) { 'test@mail.com' }
+        let(:email) { 'test@mail.' }
 
         it { is_expected.not_to be_valid }
       end
