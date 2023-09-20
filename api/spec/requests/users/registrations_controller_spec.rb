@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Users::RegistrationsController, type: :request do
   describe 'POST /users/signup' do
-    let(:email) { 'test_user@fing.edu.uy' }
+    let(:email) { 'test_user@email.com' }
     let(:name) { 'Test User' }
     let(:birth_date) { '2023-09-01T00:00:00' }
 
