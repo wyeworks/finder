@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  describe 'associations' do
+    it { should have_many(:members).dependent(:destroy) }
+    it { should have_many(:groups).through(:members) }
+    it { should have_and_belong_to_many(:careers) }
+  end
+
   describe 'validations' do
     it { should validate_presence_of(:name) }
 
