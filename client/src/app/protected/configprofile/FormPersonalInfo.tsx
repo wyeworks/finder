@@ -169,7 +169,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
               id='confirm-button'
               text={strings.configProfile.forms.personalInfo.submitButton.text}
               disabled={disabledSubmittButton}
-              className='bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-primaryBlue-100'
+              className='bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-slate-500'
             />
           </div>
           <div className='mb-3'>
