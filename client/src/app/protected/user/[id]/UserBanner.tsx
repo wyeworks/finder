@@ -104,7 +104,7 @@ function BannerBackground() {
 function UserProfileImage({ profileImage }: { profileImage?: string }) {
   return (
     <Image
-      data-testid={profileImage ? 'profileImage' : defaultUser}
+      data-testid={profileImage ? 'profileImage' : 'defaultProfileImage'}
       src={profileImage ?? defaultUser}
       alt={'Foto de perfil'}
       width={250}
