@@ -50,7 +50,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { host: 'finder-backend-prod.onrender.com' }
+  config.action_mailer.default_url_options = { host: 'finder-backend-qa.onrender.com' }
 
   config.action_mailer.delivery_method = :smtp
 
@@ -97,11 +97,11 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger = ActiveSupport::Logger.new(STDOUT)
+    logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
-    config.logger = ActiveSupport::TaggedLogging.new(logger)
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
   # Front base url
-  config.client_base_url = 'https://finder-tau.vercel.app/'
+  config.client_base_url = 'https://finder-git-develop-frodo2412.vercel.app/'
 end

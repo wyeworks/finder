@@ -10,9 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_17_201053) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_19_234830) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "careers", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "code", null: false
+    t.string "approved_on"
+    t.integer "years"
+    t.integer "credits"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_careers_on_code", unique: true
+  end
+
+  create_table "careers_subjects", id: false, force: :cascade do |t|
+    t.bigint "career_id", null: false
+    t.bigint "subject_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["career_id", "subject_id"], name: "index_careers_subjects_on_career_id_and_subject_id", unique: true
+    t.index ["career_id"], name: "index_careers_subjects_on_career_id"
+    t.index ["subject_id"], name: "index_careers_subjects_on_subject_id"
+  end
+
+  create_table "careers_users", id: false, force: :cascade do |t|
+    t.bigint "career_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["career_id", "user_id"], name: "index_careers_users_on_career_id_and_user_id", unique: true
+    t.index ["career_id"], name: "index_careers_users_on_career_id"
+    t.index ["user_id"], name: "index_careers_users_on_user_id"
+  end
 
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
@@ -37,9 +68,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_201053) do
   end
 
   create_table "subjects", force: :cascade do |t|
-    t.string "name"
-    t.string "code"
-    t.integer "credits"
+    t.string "name", null: false
+    t.string "code", null: false
+    t.integer "credits", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_subjects_on_code", unique: true
@@ -55,11 +86,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_201053) do
     t.datetime "birth_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "bio"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.json "social_networks"
+    t.text "bio"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

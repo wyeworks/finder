@@ -1,21 +1,10 @@
 import UserBanner from '@/app/protected/user/[id]/UserBanner';
-import getActiveGroups from '@/services/GroupService';
+import { GroupService } from '@/services/GroupService';
 import GroupsLayout from '@/app/protected/user/[id]/GroupsLayout';
-import { User } from '@/types/User';
-
-const getUser = async (id: string) => {
-  const RAILS_API_URL = process.env.RAILS_API_URL;
-
-  if (!RAILS_API_URL) {
-    throw new Error('RAILS_API_URL is not defined');
-  }
-
-  const URL = process.env.RAILS_API_URL + '/users/' + id;
-
-  const res = await fetch(URL);
-  let json: any = await res.json();
-  return (await json) as User;
-};
+import { Logger } from '@/services/Logger';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
+import { UserService } from '@/services/UserService';
 
 type Props = {
   params: {
@@ -24,12 +13,14 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const user = await getUser(params.id);
-  const groups = await getActiveGroups(user);
+  Logger.debug('Initializing User page with params:', params);
+  const user = await UserService.getUser(params.id);
+  const groups = await GroupService.getActiveGroups(user);
+  const session = await getServerSession(authOptions);
 
   return (
     <div className='bg-white md:bg-whiteCustom'>
-      <UserBanner user={user} />
+      <UserBanner user={user} session={session} />
       <GroupsLayout groups={groups} />
     </div>
   );

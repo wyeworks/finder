@@ -9,6 +9,7 @@ import strings from '@/locales/strings.json';
 import { BackendError } from '@/types/BackendError';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { Logger } from '@/services/Logger';
 
 type SignUpFormData = {
   name: string;
@@ -55,6 +56,10 @@ export default function Form() {
     }
 
     try {
+      Logger.debug(
+        "Initializing POST request to '/api/signup' with body:",
+        formData
+      );
       const response = await fetch('/api/signup', {
         method: 'POST',
         headers: {
@@ -62,6 +67,8 @@ export default function Form() {
         },
         body: JSON.stringify(formData),
       });
+
+      Logger.debug('Received response:', response);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -110,7 +117,7 @@ export default function Form() {
           type='email'
           id='email'
           name='email'
-          pattern='^[^@\s]+@fing\.edu\.uy$'
+          pattern='^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
           label={strings.form.emailInput.label}
           placeholder={strings.form.emailInput.placeholder}
           validateText={strings.form.emailInput.validateText}
