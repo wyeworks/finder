@@ -7,7 +7,7 @@
       "logInInvalid": "Email o Contraseña inválida",
       "signin": "El login no se pudo completar",
       "signup": "El usuario no pudo ser creado",
-      "email": "Email debe ser ***@fing.edu.uy",
+      "email": "Email debe ser ***@email.com",
       "password": "Formato de la contraseña no es correcto"
     },
     "submitButton": {
@@ -37,8 +37,8 @@
     },
     "emailInput": {
       "label": "Email",
-      "placeholder": "ejemplo@fing.edu.uy",
-      "validateText": "Ingresa un email válido, con el formato: 'ejemplo@fing.edu.uy'"
+      "placeholder": "ejemplo@email.com",
+      "validateText": "Ingresa un email válido"
     },
     "passwordInput": {
       "label": "Contraseña",
@@ -78,7 +78,7 @@
     "imageAlt": "Confirmar email",
     "title": "finder.com",
     "headerText": "Confirme su dirección de correo",
-    "infoText": "Se ha enviado un correo electrónico a xxxx.xxxxx.xxxxx@fing.edu.uy con los pasos necesarios para confirmar su registro",
+    "infoText": "Se ha enviado un correo electrónico a xxxx.xxxxx@email.com con los pasos necesarios para confirmar su registro",
     "loginButton": {
       "text": "Iniciar sesión"
     }
@@ -110,6 +110,7 @@
         }
       },
       "personalInfo": {
+        "title": "Información personal",
         "cancelButton": {
           "text": "Cancelar"
         },

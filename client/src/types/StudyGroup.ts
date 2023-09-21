@@ -1,7 +1,10 @@
 export type StudyGroup = {
   name: string;
-  description: string;
+  description?: string;
   subject: string;
-  isLab: boolean;
+  size?: number;
+  days?: string;
+  time_preference?: string;
+  isLab?: boolean;
   banner?: string;
 };

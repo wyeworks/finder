@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import strings from '@/locales/strings.json';
 
 import { useState } from 'react';
+import { Logger } from '@/services/Logger';
 
 type SignUpFormData = {
   email: string;
@@ -51,12 +52,17 @@ export default function Form() {
     }
 
     try {
+      Logger.debug(
+        "Initializing POST request to '/api/signin' with body:",
+        formData
+      );
       const response = await signIn('credentials', {
         redirect: false,
         email: formData.email,
         password: formData.password,
       });
 
+      Logger.debug('Server responded with:', response);
       if (response?.error) {
         throw new Error('Server responded with an error status');
       }

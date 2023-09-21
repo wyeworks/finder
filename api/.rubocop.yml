@@ -27,5 +27,8 @@ Metrics/MethodLength:
 Rails/FilePath:
   Enabled: false
 
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
 Lint/RedundantDirGlobSort:
   Enabled: false

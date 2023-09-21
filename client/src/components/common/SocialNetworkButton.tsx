@@ -12,7 +12,7 @@ type SocialNetworkButtonProps = {
 
 function SocialNetworkButton(props: SocialNetworkButtonProps) {
   return (
-    <a href={props.link} className={'m-2'}>
+    <a data-testid={`${props.name}Button`} href={props.link} className='m-2'>
       {props.icon}
     </a>
   );
