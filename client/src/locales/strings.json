@@ -44,7 +44,7 @@
       "label": "Contraseña",
       "placeholder": "Ingresa tu Contraseña",
       "validateText": "Ingresa una contraseña válida",
-      "passwordInfo": "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una minúscula y un número"
+      "passwordInfo": "Asegurate de que tu contraseña tenga al menos 8 caracteres y contenga: \n- Una letra mayúscula \n- Una letra minúscula \n- Un número \n- Un caracter especial \n\n Evita usar contraseñas comunes como \"12345678\" o \"password\"."
     },
     "createAccountButton": {
       "text": "Crear Cuenta"

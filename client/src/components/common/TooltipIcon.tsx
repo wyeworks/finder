@@ -15,6 +15,12 @@ export default function TooltipIcon({
     setShowTooltip(!showTooltip);
   };
 
+  //We want to make paraghraps from the text so we separate it by the \n
+  const paragraphs = tooltipText.split('\n');
+  const paragraphsJSX = paragraphs.map((paragraph, index) => (
+    <p key={index}>{paragraph}</p>
+  ));
+
   return (
     <div className='relative inline-block'>
       <div
@@ -37,7 +43,7 @@ export default function TooltipIcon({
           }`}
           style={{ maxWidth: '250px', width: 'max-content' }}
         >
-          {tooltipText}
+          {paragraphsJSX}
         </div>
       )}
     </div>
