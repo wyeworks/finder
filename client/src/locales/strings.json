@@ -43,7 +43,8 @@
     "passwordInput": {
       "label": "Contraseña",
       "placeholder": "Ingresa tu Contraseña",
-      "validateText": "Ingresa una contraseña válida"
+      "validateText": "Ingresa una contraseña válida",
+      "passwordInfo": "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una minúscula y un número"
     },
     "createAccountButton": {
       "text": "Crear Cuenta"
