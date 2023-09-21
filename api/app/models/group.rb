@@ -28,6 +28,14 @@ class Group < ApplicationRecord
   validates :size, numericality: { only_integer: true }
   validate :validate_time_preferences
 
+  def make_admin(user)
+    members.find_by(user:)&.update(role: 'admin')
+  end
+
+  def admin?(user)
+    members.exists?(user:, role: 'admin')
+  end
+
   private
 
   def validate_time_preferences
