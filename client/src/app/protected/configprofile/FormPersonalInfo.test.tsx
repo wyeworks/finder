@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@/__mocks__/next/router';
 import strings from '@/locales/strings.json';
@@ -10,7 +10,7 @@ global.fetch = jest.fn();
 const user: User = {
   id: '1',
   name: 'Test',
-  email: 'test@fing.edu.uy',
+  email: 'test@email.com',
 };
 
 describe('Form Personal Info Component', () => {
@@ -20,15 +20,28 @@ describe('Form Personal Info Component', () => {
 
   it('should show an alert when form is submitted with invalid data', async () => {
     render(<FormPersonalInfo user={user} />);
+
+    // clean the input
+    await userEvent.clear(
+      screen.getByLabelText(
+        strings.configProfile.forms.personalInfo.nameInput.label
+      )
+    );
+
+    screen
+      .getByLabelText(strings.configProfile.forms.personalInfo.nameInput.label)
+      .focus();
+    userEvent.paste('');
+
     userEvent.click(
       screen.getByText(
         strings.configProfile.forms.personalInfo.submitButton.text
       )
     );
 
-    await waitFor(() => {
+    await waitFor(async () => {
       expect(
-        screen.queryByText('Por favor rellene todos los campos correctamente')
+        await screen.findByText(strings.common.error.completeFields)
       ).toBeInTheDocument();
     });
   });
@@ -53,15 +66,53 @@ describe('Form Personal Info Component', () => {
     userEvent.paste('Test Biography');
 
     // Submit the form
-    userEvent.click(
-      screen.getByText(
-        strings.configProfile.forms.personalInfo.submitButton.text
-      )
-    );
+    await act(async () => {
+      userEvent.click(
+        screen.getByText(
+          strings.configProfile.forms.personalInfo.submitButton.text
+        )
+      );
+    });
 
     // Wait for the fetch to be called
-    await waitFor(() => {
+    await waitFor(async () => {
       expect(fetch).toHaveBeenCalledWith('/api/signup', expect.anything());
+    });
+  });
+
+  it('should show success message when make a successful API call when form is submitted with valid data', async () => {
+    (fetch as jest.Mock).mockResolvedValueOnce({ ok: true }); // Mock a successful fetch call
+
+    render(<FormPersonalInfo user={user} />);
+
+    // Fill the form
+    screen
+      .getByLabelText(strings.configProfile.forms.personalInfo.nameInput.label)
+      .focus();
+    userEvent.paste('John Doe');
+    screen
+      .getByLabelText(
+        strings.configProfile.forms.personalInfo.birthdateInput.label
+      )
+      .focus();
+    userEvent.paste('2023-02-03');
+    screen.getByTestId('biography').focus();
+    userEvent.paste('Test Biography');
+
+    // Submit the form
+    await act(async () => {
+      userEvent.click(
+        screen.getByText(
+          strings.configProfile.forms.personalInfo.submitButton.text
+        )
+      );
+    });
+
+    // Wait for the succcess message to appear
+    await waitFor(async () => {
+      expect(
+        await screen.findByText(strings.common.success.changeSuccess)
+      ).toBeInTheDocument();
     });
   });
 
@@ -87,16 +138,18 @@ describe('Form Personal Info Component', () => {
     userEvent.paste('Test Biography');
 
     // Submit the form
-    userEvent.click(
-      screen.getByText(
-        strings.configProfile.forms.personalInfo.submitButton.text
-      )
-    );
+    await act(async () => {
+      userEvent.click(
+        screen.getByText(
+          strings.configProfile.forms.personalInfo.submitButton.text
+        )
+      );
+    });
 
     // Wait for the error message to appear
-    await waitFor(() => {
+    await waitFor(async () => {
       expect(
-        screen.queryByText('Ocurrio un error inesperado, intenta de nuevo')
+        await screen.findByText(strings.common.error.unexpectedError)
       ).toBeInTheDocument();
     });
   });

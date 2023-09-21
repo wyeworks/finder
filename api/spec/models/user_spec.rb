@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  describe 'associations' do
+    it { should have_many(:members).dependent(:destroy) }
+    it { should have_many(:groups).through(:members) }
+    it { should have_and_belong_to_many(:careers) }
+  end
+
   describe 'validations' do
     it { should validate_presence_of(:name) }
 
@@ -8,13 +14,13 @@ RSpec.describe User, type: :model do
       let(:subject) { build :user, email: }
 
       context 'invalid format' do
-        let(:email) { 'test@mail.com' }
+        let(:email) { 'test@mail.' }
 
         it { is_expected.not_to be_valid }
       end
 
       context 'valid format' do
-        let(:email) { 'test@fing.edu.uy' }
+        let(:email) { 'test@email.com' }
 
         it { is_expected.to be_valid }
       end

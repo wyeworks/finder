@@ -27,3 +27,5 @@
 
 # Ignore master key for decrypting production credentials and more.
 /config/credentials/production.key
+
+/config/credentials/staging.key

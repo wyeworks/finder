@@ -47,7 +47,7 @@ export default function FormStep2({ nextPage }: FormStep2Props) {
           name='name'
           placeholder={strings.form.nameGroupInput.placeholder}
           maxWidth={false}
-          className='pb-3 pt-3'
+          classNameWrapper='pb-3 pt-3'
           required
           touched={dataForm.touched}
           validateText={strings.form.nameGroupInput.validateText}
