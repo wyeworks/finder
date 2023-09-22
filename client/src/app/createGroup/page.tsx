@@ -8,7 +8,9 @@ import FormStep1 from './Forms/FormStep1';
 import FormStep2 from './Forms/FormStep2';
 import FormStep3 from './Forms/FormStep3';
 import FormStep4 from './Forms/FormStep4';
-import FormStep5 from './Forms/FormStep5';
+import Step5 from './Step5';
+import { Logger } from '@/services/Logger';
+import ErrorCreateGroup from './ErrorCreateGroup';
 
 export type Subject = {
   id: number;
@@ -17,23 +19,27 @@ export type Subject = {
   credits: number;
 };
 
+export type TimePreference = {
+  Monday?: string;
+  Tuesday?: string;
+  Wednesday?: string;
+  Thursday?: string;
+  Friday?: string;
+  Saturday?: string;
+  Sunday?: string;
+};
+
 export default function CreateGroup() {
   const router = useRouter();
   const [actualStep, setActualStep] = useState<number>(1);
   const barWidth = `${(actualStep / 5) * 100}%`;
-  const [subjects, setSubjects] = useState<Subject[]>([]);
+  // estos states podrian ir en uno solo?
   const [groupName, setGroupName] = useState<string>('');
-  const [subject, setSubject] = useState<string>('');
+  const [subject, setSubject] = useState<Subject>();
   const [description, setDescription] = useState<string>('');
-  const [timePreference, setTimePreference] = useState<any>({
-    Lunes: 'Sin Preferencia',
-    Martes: 'Sin Preferencia',
-    Miercoles: 'Sin Preferencia',
-    Jueves: 'Sin Preferencia',
-    Viernes: 'Sin Preferencia',
-    Sabado: 'Sin Preferencia',
-    Domingo: 'Sin Preferencia',
-  });
+  const [timePreference, setTimePreference] = useState<TimePreference>();
+  const [error, setError] = useState<boolean>(false);
+  const [groupId, setGroupId] = useState<any>(null);
 
   function nextPage() {
     if (actualStep < 5) {
@@ -49,28 +55,43 @@ export default function CreateGroup() {
     setActualStep(actualStep - 1);
   }
 
-  const getSubjects = async () => {
+  async function handleSubmit() {
     try {
-      const response = await fetch('/api/subjects');
-      if (!response.ok) {
-        return null;
-      }
-      return await response.json();
-    } catch (error) {
-      console.log('error: ', error); // change this line for logger from Logger
-      return null;
-    }
-  };
+      const response = await fetch('/api/createGroup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: groupName,
+          description: description,
+          size: 7,
+          subject_id: subject,
+          time_preferences: timePreference,
+        }),
+      });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const subjects = await getSubjects();
-      if (subjects) {
-        setSubjects(subjects);
+      if (!response.ok) {
+        setError(true);
+        nextPage();
+        return;
       }
-    };
-    fetchData();
-  }, []);
+      const responseBody = await response.json();
+      setGroupId(responseBody.id);
+      nextPage();
+    } catch (error) {
+      Logger.debug('Error trying to create group' + { error });
+    }
+  }
+
+  function handleStep5() {
+    if (!error) {
+      return (
+        <Step5 nextPage={nextPage} groupName={groupName} groupId={groupId} />
+      );
+    }
+    return <ErrorCreateGroup nextPage={nextPage} groupName={groupName} />;
+  }
 
   return (
     <div className='h-screen bg-whiteCustom '>
@@ -96,11 +117,7 @@ export default function CreateGroup() {
         </div>
         <div className='m-3 bg-whiteCustom'>
           {actualStep === 1 && (
-            <FormStep1
-              nextPage={nextPage}
-              subjects={subjects}
-              setValue={setSubject}
-            />
+            <FormStep1 nextPage={nextPage} setValue={setSubject} />
           )}
           {actualStep === 2 && (
             <FormStep2 nextPage={nextPage} setValue={setGroupName} />
@@ -113,11 +130,12 @@ export default function CreateGroup() {
             />
           )}
           {actualStep === 4 && (
-            <FormStep4 nextPage={nextPage} setValue={setTimePreference} />
+            <FormStep4
+              setValue={setTimePreference}
+              handleSubmit={handleSubmit}
+            />
           )}
-          {actualStep === 5 && (
-            <FormStep5 nextPage={nextPage} groupName={groupName} />
-          )}
+          {actualStep === 5 && handleStep5()}
         </div>
       </div>
     </div>

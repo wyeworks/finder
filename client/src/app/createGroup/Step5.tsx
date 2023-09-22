@@ -6,9 +6,14 @@ import strings from '@/locales/strings.json';
 type FormStep5Props = {
   nextPage: () => void;
   groupName: string;
+  groupId?: any;
 };
 
-export default function FormStep5({ nextPage, groupName }: FormStep5Props) {
+export default function FormStep5({
+  nextPage,
+  groupName,
+  groupId,
+}: FormStep5Props) {
   const router = useRouter();
 
   function handleButtonAction() {
@@ -33,7 +38,7 @@ export default function FormStep5({ nextPage, groupName }: FormStep5Props) {
       </div>
       <ClipBoard
         id='copy-text'
-        value='www.finder.com/id_grupo' // this will be a real url
+        value={`${window.location.origin}/${groupId}`} // colocar la url del env porque dependiendo de eso va cambiando
         name='name'
       />
       <Button

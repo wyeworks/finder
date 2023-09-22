@@ -1,21 +1,25 @@
 import Button from '@/components/common/Button';
 import Dropdown, { Option } from '@/components/common/DropDown';
 import strings from '@/locales/strings.json';
-import { removeAccents } from '@/utils/Formatter';
 import { Dispatch, SetStateAction } from 'react';
+import { TimePreference } from '../page';
 
 type FormStep4Props = {
-  nextPage: () => void;
-  setValue: Dispatch<SetStateAction<string>>;
+  // nextPage: () => void;
+  setValue: Dispatch<SetStateAction<TimePreference | undefined>>;
+  handleSubmit: () => void;
 };
 
-export default function FormStep4({ nextPage, setValue }: FormStep4Props) {
+// manejar estas cosas de mejor manera, hay muchos arreglos hardcodeados que no estan tan buenos, capas ponerlos en algun utils o services o algo
+export default function FormStep4({ setValue, handleSubmit }: FormStep4Props) {
   const preferences: Option[] = [
-    { key: '0', label: 'Sin Preferencia' },
-    { key: '1', label: 'Mañana' },
-    { key: '2', label: 'Tarde' },
-    { key: '3', label: 'Noche' },
+    { key: '', label: 'No puedo este dia' },
+    { key: 'None', label: 'Sin Preferencia' },
+    { key: 'Afternoon', label: 'Mañana' },
+    { key: 'Morning', label: 'Tarde' },
+    { key: 'Night', label: 'Noche' },
   ];
+
   const days = [
     'Domingo',
     'Lunes',
@@ -26,11 +30,34 @@ export default function FormStep4({ nextPage, setValue }: FormStep4Props) {
     'Sábado',
   ];
 
+  const mapDays: { [key: string]: string } = {
+    Domingo: 'Sunday',
+    Lunes: 'Monday',
+    Martes: 'Tuesday',
+    Miércoles: 'Wednesday',
+    Jueves: 'Thursday',
+    Viernes: 'Friday',
+    Sábado: 'Saturday',
+  };
+
+  // function setTimePreference(day: string, newValue: string) {
+  //   setValue((prevState: any) => ({
+  //     ...prevState,
+  //     [mapDays[day]]: newValue,
+  //   }));
+  // }
   function setTimePreference(day: string, newValue: string) {
-    setValue((prevState: any) => ({
-      ...prevState,
-      [removeAccents(day)]: newValue,
-    }));
+    setValue((prevState: any) => {
+      const updatedState = { ...prevState };
+
+      if (newValue === '') {
+        delete updatedState[mapDays[day]];
+      } else {
+        updatedState[mapDays[day]] = newValue;
+      }
+
+      return updatedState;
+    });
   }
 
   return (
@@ -67,7 +94,9 @@ export default function FormStep4({ nextPage, setValue }: FormStep4Props) {
         type='button'
         className='rounded-2xl bg-primaryBlue hover:bg-hoverPrimaryBlue'
         classNameWrapper='w-1/3 mt-2'
-        onClick={nextPage}
+        onClick={() => {
+          handleSubmit();
+        }}
       />
     </div>
   );

@@ -28,10 +28,10 @@ export default function Dropdown({
     options[0].label ?? 'Seleccione un valor...'
   );
 
-  const handleOptionClick = (value: string) => {
+  const handleOptionClick = (value: string, key: string) => {
     setSelectedValue(value);
     setIsOpen(false);
-    if (onSelect) onSelect(value);
+    if (onSelect) onSelect(key);
   };
 
   return (
@@ -60,7 +60,7 @@ export default function Dropdown({
               {options.map((option) => (
                 <li
                   key={option.key}
-                  onClick={() => handleOptionClick(option.label)}
+                  onClick={() => handleOptionClick(option.label, option.key)}
                   className='cursor-pointer px-3 py-2 text-sm text-gray-900 hover:bg-gray-200'
                 >
                   {option.label}

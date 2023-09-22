@@ -14,8 +14,7 @@ type DropdownProps = {
   required?: boolean;
   validateText?: string;
   maxWidth?: boolean;
-  // eslint-disable-next-line no-unused-vars
-  setValue: (value: string) => void;
+  setValue: React.Dispatch<React.SetStateAction<any>>;
   placeholder: string;
 };
 
@@ -37,13 +36,21 @@ export default function SearchDropdown({
       )
     );
     setFilteredOptions(filtered);
-    setValue(selectedValue);
-  }, [selectedValue, options, setValue]);
+  }, [selectedValue, options]);
 
-  const handleOptionClick = (value: string) => {
+  const handleOptionClick = (value: string, key: string) => {
     setSelectedValue(value);
+    setValue({ key, label: value });
     setIsOpen(false);
   };
+
+  function handleChangeInput(value: string) {
+    setSelectedValue(value);
+    setValue((prevState: Option) => ({
+      ...prevState,
+      label: value,
+    }));
+  }
 
   return (
     <div className='my-3 max-w-sm justify-center'>
@@ -60,7 +67,7 @@ export default function SearchDropdown({
           <input
             type='text'
             value={selectedValue}
-            onChange={(e) => setSelectedValue(e.target.value)}
+            onChange={(e) => handleChangeInput(e.target.value)}
             onClick={() => setIsOpen(!isOpen)}
             id={id}
             data-testid={id}
@@ -77,7 +84,7 @@ export default function SearchDropdown({
               {filteredOptions.map((option) => (
                 <li
                   key={option.key}
-                  onClick={() => handleOptionClick(option.label)}
+                  onClick={() => handleOptionClick(option.label, option.key)}
                   className='cursor-pointer px-3 py-2 text-sm text-gray-900 hover:bg-gray-200'
                 >
                   {option.label}

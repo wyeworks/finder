@@ -3,12 +3,12 @@ import { Option } from '@/components/common/DropDown';
 import strings from '@/locales/strings.json';
 import { Subject } from '../page';
 import SearchDropdown from '@/components/common/SearchDropDown';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Logger } from '@/services/Logger';
 
 type FormStep1Props = {
   nextPage: () => void;
-  subjects: Subject[];
-  setValue: Dispatch<SetStateAction<string>>;
+  setValue: Dispatch<SetStateAction<any>>;
 };
 
 function parseSubjectToOption(subjects: Subject[]): Option[] {
@@ -19,15 +19,35 @@ function parseSubjectToOption(subjects: Subject[]): Option[] {
   return options;
 }
 
-export default function FormStep1({
-  nextPage,
-  subjects,
-  setValue,
-}: FormStep1Props) {
-  const [selectedSubject, setSelectedSubject] = useState<string>('');
+export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [selectedSubject, setSelectedSubject] = useState<Option>();
+
+  const getSubjects = async () => {
+    try {
+      const response = await fetch('/api/subjects');
+      if (!response.ok) {
+        return null;
+      }
+      return await response.json();
+    } catch (error) {
+      Logger.error('Error trying to get subjects:' + { error });
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const subjects = await getSubjects();
+      if (subjects) {
+        setSubjects(subjects);
+      }
+    };
+    fetchData();
+  }, []);
 
   function handleButton() {
-    setValue(selectedSubject);
+    setValue(selectedSubject?.key);
     nextPage();
   }
 
@@ -53,7 +73,9 @@ export default function FormStep1({
         className='rounded-2xl bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-slate-500 '
         classNameWrapper='w-1/3'
         onClick={handleButton}
-        disabled={!subjects.some((subject) => subject.name === selectedSubject)}
+        disabled={
+          !subjects.some((subject) => subject.name === selectedSubject?.label)
+        }
       />
     </div>
   );
