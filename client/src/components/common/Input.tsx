@@ -63,7 +63,7 @@ export default function Input({
             </label>
           )}
           {fieldInfo && (
-            <TooltipIcon tooltipText={fieldInfo} tooltipPosition={'bottom'}>
+            <TooltipIcon tooltipText={fieldInfo} tooltipPosition={'left'}>
               <InfoIcon width={20} height={20} />
             </TooltipIcon>
           )}
