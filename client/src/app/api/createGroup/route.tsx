@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         name: requestBody.name,
         description: requestBody.description,
-        size: 7,
+        size: requestBody.size,
         subject_id: requestBody.subject_id,
         time_preferences: requestBody.time_preferences,
       }),
