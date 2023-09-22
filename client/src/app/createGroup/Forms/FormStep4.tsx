@@ -4,58 +4,40 @@ import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction } from 'react';
 import { TimePreference } from '../page';
 
+const mappingDays: { [key: string]: string } = {
+  Domingo: 'Sunday',
+  Lunes: 'Monday',
+  Martes: 'Tuesday',
+  Miércoles: 'Wednesday',
+  Jueves: 'Thursday',
+  Viernes: 'Friday',
+  Sábado: 'Saturday',
+};
+
+const preferences: Option[] = [
+  { key: '', label: 'No puedo este dia' },
+  { key: 'None', label: 'Sin Preferencia' },
+  { key: 'Afternoon', label: 'Mañana' },
+  { key: 'Morning', label: 'Tarde' },
+  { key: 'Night', label: 'Noche' },
+];
+
 type FormStep4Props = {
-  // nextPage: () => void;
   setValue: Dispatch<SetStateAction<TimePreference | undefined>>;
   handleSubmit: () => void;
 };
 
-// manejar estas cosas de mejor manera, hay muchos arreglos hardcodeados que no estan tan buenos, capas ponerlos en algun utils o services o algo
 export default function FormStep4({ setValue, handleSubmit }: FormStep4Props) {
-  const preferences: Option[] = [
-    { key: '', label: 'No puedo este dia' },
-    { key: 'None', label: 'Sin Preferencia' },
-    { key: 'Afternoon', label: 'Mañana' },
-    { key: 'Morning', label: 'Tarde' },
-    { key: 'Night', label: 'Noche' },
-  ];
+  const spanishDays = Object.keys(mappingDays);
 
-  const days = [
-    'Domingo',
-    'Lunes',
-    'Martes',
-    'Miércoles',
-    'Jueves',
-    'Viernes',
-    'Sábado',
-  ];
-
-  const mapDays: { [key: string]: string } = {
-    Domingo: 'Sunday',
-    Lunes: 'Monday',
-    Martes: 'Tuesday',
-    Miércoles: 'Wednesday',
-    Jueves: 'Thursday',
-    Viernes: 'Friday',
-    Sábado: 'Saturday',
-  };
-
-  // function setTimePreference(day: string, newValue: string) {
-  //   setValue((prevState: any) => ({
-  //     ...prevState,
-  //     [mapDays[day]]: newValue,
-  //   }));
-  // }
   function setTimePreference(day: string, newValue: string) {
     setValue((prevState: any) => {
       const updatedState = { ...prevState };
-
       if (newValue === '') {
-        delete updatedState[mapDays[day]];
+        delete updatedState[mappingDays[day]];
       } else {
-        updatedState[mapDays[day]] = newValue;
+        updatedState[mappingDays[day]] = newValue;
       }
-
       return updatedState;
     });
   }
@@ -73,7 +55,7 @@ export default function FormStep4({ setValue, handleSubmit }: FormStep4Props) {
         </span>
       </div>
       <div className='my-3'>
-        {days.map((day, index) => {
+        {spanishDays.map((day, index) => {
           function handleTime(value: string) {
             setTimePreference(day, value);
           }
