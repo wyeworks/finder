@@ -47,14 +47,15 @@ class GroupsController < ApplicationController
 
   def set_group
     @group = Group.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Group not found' }, status: :not_found
   end
 
   def group_params
-    params.require(:group).permit(:name, :description, :course, :size, :subject_id, time_preferences: {})
+    params.require(:group).permit(:name, :description, :size, :subject_id, time_preferences: {})
   end
 
   def authorize_admin!
-    member = @group.members.find_by(user: current_user)
-    head :forbidden unless member&.role == 'admin'
+    head :forbidden unless @group.admin?(current_user)
   end
 end
