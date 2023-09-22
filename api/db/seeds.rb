@@ -199,3 +199,28 @@ Subject.create(name: 'Imágenes Medicas:adq. Instrum. Y Gestión', code: '5709',
 Subject.create(name: 'Planificacion De Clases: Diseño De Unid.didact.', code: '1213', credits: 2)
 Subject.create(name: 'Taller Encarare 1:creatividad E Innovac.', code: '2034', credits: 5)
 Subject.create(name: 'Taller Encarare 2:planif.de La Fut.empr.', code: '2036', credits: 5)
+
+# Careers
+
+Career.create(name: 'Agrimensura', code: '42-0', approved_on: '1997', years: 5, credits: 450)
+Career.create(name: 'Ingeniería Civil', code: '22-5', approved_on: '2021', years: 5, credits: 450)
+Career.create(name: 'Ingeniería de Alimentos', code: '56-0', approved_on: '2003', years: 5, credits: 450)
+Career.create(name: 'Ingeniería de Producción', code: '22-2', approved_on: '2010', years: 5, credits: 450)
+Career.create(name: 'Ingeniería Eléctrica', code: '22-8', approved_on: '2022', years: 5, credits: 450)
+Career.create(name: 'Ingeniería en Computación', code: '72', approved_on: '1997', years: 5, credits: 450)
+Career.create(name: 'Ingeniería en Sistemas de Comunicación', code: 'ISC', approved_on: '2018', years: 5, credits: 450)
+Career.create(name: 'Ingeniería Físico-Matemática', code: 'IFM', approved_on: '2017', years: 5, credits: 450)
+Career.create(name: 'Ingeniería Forestal (Tacuarembó)', code: 'IFT', approved_on: '2013', years: 5, credits: 450)
+Career.create(name: 'Ingeniería Industrial Mecánica', code: '22-3', approved_on: '1997', years: 5, credits: 450)
+Career.create(name: 'Ingeniería Naval', code: '22-4', approved_on: '1997', years: 5, credits: 450)
+Career.create(name: 'Ingeniería Química', code: '53-0', approved_on: '2022', years: 5, credits: 450)
+Career.create(name: 'Lic. en Ciencias de la Atmósfera', code: '45-0', approved_on: '2006', years: 4, credits: 360)
+Career.create(name: 'Lic. en Computación', code: '73-0', approved_on: '2012', years: 4, credits: 360)
+Career.create(name: 'Lic. en Ingeniería Biológica', code: 'LIB', approved_on: '2013', years: 4, credits: 360)
+Career.create(
+  name: 'Lic. en Recursos Hídricos y Riego (RN-Salto)',
+  code: 'LRHR',
+  approved_on: '2017',
+  years: 4,
+  credits: 360
+)
