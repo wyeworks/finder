@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 'use client';
 
 import LeftArrowIcon from '@/assets/Icons/LeftArrowIcon';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import FormStep1 from './Forms/FormStep1';
 import FormStep2 from './Forms/FormStep2';
 import FormStep3 from './Forms/FormStep3';
@@ -11,13 +10,6 @@ import FormStep4 from './Forms/FormStep4';
 import Step5 from './Step5';
 import { Logger } from '@/services/Logger';
 import ErrorCreateGroup from './ErrorCreateGroup';
-
-export type Subject = {
-  id: number;
-  name: string;
-  code: string;
-  credits: number;
-};
 
 type TimePreference = {
   Monday?: string;

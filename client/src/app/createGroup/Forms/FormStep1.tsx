@@ -1,10 +1,17 @@
 import Button from '@/components/common/Button';
 import { Option } from '@/components/common/DropDown';
 import strings from '@/locales/strings.json';
-import { CreateGroupData, Subject } from '../page';
+import { CreateGroupData } from '../page';
 import SearchDropdown from '@/components/common/SearchDropDown';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Logger } from '@/services/Logger';
+
+type Subject = {
+  id: number;
+  name: string;
+  code: string;
+  credits: number;
+};
 
 type FormStep1Props = {
   nextPage: () => void;
