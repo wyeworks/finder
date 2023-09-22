@@ -38,7 +38,7 @@ export default function Sesiones({ group }: SesionesProps) {
           <thead>
             <tr>
               <th className='border px-4 py-2'>Día</th>
-              <th className='border px-4 py-2'>Preferencia de Tiempo</th>
+              <th className='border px-4 py-2'>Preferencia de Horario</th>
             </tr>
           </thead>
           <tbody>
