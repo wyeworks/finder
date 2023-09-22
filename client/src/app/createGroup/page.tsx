@@ -33,13 +33,12 @@ export default function CreateGroup() {
   const router = useRouter();
   const [actualStep, setActualStep] = useState<number>(1);
   const barWidth = `${(actualStep / 5) * 100}%`;
-  // estos states podrian ir en uno solo?
   const [groupName, setGroupName] = useState<string>('');
   const [subject, setSubject] = useState<Subject>();
   const [description, setDescription] = useState<string>('');
   const [timePreference, setTimePreference] = useState<TimePreference>();
   const [error, setError] = useState<boolean>(false);
-  const [groupId, setGroupId] = useState<any>(null);
+  const [groupId, setGroupId] = useState<string>('');
 
   function nextPage() {
     if (actualStep < 5) {

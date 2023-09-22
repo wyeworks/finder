@@ -38,7 +38,7 @@ export default function FormStep5({
       </div>
       <ClipBoard
         id='copy-text'
-        value={`${window.location.origin}/${groupId}`} // colocar la url del env porque dependiendo de eso va cambiando
+        value={`${window.location.origin}/protected/group/${groupId}`}
         name='name'
       />
       <Button
