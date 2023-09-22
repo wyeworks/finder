@@ -2,10 +2,11 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { CreateGroupData } from '../page';
 
 type FormStep2Props = {
   nextPage: () => void;
-  setValue: Dispatch<SetStateAction<string>>;
+  setValue: Dispatch<SetStateAction<CreateGroupData>>;
 };
 
 export default function FormStep2({ nextPage, setValue }: FormStep2Props) {
@@ -52,7 +53,11 @@ export default function FormStep2({ nextPage, setValue }: FormStep2Props) {
           required
           touched={dataForm.touched}
           validateText={strings.form.nameGroupInput.validateText}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) =>
+            setValue((prevState: any) => {
+              return { ...prevState, name: e.target.value };
+            })
+          }
         />
         <Button
           text={strings.form.nextButton.text}

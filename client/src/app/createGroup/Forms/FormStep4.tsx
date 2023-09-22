@@ -2,7 +2,7 @@ import Button from '@/components/common/Button';
 import Dropdown, { Option } from '@/components/common/DropDown';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction } from 'react';
-import { TimePreference } from '../page';
+import { CreateGroupData } from '../page';
 
 const mappingDays: { [key: string]: string } = {
   Domingo: 'Sunday',
@@ -23,7 +23,7 @@ const preferences: Option[] = [
 ];
 
 type FormStep4Props = {
-  setValue: Dispatch<SetStateAction<TimePreference | undefined>>;
+  setValue: Dispatch<SetStateAction<CreateGroupData>>;
   handleSubmit: () => void;
 };
 
@@ -32,13 +32,16 @@ export default function FormStep4({ setValue, handleSubmit }: FormStep4Props) {
 
   function setTimePreference(day: string, newValue: string) {
     setValue((prevState: any) => {
-      const updatedState = { ...prevState };
+      const updatedTimePreference = { ...prevState.timePreference };
       if (newValue === '') {
-        delete updatedState[mappingDays[day]];
+        delete updatedTimePreference[mappingDays[day]];
       } else {
-        updatedState[mappingDays[day]] = newValue;
+        updatedTimePreference[mappingDays[day]] = newValue;
       }
-      return updatedState;
+      return {
+        ...prevState,
+        timePreference: updatedTimePreference,
+      };
     });
   }
 

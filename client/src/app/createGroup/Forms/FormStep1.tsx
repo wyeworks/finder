@@ -1,14 +1,14 @@
 import Button from '@/components/common/Button';
 import { Option } from '@/components/common/DropDown';
 import strings from '@/locales/strings.json';
-import { Subject } from '../page';
+import { CreateGroupData, Subject } from '../page';
 import SearchDropdown from '@/components/common/SearchDropDown';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Logger } from '@/services/Logger';
 
 type FormStep1Props = {
   nextPage: () => void;
-  setValue: Dispatch<SetStateAction<any>>;
+  setValue: Dispatch<SetStateAction<CreateGroupData>>;
 };
 
 function parseSubjectToOption(subjects: Subject[]): Option[] {
@@ -47,7 +47,9 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
   }, []);
 
   function handleButton() {
-    setValue(selectedSubject?.key);
+    setValue((prevState: any) => {
+      return { ...prevState, subjectId: selectedSubject?.key };
+    });
     nextPage();
   }
 

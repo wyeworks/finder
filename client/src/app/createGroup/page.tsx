@@ -19,7 +19,7 @@ export type Subject = {
   credits: number;
 };
 
-export type TimePreference = {
+type TimePreference = {
   Monday?: string;
   Tuesday?: string;
   Wednesday?: string;
@@ -29,16 +29,27 @@ export type TimePreference = {
   Sunday?: string;
 };
 
+export type CreateGroupData = {
+  name: string;
+  subjectId: string;
+  description: string;
+  size: string;
+  groupId?: string;
+  timePreference: TimePreference;
+};
+
 export default function CreateGroup() {
   const router = useRouter();
   const [actualStep, setActualStep] = useState<number>(1);
   const barWidth = `${(actualStep / 5) * 100}%`;
-  const [groupName, setGroupName] = useState<string>('');
-  const [subject, setSubject] = useState<Subject>();
-  const [description, setDescription] = useState<string>('');
-  const [timePreference, setTimePreference] = useState<TimePreference>();
+  const [createGroupData, setCreateGroupData] = useState<CreateGroupData>({
+    name: '',
+    subjectId: '',
+    description: '',
+    size: '',
+    timePreference: {},
+  });
   const [error, setError] = useState<boolean>(false);
-  const [groupId, setGroupId] = useState<string>('');
 
   function nextPage() {
     if (actualStep < 5) {
@@ -62,11 +73,11 @@ export default function CreateGroup() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: groupName,
-          description: description,
-          size: 7,
-          subject_id: subject,
-          time_preferences: timePreference,
+          name: createGroupData.name,
+          description: createGroupData.description,
+          size: createGroupData.size,
+          subject_id: createGroupData.subjectId,
+          time_preferences: createGroupData.timePreference,
         }),
       });
 
@@ -76,7 +87,9 @@ export default function CreateGroup() {
         return;
       }
       const responseBody = await response.json();
-      setGroupId(responseBody.id);
+      setCreateGroupData((prevState) => {
+        return { ...prevState, groupId: responseBody.id };
+      });
       nextPage();
     } catch (error) {
       Logger.debug('Error trying to create group' + { error });
@@ -86,10 +99,16 @@ export default function CreateGroup() {
   function handleStep5() {
     if (!error) {
       return (
-        <Step5 nextPage={nextPage} groupName={groupName} groupId={groupId} />
+        <Step5
+          nextPage={nextPage}
+          groupName={createGroupData.name}
+          groupId={createGroupData.groupId}
+        />
       );
     }
-    return <ErrorCreateGroup nextPage={nextPage} groupName={groupName} />;
+    return (
+      <ErrorCreateGroup nextPage={nextPage} groupName={createGroupData.name} />
+    );
   }
 
   return (
@@ -116,21 +135,21 @@ export default function CreateGroup() {
         </div>
         <div className='m-3 bg-whiteCustom'>
           {actualStep === 1 && (
-            <FormStep1 nextPage={nextPage} setValue={setSubject} />
+            <FormStep1 nextPage={nextPage} setValue={setCreateGroupData} />
           )}
           {actualStep === 2 && (
-            <FormStep2 nextPage={nextPage} setValue={setGroupName} />
+            <FormStep2 nextPage={nextPage} setValue={setCreateGroupData} />
           )}
           {actualStep === 3 && (
             <FormStep3
               nextPage={nextPage}
-              setValue={setDescription}
-              groupName={groupName}
+              setValue={setCreateGroupData}
+              groupName={createGroupData.name}
             />
           )}
           {actualStep === 4 && (
             <FormStep4
-              setValue={setTimePreference}
+              setValue={setCreateGroupData}
               handleSubmit={handleSubmit}
             />
           )}

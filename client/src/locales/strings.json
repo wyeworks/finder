@@ -59,6 +59,10 @@
       "placeholder": "Descripcion de <Materia>",
       "validateText": "Ingresa una Descripción de Grupo"
     },
+    "sizeInput": {
+      "placeholder": "Ingrese el tamaño del grupo deseado",
+      "validateText": "Ingrese un tamaño mayor a 1"
+    },
     "nextButton": {
       "text": "Siguiente"
     },

@@ -1,6 +1,5 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/auth';
-import { Logger } from '@/services/Logger';
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -33,7 +32,6 @@ export async function POST(request: Request) {
         time_preferences: requestBody.time_preferences,
       }),
     });
-    Logger.debug('Group created successfully: ' + { response: response.body });
 
     const responseBody = await response.json();
     return new Response(JSON.stringify(responseBody), {
