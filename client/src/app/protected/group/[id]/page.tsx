@@ -12,9 +12,11 @@ type Props = {
   };
 };
 
-export default async function Page({ params }: Props) {
+export default async function Group({ params }: Props) {
   let group;
   let subject;
+
+  console.log('PARAMS ', params);
 
   try {
     group = await GroupService.getGroup(params.id);
