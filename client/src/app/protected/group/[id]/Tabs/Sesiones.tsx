@@ -1,9 +1,9 @@
 import React from 'react';
 import { StudyGroup, TimeOfDay, TimePreference } from '@/types/StudyGroup';
 
-interface SesionesProps {
+type SesionesProps = {
   group: StudyGroup;
-}
+};
 
 const translateDay = (day: keyof TimePreference): string => {
   const days = {

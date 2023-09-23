@@ -5,9 +5,9 @@ import { Tab } from '@headlessui/react';
 import Sesiones from './Tabs/Sesiones';
 import Header from './Tabs/Header';
 
-interface GroupTabsProps {
+type GroupTabsProps = {
   group: StudyGroup;
-}
+};
 
 export default function GroupTabs({ group }: GroupTabsProps) {
   return (

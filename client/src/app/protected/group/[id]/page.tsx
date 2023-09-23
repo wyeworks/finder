@@ -3,6 +3,7 @@ import GroupInfo from './GroupInfo';
 import GroupTabs from './GroupTabs';
 import { GroupService } from '@/services/GroupService';
 import { SubjectService } from '@/services/SubjectService';
+import GroupDisclosure from './GroupDisclosure';
 
 type Props = {
   params: {
@@ -29,7 +30,15 @@ export default async function Page({ params }: Props) {
         <GroupInfo group={group} subject={subject} />
       </div>
       <div className='flex-shrink-0 flex-grow'>
-        <GroupTabs group={group} />
+        {/* Displayed only on mobile */}
+        <div className='md:hidden'>
+          <GroupDisclosure group={group} />
+        </div>
+
+        {/* Displayed from medium screens and up */}
+        <div className='hidden md:block'>
+          <GroupTabs group={group} />
+        </div>
       </div>
     </div>
   );
