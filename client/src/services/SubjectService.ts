@@ -11,7 +11,12 @@ export class SubjectService {
     const URL = process.env.RAILS_API_URL + '/subjects/' + id;
 
     const res = await fetch(URL);
-    let json: any = await res.json();
-    return (await json) as Subject;
+    const json = await res.json();
+
+    if (!res.ok) {
+      throw new Error(json.errors);
+    }
+
+    return json as Subject;
   }
 }

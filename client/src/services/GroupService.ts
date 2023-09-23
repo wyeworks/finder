@@ -16,8 +16,13 @@ export class GroupService {
     const URL = process.env.RAILS_API_URL + '/groups/' + id;
 
     const res = await fetch(URL);
-    let json: any = await res.json();
-    return (await json) as StudyGroup;
+    const json = await res.json();
+
+    if (!res.ok) {
+      throw new Error(json.errors);
+    }
+
+    return json as StudyGroup;
   }
 
   public static async getActiveGroups(user: User): Promise<StudyGroup[]> {

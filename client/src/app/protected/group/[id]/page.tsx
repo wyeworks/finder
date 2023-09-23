@@ -12,8 +12,19 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
-  const group = await GroupService.getGroup(params.id);
-  const subject = await SubjectService.getSubject(group.subject_id);
+  let group;
+  let subject;
+
+  try {
+    group = await GroupService.getGroup(params.id);
+    subject = await SubjectService.getSubject(group.subject_id);
+  } catch (error) {
+    return (
+      <div className='flex h-screen items-center justify-center text-2xl'>
+        El grupo no existe.
+      </div>
+    );
+  }
 
   return (
     <div className='flex h-screen w-full flex-col'>
