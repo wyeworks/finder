@@ -16,8 +16,6 @@ export default async function Group({ params }: Props) {
   let group;
   let subject;
 
-  console.log('PARAMS ', params);
-
   try {
     group = await GroupService.getGroup(params.id);
     subject = await SubjectService.getSubject(group.subject_id);
