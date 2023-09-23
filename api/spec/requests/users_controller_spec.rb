@@ -47,4 +47,27 @@ RSpec.describe UsersController, type: :request do
       expect(json_response[0]['credits']).to be_a(Integer)
     end
   end
+
+  describe 'GET /users/:id/subjects' do
+    let(:user) { create :user }
+
+    before do
+      create_list(:subject, 2, users: [user])
+
+      get subjects_user_path(user)
+    end
+
+    it 'returns a successful response' do
+      expect(response).to be_successful
+    end
+
+    it "returns JSON containing user's subjects data" do
+      json_response = response.parsed_body
+
+      expect(json_response[0]['id']).to be_a(Integer)
+      expect(json_response[0]['name']).to be_a(String)
+      expect(json_response[0]['code']).to be_a(String)
+      expect(json_response[0]['credits']).to be_a(Integer)
+    end
+  end
 end

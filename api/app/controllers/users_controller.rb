@@ -13,6 +13,14 @@ class UsersController < ApplicationController
     render json: careers
   end
 
+  def subjects
+    subjects = @user.subjects.map do |subject|
+      SubjectSerializer.new(subject).serializable_hash[:data][:attributes]
+    end
+
+    render json: subjects
+  end
+
   private
 
   def set_user
