@@ -13,7 +13,7 @@ export class GroupService {
       throw new Error('RAILS_API_URL is not defined');
     }
 
-    const URL = process.env.RAILS_API_URL + '/group/' + id;
+    const URL = process.env.RAILS_API_URL + '/groups/' + id;
 
     const res = await fetch(URL);
     let json: any = await res.json();
@@ -27,7 +27,7 @@ export class GroupService {
       id: 1,
       name: 'Lab Bases de Datos',
       description: 'Estamos buscando gente para el lab de bases de datos',
-      subject: 'Fundamentos de Bases de Datos',
+      subject_id: 1,
       size: 3,
       isLab: true,
     };
@@ -35,7 +35,7 @@ export class GroupService {
       id: 2,
       name: 'Lab Taller de Programación',
       description: 'Estamos buscando gente para el taller de programación',
-      subject: 'Taller de Programación',
+      subject_id: 2,
       size: 3,
       isLab: true,
     };
@@ -43,7 +43,7 @@ export class GroupService {
       id: 3,
       name: 'Los Pibardos Preparan Redes',
       description: 'Estamos tratando de estudiar para el parcial de redes',
-      subject: 'Redes de Computadoras',
+      subject_id: 3,
       size: 3,
       isLab: false,
     };

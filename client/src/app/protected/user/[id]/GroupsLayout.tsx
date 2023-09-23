@@ -22,10 +22,10 @@ function GroupCard({ group }: GroupCardProps) {
       />
       <div className='bg-white p-5'>
         <h1
-          data-testid={`groupSubject-${group.subject}`}
+          data-testid={`groupSubject-${group.subject_id}`}
           className='text-base font-bold text-[#242760]'
         >
-          {group.subject}
+          {group.subject_id}
         </h1>
         <h1
           data-testid={`groupName-${group.name}`}

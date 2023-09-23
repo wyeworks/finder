@@ -21,9 +21,9 @@ export type StudyGroup = {
   id?: number;
   name: string;
   description?: string;
-  subject: string;
+  subject_id: number;
   size?: number;
-  time_preference?: TimePreference;
+  time_preferences?: TimePreference;
   isLab?: boolean;
   banner?: string;
 };

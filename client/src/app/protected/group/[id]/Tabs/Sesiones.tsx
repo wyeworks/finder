@@ -33,7 +33,7 @@ const translatePreference = (preference: TimeOfDay): string => {
 export default function Sesiones({ group }: SesionesProps) {
   return (
     <>
-      {group.time_preference && (
+      {group.time_preferences && (
         <table className='min-w-full border-collapse'>
           <thead>
             <tr>
@@ -42,7 +42,7 @@ export default function Sesiones({ group }: SesionesProps) {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(group.time_preference).map(([day, time]) => (
+            {Object.entries(group.time_preferences).map(([day, time]) => (
               <tr key={day}>
                 <td className='border px-4 py-2'>
                   {translateDay(day as keyof TimePreference)}

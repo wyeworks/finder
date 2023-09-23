@@ -1,7 +1,8 @@
-import { StudyGroup, TimeOfDay } from '@/types/StudyGroup';
 import Image from 'next/image';
 import GroupInfo from './GroupInfo';
 import GroupTabs from './GroupTabs';
+import { GroupService } from '@/services/GroupService';
+import { SubjectService } from '@/services/SubjectService';
 
 type Props = {
   params: {
@@ -9,25 +10,9 @@ type Props = {
   };
 };
 
-// eslint-disable-next-line no-unused-vars
-export default function Page({ params }: Props) {
-  const testGroup: StudyGroup = {
-    id: 1,
-    name: 'Lab Bases de Datos 2023',
-    description:
-      'Buscamos gente para las entregas de laboratorio y estudiar en grupo. Son invitados a sumarse!',
-    subject: 'Fundamentos de Bases de Datos',
-    size: 3,
-    time_preference: {
-      Sunday: TimeOfDay.None,
-      Monday: TimeOfDay.Morning,
-      Tuesday: TimeOfDay.Afternoon,
-      Wednesday: TimeOfDay.Night,
-      Thursday: TimeOfDay.Morning,
-      Friday: TimeOfDay.Afternoon,
-      Saturday: TimeOfDay.None,
-    },
-  };
+export default async function Page({ params }: Props) {
+  const group = await GroupService.getGroup(params.id);
+  const subject = await SubjectService.getSubject(group.subject_id);
 
   return (
     <div className='flex h-screen w-full flex-col'>
@@ -41,10 +26,10 @@ export default function Page({ params }: Props) {
         />
       </div>
       <div className='mb-2 flex-shrink-0'>
-        <GroupInfo group={testGroup} />
+        <GroupInfo group={group} subject={subject} />
       </div>
       <div className='flex-shrink-0 flex-grow'>
-        <GroupTabs group={testGroup} />
+        <GroupTabs group={group} />
       </div>
     </div>
   );
