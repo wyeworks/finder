@@ -74,6 +74,20 @@ export default function CreateGroup() {
       });
 
       if (!response.ok) {
+        // const errorData = await response.json();
+        // const parsedError = errorData as BackendError;
+        // const errorMessages = [];
+
+        // if (parsedError.errors.email) {
+        //   errorMessages.push(strings.common.error.email);
+        // }
+        // if (parsedError.errors.password) {
+        //   errorMessages.push(strings.common.error.password);
+        // }
+
+        // setAlertMessage(errorMessages.join('\n'));
+        // setIsVisible(true);
+        // return;
         setError(true);
         nextPage();
         return;

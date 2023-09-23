@@ -59,7 +59,7 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
         id='dropdown'
         options={parseSubjectToOption(subjects)}
         required={true}
-        onChange={setSelectedSubject}
+        setOptionValue={setSelectedSubject}
         placeholder={
           subjects.length === 0
             ? 'Cargando materias...'
