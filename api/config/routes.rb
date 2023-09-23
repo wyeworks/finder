@@ -14,5 +14,8 @@ Rails.application.routes.draw do
 
   resources :careers, only: :index
   resources :subjects, only: [:index, :show]
+
+  resources :groups, except: [:new, :edit]
+
   resources :users, only: :show
 end
