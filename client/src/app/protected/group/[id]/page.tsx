@@ -4,6 +4,7 @@ import GroupTabs from './GroupTabs';
 import { GroupService } from '@/services/GroupService';
 import { SubjectService } from '@/services/SubjectService';
 import GroupDisclosure from './GroupDisclosure';
+import EmptyBoxImage from '@/assets/images/empty_box.png';
 
 type Props = {
   params: {
@@ -20,8 +21,9 @@ export default async function Page({ params }: Props) {
     subject = await SubjectService.getSubject(group.subject_id);
   } catch (error) {
     return (
-      <div className='flex h-screen items-center justify-center text-2xl'>
-        El grupo no existe.
+      <div className='flex h-screen flex-col items-center justify-center text-2xl'>
+        <Image src={EmptyBoxImage} alt='Caja vacia' />
+        <div>El grupo no existe.</div>
       </div>
     );
   }
