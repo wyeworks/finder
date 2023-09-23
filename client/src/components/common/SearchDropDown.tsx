@@ -10,7 +10,7 @@ type DropdownProps = {
   required?: boolean;
   validateText?: string;
   maxWidth?: boolean;
-  setValue: React.Dispatch<React.SetStateAction<any>>;
+  onChange: React.Dispatch<React.SetStateAction<Option>>;
   placeholder: string;
 };
 
@@ -18,7 +18,7 @@ export default function SearchDropdown({
   id,
   label,
   options,
-  setValue,
+  onChange,
   placeholder,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -34,15 +34,15 @@ export default function SearchDropdown({
     setFilteredOptions(filtered);
   }, [selectedValue, options]);
 
-  const handleOptionClick = (value: string, key: string) => {
+  const handleChangeOption = (value: string, key: string) => {
     setSelectedValue(value);
-    setValue({ key, label: value });
+    onChange({ key, label: value });
     setIsOpen(false);
   };
 
   function handleChangeInput(value: string) {
     setSelectedValue(value);
-    setValue((prevState: Option) => ({
+    onChange((prevState: Option) => ({
       ...prevState,
       label: value,
     }));
@@ -80,7 +80,7 @@ export default function SearchDropdown({
               {filteredOptions.map((option) => (
                 <li
                   key={option.key}
-                  onClick={() => handleOptionClick(option.label, option.key)}
+                  onClick={() => handleChangeOption(option.label, option.key)}
                   className='cursor-pointer px-3 py-2 text-sm text-gray-900 hover:bg-gray-200'
                 >
                   {option.label}

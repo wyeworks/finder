@@ -68,7 +68,7 @@ export default function CreateGroup() {
           name: createGroupData.name,
           description: createGroupData.description,
           size: createGroupData.size,
-          subject_id: null,
+          subject_id: createGroupData.subjectId,
           time_preferences: createGroupData.timePreference,
         }),
       });

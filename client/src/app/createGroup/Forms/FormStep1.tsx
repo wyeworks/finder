@@ -15,7 +15,10 @@ type FormStep1Props = {
 
 export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
   const [subjects, setSubjects] = useState<Subject[]>([]);
-  const [selectedSubject, setSelectedSubject] = useState<Option>();
+  const [selectedSubject, setSelectedSubject] = useState<Option>({
+    key: '',
+    label: '',
+  });
 
   const getSubjects = async () => {
     try {
@@ -56,7 +59,7 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
         id='dropdown'
         options={parseSubjectToOption(subjects)}
         required={true}
-        setValue={setSelectedSubject}
+        onChange={setSelectedSubject}
         placeholder={
           subjects.length === 0
             ? 'Cargando materias...'
