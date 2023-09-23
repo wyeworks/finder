@@ -8,7 +8,10 @@
       "signin": "El login no se pudo completar",
       "signup": "El usuario no pudo ser creado",
       "email": "Email debe ser ***@email.com",
-      "password": "Formato de la contraseña no es correcto"
+      "password": "Formato de la contraseña no es correcto",
+      "name": "Hubo un error al ingresar el nombre",
+      "subject": "Hubo un error al ingresar la materia",
+      "description": "Hubo un error al ingresar la descripcion"
     },
     "submitButton": {
       "text": "Enviar"

@@ -5,11 +5,13 @@ import Alert from '@/components/common/Alert';
 type ErrorCreateGroupProps = {
   nextPage: () => void;
   groupName: string;
+  alertMessage: string;
 };
 
 export default function ErrorCreateGroup({
   nextPage,
   groupName,
+  alertMessage,
 }: ErrorCreateGroupProps) {
   const router = useRouter();
 
@@ -29,7 +31,7 @@ export default function ErrorCreateGroup({
           intente de nuevo en otro momento.
         </span>
       </div>
-      <Alert isVisible alertType='error' />
+      <Alert isVisible alertType='error' message={alertMessage} />
       <Button
         text='Salir'
         type='button'

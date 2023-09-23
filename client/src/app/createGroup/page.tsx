@@ -10,6 +10,8 @@ import FormStep4 from './Forms/FormStep4';
 import Step5 from './Step5';
 import { Logger } from '@/services/Logger';
 import ErrorCreateGroup from './ErrorCreateGroup';
+import { BackendError } from '@/types/BackendError';
+import strings from '@/locales/strings.json';
 
 type TimePreference = {
   Monday?: string;
@@ -42,6 +44,7 @@ export default function CreateGroup() {
     timePreference: {},
   });
   const [error, setError] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
 
   function nextPage() {
     if (actualStep < 5) {
@@ -74,20 +77,24 @@ export default function CreateGroup() {
       });
 
       if (!response.ok) {
-        // const errorData = await response.json();
-        // const parsedError = errorData as BackendError;
-        // const errorMessages = [];
+        const errorData = await response.json();
+        const parsedError = errorData as BackendError;
+        const errorMessages = [];
 
-        // if (parsedError.errors.email) {
-        //   errorMessages.push(strings.common.error.email);
-        // }
-        // if (parsedError.errors.password) {
-        //   errorMessages.push(strings.common.error.password);
-        // }
+        if (parsedError.errors.name) {
+          errorMessages.push(strings.common.error.name);
+        }
+        if (parsedError.errors.subject) {
+          errorMessages.push(strings.common.error.subject);
+        }
+        if (parsedError.errors.description) {
+          errorMessages.push(strings.common.error.description);
+        }
+        if (errorMessages.length === 0) {
+          errorMessages.push(strings.common.error.unexpectedError);
+        }
 
-        // setAlertMessage(errorMessages.join('\n'));
-        // setIsVisible(true);
-        // return;
+        setAlertMessage(errorMessages.join('\n'));
         setError(true);
         nextPage();
         return;
@@ -113,7 +120,11 @@ export default function CreateGroup() {
       );
     }
     return (
-      <ErrorCreateGroup nextPage={nextPage} groupName={createGroupData.name} />
+      <ErrorCreateGroup
+        nextPage={nextPage}
+        groupName={createGroupData.name}
+        alertMessage={alertMessage}
+      />
     );
   }
 
