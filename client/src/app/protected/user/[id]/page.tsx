@@ -5,6 +5,7 @@ import { Logger } from '@/services/Logger';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { UserService } from '@/services/UserService';
+import SubjectsLayout from '@/app/protected/user/[id]/SubjectLayout';
 
 type Props = {
   params: {
@@ -17,11 +18,15 @@ export default async function Page({ params }: Props) {
   const user = await UserService.getUser(params.id);
   const groups = await GroupService.getActiveGroups(user);
   const session = await getServerSession(authOptions);
+  const subjects = [{ name: 'CDIV', code: 1, credits: 10 }];
 
   return (
     <div className='bg-white md:bg-whiteCustom'>
       <UserBanner user={user} session={session} />
-      <GroupsLayout groups={groups} />
+      <div className='flex flex-col lg:flex-row lg:p-20'>
+        <GroupsLayout groups={groups} />
+        <SubjectsLayout subjects={subjects} />
+      </div>
     </div>
   );
 }

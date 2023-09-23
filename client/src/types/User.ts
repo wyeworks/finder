@@ -8,4 +8,5 @@ export type User = {
   bio?: string;
   socialNetworks?: SocialNetworks;
   birth_date?: string;
+  career?: string;
 };
