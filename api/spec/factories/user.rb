@@ -8,6 +8,8 @@ FactoryBot.define do
 
     careers { build_list :career, 1, users: [] }
 
+    subjects { build_list :subject, 1, users: [] }
+
     trait :with_confirmation_token do
       confirmed_at { nil }
       confirmation_token { 'some_token' }
