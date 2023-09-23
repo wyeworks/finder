@@ -67,7 +67,7 @@ export default function Form() {
         throw new Error('Server responded with an error status');
       }
 
-      router.push('/protected/home');
+      router.push('/home');
     } catch (error) {
       setAlertMessage(strings.common.error.logInInvalid);
       setIsVisible(true);

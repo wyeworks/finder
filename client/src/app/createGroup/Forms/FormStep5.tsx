@@ -12,7 +12,7 @@ export default function FormStep5({ nextPage }: FormStep5Props) {
 
   function handleButtonAction() {
     nextPage();
-    router.push('/protected/home');
+    router.push('/home');
   }
 
   return (

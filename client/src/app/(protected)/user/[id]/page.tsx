@@ -1,6 +1,6 @@
-import UserBanner from '@/app/protected/user/[id]/UserBanner';
+import UserBanner from '@/app/(protected)/user/[id]/UserBanner';
 import { GroupService } from '@/services/GroupService';
-import GroupsLayout from '@/app/protected/user/[id]/GroupsLayout';
+import GroupsLayout from '@/app/(protected)/user/[id]/GroupsLayout';
 import { Logger } from '@/services/Logger';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
