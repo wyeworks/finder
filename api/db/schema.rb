@@ -25,16 +25,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_23_001429) do
     t.index ["code"], name: "index_careers_on_code", unique: true
   end
 
-  create_table "careers_subjects", id: false, force: :cascade do |t|
-    t.bigint "career_id", null: false
-    t.bigint "subject_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["career_id", "subject_id"], name: "index_careers_subjects_on_career_id_and_subject_id", unique: true
-    t.index ["career_id"], name: "index_careers_subjects_on_career_id"
-    t.index ["subject_id"], name: "index_careers_subjects_on_subject_id"
-  end
-
   create_table "careers_users", id: false, force: :cascade do |t|
     t.bigint "career_id", null: false
     t.bigint "user_id", null: false
