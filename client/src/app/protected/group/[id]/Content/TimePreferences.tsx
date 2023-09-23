@@ -1,7 +1,7 @@
 import React from 'react';
 import { StudyGroup, TimeOfDay, TimePreference } from '@/types/StudyGroup';
 
-type SesionesProps = {
+type TimePreferencesProps = {
   group: StudyGroup;
 };
 
@@ -30,7 +30,7 @@ const translatePreference = (preference: TimeOfDay): string => {
   return preferences[preference];
 };
 
-export default function Sesiones({ group }: SesionesProps) {
+export default function TimePreferences({ group }: TimePreferencesProps) {
   return (
     <>
       {group.time_preferences && (

@@ -2,8 +2,8 @@
 
 import { StudyGroup } from '@/types/StudyGroup';
 import { Tab } from '@headlessui/react';
-import Sesiones from './Tabs/Sesiones';
-import Header from './Tabs/Header';
+import sections from './Sections';
+import { Fragment } from 'react';
 
 type GroupTabsProps = {
   group: StudyGroup;
@@ -16,15 +16,27 @@ export default function GroupTabs({ group }: GroupTabsProps) {
       <div className='col-span-4 sm:col-span-3'>
         <Tab.Group>
           <div className='border-b border-t border-gray-200'>
-            <Header />
+            <Tab.List className='grid grid-cols-4 gap-4 text-xl'>
+              {sections.map((section) => (
+                <Tab key={section.name} as={Fragment}>
+                  {({ selected }) => (
+                    <button
+                      className={`col-span-1 flex items-center justify-center py-1 text-xl focus:outline-none ${
+                        selected ? 'border-b-2 border-sky-500 text-sky-500' : ''
+                      }`}
+                    >
+                      {section.icon}
+                      {section.name}
+                    </button>
+                  )}
+                </Tab>
+              ))}
+            </Tab.List>
           </div>
           <Tab.Panels>
-            <Tab.Panel>
-              <Sesiones group={group} />
-            </Tab.Panel>
-            <Tab.Panel></Tab.Panel>
-            <Tab.Panel></Tab.Panel>
-            <Tab.Panel></Tab.Panel>
+            {sections.map((section) => (
+              <Tab.Panel key={section.name}>{section.content(group)}</Tab.Panel>
+            ))}
           </Tab.Panels>
         </Tab.Group>
       </div>

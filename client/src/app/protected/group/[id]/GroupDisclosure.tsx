@@ -2,42 +2,15 @@
 
 import React from 'react';
 import { Disclosure } from '@headlessui/react';
-import PlayIcon from '@/assets/Icons/PlayIcon';
-import FolderIcon from '@/assets/Icons/FolderIcon';
-import ChatIcon from '@/assets/Icons/ChatIcon';
-import GroupSizeIcon from '@/assets/Icons/GroupSizeIcon';
 import { StudyGroup } from '@/types/StudyGroup';
 import ArrowDownIcon from '@/assets/Icons/ArrowDownIcon';
-import Sesiones from './Tabs/Sesiones';
+import sections from './Sections';
 
-interface GroupDisclosureProps {
+type GroupDisclosureProps = {
   group: StudyGroup;
-}
+};
 
 export default function GroupDisclosure({ group }: GroupDisclosureProps) {
-  const sections = [
-    {
-      name: 'Sesiones',
-      icon: <PlayIcon className='mr-2 h-5 w-5' />,
-      content: <Sesiones group={group} />,
-    },
-    {
-      name: 'Recursos',
-      icon: <FolderIcon className='mr-2 h-5 w-5' />,
-      content: 'Recursos',
-    },
-    {
-      name: 'Foro',
-      icon: <ChatIcon className='mr-2 h-5 w-5' />,
-      content: 'Foro',
-    },
-    {
-      name: 'Miembros',
-      icon: <GroupSizeIcon className='mr-2 h-5 w-5' />,
-      content: 'Miembros',
-    },
-  ];
-
   return (
     <div>
       {sections.map((section) => (
@@ -56,7 +29,7 @@ export default function GroupDisclosure({ group }: GroupDisclosureProps) {
                 />
               </Disclosure.Button>
               <Disclosure.Panel className='px-4 pb-2 pt-4 text-sm'>
-                {section.content}
+                {section.content(group)}
               </Disclosure.Panel>
             </>
           )}
