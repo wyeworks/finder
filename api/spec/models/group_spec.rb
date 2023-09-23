@@ -10,7 +10,6 @@ RSpec.describe Group, type: :model do
   describe 'validations' do
     subject { create(:group) }
     it { should validate_presence_of(:name) }
-    it { should validate_uniqueness_of(:name).case_insensitive }
     it { should validate_numericality_of(:size).only_integer }
 
     describe '#validate_time_preferences' do

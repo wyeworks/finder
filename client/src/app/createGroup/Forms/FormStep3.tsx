@@ -78,7 +78,7 @@ export default function FormStep3({
           name='size'
           placeholder={strings.form.sizeInput.placeholder}
           maxWidth={false}
-          className='pb-3 pt-3'
+          classNameWrapper='pb-3 pt-3'
           required
           touched={touched.size}
           validateText={strings.form.sizeInput.validateText}

@@ -114,8 +114,11 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
 
   return (
     <div className='mt-3 sm:w-full'>
+      <p className='mb-4 pl-7 pr-7 text-2xl text-black md:px-0'>
+        {strings.configProfile.forms.personalInfo.title}
+      </p>
       <form
-        className='grid grid-rows-personal-info-form gap-5 pl-7 pr-7'
+        className='grid grid-rows-personal-info-form gap-5 rounded-lg border border-gray-200 bg-white pl-7 pr-7 pt-2'
         onSubmit={handleSubmit}
         noValidate
       >
@@ -132,6 +135,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
           onChange={handleChange}
           touched={touched.name}
           Icon={<UserIcon className='h-5 w-5' />}
+          classNameInput='bg-backgroundInput'
         />
         <Input
           type='date'
@@ -143,6 +147,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
           }
           value={formData.birthdate}
           onChange={handleChange}
+          classNameInput='bg-backgroundInput'
         />
         <div className='block w-full'>
           <TextArea
@@ -164,10 +169,10 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
               id='confirm-button'
               text={strings.configProfile.forms.personalInfo.submitButton.text}
               disabled={disabledSubmittButton}
-              className='bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-primaryBlue-100'
+              className='bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-slate-500'
             />
           </div>
-          <div>
+          <div className='mb-3'>
             <Alert
               isVisible={alertVisible}
               message={alertMessage}

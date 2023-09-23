@@ -1,13 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      'media.istockphoto.com',
-      'randomuser.me',
-      'media.licdn.com',
-      'www.figma.com',
-      'static.vecteezy.com',
-    ],
+    domains: ['media.istockphoto.com', 'media.licdn.com', 'www.figma.com'],
   },
 };
 

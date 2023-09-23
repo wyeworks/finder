@@ -16,6 +16,7 @@ import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
+import defaultUser from '@/assets/images/default_user.png';
 
 const userNavigation = [
   {
@@ -117,10 +118,7 @@ export default function Header({ user }: HeaderProps) {
                           <div className='relative h-12 w-12'>
                             <Image
                               alt='Man'
-                              src={
-                                user.profileImage ??
-                                'https://randomuser.me/api/portraits/women/81.jpg'
-                              }
+                              src={user.profileImage ?? defaultUser}
                               className='rounded-full shadow-sm'
                               width={100}
                               height={100}
@@ -181,10 +179,7 @@ export default function Header({ user }: HeaderProps) {
                   <div className='flex-shrink-0'>
                     <Image
                       alt='Man'
-                      src={
-                        user.profileImage ??
-                        'https://randomuser.me/api/portraits/women/81.jpg'
-                      }
+                      src={user.profileImage ?? defaultUser}
                       className='rounded-full shadow-sm'
                       width={50}
                       height={50}
