@@ -23,7 +23,10 @@ class GroupsController < ApplicationController
       @group.members.create(user: current_user, role: 'admin')
       render json: GroupSerializer.new(@group).serializable_hash[:data][:attributes], status: :created
     else
-      render json: @group.errors, status: :unprocessable_entity
+      render json: {
+        message: "Group couldn't be created successfully. #{@group.errors.full_messages.to_sentence}",
+        errors: @group.errors.messages
+      }, status: :unprocessable_entity
     end
   end
 
@@ -48,7 +51,10 @@ class GroupsController < ApplicationController
   def set_group
     @group = Group.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { error: 'Group not found' }, status: :not_found
+    Rails.logger.info "Group with ID ##{params[:id]} not found"
+    render json: {
+      errors: 'Group not found'
+    }, status: :not_found
   end
 
   def group_params

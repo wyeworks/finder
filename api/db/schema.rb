@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_19_234830) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_23_001429) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,7 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_234830) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "subject_id"
-    t.index ["name"], name: "index_groups_on_name", unique: true
+    t.index ["name"], name: "index_groups_on_name"
     t.index ["subject_id"], name: "index_groups_on_subject_id"
   end
 
@@ -86,11 +86,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_234830) do
     t.datetime "birth_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "bio"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.json "social_networks"
-    t.text "bio"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
