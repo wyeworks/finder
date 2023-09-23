@@ -1,30 +1,17 @@
 import Button from '@/components/common/Button';
-import { Option } from '@/components/common/DropDown';
+import { Option } from '@/types/Option';
 import strings from '@/locales/strings.json';
 import { CreateGroupData } from '../page';
 import SearchDropdown from '@/components/common/SearchDropDown';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Logger } from '@/services/Logger';
-
-type Subject = {
-  id: number;
-  name: string;
-  code: string;
-  credits: number;
-};
+import { Subject } from '@/types/Subject';
+import { parseSubjectToOption } from '@/utils/Formatter';
 
 type FormStep1Props = {
   nextPage: () => void;
   setValue: Dispatch<SetStateAction<CreateGroupData>>;
 };
-
-function parseSubjectToOption(subjects: Subject[]): Option[] {
-  const options: Option[] = subjects.map((subject) => ({
-    label: subject.name,
-    key: subject.id.toString(),
-  }));
-  return options;
-}
 
 export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
   const [subjects, setSubjects] = useState<Subject[]>([]);

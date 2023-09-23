@@ -1,5 +1,6 @@
 import Button from '@/components/common/Button';
-import Dropdown, { Option } from '@/components/common/DropDown';
+import Dropdown from '@/components/common/DropDown';
+import { Option } from '@/types/Option';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction } from 'react';
 import { CreateGroupData } from '../page';

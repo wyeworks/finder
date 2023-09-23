@@ -1,10 +1,6 @@
 import ArrowDownIcon from '@/assets/Icons/ArrowDownIcon';
 import { useState } from 'react';
-
-export type Option = {
-  label: string;
-  key: string;
-};
+import { Option } from '@/types/Option';
 
 type DropdownProps = {
   id: string;
