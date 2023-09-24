@@ -1,10 +1,4 @@
 'use client';
-import DiscordIcon from '@/assets/Icons/DiscordIcon';
-import FacebookIcon from '@/assets/Icons/FacebookIcon';
-import InstagramIcon from '@/assets/Icons/InstagramIcon';
-import LinkedInIcon from '@/assets/Icons/LinkedInIcon';
-import RedditIcon from '@/assets/Icons/RedditIcon';
-import TwitterIcon from '@/assets/Icons/TwitterIcon';
 import UserIcon from '@/assets/Icons/UserIcon';
 import Alert, { alertTypes } from '@/components/common/Alert';
 import Button from '@/components/common/Button';
@@ -13,7 +7,7 @@ import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
 import { SocialNetworks } from '@/types/SocialNetworks';
 import { User } from '@/types/User';
-import { formatDate } from '@/utils/Formatter';
+import { formatDate, returnSocialNetworkIcon } from '@/utils/Formatter';
 import { useEffect, useState } from 'react';
 
 type PersonalInfoFormData = {
@@ -111,7 +105,6 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
     setAlertVisible(false);
 
     const isCurrentFormValid = event.currentTarget.checkValidity();
-
     if (!isCurrentFormValid) {
       setAlertMessage(strings.common.error.completeFields);
       setAlertVisible(true);
@@ -179,6 +172,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
           value={formData.birthdate}
           onChange={handleChange}
           classNameInput='bg-backgroundInput'
+          max={new Date().toISOString().split('T')[0]}
         />
         <div className='block w-full'>
           <TextArea
@@ -194,25 +188,30 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
             maxWidth={false}
           />
           <div className='block py-2'>
-            <label>Redes Sociales</label>
+            <label className='block text-sm font-medium leading-6 text-gray-900'>
+              {strings.configProfile.forms.personalInfo.socialNetworks.label}
+            </label>
             <div className='grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-2 md:gap-y-8'>
               {Object.keys(formData.social_networks).map((key, index) => {
                 return (
                   <Input
                     key={index}
-                    type='url'
+                    type='text'
                     id={key}
-                    // pattern='.com'
+                    pattern='^.+\.com\/.+'
                     name={key}
-                    Icon={returnIcon(key)}
+                    Icon={returnSocialNetworkIcon(key)}
                     value={
                       formData.social_networks[key as keyof SocialNetworks]
                     }
                     onChange={handleChangeSocialNetworks}
                     classNameInput='bg-backgroundInput'
                     classNameWrapper='h-[50px]'
-                    validateText='asdasd'
-                    // touched={true}
+                    validateText={
+                      strings.configProfile.forms.personalInfo.socialNetworks
+                        .validateText
+                    }
+                    touched={true}
                   />
                 );
               })}
@@ -250,21 +249,4 @@ function generateSocialNetworks(user: User) {
     facebook: user?.social_networks?.facebook ?? '',
     reddit: user?.social_networks?.reddit ?? '',
   } as SocialNetworks;
-}
-
-function returnIcon(value: string) {
-  switch (value) {
-    case 'linkedin':
-      return <LinkedInIcon className='h-8 w-8 text-inputTextColor' />;
-    case 'reddit':
-      return <RedditIcon className='h-8 w-8 text-inputTextColor' />;
-    case 'discord':
-      return <DiscordIcon className='h-8 w-8 text-inputTextColor' />;
-    case 'facebook':
-      return <FacebookIcon className='h-8 w-8 text-inputTextColor' />;
-    case 'twitter':
-      return <TwitterIcon className='h-8 w-8 text-inputTextColor' />;
-    case 'instagram':
-      return <InstagramIcon className='h-8 w-8 text-inputTextColor' />;
-  }
 }

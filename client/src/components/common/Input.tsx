@@ -21,6 +21,7 @@ type InputParams = {
   classNameWrapper?: string;
   classNameInput?: string;
   minNumber?: number;
+  max?: string | number;
 };
 
 export default function Input({
@@ -40,6 +41,7 @@ export default function Input({
   classNameWrapper = '',
   classNameInput = '',
   minNumber,
+  max,
 }: InputParams) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -92,6 +94,7 @@ export default function Input({
             (Icon || type === 'password') && 'pl-10'
           } ${classNameInput}`}
           min={minNumber}
+          max={max}
         />
         {touched && (
           <p className='invisible text-sm text-red-600 peer-invalid:visible'>
