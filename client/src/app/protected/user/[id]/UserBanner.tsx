@@ -54,6 +54,14 @@ function SocialLinksLayout(props: { user: User }) {
   );
 }
 
+function UserBio(props: { bio: string }) {
+  return (
+    <h1 className='text-center text-2xl text-[#3D405B] lg:mt-2 lg:text-left'>
+      {props.bio}
+    </h1>
+  );
+}
+
 function UserCareer(props: { career: string }) {
   return (
     <div className={'mb-2 flex w-fit self-center lg:mt-4 lg:self-start'}>
@@ -138,6 +146,7 @@ export default async function UserBanner({ user, session }: UserBannerProps) {
                 <UserCareers careers={careers.map((c) => c.name)} />
               )}
             </div>
+            {user.bio && <UserBio bio={user.bio} />}
           </div>
         </div>
         <div className='mb-10 flex flex-col items-center lg:mb-0 lg:mr-20 lg:justify-around'>
