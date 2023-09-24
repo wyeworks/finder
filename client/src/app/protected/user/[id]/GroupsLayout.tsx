@@ -1,12 +1,14 @@
 import { StudyGroup } from '@/types/StudyGroup';
 import Image from 'next/image';
 import React from 'react';
+import { SubjectService } from '@/services/SubjectService';
 
 type GroupCardProps = {
   group: StudyGroup;
 };
 
-function GroupCard({ group }: GroupCardProps) {
+async function GroupCard({ group }: GroupCardProps) {
+  const subject = await SubjectService.getSubject(group.subject_id);
   return (
     <div
       data-testid={`groupCard-${group.name}`}
@@ -25,7 +27,7 @@ function GroupCard({ group }: GroupCardProps) {
           data-testid={`groupSubject-${group.subject_id}`}
           className='text-base font-bold text-[#242760]'
         >
-          {group.subject_id}
+          {subject.name}
         </h1>
         <h1
           data-testid={`groupName-${group.name}`}
