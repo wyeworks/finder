@@ -64,7 +64,7 @@ export default function Input({
           )}
           {fieldInfo && (
             <TooltipIcon tooltipText={fieldInfo} tooltipPosition={'left'}>
-              <InfoIcon width={20} height={20} />
+              <InfoIcon width={13} height={13} />
             </TooltipIcon>
           )}
         </div>
