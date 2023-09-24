@@ -1,27 +1,51 @@
 import Button from '@/components/common/Button';
-import Dropdown, { Option } from '@/components/common/DropDown';
+import Dropdown from '@/components/common/DropDown';
+import { Option } from '@/types/Option';
 import strings from '@/locales/strings.json';
+import { Dispatch, SetStateAction } from 'react';
+import { CreateGroupData } from '../page';
 
-type FormStep4Props = {
-  nextPage: () => void;
+const mappingDays: { [key: string]: string } = {
+  Domingo: 'Sunday',
+  Lunes: 'Monday',
+  Martes: 'Tuesday',
+  Miércoles: 'Wednesday',
+  Jueves: 'Thursday',
+  Viernes: 'Friday',
+  Sábado: 'Saturday',
 };
 
-export default function FormStep4({ nextPage }: FormStep4Props) {
-  const subjects: Option[] = [
-    { label: 'Sin Preferencia' },
-    { label: 'Mañana' },
-    { label: 'Tarde' },
-    { label: 'Noche' },
-  ];
-  const days = [
-    'Domingo',
-    'Lunes',
-    'Martes',
-    'Miercoles',
-    'Jueves',
-    'Viernes',
-    'Sabado',
-  ];
+const preferences: Option[] = [
+  { key: '', label: 'No puedo este dia' },
+  { key: 'None', label: 'Sin Preferencia' },
+  { key: 'Afternoon', label: 'Mañana' },
+  { key: 'Morning', label: 'Tarde' },
+  { key: 'Night', label: 'Noche' },
+];
+
+type FormStep4Props = {
+  setValue: Dispatch<SetStateAction<CreateGroupData>>;
+  handleSubmit: () => void;
+};
+
+export default function FormStep4({ setValue, handleSubmit }: FormStep4Props) {
+  const spanishDays = Object.keys(mappingDays);
+
+  function setTimePreference(day: string, newValue: string) {
+    setValue((prevState: any) => {
+      const updatedTimePreference = { ...prevState.timePreference };
+      if (newValue === '') {
+        delete updatedTimePreference[mappingDays[day]];
+      } else {
+        updatedTimePreference[mappingDays[day]] = newValue;
+      }
+      return {
+        ...prevState,
+        timePreference: updatedTimePreference,
+      };
+    });
+  }
+
   return (
     <div className='grid grid-rows-[160px,auto,80px] justify-center sm:grid-rows-[110px,auto,80px]'>
       <div className='flex flex-col pb-2'>
@@ -35,10 +59,18 @@ export default function FormStep4({ nextPage }: FormStep4Props) {
         </span>
       </div>
       <div className='my-3'>
-        {days.map((day, index) => {
+        {spanishDays.map((day, index) => {
+          function handleTime(value: string) {
+            setTimePreference(day, value);
+          }
           return (
             <div key={index}>
-              <Dropdown id={`dropdown-${day}`} options={subjects} label={day} />
+              <Dropdown
+                id={`dropdown-${day}`}
+                options={preferences}
+                label={day}
+                onSelect={handleTime}
+              />
             </div>
           );
         })}
@@ -48,7 +80,9 @@ export default function FormStep4({ nextPage }: FormStep4Props) {
         type='button'
         className='rounded-2xl bg-primaryBlue hover:bg-hoverPrimaryBlue'
         classNameWrapper='w-1/3 mt-2'
-        onClick={nextPage}
+        onClick={() => {
+          handleSubmit();
+        }}
       />
     </div>
   );

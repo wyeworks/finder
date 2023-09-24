@@ -24,9 +24,12 @@ class Group < ApplicationRecord
 
   # Validations
   validates :name, :size, presence: true
-  validates :name, uniqueness: { case_sensitive: false }
   validates :size, numericality: { only_integer: true }
   validate :validate_time_preferences
+
+  def admin?(user)
+    members.exists?(user:, role: 'admin')
+  end
 
   private
 

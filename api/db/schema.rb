@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_19_234830) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_23_204150) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,16 +23,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_234830) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_careers_on_code", unique: true
-  end
-
-  create_table "careers_subjects", id: false, force: :cascade do |t|
-    t.bigint "career_id", null: false
-    t.bigint "subject_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["career_id", "subject_id"], name: "index_careers_subjects_on_career_id_and_subject_id", unique: true
-    t.index ["career_id"], name: "index_careers_subjects_on_career_id"
-    t.index ["subject_id"], name: "index_careers_subjects_on_subject_id"
   end
 
   create_table "careers_users", id: false, force: :cascade do |t|
@@ -53,7 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_234830) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "subject_id"
-    t.index ["name"], name: "index_groups_on_name", unique: true
+    t.index ["name"], name: "index_groups_on_name"
     t.index ["subject_id"], name: "index_groups_on_subject_id"
   end
 
@@ -76,6 +66,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_234830) do
     t.index ["code"], name: "index_subjects_on_code", unique: true
   end
 
+  create_table "subjects_users", id: false, force: :cascade do |t|
+    t.bigint "subject_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subject_id", "user_id"], name: "index_subjects_users_on_subject_id_and_user_id", unique: true
+    t.index ["subject_id"], name: "index_subjects_users_on_subject_id"
+    t.index ["user_id"], name: "index_subjects_users_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -86,11 +86,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_234830) do
     t.datetime "birth_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "bio"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.json "social_networks"
-    t.text "bio"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Subject, type: :model do
   describe 'associations' do
     it { should have_many(:groups).dependent(:nullify) }
-    it { should have_and_belong_to_many(:careers) }
+    it { should have_and_belong_to_many(:users) }
   end
 
   describe 'validations' do

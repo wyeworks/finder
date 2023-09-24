@@ -3,5 +3,8 @@ export type BackendError = {
   errors: {
     email?: string[];
     password?: string[];
+    name?: string[];
+    subject?: string[];
+    description?: string[];
   };
 };

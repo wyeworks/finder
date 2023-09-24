@@ -12,6 +12,13 @@ Rails.application.routes.draw do
     confirmations: 'users/confirmations'
   }
 
+  resources :careers, only: :index
+  resources :groups, except: [:new, :edit]
   resources :subjects, only: [:index, :show]
-  resources :users, only: :show
+  resources :users, only: :show do
+    member do
+      get :careers
+      get :subjects
+    end
+  end
 end

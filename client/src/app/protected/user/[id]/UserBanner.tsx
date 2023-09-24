@@ -9,6 +9,7 @@ import {
   TwitterButton,
 } from '@/components/common/SocialNetworkButton';
 import Link from 'next/link';
+import defaultUser from '@/assets/images/default_user.png';
 import { Session } from 'next-auth';
 
 type UserBannerProps = {
@@ -104,7 +105,7 @@ function UserProfileImage({ profileImage }: { profileImage?: string }) {
   return (
     <Image
       data-testid={profileImage ? 'profileImage' : 'defaultProfileImage'}
-      src={profileImage ?? '/default_user_profile.jpeg'}
+      src={profileImage ?? defaultUser}
       alt={'Foto de perfil'}
       width={250}
       height={250}

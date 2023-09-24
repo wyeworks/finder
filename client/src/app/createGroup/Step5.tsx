@@ -5,9 +5,15 @@ import strings from '@/locales/strings.json';
 
 type FormStep5Props = {
   nextPage: () => void;
+  groupName: string;
+  groupId?: any;
 };
 
-export default function FormStep5({ nextPage }: FormStep5Props) {
+export default function FormStep5({
+  nextPage,
+  groupName,
+  groupId,
+}: FormStep5Props) {
   const router = useRouter();
 
   function handleButtonAction() {
@@ -25,13 +31,14 @@ export default function FormStep5({ nextPage }: FormStep5Props) {
           Ahora solo faltan las personas
         </span>
         <span className='max-w-lg text-sm text-grayText'>
-          El grupo \nombre\ ya está pronto para recibir al resto de sus
-          integrantes bajo la siguiente URL. Asegurese de compartirla con ellos.
+          El grupo &apos;{groupName}&apos; ya está pronto para recibir al resto
+          de sus integrantes bajo la siguiente URL. Asegurese de compartirla con
+          ellos.
         </span>
       </div>
       <ClipBoard
         id='copy-text'
-        value='www.finder.com/id_grupo' // this will be a real url
+        value={`${window.location.origin}/protected/group/${groupId}`}
         name='name'
       />
       <Button
