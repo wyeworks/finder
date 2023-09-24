@@ -10,6 +10,7 @@ import {
 import Link from 'next/link';
 import defaultUser from '@/assets/images/default_user.png';
 import { Session } from 'next-auth';
+import { CareerService } from '@/services/CareerService';
 
 type UserBannerProps = {
   user: User;
@@ -53,20 +54,34 @@ function SocialLinksLayout(props: { user: User }) {
   );
 }
 
-function UserBio(props: { bio: string }) {
-  return (
-    <h1 className='text-center text-2xl text-[#3D405B] lg:mt-2 lg:text-left'>
-      {props.bio}
-    </h1>
-  );
-}
-
 function UserCareer(props: { career: string }) {
   return (
     <div className={'mb-2 flex w-fit self-center lg:mt-4 lg:self-start'}>
-      <h1 className={'ml-2 text-2xl text-[#212B36]'}>{props.career}</h1>
+      <h1 className={'text-2xl text-[#212B36]'}>{props.career}</h1>
     </div>
   );
+}
+
+function UserCareers(props: { careers: string[] }) {
+  if (props.careers.length == 1) {
+    return <UserCareer career={props.careers[0]} />;
+  } else if (props.careers.length > 0) {
+    const careers = props.careers;
+    const firstCareer = careers.shift();
+    return (
+      <div className='mb-2 flex w-fit flex-col items-center justify-center self-center lg:mt-4 lg:flex-row lg:self-start'>
+        <h1 className={'text-2xl text-[#212B36]'}>{firstCareer}</h1>
+        {careers.map((career) => (
+          <>
+            <div className='invisible text-2xl lg:visible lg:ml-2'> |</div>
+            <h1 className={'ml-2 text-2xl text-[#212B36]'}>{career}</h1>
+          </>
+        ))}
+      </div>
+    );
+  } else {
+    return <></>;
+  }
 }
 
 function UserName(props: { user: User }) {
@@ -108,7 +123,8 @@ function UserProfileImage({ profileImage }: { profileImage?: string }) {
   );
 }
 
-export default function UserBanner({ user, session }: UserBannerProps) {
+export default async function UserBanner({ user, session }: UserBannerProps) {
+  const careers = await CareerService.getByUser(user);
   return (
     <div className={'flex w-full flex-col bg-transparent'}>
       <BannerBackground />
@@ -117,8 +133,11 @@ export default function UserBanner({ user, session }: UserBannerProps) {
           <UserProfileImage profileImage={user.profileImage} />
           <div className={'m-5 flex flex-col lg:ml-10 lg:justify-start'}>
             <UserName user={user} />
-            {user.career && <UserCareer career={user.career} />}
-            {user.bio && <UserBio bio={user.bio} />}
+            <div className='flex flex-col flex-wrap lg:flex-row'>
+              {careers.length > 0 && (
+                <UserCareers careers={careers.map((c) => c.name)} />
+              )}
+            </div>
           </div>
         </div>
         <div className='mb-10 flex flex-col items-center lg:mb-0 lg:mr-20 lg:justify-around'>
