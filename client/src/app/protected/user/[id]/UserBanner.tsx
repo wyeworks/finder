@@ -38,17 +38,17 @@ function SocialLinksLayout(props: { user: User }) {
       data-testid='socialNetworksLayout'
       className='mb-5 flex max-w-[375px] flex-row items-center justify-evenly'
     >
-      {props.user.socialNetworks?.instagram && (
-        <InstagramButton link={props.user.socialNetworks.instagram} />
+      {props.user.social_networks?.instagram && (
+        <InstagramButton link={props.user.social_networks.instagram} />
       )}
-      {props.user.socialNetworks?.linkedin && (
-        <LinkedInButton link={props.user.socialNetworks.linkedin} />
+      {props.user.social_networks?.linkedin && (
+        <LinkedInButton link={props.user.social_networks.linkedin} />
       )}
-      {props.user.socialNetworks?.twitter && (
-        <TwitterButton link={props.user.socialNetworks.twitter} />
+      {props.user.social_networks?.twitter && (
+        <TwitterButton link={props.user.social_networks.twitter} />
       )}
-      {props.user.socialNetworks?.discord && (
-        <DiscordButton link={props.user.socialNetworks.discord} />
+      {props.user.social_networks?.discord && (
+        <DiscordButton link={props.user.social_networks.discord} />
       )}
     </div>
   );
