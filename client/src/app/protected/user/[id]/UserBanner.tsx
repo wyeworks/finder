@@ -150,7 +150,7 @@ export default async function UserBanner({ user, session }: UserBannerProps) {
           </div>
         </div>
         <div className='mb-10 flex flex-col items-center lg:mb-0 lg:mr-20 lg:justify-around'>
-          {user.socialNetworks && <SocialLinksLayout user={user} />}
+          {user.social_networks && <SocialLinksLayout user={user} />}
           {session?.user?.email === user.email && <EditButton />}
         </div>
       </div>
