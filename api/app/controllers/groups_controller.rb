@@ -17,12 +17,16 @@ class GroupsController < ApplicationController
 
   def create
     @group = Group.new(group_params)
-    @group.subject = Subject.find(params[:subject_id]) if params[:subject_id]
 
     if @group.save
       @group.members.create(user: current_user, role: 'admin')
+
+      Rails.logger.info "Group was successfully created with params: '#{group_params}'"
+
       render json: GroupSerializer.new(@group).serializable_hash[:data][:attributes], status: :created
     else
+      Rails.logger.info "Group has the following validation errors: #{@group.errors.full_messages}"
+
       render json: {
         message: "Group couldn't be created successfully. #{@group.errors.full_messages.to_sentence}",
         errors: @group.errors.messages
@@ -32,17 +36,31 @@ class GroupsController < ApplicationController
 
   def update
     if @group.update(group_params)
-      render json: @group, status: :ok
+      Rails.logger.info "Group was successfully updated with params: '#{group_params}'"
+
+      render json: GroupSerializer.new(@group).serializable_hash[:data][:attributes], status: :ok
     else
-      render json: @group.errors, status: :unprocessable_entity
+      Rails.logger.info "Group has the following validation errors: #{@group.errors.full_messages}"
+
+      render json: {
+        message: "Group couldn't be updated successfully. #{@group.errors.full_messages.to_sentence}",
+        errors: @group.errors.messages
+      }, status: :unprocessable_entity
     end
   end
 
   def destroy
     if @group.destroy
+      Rails.logger.info 'Group was successfully deleted'
+
       head :no_content
     else
-      render json: @group.errors, status: :unprocessable_entity
+      Rails.logger.info "Group has the following validation errors: #{@group.errors.full_messages}"
+
+      render json: {
+        message: "Group couldn't be deleted successfully. #{@group.errors.full_messages.to_sentence}",
+        errors: @group.errors.messages
+      }, status: :unprocessable_entity
     end
   end
 
@@ -51,9 +69,12 @@ class GroupsController < ApplicationController
   def set_group
     @group = Group.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    Rails.logger.info "Group with ID ##{params[:id]} not found"
+    Rails.logger.info "Couldn't find Group with ID ##{params[:id]}"
+
     render json: {
-      errors: 'Group not found'
+      errors: {
+        group: ["Couldn't find Group with ID ##{params[:id]}"]
+      }
     }, status: :not_found
   end
 
@@ -62,6 +83,14 @@ class GroupsController < ApplicationController
   end
 
   def authorize_admin!
-    head :forbidden unless @group.admin?(current_user)
+    return if @group.admin?(current_user)
+
+    Rails.logger.info "User with ID ##{current_user.id} is not this group's Admin"
+
+    render json: {
+      errors: {
+        group: ["User with ID ##{current_user.id} is not this group's Admin"]
+      }
+    }, status: :unauthorized
   end
 end

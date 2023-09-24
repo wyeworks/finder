@@ -4,9 +4,9 @@ import Dropdown from '../DropDown';
 
 describe('Dropdown', () => {
   const options = [
-    { label: 'Option 1' },
-    { label: 'Option 2' },
-    { label: 'Option 3' },
+    { key: '0', label: 'Option 1' },
+    { key: '1', label: 'Option 2' },
+    { key: '2', label: 'Option 3' },
   ];
 
   it('renders with label and options', () => {

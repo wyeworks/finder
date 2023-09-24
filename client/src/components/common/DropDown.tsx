@@ -1,25 +1,33 @@
+import ArrowDownIcon from '@/assets/Icons/ArrowDownIcon';
 import { useState } from 'react';
+import { Option } from '@/types/Option';
 
-export type Option = {
-  label: string;
-};
-
-type DropdownParams = {
+type DropdownProps = {
   id: string;
   label?: string;
   options: Option[];
   required?: boolean;
   validateText?: string;
   maxWidth?: boolean;
+  // eslint-disable-next-line no-unused-vars
+  onSelect?: (value: string) => void;
 };
 
-export default function Dropdown({ id, label, options }: DropdownParams) {
+export default function Dropdown({
+  id,
+  label,
+  options,
+  onSelect,
+}: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<string>(options[0].label);
+  const [selectedValue, setSelectedValue] = useState<string>(
+    options[0].label ?? 'Seleccione un valor...'
+  );
 
-  const handleOptionClick = (value: string) => {
+  const handleOptionClick = (value: string, key: string) => {
     setSelectedValue(value);
     setIsOpen(false);
+    if (onSelect) onSelect(key);
   };
 
   return (
@@ -39,27 +47,16 @@ export default function Dropdown({ id, label, options }: DropdownParams) {
             className='flex w-full cursor-pointer items-center justify-between rounded-md border px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6'
           >
             {selectedValue}
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
+            <ArrowDownIcon
               className={`ml-2 h-5 w-5 ${isOpen ? 'rotate-180 transform' : ''}`}
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                d='M19 9l-7 7-7-7'
-              />
-            </svg>
+            />
           </div>
           {isOpen && (
-            <ul className='absolute z-10 mt-1 w-full rounded-md bg-white shadow-lg'>
+            <ul className='absolute z-10 mt-1 max-h-72 w-full overflow-auto rounded-md bg-white shadow-lg '>
               {options.map((option) => (
                 <li
-                  key={option.label}
-                  onClick={() => handleOptionClick(option.label)}
+                  key={option.key}
+                  onClick={() => handleOptionClick(option.label, option.key)}
                   className='cursor-pointer px-3 py-2 text-sm text-gray-900 hover:bg-gray-200'
                 >
                   {option.label}

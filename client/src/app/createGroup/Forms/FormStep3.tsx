@@ -1,22 +1,40 @@
 import Button from '@/components/common/Button';
+import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { CreateGroupData } from '../page';
 
 type FormStep3Props = {
   nextPage: () => void;
+  setValue: Dispatch<SetStateAction<CreateGroupData>>;
+  groupName: string;
 };
 
-export default function FormStep3({ nextPage }: FormStep3Props) {
-  const [dataForm, setDataForm] = useState<{
-    description: string;
-    touched: boolean;
-  }>({ description: '', touched: false });
+export default function FormStep3({
+  nextPage,
+  setValue,
+  groupName,
+}: FormStep3Props) {
+  const [touched, setTouched] = useState<{
+    description: boolean;
+    size: boolean;
+  }>({ description: false, size: false });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setValue((prevState: any) => ({ ...prevState, [name]: value }));
+    setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    setDataForm({ description: dataForm.description, touched: true });
+    setTouched({
+      description: true,
+      size: true,
+    });
     const isCurrentFormValid = event.currentTarget.checkValidity();
 
     if (!isCurrentFormValid) {
@@ -40,18 +58,32 @@ export default function FormStep3({ nextPage }: FormStep3Props) {
       <form
         noValidate
         onSubmit={handleSubmit}
-        className='grid grid-rows-[130px,auto] gap-4'
+        className='grid grid-rows-[130px,60px,auto] gap-4'
       >
         <TextArea
-          id='name'
-          name='name'
-          placeholder={strings.form.descriptionGroupInput.placeholder}
+          id='description'
+          name='description'
+          placeholder={`Escriba la descripcion de ${groupName} aquí`}
           maxWidth={false}
           className='pt-3'
           classNameWrapper='mt-3'
           required
-          touched={dataForm.touched}
+          touched={touched.description}
           validateText={strings.form.descriptionGroupInput.validateText}
+          onChange={handleChange}
+        />
+        <Input
+          type='number'
+          id='name'
+          name='size'
+          placeholder={strings.form.sizeInput.placeholder}
+          maxWidth={false}
+          classNameWrapper='pb-3 pt-3'
+          required
+          touched={touched.size}
+          validateText={strings.form.sizeInput.validateText}
+          onChange={handleChange}
+          minNumber={2}
         />
         <Button
           text={strings.form.nextButton.text}
