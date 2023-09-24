@@ -24,7 +24,7 @@ const translatePreference = (preference: TimeOfDay): string => {
     [TimeOfDay.Morning]: 'Mañana',
     [TimeOfDay.Afternoon]: 'Tarde',
     [TimeOfDay.Night]: 'Noche',
-    [TimeOfDay.None]: 'Ninguno',
+    [TimeOfDay.None]: 'Sin preferencia',
   };
 
   return preferences[preference];
