@@ -197,7 +197,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
                     key={index}
                     type='text'
                     id={key}
-                    pattern='^.+\.com\/.+'
+                    pattern={`^.*${key}\.com\/.+`}
                     name={key}
                     Icon={returnSocialNetworkIcon(key)}
                     value={
