@@ -133,6 +133,7 @@ export default function Form() {
           name='password'
           pattern='^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.]).{8,}$'
           label={strings.form.passwordInput.label}
+          fieldInfo={strings.form.passwordInput.passwordInfo}
           placeholder={strings.form.passwordInput.placeholder}
           validateText={strings.form.passwordInput.validateText}
           required

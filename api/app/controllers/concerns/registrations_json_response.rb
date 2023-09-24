@@ -3,9 +3,9 @@ module RegistrationsJsonResponse
 
   def render_user_created_successfully(user, requires_confirmation: false)
     message = if requires_confirmation
-                'User created successfully but requires confirmation.'
+                'User was successfully created, but requires confirmation.'
               else
-                'User created successfully.'
+                'User was successfully created.'
               end
 
     render json: {
@@ -24,7 +24,7 @@ module RegistrationsJsonResponse
   def render_user_update_successfully(user)
     Rails.logger.info "User with ID ##{user.id} and email '#{user.email}' was successfully updated."
     render json: {
-      message: 'Updated successfully.',
+      message: 'User was successfully updated.',
       user: UserSerializer.new(user).serializable_hash[:data][:attributes]
     }, status: :ok
   end

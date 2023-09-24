@@ -1,3 +1,57 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.tooltip-top {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tooltip-bottom {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tooltip-left {
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.tooltip-right {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.tooltip-topLeft {
+    bottom: 100%;
+    left: 0;
+}
+
+.tooltip-topRight {
+    bottom: 100%;
+    right: 0;
+}
+
+.tooltip-bottomLeft {
+    top: 100%;
+    left: 0;
+}
+
+.tooltip-bottomRight {
+    top: 100%;
+    right: 0;
+}
+
+/* Max width and width classes */
+.tooltip-max-width {
+    max-width: 250px;
+}
+
+.tooltip-width {
+    width: max-content;
+}

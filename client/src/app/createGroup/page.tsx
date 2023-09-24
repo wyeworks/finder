@@ -7,12 +7,44 @@ import FormStep1 from './Forms/FormStep1';
 import FormStep2 from './Forms/FormStep2';
 import FormStep3 from './Forms/FormStep3';
 import FormStep4 from './Forms/FormStep4';
-import FormStep5 from './Forms/FormStep5';
+import Step5 from './Step5';
+import { Logger } from '@/services/Logger';
+import ErrorCreateGroup from './ErrorCreateGroup';
+import { BackendError } from '@/types/BackendError';
+import strings from '@/locales/strings.json';
+
+type TimePreference = {
+  Monday?: string;
+  Tuesday?: string;
+  Wednesday?: string;
+  Thursday?: string;
+  Friday?: string;
+  Saturday?: string;
+  Sunday?: string;
+};
+
+export type CreateGroupData = {
+  name: string;
+  subjectId: string;
+  description: string;
+  size: string;
+  groupId?: string;
+  timePreference: TimePreference;
+};
 
 export default function CreateGroup() {
   const router = useRouter();
   const [actualStep, setActualStep] = useState<number>(1);
   const barWidth = `${(actualStep / 5) * 100}%`;
+  const [createGroupData, setCreateGroupData] = useState<CreateGroupData>({
+    name: '',
+    subjectId: '',
+    description: '',
+    size: '',
+    timePreference: {},
+  });
+  const [error, setError] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
 
   function nextPage() {
     if (actualStep < 5) {
@@ -26,6 +58,74 @@ export default function CreateGroup() {
       return;
     }
     setActualStep(actualStep - 1);
+  }
+
+  async function handleSubmit() {
+    try {
+      const response = await fetch('/api/createGroup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: createGroupData.name,
+          description: createGroupData.description,
+          size: createGroupData.size,
+          subject_id: createGroupData.subjectId,
+          time_preferences: createGroupData.timePreference,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        const parsedError = errorData as BackendError;
+        const errorMessages = [];
+
+        if (parsedError.errors.name) {
+          errorMessages.push(strings.common.error.name);
+        }
+        if (parsedError.errors.subject) {
+          errorMessages.push(strings.common.error.subject);
+        }
+        if (parsedError.errors.description) {
+          errorMessages.push(strings.common.error.description);
+        }
+        if (errorMessages.length === 0) {
+          errorMessages.push(strings.common.error.unexpectedError);
+        }
+
+        setAlertMessage(errorMessages.join('\n'));
+        setError(true);
+        nextPage();
+        return;
+      }
+      const responseBody = await response.json();
+      setCreateGroupData((prevState) => {
+        return { ...prevState, groupId: responseBody.id };
+      });
+      nextPage();
+    } catch (error) {
+      Logger.debug('Error trying to create group' + { error });
+    }
+  }
+
+  function handleStep5() {
+    if (!error) {
+      return (
+        <Step5
+          nextPage={nextPage}
+          groupName={createGroupData.name}
+          groupId={createGroupData.groupId}
+        />
+      );
+    }
+    return (
+      <ErrorCreateGroup
+        nextPage={nextPage}
+        groupName={createGroupData.name}
+        alertMessage={alertMessage}
+      />
+    );
   }
 
   return (
@@ -51,11 +151,26 @@ export default function CreateGroup() {
           </div>
         </div>
         <div className='m-3 bg-whiteCustom'>
-          {actualStep === 1 && <FormStep1 nextPage={nextPage} />}
-          {actualStep === 2 && <FormStep2 nextPage={nextPage} />}
-          {actualStep === 3 && <FormStep3 nextPage={nextPage} />}
-          {actualStep === 4 && <FormStep4 nextPage={nextPage} />}
-          {actualStep === 5 && <FormStep5 nextPage={nextPage} />}
+          {actualStep === 1 && (
+            <FormStep1 nextPage={nextPage} setValue={setCreateGroupData} />
+          )}
+          {actualStep === 2 && (
+            <FormStep2 nextPage={nextPage} setValue={setCreateGroupData} />
+          )}
+          {actualStep === 3 && (
+            <FormStep3
+              nextPage={nextPage}
+              setValue={setCreateGroupData}
+              groupName={createGroupData.name}
+            />
+          )}
+          {actualStep === 4 && (
+            <FormStep4
+              setValue={setCreateGroupData}
+              handleSubmit={handleSubmit}
+            />
+          )}
+          {actualStep === 5 && handleStep5()}
         </div>
       </div>
     </div>

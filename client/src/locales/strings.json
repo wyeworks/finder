@@ -8,7 +8,10 @@
       "signin": "El login no se pudo completar",
       "signup": "El usuario no pudo ser creado",
       "email": "Email debe ser ***@email.com",
-      "password": "Formato de la contraseña no es correcto"
+      "password": "Formato de la contraseña no es correcto",
+      "name": "Hubo un error al ingresar el nombre",
+      "subject": "Hubo un error al ingresar la materia",
+      "description": "Hubo un error al ingresar la descripcion"
     },
     "submitButton": {
       "text": "Enviar"
@@ -43,7 +46,8 @@
     "passwordInput": {
       "label": "Contraseña",
       "placeholder": "Ingresa tu Contraseña",
-      "validateText": "Ingresa una contraseña válida"
+      "validateText": "Ingresa una contraseña válida",
+      "passwordInfo": "Asegurate de que tu contraseña tenga al menos 8 caracteres y contenga: \n- Una letra mayúscula \n- Una letra minúscula \n- Un número \n- Un caracter especial \n\n Evita usar contraseñas comunes como \"Abcd-12345\" o utilizar tu nombre y tu cumpleaños."
     },
     "createAccountButton": {
       "text": "Crear Cuenta"
@@ -58,6 +62,10 @@
     "descriptionGroupInput": {
       "placeholder": "Descripcion de <Materia>",
       "validateText": "Ingresa una Descripción de Grupo"
+    },
+    "sizeInput": {
+      "placeholder": "Ingrese el tamaño del grupo deseado",
+      "validateText": "Ingrese un tamaño mayor a 1"
     },
     "nextButton": {
       "text": "Siguiente"
