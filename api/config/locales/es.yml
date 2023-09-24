@@ -1,0 +1,53 @@
+es:
+  activerecord:
+    errors:
+      models:
+        career:
+          attributes:
+            code:
+              blank: "El código de la carrera no puede ser vacío"
+              taken: "El código utilizado no está disponible"
+            credits:
+              not_a_number: "La cantidad de créditos debe ser un número"
+            name:
+              blank: "El nombre de la carrera no puede ser vacío"
+            years:
+              not_a_number: "La cantidad de años debe ser un número"
+        group:
+          attributes:
+            name:
+              blank: "El nombre del grupo no puede ser vacío"
+            size:
+              blank: "El grupo debe tener una cantidad especificada"
+              not_a_number: "La cantidad debe ser un número"
+            subject:
+              required: "El grupo debe estar asociado a al menos una materia"
+        member:
+          attributes:
+            group:
+              required: "Debe ser miembro de un grupo"
+            role:
+              blank: "El rol no puede ser vacío"
+              inclusion: "El rol utilizado no es una opción válida"
+            user:
+              required: "El miembro debe estar asociado a un usuario"
+        subject:
+          attributes:
+            code:
+              blank: "El código de la carrera no puede ser vacío"
+              taken: "El código utilizado no está disponible"
+            credits:
+              blank: "La materia debe tener créditos asignados"
+              not_a_number: "La cantidad de créditos debe ser un número"
+            name:
+              blank: "El nombre de la materia no puede ser vacío"
+        user:
+          attributes:
+            email:
+              blank: "El email del usuario no puede ser vacío"
+              taken: "El email utilizado no está disponible"
+            name:
+              blank: "El nombre no puede ser vacío"
+            password:
+              blank: "La contraseña no puede estar vacía"
+              too_short: "La contraseña es demasiado corta. Debe tener al menos 8 caracteres"
