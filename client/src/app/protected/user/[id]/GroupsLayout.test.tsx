@@ -63,14 +63,12 @@ describe('GroupsLayout Component', () => {
 
     it('should show the group subject', () => {
       const grupoConSubject = StudyGroupBuilder.aStudyGroup()
-        .withSubject('Estudiamos bases de datos')
+        .withSubject(1)
         .build();
 
       render(<GroupsLayout groups={[grupoConSubject]} />);
 
-      expect(
-        screen.getByTestId('groupSubject-Estudiamos bases de datos')
-      ).toHaveTextContent('Estudiamos bases de datos');
+      expect(screen.getByTestId('groupSubject-1')).toHaveTextContent('1');
     });
   });
 });

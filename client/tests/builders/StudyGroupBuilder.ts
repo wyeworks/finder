@@ -1,49 +1,35 @@
-//export type StudyGroup = {
-//   name: string;
-//   description: string;
-//   subject: string;
-//   isLab: boolean;
-//   banner?: string;
-// };
-
 import { StudyGroup } from '@/types/StudyGroup';
 
 export class StudyGroupBuilder {
   private readonly name: string;
   private readonly description: string;
-  private readonly subject: string;
+  private readonly subject_id: number;
   private readonly isLab: boolean;
   private readonly banner?: string;
 
   private constructor(
     name: string,
     description: string,
-    subject: string,
+    subject_id: number,
     isLab: boolean,
     banner?: string
   ) {
     this.name = name;
     this.description = description;
-    this.subject = subject;
+    this.subject_id = subject_id;
     this.isLab = isLab;
     this.banner = banner;
   }
 
   static aStudyGroup(): StudyGroupBuilder {
-    return new StudyGroupBuilder(
-      'name',
-      'description',
-      'subject',
-      true,
-      undefined
-    );
+    return new StudyGroupBuilder('name', 'description', 1, true, undefined);
   }
 
   withName(name: string): StudyGroupBuilder {
     return new StudyGroupBuilder(
       name,
       this.description,
-      this.subject,
+      this.subject_id,
       this.isLab,
       this.banner
     );
@@ -53,17 +39,17 @@ export class StudyGroupBuilder {
     return new StudyGroupBuilder(
       this.name,
       description,
-      this.subject,
+      this.subject_id,
       this.isLab,
       this.banner
     );
   }
 
-  withSubject(subject: string): StudyGroupBuilder {
+  withSubject(subject_id: number): StudyGroupBuilder {
     return new StudyGroupBuilder(
       this.name,
       this.description,
-      subject,
+      subject_id,
       this.isLab,
       this.banner
     );
@@ -73,7 +59,7 @@ export class StudyGroupBuilder {
     return new StudyGroupBuilder(
       this.name,
       this.description,
-      this.subject,
+      this.subject_id,
       isLab,
       this.banner
     );
@@ -83,7 +69,7 @@ export class StudyGroupBuilder {
     return new StudyGroupBuilder(
       this.name,
       this.description,
-      this.subject,
+      this.subject_id,
       this.isLab,
       banner
     );
@@ -93,7 +79,7 @@ export class StudyGroupBuilder {
     return {
       name: this.name,
       description: this.description,
-      subject: this.subject,
+      subject_id: this.subject_id,
       isLab: this.isLab,
       banner: this.banner,
     };

@@ -1,6 +1,10 @@
-import { StudyGroup } from '@/types/StudyGroup';
 import Image from 'next/image';
 import GroupInfo from './GroupInfo';
+import GroupTabs from './GroupTabs';
+import { GroupService } from '@/services/GroupService';
+import { SubjectService } from '@/services/SubjectService';
+import GroupDisclosure from './GroupDisclosure';
+import EmptyBoxImage from '@/assets/images/empty_box.png';
 
 type Props = {
   params: {
@@ -8,20 +12,25 @@ type Props = {
   };
 };
 
-// eslint-disable-next-line no-unused-vars
-export default async function Page({ params }: Props) {
-  const testGroup: StudyGroup = {
-    name: 'Lab Bases de Datos 2023',
-    description:
-      'Buscamos gente para las entregas de laboratorio y estudiar en grupo. Son invitados a sumarse!',
-    subject: 'Fundamentos de Bases de Datos',
-    size: 3,
-    days: 'Monday',
-  };
+export default async function Group({ params }: Props) {
+  let group;
+  let subject;
+
+  try {
+    group = await GroupService.getGroup(params.id);
+    subject = await SubjectService.getSubject(group.subject_id);
+  } catch (error) {
+    return (
+      <div className='flex h-screen flex-col items-center justify-center text-2xl'>
+        <Image src={EmptyBoxImage} alt='Caja vacia' />
+        <div>El grupo no existe.</div>
+      </div>
+    );
+  }
 
   return (
-    <div className='flex h-screen w-full flex-col md:grid md:grid-rows-4'>
-      <div className='flex-none md:row-span-1'>
+    <div className='flex h-screen w-full flex-col'>
+      <div className='h-1/4'>
         <Image
           src='/default_group_banner.png'
           alt='Banner'
@@ -30,10 +39,20 @@ export default async function Page({ params }: Props) {
           className='h-full w-full object-cover'
         />
       </div>
-      <div className='flex-none md:row-span-1'>
-        <GroupInfo group={testGroup} />
+      <div className='mb-2 flex-shrink-0'>
+        <GroupInfo group={group} subject={subject} />
       </div>
-      <div className='flex-grow overflow-y-auto md:row-span-2'></div>
+      <div className='flex-shrink-0 flex-grow'>
+        {/* Displayed only on mobile */}
+        <div className='md:hidden'>
+          <GroupDisclosure group={group} />
+        </div>
+
+        {/* Displayed from medium screens and up */}
+        <div className='hidden md:block'>
+          <GroupTabs group={group} />
+        </div>
+      </div>
     </div>
   );
 }
