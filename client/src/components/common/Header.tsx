@@ -14,7 +14,6 @@ import EditIcon from '@/assets/Icons/EditIcon';
 import LogOutIcon from '@/assets/Icons/LogOutIcon';
 import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
-import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import defaultUser from '@/assets/images/default_user.png';
 import Link from 'next/link';
@@ -64,8 +63,6 @@ type HeaderProps = {
 };
 
 export default function Header({ user }: HeaderProps) {
-  const router = useRouter();
-
   return (
     <>
       <Disclosure as='nav' className='bg-primaryBlue'>
@@ -75,15 +72,15 @@ export default function Header({ user }: HeaderProps) {
               <div className='flex h-16 items-center justify-between'>
                 <div className='flex items-center'>
                   <div className='flex-shrink-0'>
-                    <div
+                    <Link
                       className='mx-2 flex items-center'
-                      onClick={() => router.push('/protected/home')}
+                      href={'/protected/home'}
                     >
                       <IconLogoFinder className='h-12 w-12 text-white' />
                       <p className='ml-2 text-4xl text-white'>
                         <strong>finder.com</strong>
                       </p>
-                    </div>
+                    </Link>
                   </div>
                 </div>
                 <div className='hidden w-full md:block'>
