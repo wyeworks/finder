@@ -13,10 +13,10 @@ class Logger {
     }
   }
 
-  static error(message: string) {
+  static error(...data: any[]) {
     if (process.env.NODE_ENV !== 'production') {
       // eslint-disable-next-line no-console
-      console.error('[ERROR]', message);
+      console.error('[ERROR]', ...data);
     }
   }
 

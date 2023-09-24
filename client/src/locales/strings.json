@@ -11,7 +11,8 @@
       "password": "Formato de la contraseña no es correcto",
       "name": "Hubo un error al ingresar el nombre",
       "subject": "Hubo un error al ingresar la materia",
-      "description": "Hubo un error al ingresar la descripcion"
+      "description": "Hubo un error al ingresar la descripcion",
+      "unauthorized": "No autorizado"
     },
     "submitButton": {
       "text": "Enviar"

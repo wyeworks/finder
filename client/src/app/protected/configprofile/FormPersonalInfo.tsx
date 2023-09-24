@@ -8,6 +8,7 @@ import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
 import { formatDate } from '@/utils/Formatter';
 import { useEffect, useState } from 'react';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
 
 type PersonalInfoFormData = {
   name: string;
@@ -89,19 +90,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
     }
 
     try {
-      const response = await fetch('/api/signup', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || strings.common.error.unexpectedError
-        );
-      }
+      await ApiCommunicator.clientSideEditUser(formData);
       setAlertVisible(true);
       setAlertMessage(strings.common.success.changeSuccess);
       setAlertType('success');

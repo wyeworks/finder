@@ -17,11 +17,12 @@ import { User } from '@/types/User';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import defaultUser from '@/assets/images/default_user.png';
+import Link from 'next/link';
 
 const userNavigation = [
   {
     name: strings.header.navOptions.editProfile,
-    href: '#',
+    href: '/protected/configprofile',
   },
   {
     name: strings.header.navOptions.endSession,
@@ -45,7 +46,7 @@ const userNavigationMobile = [
   },
   {
     name: strings.header.navOptions.editProfile,
-    href: '#',
+    href: '/protected/configprofile',
     icon: <EditIcon className='mr-3 h-4 w-4' />,
   },
   {
@@ -65,10 +66,6 @@ type HeaderProps = {
 export default function Header({ user }: HeaderProps) {
   const router = useRouter();
 
-  const handleClick = () => {
-    router.push('configprofile');
-  };
-
   return (
     <>
       <Disclosure as='nav' className='bg-primaryBlue'>
@@ -78,7 +75,10 @@ export default function Header({ user }: HeaderProps) {
               <div className='flex h-16 items-center justify-between'>
                 <div className='flex items-center'>
                   <div className='flex-shrink-0'>
-                    <div className='mx-2 flex items-center'>
+                    <div
+                      className='mx-2 flex items-center'
+                      onClick={() => router.push('/protected/home')}
+                    >
                       <IconLogoFinder className='h-12 w-12 text-white' />
                       <p className='ml-2 text-4xl text-white'>
                         <strong>finder.com</strong>
@@ -140,15 +140,13 @@ export default function Header({ user }: HeaderProps) {
                         <Menu.Items className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
                           {userNavigation.map((item) => (
                             <Menu.Item key={item.name}>
-                              <a
+                              <Link
                                 href={item.href}
                                 className='block px-4 py-2 text-sm text-gray-700 active:bg-gray-100'
-                                onClick={
-                                  item.onClick ? item.onClick : handleClick
-                                }
+                                onClick={item.onClick ? item.onClick : () => {}}
                               >
                                 {item.name}
-                              </a>
+                              </Link>
                             </Menu.Item>
                           ))}
                         </Menu.Items>
@@ -201,7 +199,7 @@ export default function Header({ user }: HeaderProps) {
                       as='a'
                       href={item.href}
                       className='flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white'
-                      onClick={item.onClick ? item.onClick : handleClick}
+                      onClick={item.onClick ? item.onClick : () => {}}
                     >
                       {item.icon}
                       {item.name}

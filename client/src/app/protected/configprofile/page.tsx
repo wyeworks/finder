@@ -1,42 +1,11 @@
-'use client';
-
 import FormPersonalInfo from './FormPersonalInfo';
-import { useEffect, useState } from 'react';
-import { User } from '@/types/User';
-import { useSession } from 'next-auth/react';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 
-export default function ConfigProfile() {
-  // eslint-disable-next-line no-unused-vars
-  const [user, setUser] = useState<User | null>(null);
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    const getUserData = async () => {
-      if (!session) {
-        return;
-      }
-      const baseURL = '/api/users/' + session.user.id;
-
-      try {
-        const response = await fetch(baseURL, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message);
-        }
-
-        const userData = await response.json();
-        setUser(userData);
-      } catch (error) {}
-    };
-
-    getUserData();
-  }, [session]);
+export default async function ConfigProfile() {
+  const session = await getServerSession(authOptions);
+  const user = await ApiCommunicator.getUser(session!.user.id!);
 
   return (
     <>
