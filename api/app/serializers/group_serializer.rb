@@ -1,7 +1,12 @@
 class GroupSerializer
   include JSONAPI::Serializer
 
-  attributes :id, :name, :description, :subject_id, :size, :time_preferences
+  attributes :id,
+             :name,
+             :description,
+             :size,
+             :time_preferences,
+             :subject_id
 
   belongs_to :subject
 end

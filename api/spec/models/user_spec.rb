@@ -5,6 +5,7 @@ RSpec.describe User, type: :model do
     it { should have_many(:members).dependent(:destroy) }
     it { should have_many(:groups).through(:members) }
     it { should have_and_belong_to_many(:careers) }
+    it { should have_and_belong_to_many(:subjects) }
   end
 
   describe 'validations' do
