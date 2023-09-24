@@ -103,7 +103,6 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setAlertVisible(false);
-
     const isCurrentFormValid = event.currentTarget.checkValidity();
     if (!isCurrentFormValid) {
       setAlertMessage(strings.common.error.completeFields);
