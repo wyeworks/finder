@@ -39,19 +39,9 @@ export default function TooltipIcon({
     <p key={index}>{paragraph}</p>
   ));
 
-  // Define a mapping object for class names based on the tooltip position
-  const positionClassNames = {
-    top: 'bottom-full left-1/2 -translate-x-1/2',
-    bottom: 'left-1/2 top-full -translate-x-1/2',
-    left: 'right-full top-1/2 -translate-y-1/2',
-    right: 'left-full top-1/2 -translate-y-1/2',
-    topLeft: 'bottom-full left-0',
-    topRight: 'bottom-full right-0',
-    bottomLeft: 'top-full left-0',
-    bottomRight: 'top-full right-0',
-  };
-
-  const tooltipClass = positionClassNames[tooltipPosition] || '';
+  const positionClass = `tooltip-${tooltipPosition}`;
+  const maxWidthClass = 'tooltip-max-width';
+  const widthClass = 'tooltip-width';
 
   return (
     <div className='relative inline-block'>
@@ -65,8 +55,7 @@ export default function TooltipIcon({
       </div>
       {showTooltip && (
         <div
-          className={`absolute z-10 rounded bg-gray-900 px-2 py-1 text-sm font-medium text-gray-50 shadow transition-opacity ${tooltipClass}`}
-          style={{ maxWidth: '250px', width: 'max-content' }}
+          className={`absolute z-10 rounded bg-gray-900 px-2 py-1 text-sm font-medium text-gray-50 shadow transition-opacity ${positionClass} ${maxWidthClass} ${widthClass}`}
         >
           {paragraphsJSX}
         </div>
