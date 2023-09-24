@@ -109,7 +109,7 @@ export class UserBuilder {
       email: this.email,
       profileImage: this.profileImage,
       bio: this.bio,
-      socialNetworks: this.socialNetworks?.build(),
+      social_networks: this.socialNetworks?.build(),
     };
   }
 }

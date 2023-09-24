@@ -1,10 +1,17 @@
 'use client';
+import DiscordIcon from '@/assets/Icons/DiscordIcon';
+import FacebookIcon from '@/assets/Icons/FacebookIcon';
+import InstagramIcon from '@/assets/Icons/InstagramIcon';
+import LinkedInIcon from '@/assets/Icons/LinkedInIcon';
+import RedditIcon from '@/assets/Icons/RedditIcon';
+import TwitterIcon from '@/assets/Icons/TwitterIcon';
 import UserIcon from '@/assets/Icons/UserIcon';
 import Alert, { alertTypes } from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
+import { SocialNetworks } from '@/types/SocialNetworks';
 import { User } from '@/types/User';
 import { formatDate } from '@/utils/Formatter';
 import { useEffect, useState } from 'react';
@@ -13,6 +20,7 @@ type PersonalInfoFormData = {
   name: string;
   birthdate: string;
   biography: string;
+  social_networks: SocialNetworks;
 };
 
 type FormPersonalInfoProps = {
@@ -32,6 +40,8 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
     name: user?.name ?? '',
     birthdate: birthdate,
     biography: user?.bio ?? '',
+
+    social_networks: generateSocialNetworks(user),
   });
   const [touched, setTouched] = useState({
     name: false,
@@ -49,11 +59,22 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
   // returns true if changes were made
 
   useEffect(() => {
+    const changedSocialNetworks = () => {
+      const userSocialNetworks = generateSocialNetworks(user);
+      const changed = Object.keys(formData.social_networks).findIndex((key) => {
+        return (
+          formData.social_networks[key as keyof SocialNetworks] !=
+          userSocialNetworks[key as keyof SocialNetworks]
+        );
+      });
+      return changed != -1;
+    };
     const changesWereMade = () => {
       if (
         formData.name.trim() === user.name &&
         formData.biography.trim() === (user.bio ?? '') &&
-        formData.birthdate === birthdate
+        formData.birthdate === birthdate &&
+        !changedSocialNetworks()
       ) {
         setDisabledSubmittButton(true);
       } else {
@@ -61,7 +82,7 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
       }
     };
     changesWereMade();
-  }, [birthdate, formData, user.bio, user.name]);
+  }, [birthdate, formData, user, user.bio, user.name]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -73,6 +94,16 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
     setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+  };
+
+  const handleChangeSocialNetworks = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      social_networks: { ...prevState.social_networks, [name]: value },
+    }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -162,6 +193,31 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
             onChange={HandleChangeTextArea}
             maxWidth={false}
           />
+          <div className='block py-2'>
+            <label>Redes Sociales</label>
+            <div className='grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-2 md:gap-y-8'>
+              {Object.keys(formData.social_networks).map((key, index) => {
+                return (
+                  <Input
+                    key={index}
+                    type='url'
+                    id={key}
+                    // pattern='.com'
+                    name={key}
+                    Icon={returnIcon(key)}
+                    value={
+                      formData.social_networks[key as keyof SocialNetworks]
+                    }
+                    onChange={handleChangeSocialNetworks}
+                    classNameInput='bg-backgroundInput'
+                    classNameWrapper='h-[50px]'
+                    validateText='asdasd'
+                    // touched={true}
+                  />
+                );
+              })}
+            </div>
+          </div>
 
           <div className='mt-3 flex justify-end gap-3'>
             <Button
@@ -183,4 +239,32 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
       </form>
     </div>
   );
+}
+
+function generateSocialNetworks(user: User) {
+  return {
+    discord: user?.social_networks?.discord ?? '',
+    instagram: user?.social_networks?.instagram ?? '',
+    linkedin: user?.social_networks?.linkedin ?? '',
+    twitter: user?.social_networks?.twitter ?? '',
+    facebook: user?.social_networks?.facebook ?? '',
+    reddit: user?.social_networks?.reddit ?? '',
+  } as SocialNetworks;
+}
+
+function returnIcon(value: string) {
+  switch (value) {
+    case 'linkedin':
+      return <LinkedInIcon className='h-8 w-8 text-inputTextColor' />;
+    case 'reddit':
+      return <RedditIcon className='h-8 w-8 text-inputTextColor' />;
+    case 'discord':
+      return <DiscordIcon className='h-8 w-8 text-inputTextColor' />;
+    case 'facebook':
+      return <FacebookIcon className='h-8 w-8 text-inputTextColor' />;
+    case 'twitter':
+      return <TwitterIcon className='h-8 w-8 text-inputTextColor' />;
+    case 'instagram':
+      return <InstagramIcon className='h-8 w-8 text-inputTextColor' />;
+  }
 }

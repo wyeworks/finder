@@ -17,7 +17,7 @@ export default async function ProtectedLayout({
   }
 
   return (
-    <section className='h-screen bg-gray-50'>
+    <section className='h-full min-h-screen bg-gray-50'>
       <SessionProvider session={session}>
         {session.user && <Header user={session.user as User} />}
         {children}
