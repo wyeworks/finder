@@ -23,7 +23,7 @@ function InstagramButton(props: { link: string }) {
     <SocialNetworkButton
       name={'Instagram'}
       link={props.link}
-      icon={<InstagramIcon />}
+      icon={<InstagramIcon className='h-8 w-8' />}
     />
   );
 }
@@ -33,7 +33,7 @@ function LinkedInButton(props: { link: string }) {
     <SocialNetworkButton
       name={'LinkedIn'}
       link={props.link}
-      icon={<LinkedInIcon />}
+      icon={<LinkedInIcon className='h-8 w-8' />}
     />
   );
 }
@@ -43,7 +43,7 @@ function TwitterButton(props: { link: string }) {
     <SocialNetworkButton
       name={'Twitter'}
       link={props.link}
-      icon={<TwitterIcon />}
+      icon={<TwitterIcon className='h-8 w-8' />}
     />
   );
 }
@@ -53,7 +53,7 @@ function DiscordButton(props: { link: string }) {
     <SocialNetworkButton
       name={'Discord'}
       link={props.link}
-      icon={<DiscordIcon />}
+      icon={<DiscordIcon className='h-8 w-8' />}
     />
   );
 }
