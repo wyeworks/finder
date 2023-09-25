@@ -3,8 +3,10 @@ import Image from 'next/image';
 import EditIcon from '@/assets/Icons/EditProfileIcon';
 import {
   DiscordButton,
+  FacebookButton,
   InstagramButton,
   LinkedInButton,
+  RedditButton,
   TwitterButton,
 } from '@/components/common/SocialNetworkButton';
 import Link from 'next/link';
@@ -19,7 +21,7 @@ type UserBannerProps = {
 
 function EditButton() {
   return (
-    <Link data-testid={'editButton'} href={'/configperfil'}>
+    <Link data-testid={'editButton'} href={'/configprofile'}>
       <button
         className={
           'flex w-fit items-center rounded-md bg-[#2B2D54] p-2 lg:self-end'
@@ -49,6 +51,12 @@ function SocialLinksLayout(props: { user: User }) {
       )}
       {props.user.social_networks?.discord && (
         <DiscordButton link={props.user.social_networks.discord} />
+      )}
+      {props.user.social_networks?.reddit && (
+        <RedditButton link={props.user.social_networks.reddit} />
+      )}
+      {props.user.social_networks?.facebook && (
+        <FacebookButton link={props.user.social_networks.facebook} />
       )}
     </div>
   );
