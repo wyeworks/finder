@@ -4,17 +4,18 @@ export enum TimeOfDay {
   Morning = 'Morning',
   Afternoon = 'Afternoon',
   Night = 'Night',
-  None = 'None',
+  NoPreferences = 'None',
+  No = '',
 }
 
 export type TimePreference = {
-  Sunday: TimeOfDay;
-  Monday: TimeOfDay;
-  Tuesday: TimeOfDay;
-  Wednesday: TimeOfDay;
-  Thursday: TimeOfDay;
-  Friday: TimeOfDay;
-  Saturday: TimeOfDay;
+  Sunday?: TimeOfDay;
+  Monday?: TimeOfDay;
+  Tuesday?: TimeOfDay;
+  Wednesday?: TimeOfDay;
+  Thursday?: TimeOfDay;
+  Friday?: TimeOfDay;
+  Saturday?: TimeOfDay;
 };
 
 export type StudyGroup = {

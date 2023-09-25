@@ -7,6 +7,7 @@ import InstagramIcon from '@/assets/Icons/InstagramIcon';
 import LinkedInIcon from '@/assets/Icons/LinkedInIcon';
 import RedditIcon from '@/assets/Icons/RedditIcon';
 import TwitterIcon from '@/assets/Icons/TwitterIcon';
+import { TimeOfDay } from '@/types/StudyGroup';
 import { Career } from '@/types/Career';
 
 // takes date from back (for example '2023-09-13T00:00:00.000Z') and
@@ -52,3 +53,35 @@ export function returnSocialNetworkIcon(value: string) {
       return <InstagramIcon className='h-8 w-8 text-inputTextColor' />;
   }
 }
+
+export const translatePreference = (preference: TimeOfDay): string => {
+  const preferences = {
+    [TimeOfDay.Morning]: 'Mañana',
+    [TimeOfDay.Afternoon]: 'Tarde',
+    [TimeOfDay.Night]: 'Noche',
+    [TimeOfDay.NoPreferences]: 'Sin preferencia',
+    [TimeOfDay.No]: 'No puedo',
+  };
+
+  return preferences[preference];
+};
+
+export const translateSpanishDays: { [key: string]: string } = {
+  Domingo: 'Sunday',
+  Lunes: 'Monday',
+  Martes: 'Tuesday',
+  Miércoles: 'Wednesday',
+  Jueves: 'Thursday',
+  Viernes: 'Friday',
+  Sábado: 'Saturday',
+};
+
+export const translateEnglishDays: { [key: string]: string } = {
+  Sunday: 'Domingo',
+  Monday: 'Lunes',
+  Tuesday: 'Martes',
+  Wednesday: 'Miércoles',
+  Thursday: 'Jueves',
+  Friday: 'Viernes',
+  Saturday: 'Sábado',
+};
