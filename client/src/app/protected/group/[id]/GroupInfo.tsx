@@ -22,7 +22,7 @@ export default function GroupInfo({ group, subject }: GroupInfoProps) {
         <div className='mb-3 flex flex-col items-center justify-center sm:flex-row sm:justify-start'>
           <div className='mr-2 flex items-center sm:mb-0'>
             <GroupSizeIcon className='mr-1 h-5 w-5' />
-            <span>{size} integrantes</span>
+            <span>{size} integrantes máximo</span>
           </div>
         </div>
       </div>
