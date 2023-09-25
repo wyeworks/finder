@@ -24,6 +24,11 @@ export class UserService {
         Authorization: session?.user.accessToken,
       },
     });
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch user');
+    }
+
     let json: any = await res.json();
     return (await json) as User;
   }
