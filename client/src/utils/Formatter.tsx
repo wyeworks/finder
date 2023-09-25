@@ -7,6 +7,7 @@ import InstagramIcon from '@/assets/Icons/InstagramIcon';
 import LinkedInIcon from '@/assets/Icons/LinkedInIcon';
 import RedditIcon from '@/assets/Icons/RedditIcon';
 import TwitterIcon from '@/assets/Icons/TwitterIcon';
+import { Career } from '@/types/Career';
 
 // takes date from back (for example '2023-09-13T00:00:00.000Z') and
 // returns on input format (2023-09-13)
@@ -23,6 +24,14 @@ export function parseSubjectToOption(subjects: Subject[]): Option[] {
   const options: Option[] = subjects.map((subject) => ({
     label: subject.name,
     key: subject.id.toString(),
+  }));
+  return options;
+}
+
+export function parseCareerToOption(careers: Career[]): Option[] {
+  const options: Option[] = careers.map((career) => ({
+    label: career.name,
+    key: career.id.toString(),
   }));
   return options;
 }

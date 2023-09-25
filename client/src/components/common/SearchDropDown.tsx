@@ -12,6 +12,11 @@ type DropdownProps = {
   maxWidth?: boolean;
   setOptionValue?: React.Dispatch<React.SetStateAction<Option>>;
   placeholder: string;
+  // eslint-disable-next-line no-unused-vars
+  disableOption?: (option: Option) => boolean;
+  // eslint-disable-next-line no-unused-vars
+  onChange?: (value: string) => void;
+  disableText?: string;
 };
 
 export default function SearchDropdown({
@@ -20,6 +25,9 @@ export default function SearchDropdown({
   options,
   setOptionValue,
   placeholder,
+  disableOption,
+  onChange,
+  disableText = '',
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string>('');
@@ -38,6 +46,7 @@ export default function SearchDropdown({
     setSelectedValue(value);
     if (setOptionValue) setOptionValue({ key, label: value });
     setIsOpen(false);
+    onChange?.(value);
   };
 
   function handleChangeInput(value: string) {
@@ -47,6 +56,7 @@ export default function SearchDropdown({
         ...prevState,
         label: value,
       }));
+    onChange?.(value);
   }
 
   return (
@@ -82,9 +92,16 @@ export default function SearchDropdown({
                 <li
                   key={option.key}
                   onClick={() => handleChangeOption(option.label, option.key)}
-                  className='cursor-pointer px-3 py-2 text-sm text-gray-900 hover:bg-gray-200'
+                  className={`cursor-pointer px-3 py-2 text-sm text-gray-900 hover:bg-gray-200 ${
+                    disableOption?.(option)
+                      ? 'pointer-events-none text-slate-400'
+                      : ''
+                  } `}
                 >
-                  {option.label}
+                  <span className='block'>{option.label}</span>
+                  {disableText != '' && disableOption?.(option) && (
+                    <span className='block text-xs'>{disableText}</span>
+                  )}
                 </li>
               ))}
             </ul>

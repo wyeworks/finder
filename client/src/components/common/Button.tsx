@@ -1,21 +1,23 @@
 type ButtonParams = {
   type?: 'button' | 'submit' | 'reset' | undefined;
-  text: string;
+  text?: string;
   className?: string;
   onClick?: () => void;
   id?: string;
   classNameWrapper?: string;
   disabled?: boolean;
+  Icon?: React.ReactNode;
 };
 
 export default function Button({
   type = 'button',
-  text,
+  text = '',
   className = '',
   onClick,
   id,
   classNameWrapper = '',
   disabled = false,
+  Icon,
 }: ButtonParams) {
   return (
     <div className={`${classNameWrapper}`}>
@@ -28,6 +30,8 @@ export default function Button({
         onClick={onClick}
         disabled={disabled}
       >
+        {Icon && <>{Icon}</>}
+
         {text}
       </button>
     </div>
