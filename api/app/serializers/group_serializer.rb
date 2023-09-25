@@ -6,7 +6,8 @@ class GroupSerializer
              :description,
              :size,
              :time_preferences,
-             :subject_id
+             :subject_id,
+             :user_ids
 
   belongs_to :subject
 end

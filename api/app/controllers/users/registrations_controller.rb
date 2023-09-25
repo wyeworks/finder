@@ -104,7 +104,9 @@ module Users
               :name,
               :birth_date,
               :bio,
-              social_networks: {}
+              social_networks: {},
+              career_ids: [],
+              subject_ids: []
             )
     end
   end
