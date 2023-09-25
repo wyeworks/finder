@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import UserBanner from '@/app/protected/user/[id]/UserBanner';
+import UserBanner from '@/app/(protected)/user/[id]/UserBanner';
 import {
   SocialNetworksBuilder,
   UserBuilder,

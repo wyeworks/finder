@@ -19,7 +19,7 @@ type UserBannerProps = {
 
 function EditButton() {
   return (
-    <Link data-testid={'editButton'} href={'/protected/configuser'}>
+    <Link data-testid={'editButton'} href={'/configperfil'}>
       <button
         className={
           'flex w-fit items-center rounded-md bg-[#2B2D54] p-2 lg:self-end'
@@ -38,17 +38,17 @@ function SocialLinksLayout(props: { user: User }) {
       data-testid={'socialNetworksLayout'}
       className={'mb-5 flex max-w-[375px] flex-row items-center justify-evenly'}
     >
-      {props.user.socialNetworks?.instagram && (
-        <InstagramButton link={props.user.socialNetworks.instagram} />
+      {props.user.social_networks?.instagram && (
+        <InstagramButton link={props.user.social_networks.instagram} />
       )}
-      {props.user.socialNetworks?.linkedin && (
-        <LinkedInButton link={props.user.socialNetworks.linkedin} />
+      {props.user.social_networks?.linkedin && (
+        <LinkedInButton link={props.user.social_networks.linkedin} />
       )}
-      {props.user.socialNetworks?.twitter && (
-        <TwitterButton link={props.user.socialNetworks.twitter} />
+      {props.user.social_networks?.twitter && (
+        <TwitterButton link={props.user.social_networks.twitter} />
       )}
-      {props.user.socialNetworks?.discord && (
-        <DiscordButton link={props.user.socialNetworks.discord} />
+      {props.user.social_networks?.discord && (
+        <DiscordButton link={props.user.social_networks.discord} />
       )}
     </div>
   );
@@ -138,7 +138,7 @@ export default function UserBanner({ user, session }: UserBannerProps) {
             'mb-10 flex flex-col items-center lg:mb-0 lg:mr-20 lg:justify-around'
           }
         >
-          {user.socialNetworks && <SocialLinksLayout user={user} />}
+          {user.social_networks && <SocialLinksLayout user={user} />}
           {session?.user?.email === user.email && <EditButton />}
         </div>
       </div>
@@ -146,4 +146,4 @@ export default function UserBanner({ user, session }: UserBannerProps) {
   );
 }
 
-//<Link href={'/protected/configuser'}>
+//<Link href={'/(protected)/configuser'}>

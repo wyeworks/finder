@@ -18,9 +18,7 @@ export default async function HomePage() {
                 {session.user && (
                   <>
                     <strong>{session.user.name}</strong>
-                    <Link href={'/protected/user/' + session.user.id}>
-                      Ver mi perfil
-                    </Link>
+                    <Link href={'/user/' + session.user.id}>Ver mi perfil</Link>
                   </>
                 )}
               </li>

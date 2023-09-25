@@ -45,7 +45,7 @@ export default function CreateGroup() {
 
   function backPage() {
     if (actualStep === 1) {
-      router.push('/protected/home');
+      router.push('/home');
       return;
     }
     setActualStep(actualStep - 1);

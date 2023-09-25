@@ -136,6 +136,10 @@
         "bioTextArea": {
           "label": "Biografía",
           "placeholder": "Escribe tu Biografía"
+        },
+        "socialNetworks": {
+          "label": "Redes sociales",
+          "validateText": "Escribe un enlace correcto"
         }
       }
     }
