@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 export default function ConfigProfile() {
   // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useState<User | null>(null);
-  const { data: session } = useSession();
+  const { data: session, update: updateSession } = useSession();
 
   useEffect(() => {
     const getUserData = async () => {
@@ -47,7 +47,13 @@ export default function ConfigProfile() {
       </div>
       <div className='mt-5 flex min-h-[500px] justify-center'>
         <div className='block w-[98vw] rounded-lg md:w-[40%]'>
-          {user && <FormPersonalInfo user={user} />}
+          {user && (
+            <FormPersonalInfo
+              user={user}
+              session={session}
+              onSessionUpdate={updateSession}
+            />
+          )}
         </div>
       </div>
     </>

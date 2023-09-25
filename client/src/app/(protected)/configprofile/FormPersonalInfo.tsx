@@ -19,11 +19,15 @@ type PersonalInfoFormData = {
 
 type FormPersonalInfoProps = {
   user: User;
-  // eslint-disable-next-line no-unused-vars
-  onRefresh?: (refresh: boolean) => void;
+  session: any;
+  onSessionUpdate: Function;
 };
 
-export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
+export default function FormPersonalInfo({
+  user,
+  session,
+  onSessionUpdate,
+}: FormPersonalInfoProps) {
   let birthdate = '';
   // parse birthdate
   if (user.birth_date) {
@@ -128,6 +132,20 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
       setAlertVisible(true);
       setAlertMessage(strings.common.success.changeSuccess);
       setAlertType('success');
+
+      onSessionUpdate({
+        info: {
+          ...session.user,
+          name: formData.name,
+          bio: formData.biography,
+          birth_date: formData.birthdate,
+          social_networks: formData.social_networks,
+        },
+      });
+
+      setTimeout(() => {
+        window.location.href = '/home';
+      }, 1000);
     } catch (error) {
       setAlertMessage(strings.common.error.unexpectedError);
       setAlertVisible(true);
