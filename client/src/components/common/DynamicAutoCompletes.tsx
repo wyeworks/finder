@@ -73,7 +73,6 @@ export default function DynamicAutoCompletes({
             value={selectedOption}
             key={selectedOption.key}
             disableOption={(option: Option) => {
-              // debugger;
               return (
                 dropDowns.findIndex((career) => {
                   return career.key === option.key;
@@ -152,7 +151,6 @@ function OptionsAdded({
                 value={{ key: dropDown.key, label: dropDown.label }}
                 options={options}
                 disableOption={(option: Option) => {
-                  // debugger;
                   return (
                     dropDowns.findIndex((career) => {
                       return (
