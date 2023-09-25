@@ -222,7 +222,7 @@ export default function FormPersonalInfo({
             <label className='block text-sm font-medium leading-6 text-gray-900'>
               {strings.configProfile.forms.personalInfo.socialNetworks.label}
             </label>
-            <div className='grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-2 md:gap-y-8'>
+            <div className='grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-2 md:gap-y-8'>
               {Object.keys(formData.social_networks).map((key, index) => {
                 return (
                   <Input
