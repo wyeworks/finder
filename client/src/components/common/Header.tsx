@@ -66,7 +66,7 @@ export default function Header({ user }: HeaderProps) {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push('configprofile');
+    router.push('/configprofile');
   };
 
   return (
