@@ -18,7 +18,7 @@ export default function FormStep5({
 
   function handleButtonAction() {
     nextPage();
-    router.push('/protected/home');
+    router.push('/home');
   }
 
   return (
