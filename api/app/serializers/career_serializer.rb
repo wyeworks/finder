@@ -6,5 +6,6 @@ class CareerSerializer
              :code,
              :approved_on,
              :years,
-             :credits
+             :credits,
+             :user_ids
 end

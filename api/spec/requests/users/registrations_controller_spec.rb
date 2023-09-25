@@ -60,6 +60,8 @@ RSpec.describe Users::RegistrationsController, type: :request do
         instagram: 'new_instagram_link'
       }
     end
+    let(:new_career) { create :career }
+    let(:new_subject) { create :subject }
 
     before do
       post user_session_path, params: { user: { email: user.email, password: user.password } }
@@ -71,7 +73,9 @@ RSpec.describe Users::RegistrationsController, type: :request do
                 password: new_password,
                 birth_date: new_birth_date,
                 bio: new_bio,
-                social_networks: new_social_networks
+                social_networks: new_social_networks,
+                career_ids: [new_career.id],
+                subject_ids: [new_subject.id]
               }
             }.to_json,
             headers: {
@@ -92,12 +96,16 @@ RSpec.describe Users::RegistrationsController, type: :request do
         expect(json_response['user']['birth_date']).to eq(new_birth_date.to_s)
         expect(json_response['user']['bio']).to eq(new_bio)
         expect(json_response['user']['social_networks']).to eq(new_social_networks.with_indifferent_access)
+        expect(json_response['user']['career_ids']).to include(new_career.id)
+        expect(json_response['user']['subject_ids']).to include(new_subject.id)
 
         user.reload
 
         expect(user.birth_date).to eq(new_birth_date.to_s)
         expect(user.bio).to eq(new_bio)
         expect(user.social_networks).to eq(new_social_networks.with_indifferent_access)
+        expect(user.careers).to include(new_career)
+        expect(user.subjects).to include(new_subject)
       end
 
       it 'updates user password' do

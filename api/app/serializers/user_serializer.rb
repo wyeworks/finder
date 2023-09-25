@@ -9,5 +9,8 @@ class UserSerializer
              :email,
              :name,
              :bio,
-             :social_networks
+             :social_networks,
+             :group_ids,
+             :career_ids,
+             :subject_ids
 end

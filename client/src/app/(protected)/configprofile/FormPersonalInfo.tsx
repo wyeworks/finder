@@ -5,10 +5,18 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
-import { SocialNetworks } from '@/types/SocialNetworks';
 import { User } from '@/types/User';
-import { formatDate, returnSocialNetworkIcon } from '@/utils/Formatter';
+import {
+  formatDate,
+  parseCareerToOption,
+  parseSubjectToOption,
+  returnSocialNetworkIcon,
+} from '@/utils/Formatter';
 import { useEffect, useState } from 'react';
+import DynamicAutoCompletes from '@/components/common/DynamicAutoCompletes';
+import { Subject } from '@/types/Subject';
+import { Career } from '@/types/Career';
+import { SocialNetworks } from '@/types/SocialNetworks';
 
 type PersonalInfoFormData = {
   name: string;
@@ -19,11 +27,17 @@ type PersonalInfoFormData = {
 
 type FormPersonalInfoProps = {
   user: User;
+  subjects?: Subject[];
+  careers?: Career[];
   // eslint-disable-next-line no-unused-vars
   onRefresh?: (refresh: boolean) => void;
 };
 
-export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
+export default function FormPersonalInfo({
+  user,
+  subjects = [],
+  careers = [],
+}: FormPersonalInfoProps) {
   let birthdate = '';
   // parse birthdate
   if (user.birth_date) {
@@ -46,11 +60,13 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
   const [alertVisible, setAlertVisible] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertType, setAlertType] = useState<alertTypes>('error');
-
+  const [globalIdCounter, setGlobalIdCounter] = useState<number>(3);
   const [disabledSubmittButton, setDisabledSubmittButton] =
     useState<boolean>(true);
 
-  // returns true if changes were made
+  const updateCounter = () => {
+    setGlobalIdCounter((prevState) => prevState + 1);
+  };
 
   useEffect(() => {
     const changedSocialNetworks = () => {
@@ -181,23 +197,43 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
             placeholder={
               strings.configProfile.forms.personalInfo.bioTextArea.placeholder
             }
-            className='w-full resize-none bg-backgroundInput'
+            className='mb-5 w-full resize-none bg-backgroundInput'
             value={formData.biography}
             onChange={HandleChangeTextArea}
             maxWidth={false}
           />
+          {/* Careers and subject sections */}
+          <DynamicAutoCompletes
+            title='Carreras'
+            placeholder='Elije una carrera'
+            options={parseCareerToOption(careers)}
+            updateCounter={updateCounter}
+            counterId={globalIdCounter}
+          />
+          <DynamicAutoCompletes
+            title='Materias'
+            placeholder='Elije una materia'
+            options={parseSubjectToOption(subjects)}
+            updateCounter={updateCounter}
+            counterId={globalIdCounter}
+          />
+
           <div className='block py-2'>
             <label className='block text-sm font-medium leading-6 text-gray-900'>
               {strings.configProfile.forms.personalInfo.socialNetworks.label}
             </label>
-            <div className='grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-2 md:gap-y-8'>
+            <div className='grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-2 md:gap-y-8'>
               {Object.keys(formData.social_networks).map((key, index) => {
                 return (
                   <Input
                     key={index}
                     type='text'
                     id={key}
-                    pattern={`^.*${key}\.com\/.+`}
+                    pattern={
+                      key != 'whatsapp' && key != 'telegram'
+                        ? `^.*${key}\.com\/.+`
+                        : '[0-9]*'
+                    }
                     name={key}
                     Icon={returnSocialNetworkIcon(key)}
                     value={
@@ -207,8 +243,10 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
                     classNameInput='bg-backgroundInput'
                     classNameWrapper='h-[50px]'
                     validateText={
-                      strings.configProfile.forms.personalInfo.socialNetworks
-                        .validateText
+                      key != 'whatsapp' && key != 'telegram'
+                        ? strings.configProfile.forms.personalInfo
+                            .socialNetworks.validateText
+                        : 'Escribe un número correcto'
                     }
                     touched={true}
                   />
@@ -240,12 +278,22 @@ export default function FormPersonalInfo({ user }: FormPersonalInfoProps) {
 }
 
 function generateSocialNetworks(user: User) {
-  return {
-    discord: user?.social_networks?.discord ?? '',
-    instagram: user?.social_networks?.instagram ?? '',
-    linkedin: user?.social_networks?.linkedin ?? '',
-    twitter: user?.social_networks?.twitter ?? '',
-    facebook: user?.social_networks?.facebook ?? '',
-    reddit: user?.social_networks?.reddit ?? '',
-  } as SocialNetworks;
+  const socialNetworks = [
+    'discord',
+    'instagram',
+    'linkedin',
+    'twitter',
+    'facebook',
+    'reddit',
+    'telegram',
+    'whatsapp',
+  ];
+  const result: SocialNetworks = {};
+
+  for (const network of socialNetworks) {
+    result[network as keyof SocialNetworks] =
+      user?.social_networks?.[network as keyof SocialNetworks] ?? '';
+  }
+
+  return result;
 }
