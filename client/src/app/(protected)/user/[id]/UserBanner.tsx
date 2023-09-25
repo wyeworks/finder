@@ -7,12 +7,15 @@ import {
   InstagramButton,
   LinkedInButton,
   RedditButton,
+  TelegramButton,
   TwitterButton,
+  WhatsappButton,
 } from '@/components/common/SocialNetworkButton';
 import Link from 'next/link';
 import defaultUser from '@/assets/images/default_user.png';
 import { Session } from 'next-auth';
 import { CareerService } from '@/services/CareerService';
+import React from 'react';
 
 type UserBannerProps = {
   user: User;
@@ -34,11 +37,11 @@ function EditButton() {
   );
 }
 
-function SocialLinksLayout(props: { user: User }) {
+function SocialNetworksLayout(props: { user: User }) {
   return (
     <div
       data-testid='socialNetworksLayout'
-      className='mb-5 flex max-w-[375px] flex-row items-center justify-evenly'
+      className='flex max-w-[375px] flex-row items-center justify-evenly'
     >
       {props.user.social_networks?.instagram && (
         <InstagramButton link={props.user.social_networks.instagram} />
@@ -59,6 +62,28 @@ function SocialLinksLayout(props: { user: User }) {
         <FacebookButton link={props.user.social_networks.facebook} />
       )}
     </div>
+  );
+}
+
+function PhoneNumberLayout(props: { user: User }) {
+  return (
+    <div className={'mb-3'}>
+      {props.user.social_networks?.whatsapp && (
+        <WhatsappButton number={props.user.social_networks.whatsapp} />
+      )}
+      {props.user.social_networks?.telegram && (
+        <TelegramButton link={props.user.social_networks.telegram} />
+      )}
+    </div>
+  );
+}
+
+function SocialLinksLayout(props: { user: User }) {
+  return (
+    <>
+      <SocialNetworksLayout user={props.user} />
+      <PhoneNumberLayout user={props.user} />
+    </>
   );
 }
 

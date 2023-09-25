@@ -5,6 +5,8 @@ import TwitterIcon from '@/assets/Icons/TwitterIcon';
 import DiscordIcon from '@/assets/Icons/DiscordIcon';
 import RedditIcon from '@/assets/Icons/RedditIcon';
 import FacebookIcon from '@/assets/Icons/FacebookIcon';
+import WhatsappIcon from '@/assets/Icons/WhatsappIcon';
+import TelegramIcon from '@/assets/Icons/TelegramIcon';
 
 type SocialNetworkButtonProps = {
   name: string;
@@ -84,6 +86,24 @@ function FacebookButton(props: { link: string }) {
   );
 }
 
+function WhatsappButton(props: { number: string }) {
+  return (
+    <div className='m-2 flex items-center justify-center'>
+      <WhatsappIcon className='mt-3 h-8 w-8' />
+      <p className='ml-2 text-2xl text-black'>{props.number}</p>
+    </div>
+  );
+}
+
+function TelegramButton(props: { link: string }) {
+  return (
+    <div className={'m-2 flex items-center justify-center'}>
+      <TelegramIcon className='mt-3 h-8 w-8' />
+      <p className='ml-2 text-2xl text-black'>{props.link}</p>
+    </div>
+  );
+}
+
 export {
   InstagramButton,
   LinkedInButton,
@@ -91,4 +111,6 @@ export {
   DiscordButton,
   RedditButton,
   FacebookButton,
+  WhatsappButton,
+  TelegramButton,
 };
