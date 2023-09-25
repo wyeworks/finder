@@ -38,7 +38,7 @@ export default function FormStep5({
       </div>
       <ClipBoard
         id='copy-text'
-        value={`${window.location.origin}/protected/group/${groupId}`}
+        value={`${window.location.origin}/group/${groupId}`}
         name='name'
       />
       <Button
