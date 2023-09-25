@@ -19,7 +19,7 @@ type UserBannerProps = {
 
 function EditButton() {
   return (
-    <Link data-testid={'editButton'} href={'/protected/configprofile'}>
+    <Link data-testid={'editButton'} href={'/configperfil'}>
       <button
         className={
           'flex w-fit items-center rounded-md bg-[#2B2D54] p-2 lg:self-end'
