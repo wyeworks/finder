@@ -12,16 +12,7 @@ import { Logger } from '@/services/Logger';
 import ErrorCreateGroup from './ErrorCreateGroup';
 import { BackendError } from '@/types/BackendError';
 import strings from '@/locales/strings.json';
-
-type TimePreference = {
-  Monday?: string;
-  Tuesday?: string;
-  Wednesday?: string;
-  Thursday?: string;
-  Friday?: string;
-  Saturday?: string;
-  Sunday?: string;
-};
+import { TimePreference } from '@/types/StudyGroup';
 
 export type CreateGroupData = {
   name: string;
