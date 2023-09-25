@@ -229,7 +229,11 @@ export default function FormPersonalInfo({
                     key={index}
                     type='text'
                     id={key}
-                    pattern={`^.*${key}\.com\/.+`}
+                    pattern={
+                      key != 'whatsapp' && key != 'telegram'
+                        ? `^.*${key}\.com\/.+`
+                        : '[0-9]*'
+                    }
                     name={key}
                     Icon={returnSocialNetworkIcon(key)}
                     value={
@@ -239,8 +243,10 @@ export default function FormPersonalInfo({
                     classNameInput='bg-backgroundInput'
                     classNameWrapper='h-[50px]'
                     validateText={
-                      strings.configProfile.forms.personalInfo.socialNetworks
-                        .validateText
+                      key != 'whatsapp' && key != 'telegram'
+                        ? strings.configProfile.forms.personalInfo
+                            .socialNetworks.validateText
+                        : 'Escribe un número correcto'
                     }
                     touched={true}
                   />
@@ -272,12 +278,22 @@ export default function FormPersonalInfo({
 }
 
 function generateSocialNetworks(user: User) {
-  return {
-    discord: user?.social_networks?.discord ?? '',
-    instagram: user?.social_networks?.instagram ?? '',
-    linkedin: user?.social_networks?.linkedin ?? '',
-    twitter: user?.social_networks?.twitter ?? '',
-    facebook: user?.social_networks?.facebook ?? '',
-    reddit: user?.social_networks?.reddit ?? '',
-  } as SocialNetworks;
+  const socialNetworks = [
+    'discord',
+    'instagram',
+    'linkedin',
+    'twitter',
+    'facebook',
+    'reddit',
+    'telegram',
+    'whatsapp',
+  ];
+  const result: SocialNetworks = {};
+
+  for (const network of socialNetworks) {
+    result[network as keyof SocialNetworks] =
+      user?.social_networks?.[network as keyof SocialNetworks] ?? '';
+  }
+
+  return result;
 }

@@ -5,4 +5,6 @@ export type SocialNetworks = {
   discord?: string;
   reddit?: string;
   facebook?: string;
+  whatsapp?: string;
+  telegram?: string;
 };
