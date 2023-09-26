@@ -23,13 +23,13 @@ RSpec.describe Group, type: :model do
       it 'is invalid with invalid days' do
         group.time_preferences = { 'InvalidDay' => 'Morning' }
         expect(group).not_to be_valid
-        expect(group.errors.messages[:time_preferences]).to include('should have a valid time preference for each day')
+        expect(group.errors.messages[:time_preferences]).to include('Debe tener una preferencia válida para cada día')
       end
 
       it 'is invalid with invalid time_preferences' do
         group.time_preferences = { 'Monday' => 'InvalidTime' }
         expect(group).not_to be_valid
-        expect(group.errors.messages[:time_preferences]).to include('should have a valid time preference for each day')
+        expect(group.errors.messages[:time_preferences]).to include('Debe tener una preferencia válida para cada día')
       end
     end
   end

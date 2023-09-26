@@ -2,10 +2,12 @@ module RegistrationsJsonResponse
   extend ActiveSupport::Concern
 
   def render_user_created_successfully(user, requires_confirmation: false)
+    Rails.logger.info "User with ID ##{user.id} and email '#{user.email}' was successfully created."
+
     message = if requires_confirmation
-                'User was successfully created, but requires confirmation.'
+                'El usuario fue creado correctamente, pero requiere confirmación'
               else
-                'User was successfully created.'
+                'El usuario fue creado correctamente'
               end
 
     render json: {
@@ -15,16 +17,20 @@ module RegistrationsJsonResponse
   end
 
   def render_user_creation_error(user)
+    Rails.logger.info "User with email '#{user.email}' couldn't be created due to the following " \
+                      "errors: #{user.errors.full_messages}"
+
     render json: {
-      message: "User couldn't be created successfully. #{user.errors.full_messages.to_sentence}",
+      message: 'El usuario no pudo ser creado correctamente',
       errors: user.errors.messages
     }, status: :unprocessable_entity
   end
 
   def render_user_update_successfully(user)
     Rails.logger.info "User with ID ##{user.id} and email '#{user.email}' was successfully updated."
+
     render json: {
-      message: 'User was successfully updated.',
+      message: 'El usuario fue actualizado correctamente',
       user: UserSerializer.new(user).serializable_hash[:data][:attributes]
     }, status: :ok
   end
@@ -34,7 +40,7 @@ module RegistrationsJsonResponse
                       "errors: #{user.errors.full_messages}"
 
     render json: {
-      message: "User couldn't be updated successfully. #{user.errors.full_messages.to_sentence}",
+      message: 'El usuario no pudo ser actualizado correctamente',
       errors: user.errors.messages
     }, status: :unprocessable_entity
   end

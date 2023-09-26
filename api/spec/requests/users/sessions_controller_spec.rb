@@ -24,6 +24,7 @@ RSpec.describe Users::SessionsController, type: :request do
       it 'returns JSON containing user data' do
         json_response = response.parsed_body
 
+        expect(json_response['message']).to include('Sesión iniciada correctamente')
         expect(json_response['user']['email']).to eq(user.email)
         expect(json_response['user']['name']).to eq(user.name)
       end
@@ -39,7 +40,7 @@ RSpec.describe Users::SessionsController, type: :request do
       it 'returns JSON containing error message' do
         json_response = response.parsed_body
 
-        expect(json_response).to include('Invalid Email or password')
+        expect(json_response).to include('Email y/o contraseña inválidos')
       end
     end
 
@@ -63,7 +64,7 @@ RSpec.describe Users::SessionsController, type: :request do
 
       it 'returns JSON containing error message' do
         json_response = response.parsed_body
-        expect(json_response).to include('You have to confirm your email address before continuing.')
+        expect(json_response).to include('Tienes que confirmar tu cuenta antes de continuar')
       end
     end
   end
@@ -93,7 +94,7 @@ RSpec.describe Users::SessionsController, type: :request do
       it 'returns JSON containing success message' do
         json_response = response.parsed_body
 
-        expect(json_response['message']).to include('Logged out successfully')
+        expect(json_response['message']).to include('Sesión cerrada correctamente')
       end
     end
 
@@ -111,7 +112,7 @@ RSpec.describe Users::SessionsController, type: :request do
       it 'returns JSON containing error message' do
         json_response = response.parsed_body
 
-        expect(json_response['message']).to include("Couldn't find an active session")
+        expect(json_response['message']).to include('No se pudo encontrar una sesión activa')
       end
     end
   end
