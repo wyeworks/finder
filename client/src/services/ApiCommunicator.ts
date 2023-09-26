@@ -108,6 +108,22 @@ export class ApiCommunicator {
     });
   }
 
+  static async getSubjects(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + '/users/' + id + '/subjects',
+      method: 'GET',
+      mustBeAuthenticated: true,
+    });
+  }
+
+  static async getCareers(): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + '/careers',
+      mustBeAuthenticated: true,
+      method: 'GET',
+    });
+  }
+
   static async signUp(data: any): Promise<any> {
     return await this.commonFetch({
       url: this.apiUrl() + '/users/signup',

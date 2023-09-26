@@ -21,7 +21,7 @@ import Link from 'next/link';
 const userNavigation = [
   {
     name: strings.header.navOptions.editProfile,
-    href: '/protected/configprofile',
+    href: '/configprofile',
   },
   {
     name: strings.header.navOptions.endSession,
@@ -45,7 +45,7 @@ const userNavigationMobile = [
   },
   {
     name: strings.header.navOptions.editProfile,
-    href: '/protected/configprofile',
+    href: '/configprofile',
     icon: <EditIcon className='mr-3 h-4 w-4' />,
   },
   {
@@ -72,10 +72,7 @@ export default function Header({ user }: HeaderProps) {
               <div className='flex h-16 items-center justify-between'>
                 <div className='flex items-center'>
                   <div className='flex-shrink-0'>
-                    <Link
-                      className='mx-2 flex items-center'
-                      href={'/protected/home'}
-                    >
+                    <Link className='mx-2 flex items-center' href={'/home'}>
                       <IconLogoFinder className='h-12 w-12 text-white' />
                       <p className='ml-2 text-4xl text-white'>
                         <strong>finder.com</strong>

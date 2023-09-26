@@ -33,6 +33,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         Logger.debug('User authorized: ', user.user);
+        Logger.debug('User', user);
         user.user.accessToken = res.headers.get('Authorization');
         return user.user;
       },
