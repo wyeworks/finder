@@ -3,4 +3,8 @@ export type SocialNetworks = {
   linkedin?: string;
   twitter?: string;
   discord?: string;
+  reddit?: string;
+  facebook?: string;
+  whatsapp?: string;
+  telegram?: string;
 };

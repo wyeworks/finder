@@ -6,6 +6,6 @@ export type User = {
   email: string;
   profileImage?: string;
   bio?: string;
-  socialNetworks?: SocialNetworks;
+  social_networks?: SocialNetworks;
   birth_date?: string;
 };

@@ -4,23 +4,18 @@ import { Option } from '@/types/Option';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction } from 'react';
 import { CreateGroupData } from '../page';
-
-const mappingDays: { [key: string]: string } = {
-  Domingo: 'Sunday',
-  Lunes: 'Monday',
-  Martes: 'Tuesday',
-  Miércoles: 'Wednesday',
-  Jueves: 'Thursday',
-  Viernes: 'Friday',
-  Sábado: 'Saturday',
-};
+import { TimeOfDay } from '@/types/StudyGroup';
+import { translatePreference, translateSpanishDays } from '@/utils/Formatter';
 
 const preferences: Option[] = [
-  { key: '', label: 'No puedo este dia' },
-  { key: 'None', label: 'Sin Preferencia' },
-  { key: 'Afternoon', label: 'Mañana' },
-  { key: 'Morning', label: 'Tarde' },
-  { key: 'Night', label: 'Noche' },
+  { key: TimeOfDay.No, label: translatePreference(TimeOfDay.No) },
+  {
+    key: TimeOfDay.NoPreferences,
+    label: translatePreference(TimeOfDay.NoPreferences),
+  },
+  { key: TimeOfDay.Afternoon, label: translatePreference(TimeOfDay.Afternoon) },
+  { key: TimeOfDay.Morning, label: translatePreference(TimeOfDay.Morning) },
+  { key: TimeOfDay.Night, label: translatePreference(TimeOfDay.Night) },
 ];
 
 type FormStep4Props = {
@@ -29,15 +24,15 @@ type FormStep4Props = {
 };
 
 export default function FormStep4({ setValue, handleSubmit }: FormStep4Props) {
-  const spanishDays = Object.keys(mappingDays);
+  const spanishDays = Object.keys(translateSpanishDays);
 
   function setTimePreference(day: string, newValue: string) {
     setValue((prevState: any) => {
       const updatedTimePreference = { ...prevState.timePreference };
       if (newValue === '') {
-        delete updatedTimePreference[mappingDays[day]];
+        delete updatedTimePreference[translateSpanishDays[day]];
       } else {
-        updatedTimePreference[mappingDays[day]] = newValue;
+        updatedTimePreference[translateSpanishDays[day]] = newValue;
       }
       return {
         ...prevState,

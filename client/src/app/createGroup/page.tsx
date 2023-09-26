@@ -12,16 +12,7 @@ import { Logger } from '@/services/Logger';
 import ErrorCreateGroup from './ErrorCreateGroup';
 import { BackendError } from '@/types/BackendError';
 import strings from '@/locales/strings.json';
-
-type TimePreference = {
-  Monday?: string;
-  Tuesday?: string;
-  Wednesday?: string;
-  Thursday?: string;
-  Friday?: string;
-  Saturday?: string;
-  Sunday?: string;
-};
+import { TimePreference } from '@/types/StudyGroup';
 
 export type CreateGroupData = {
   name: string;
@@ -54,7 +45,7 @@ export default function CreateGroup() {
 
   function backPage() {
     if (actualStep === 1) {
-      router.push('/protected/home');
+      router.push('/home');
       return;
     }
     setActualStep(actualStep - 1);
@@ -106,6 +97,8 @@ export default function CreateGroup() {
       nextPage();
     } catch (error) {
       Logger.debug('Error trying to create group' + { error });
+      setError(true);
+      nextPage();
     }
   }
 
