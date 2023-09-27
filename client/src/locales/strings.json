@@ -86,7 +86,7 @@
     "imageAlt": "Confirmar email",
     "title": "finder.com",
     "headerText": "Confirme su dirección de correo",
-    "infoText": "Se ha enviado un correo electrónico a xxxx.xxxxx@email.com con los pasos necesarios para confirmar su registro",
+    "infoText": "Se te ha enviado un correo electrónico con los pasos necesarios para confirmar el registro",
     "loginButton": {
       "text": "Iniciar sesión"
     }
