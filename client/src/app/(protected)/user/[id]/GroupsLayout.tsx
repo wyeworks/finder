@@ -1,12 +1,14 @@
 import { StudyGroup } from '@/types/StudyGroup';
 import Image from 'next/image';
 import React from 'react';
+import { SubjectService } from '@/services/SubjectService';
 
 type GroupCardProps = {
   group: StudyGroup;
 };
 
-function GroupCard({ group }: GroupCardProps) {
+async function GroupCard({ group }: GroupCardProps) {
+  const subject = await SubjectService.getSubject(group.subject_id);
   return (
     <div
       data-testid={`groupCard-${group.name}`}
@@ -25,7 +27,7 @@ function GroupCard({ group }: GroupCardProps) {
           data-testid={`groupSubject-${group.subject_id}`}
           className='text-base font-bold text-[#242760]'
         >
-          {group.subject_id}
+          {subject.name}
         </h1>
         <h1
           data-testid={`groupName-${group.name}`}
@@ -74,7 +76,7 @@ function EmptyGroups() {
 
 export default function GroupsLayout({ groups }: GroupsLayoutProps) {
   return (
-    <div className='overflow-hidden border-[#E7E7E7] bg-[#F3F4F6] lg:m-20 lg:rounded-2xl lg:border-2 lg:bg-white'>
+    <div className='overflow-hidden border-[#E7E7E7] bg-[#F3F4F6] lg:rounded-2xl lg:border-2 lg:bg-white'>
       <div className='p-5 text-[#2B2D54] lg:border-b-2 lg:bg-[#2B2D54] lg:text-white'>
         <h1 className='text-4xl font-extrabold'>Grupos</h1>
       </div>

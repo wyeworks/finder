@@ -14,8 +14,7 @@ export async function GET() {
     throw new Error('Access token is not defined');
   }
 
-  const URL =
-    process.env.RAILS_API_URL + '/users/' + session.user.id + '/subjects';
+  const URL = process.env.RAILS_API_URL + '/careers';
 
   try {
     const response = await fetch(URL, {

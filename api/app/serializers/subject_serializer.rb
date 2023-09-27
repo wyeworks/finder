@@ -4,5 +4,7 @@ class SubjectSerializer
   attributes :id,
              :name,
              :code,
-             :credits
+             :credits,
+             :group_ids,
+             :user_ids
 end

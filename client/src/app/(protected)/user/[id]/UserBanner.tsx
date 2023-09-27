@@ -1,16 +1,21 @@
 import { User } from '@/types/User';
 import Image from 'next/image';
-import LocationIcon from '@/assets/Icons/LocationIcon';
 import EditIcon from '@/assets/Icons/EditProfileIcon';
 import {
   DiscordButton,
+  FacebookButton,
   InstagramButton,
   LinkedInButton,
+  RedditButton,
+  TelegramButton,
   TwitterButton,
+  WhatsappButton,
 } from '@/components/common/SocialNetworkButton';
 import Link from 'next/link';
 import defaultUser from '@/assets/images/default_user.png';
 import { Session } from 'next-auth';
+import { CareerService } from '@/services/CareerService';
+import React from 'react';
 
 type UserBannerProps = {
   user: User;
@@ -19,7 +24,7 @@ type UserBannerProps = {
 
 function EditButton() {
   return (
-    <Link data-testid={'editButton'} href={'/configperfil'}>
+    <Link data-testid={'editButton'} href={'/configprofile'}>
       <button
         className={
           'flex w-fit items-center rounded-md bg-[#2B2D54] p-2 lg:self-end'
@@ -32,11 +37,11 @@ function EditButton() {
   );
 }
 
-function SocialLinksLayout(props: { user: User }) {
+function SocialNetworksLayout(props: { user: User }) {
   return (
     <div
-      data-testid={'socialNetworksLayout'}
-      className={'mb-5 flex max-w-[375px] flex-row items-center justify-evenly'}
+      data-testid='socialNetworksLayout'
+      className='flex max-w-[375px] flex-row items-center justify-evenly'
     >
       {props.user.social_networks?.instagram && (
         <InstagramButton link={props.user.social_networks.instagram} />
@@ -50,36 +55,79 @@ function SocialLinksLayout(props: { user: User }) {
       {props.user.social_networks?.discord && (
         <DiscordButton link={props.user.social_networks.discord} />
       )}
+      {props.user.social_networks?.reddit && (
+        <RedditButton link={props.user.social_networks.reddit} />
+      )}
+      {props.user.social_networks?.facebook && (
+        <FacebookButton link={props.user.social_networks.facebook} />
+      )}
     </div>
   );
 }
 
-function UserBio(props: { user: User }) {
+function PhoneNumberLayout(props: { user: User }) {
   return (
-    <h1 className={'text-center text-2xl text-[#3D405B] lg:mt-2 lg:text-left'}>
-      {props.user.bio ?? 'Sin bio'}
+    <div className={'mb-3'}>
+      {props.user.social_networks?.whatsapp && (
+        <WhatsappButton number={props.user.social_networks.whatsapp} />
+      )}
+      {props.user.social_networks?.telegram && (
+        <TelegramButton link={props.user.social_networks.telegram} />
+      )}
+    </div>
+  );
+}
+
+function SocialLinksLayout(props: { user: User }) {
+  return (
+    <>
+      <SocialNetworksLayout user={props.user} />
+      <PhoneNumberLayout user={props.user} />
+    </>
+  );
+}
+
+function UserBio(props: { bio: string }) {
+  return (
+    <h1 className='text-center text-2xl text-[#3D405B] lg:mt-2 lg:text-left'>
+      {props.bio}
     </h1>
   );
 }
 
-// eslint-disable-next-line no-unused-vars
-function UserLocation(props: { user: User }) {
-  //TODO: Agregar user location
+function UserCareer(props: { career: string }) {
   return (
     <div className={'mb-2 flex w-fit self-center lg:mt-4 lg:self-start'}>
-      <LocationIcon className={'flex-shrink-0'} />
-      <h1 className={'ml-2 text-2xl text-[#212B36]'}>Montevideo</h1>
+      <h1 className={'text-2xl text-[#212B36]'}>{props.career}</h1>
     </div>
   );
 }
 
+function UserCareers(props: { careers: string[] }) {
+  if (props.careers.length == 1) {
+    return <UserCareer career={props.careers[0]} />;
+  } else if (props.careers.length > 0) {
+    const careers = props.careers;
+    const firstCareer = careers.shift();
+    return (
+      <div className='mb-2 flex w-fit flex-col items-center justify-center self-center lg:mt-4 lg:flex-row lg:self-start'>
+        <h1 className={'text-2xl text-[#212B36]'}>{firstCareer}</h1>
+        {careers.map((career) => (
+          <>
+            <div className='invisible text-2xl lg:visible lg:ml-2'> |</div>
+            <h1 className={'ml-2 text-2xl text-[#212B36]'}>{career}</h1>
+          </>
+        ))}
+      </div>
+    );
+  } else {
+    return <></>;
+  }
+}
+
 function UserName(props: { user: User }) {
   return (
-    <h1
-      className={
-        'mb-2 text-center text-5xl font-bold text-[#2B2D54] lg:text-start'
-      }
-    >
+    <h1 className='mb-2 text-center text-5xl font-bold text-[#2B2D54] lg:text-start'>
       {props.user.name}
     </h1>
   );
@@ -116,28 +164,25 @@ function UserProfileImage({ profileImage }: { profileImage?: string }) {
   );
 }
 
-export default function UserBanner({ user, session }: UserBannerProps) {
+export default async function UserBanner({ user, session }: UserBannerProps) {
+  const careers = await CareerService.getByUser(user);
   return (
     <div className={'flex w-full flex-col bg-transparent'}>
       <BannerBackground />
-      <div
-        className={
-          'mt-10 flex flex-col justify-center lg:mt-0 lg:flex-row lg:justify-between lg:pl-20'
-        }
-      >
+      <div className='mt-10 flex flex-col justify-center lg:mt-0 lg:flex-row lg:justify-between lg:pl-20'>
         <div className={'mb-5 flex flex-col items-center lg:mb-0 lg:flex-row'}>
           <UserProfileImage profileImage={user.profileImage} />
           <div className={'m-5 flex flex-col lg:ml-10 lg:justify-start'}>
             <UserName user={user} />
-            <UserLocation user={user} />
-            <UserBio user={user} />
+            <div className='flex flex-col flex-wrap lg:flex-row'>
+              {careers.length > 0 && (
+                <UserCareers careers={careers.map((c) => c.name)} />
+              )}
+            </div>
+            {user.bio && <UserBio bio={user.bio} />}
           </div>
         </div>
-        <div
-          className={
-            'mb-10 flex flex-col items-center lg:mb-0 lg:mr-20 lg:justify-around'
-          }
-        >
+        <div className='mb-10 flex flex-col items-center lg:mb-0 lg:mr-20 lg:justify-around'>
           {user.social_networks && <SocialLinksLayout user={user} />}
           {session?.user?.email === user.email && <EditButton />}
         </div>
@@ -145,5 +190,3 @@ export default function UserBanner({ user, session }: UserBannerProps) {
     </div>
   );
 }
-
-//<Link href={'/(protected)/configuser'}>

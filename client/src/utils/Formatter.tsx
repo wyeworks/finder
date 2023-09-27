@@ -8,6 +8,9 @@ import LinkedInIcon from '@/assets/Icons/LinkedInIcon';
 import RedditIcon from '@/assets/Icons/RedditIcon';
 import TwitterIcon from '@/assets/Icons/TwitterIcon';
 import { TimeOfDay } from '@/types/StudyGroup';
+import { Career } from '@/types/Career';
+import TelegramIcon from '@/assets/Icons/TelegramIcon';
+import WhatsappIcon from '@/assets/Icons/WhatsappIcon';
 
 // takes date from back (for example '2023-09-13T00:00:00.000Z') and
 // returns on input format (2023-09-13)
@@ -28,21 +31,27 @@ export function parseSubjectToOption(subjects: Subject[]): Option[] {
   return options;
 }
 
+export function parseCareerToOption(careers: Career[]): Option[] {
+  const options: Option[] = careers.map((career) => ({
+    label: career.name,
+    key: career.id.toString(),
+  }));
+  return options;
+}
+
 export function returnSocialNetworkIcon(value: string) {
-  switch (value) {
-    case 'linkedin':
-      return <LinkedInIcon className='h-8 w-8 text-inputTextColor' />;
-    case 'reddit':
-      return <RedditIcon className='h-8 w-8 text-inputTextColor' />;
-    case 'discord':
-      return <DiscordIcon className='h-8 w-8 text-inputTextColor' />;
-    case 'facebook':
-      return <FacebookIcon className='h-8 w-8 text-inputTextColor' />;
-    case 'twitter':
-      return <TwitterIcon className='h-8 w-8 text-inputTextColor' />;
-    case 'instagram':
-      return <InstagramIcon className='h-8 w-8 text-inputTextColor' />;
-  }
+  const socialNetworkIcons = {
+    linkedin: <LinkedInIcon className='h-8 w-8 text-inputTextColor' />,
+    reddit: <RedditIcon className='h-8 w-8 text-inputTextColor' />,
+    discord: <DiscordIcon className='h-8 w-8 text-inputTextColor' />,
+    facebook: <FacebookIcon className='h-8 w-8 text-inputTextColor' />,
+    twitter: <TwitterIcon className='h-8 w-8 text-inputTextColor' />,
+    instagram: <InstagramIcon className='h-8 w-8 text-inputTextColor' />,
+    telegram: <TelegramIcon className='h-8 w-8 text-inputTextColor' />,
+    whatsapp: <WhatsappIcon className='h-8 w-8 text-inputTextColor' />,
+  };
+
+  return socialNetworkIcons[value.toLowerCase() as keyof React.ReactNode];
 }
 
 export const translatePreference = (preference: TimeOfDay): string => {
