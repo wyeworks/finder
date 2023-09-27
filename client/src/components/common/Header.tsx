@@ -78,7 +78,10 @@ export default function Header({ user }: HeaderProps) {
               <div className='flex h-16 items-center justify-between'>
                 <div className='flex items-center'>
                   <div className='flex-shrink-0'>
-                    <div className='mx-2 flex items-center'>
+                    <div
+                      className='mx-2 flex cursor-pointer items-center'
+                      onClick={() => router.push('/home')}
+                    >
                       <IconLogoFinder className='h-12 w-12 text-white' />
                       <p className='ml-2 text-4xl text-white'>
                         <strong>finder.com</strong>
