@@ -84,6 +84,7 @@ export default function FormStep3({
           validateText={strings.form.sizeInput.validateText}
           onChange={handleChange}
           minNumber={2}
+          max={100}
         />
         <Button
           text={strings.form.nextButton.text}
