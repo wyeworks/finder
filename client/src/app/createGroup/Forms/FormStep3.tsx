@@ -74,7 +74,7 @@ export default function FormStep3({
         />
         <Input
           type='number'
-          id='name'
+          id='size'
           name='size'
           placeholder={strings.form.sizeInput.placeholder}
           maxWidth={false}
