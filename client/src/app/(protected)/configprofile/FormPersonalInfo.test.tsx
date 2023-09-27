@@ -13,13 +13,33 @@ const user: User = {
   email: 'test@email.com',
 };
 
+const mockOnSessionUpdate = jest.fn();
+// eslint-disable-next-line no-unused-vars
+mockOnSessionUpdate.mockImplementation((_: any) => {});
+
+const sut = () => {
+  return render(
+    <FormPersonalInfo
+      user={user}
+      session={{
+        user: {
+          id: '1',
+          name: 'Test',
+          email: '',
+        },
+      }}
+      onSessionUpdate={mockOnSessionUpdate}
+    />
+  );
+};
+
 describe('Form Personal Info Component', () => {
   it('should render without crashing', () => {
-    render(<FormPersonalInfo user={user} />);
+    sut();
   });
 
   it('should show an alert when form is submitted with invalid data', async () => {
-    render(<FormPersonalInfo user={user} />);
+    sut();
 
     // clean the input
     await userEvent.clear(
@@ -49,7 +69,7 @@ describe('Form Personal Info Component', () => {
   it('should make a successful API call when form is submitted with valid data', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({ ok: true }); // Mock a successful fetch call
 
-    render(<FormPersonalInfo user={user} />);
+    sut();
 
     // Fill the form
     screen
@@ -83,8 +103,7 @@ describe('Form Personal Info Component', () => {
   it('should show success message when make a successful API call when form is submitted with valid data', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({ ok: true }); // Mock a successful fetch call
 
-    render(<FormPersonalInfo user={user} />);
-
+    sut();
     // Fill the form
     screen
       .getByLabelText(strings.configProfile.forms.personalInfo.nameInput.label)
@@ -121,7 +140,7 @@ describe('Form Personal Info Component', () => {
       new Error(strings.common.error.unexpectedError)
     ); // Mock a failed fetch call
 
-    render(<FormPersonalInfo user={user} />);
+    sut();
 
     // Fill the form
     screen

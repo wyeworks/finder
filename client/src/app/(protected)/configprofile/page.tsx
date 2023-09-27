@@ -11,7 +11,7 @@ import { Logger } from '@/services/Logger';
 export default function ConfigProfile() {
   // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useState<User | null>(null);
-  const { data: session } = useSession();
+  const { data: session, update: updateSession } = useSession();
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [careers, setCareers] = useState<Career[]>([]);
 
@@ -101,6 +101,8 @@ export default function ConfigProfile() {
           {user && (
             <FormPersonalInfo
               user={user}
+              session={session}
+              onSessionUpdate={updateSession}
               subjects={subjects}
               careers={careers}
             />
