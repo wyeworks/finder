@@ -4,14 +4,9 @@
       "defaultError": "Algo salió mal",
       "unexpectedError": "Ocurrió un error inesperado, intenta de nuevo",
       "completeFields": "Por favor completa todos los campos correctamente",
-      "logInInvalid": "Email o Contraseña inválida",
+      "logInInvalid": "Email y/o contraseña inválidos",
       "signin": "El login no se pudo completar",
-      "signup": "El usuario no pudo ser creado",
-      "email": "Email debe ser ***@email.com",
-      "password": "Formato de la contraseña no es correcto",
-      "name": "Hubo un error al ingresar el nombre",
-      "subject": "Hubo un error al ingresar la materia",
-      "description": "Hubo un error al ingresar la descripcion"
+      "signup": "El usuario no pudo ser creado correctamente"
     },
     "submitButton": {
       "text": "Enviar"
