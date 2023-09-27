@@ -34,7 +34,7 @@ export default async function HomePage() {
                   href='/createGroup'
                   className='rounded-md bg-primaryBlue p-3 text-white'
                 >
-                  Crear Grupo
+                  Crear grupo
                 </Link>
               </li>
             </ul>

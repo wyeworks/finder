@@ -36,7 +36,7 @@
   "form": {
     "nameInput": {
       "label": "Nombre",
-      "placeholder": "Ingresa tu Nombre"
+      "placeholder": "Ingresa tu nombre"
     },
     "emailInput": {
       "label": "Email",
@@ -45,23 +45,23 @@
     },
     "passwordInput": {
       "label": "Contraseña",
-      "placeholder": "Ingresa tu Contraseña",
+      "placeholder": "Ingresa tu contraseña",
       "validateText": "Ingresa una contraseña válida",
       "passwordInfo": "Asegurate de que tu contraseña tenga al menos 8 caracteres y contenga: \n- Una letra mayúscula \n- Una letra minúscula \n- Un número \n- Un caracter especial \n\n Evita usar contraseñas comunes como \"Abcd-12345\" o utilizar tu nombre y tu cumpleaños."
     },
     "createAccountButton": {
-      "text": "Crear Cuenta"
+      "text": "Crear cuenta"
     },
     "logInButton": {
-      "text": "Iniciar Sesión"
+      "text": "Iniciar sesión"
     },
     "nameGroupInput": {
-      "placeholder": "Grupo de <Materia>",
-      "validateText": "Ingresa un Nombre de Grupo"
+      "placeholder": "Grupo de <materia>",
+      "validateText": "Ingresa un nombre de Grupo"
     },
     "descriptionGroupInput": {
-      "placeholder": "Descripcion de <Materia>",
-      "validateText": "Ingresa una Descripción de Grupo"
+      "placeholder": "Descripción de <materia>",
+      "validateText": "Ingresa una descripción de Grupo"
     },
     "sizeInput": {
       "placeholder": "Ingrese el tamaño del grupo deseado",
@@ -78,8 +78,8 @@
     "navOptions": {
       "notifications": "Notificaciones",
       "messages": "Mensajes",
-      "editProfile": "Editar Perfil",
-      "endSession": "Cerrar Sesión"
+      "editProfile": "Editar perfil",
+      "endSession": "Cerrar sesión"
     }
   },
   "confirmation": {
@@ -110,11 +110,11 @@
         },
         "oldPassInput": {
           "label": "Contraseña antigua",
-          "placeholder": "Ingresa tu Contraseña"
+          "placeholder": "Ingresa tu contraseña"
         },
         "newPassInput": {
           "label": "Contraseña nueva",
-          "placeholder": "Ingresa tu Contraseña nueva"
+          "placeholder": "Ingresa tu contraseña nueva"
         }
       },
       "personalInfo": {
@@ -127,11 +127,11 @@
         },
         "nameInput": {
           "label": "Nombre",
-          "placeholder": "Ingresa tu Nombre"
+          "placeholder": "Ingresa tu nombre"
         },
         "birthdateInput": {
           "label": "Fecha de nacimiento",
-          "placeholder": "Ingresa tu Fecha de nacimiento"
+          "placeholder": "Ingresa tu fecha de nacimiento"
         },
         "bioTextArea": {
           "label": "Biografía",
