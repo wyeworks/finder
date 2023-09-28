@@ -4,25 +4,11 @@
 import { User } from '@/types/User';
 import { StudyGroup } from '@/types/StudyGroup';
 import { Logger } from '@/services/Logger';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
 
 export class GroupService {
   public static async getGroup(id: string): Promise<StudyGroup> {
-    const RAILS_API_URL = process.env.RAILS_API_URL;
-
-    if (!RAILS_API_URL) {
-      throw new Error('RAILS_API_URL is not defined');
-    }
-
-    const URL = process.env.RAILS_API_URL + '/groups/' + id;
-
-    const res = await fetch(URL);
-    const json = await res.json();
-
-    if (!res.ok) {
-      throw new Error(json.errors);
-    }
-
-    return json as StudyGroup;
+    return (await ApiCommunicator.getGroup(id)) as StudyGroup;
   }
 
   public static async getActiveGroups(user: User): Promise<StudyGroup[]> {

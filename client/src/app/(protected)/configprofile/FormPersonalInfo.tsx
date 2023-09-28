@@ -18,6 +18,7 @@ import DynamicAutoCompletes from '@/components/common/DynamicAutoCompletes';
 import { Subject } from '@/types/Subject';
 import { Career } from '@/types/Career';
 import { SocialNetworks } from '@/types/SocialNetworks';
+import { useSession } from 'next-auth/react';
 
 type PersonalInfoFormData = {
   name: string;
@@ -30,8 +31,6 @@ type FormPersonalInfoProps = {
   user: User;
   subjects?: Subject[];
   careers?: Career[];
-  // eslint-disable-next-line no-unused-vars
-  onRefresh?: (refresh: boolean) => void;
 };
 
 export default function FormPersonalInfo({
@@ -39,6 +38,8 @@ export default function FormPersonalInfo({
   subjects = [],
   careers = [],
 }: FormPersonalInfoProps) {
+  const { data: session, update: onSessionUpdate } = useSession();
+
   let birthdate = '';
   // parse birthdate
   if (user.birth_date) {
@@ -133,6 +134,20 @@ export default function FormPersonalInfo({
       setAlertVisible(true);
       setAlertMessage(strings.common.success.changeSuccess);
       setAlertType('success');
+
+      await onSessionUpdate({
+        info: {
+          ...session!.user,
+          name: formData.name,
+          bio: formData.biography,
+          birth_date: formData.birthdate,
+          social_networks: formData.social_networks,
+        },
+      });
+
+      setTimeout(() => {
+        window.location.href = '/home';
+      }, 1000);
     } catch (error) {
       setAlertMessage(strings.common.error.unexpectedError);
       setAlertVisible(true);

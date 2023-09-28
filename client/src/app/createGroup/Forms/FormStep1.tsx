@@ -7,6 +7,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Logger } from '@/services/Logger';
 import { Subject } from '@/types/Subject';
 import { parseSubjectToOption } from '@/utils/Formatter';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
 
 type FormStep1Props = {
   nextPage: () => void;
@@ -22,11 +23,7 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
 
   const getSubjects = async () => {
     try {
-      const response = await fetch('/api/subjects');
-      if (!response.ok) {
-        return null;
-      }
-      return await response.json();
+      return await ApiCommunicator.clientSideSubjectsByUser();
     } catch (error) {
       Logger.error('Error trying to get subjects:' + { error });
       return null;

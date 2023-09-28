@@ -80,9 +80,10 @@ export class ApiCommunicator {
       Logger.warn('Response not ok');
       if (handleNotOk) {
         const errorData = await response.json();
-        throw new Error(
-          errorData.message || strings.common.error.unexpectedError
-        );
+        const errorMessage =
+          errorData.errors || strings.common.error.unexpectedError;
+        Logger.error('Error fetching message: ', errorMessage);
+        throw new Error(errorMessage);
       }
     }
 
@@ -105,6 +106,32 @@ export class ApiCommunicator {
       data,
       handleNotOk: false,
       asJSON: false,
+    });
+  }
+
+  static async clientSideSubjectsByUser() {
+    return await this.commonFetch({
+      url: '/api/subjects',
+      method: 'GET',
+    });
+  }
+
+  static async clientSideCreateGroup(data: any): Promise<any> {
+    return await this.commonFetch({
+      url: '/api/createGroup',
+      method: 'POST',
+      data,
+      handleNotOk: false,
+      asJSON: false,
+    });
+  }
+
+  static async createGroup(data: any): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + '/groups',
+      method: 'POST',
+      data,
+      mustBeAuthenticated: true,
     });
   }
 
@@ -160,6 +187,34 @@ export class ApiCommunicator {
       url: this.apiUrl() + `/users/${id}`,
       method: 'GET',
       mustBeAuthenticated: true,
+    });
+  }
+
+  static async getSubjectsByUser(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + `/users/${id}/subjects`,
+      method: 'GET',
+    });
+  }
+
+  static async getSubject(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + `/subjects/${id}`,
+      method: 'GET',
+    });
+  }
+
+  static async getCareersByUser(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + `/users/${id}/careers`,
+      method: 'GET',
+    });
+  }
+
+  static async getGroup(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + `/groups/${id}`,
+      method: 'GET',
     });
   }
 }
