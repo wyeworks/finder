@@ -143,5 +143,24 @@
         }
       }
     }
+  },
+  "createGroup": {
+    "step1": {
+      "description": "Primero elige la materia del grupo",
+      "placeholderDropDownSuccess": "Seleccione la materia",
+      "placeholderDropDownWaiting": "Cargando materias..."
+    },
+    "step2": {
+      "description1": "Indica un nombre para el grupo",
+      "description2": "Elige un nombre que ayude a las personas a saber de que trata el grupo."
+    },
+    "step3": {
+      "description1": "Describe tu Grupo",
+      "description2": "Esto será lo que verá cualquier persona que encuentre tu grupo,pero también podrás actualizarlo más tarde."
+    },
+    "step4": {
+      "description1": "Si tiene horarios para juntarse...",
+      "description2": "En el caso de que el grupo tenga alguna preferencia horaria para sus sesiones, dejalo claro con los integrantes pero también podrás actualizarlo más tarde."
+    }
   }
 }

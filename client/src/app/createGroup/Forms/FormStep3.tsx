@@ -48,11 +48,10 @@ export default function FormStep3({
     <div className='grid grid-rows-[120px,140px,80px] justify-center gap-3 sm:grid-rows-[80px,140px,80px]'>
       <div className='flex flex-col gap-2 pb-2'>
         <span className='text-primaryBlue pt-4 text-2xl font-bold'>
-          Describe tu grupo
+          {strings.createGroup.step3.description1}
         </span>
         <span className='max-w-[30rem] text-sm text-grayText '>
-          Esto será lo que verá cualquier persona que encuentre tu grupo, pero
-          también podrás actualizarlo más tarde.
+          {strings.createGroup.step3.description2}
         </span>
       </div>
       <form
@@ -74,7 +73,7 @@ export default function FormStep3({
         />
         <Input
           type='number'
-          id='name'
+          id='size'
           name='size'
           placeholder={strings.form.sizeInput.placeholder}
           maxWidth={false}

@@ -32,10 +32,10 @@ export default function FormStep2({ nextPage, setValue }: FormStep2Props) {
     <div className='grid grid-rows-[120px,160px] justify-center sm:grid-rows-[80px,160px]'>
       <div className='flex flex-col pb-2'>
         <span className='text-primaryBlue pt-4 text-2xl font-bold'>
-          Indica un nombre para el grupo
+          {strings.createGroup.step2.description1}
         </span>
         <span className='text-sm text-grayText'>
-          Elije un nombre que ayude las personas a saber de que trata el grupo.
+          {strings.createGroup.step2.description2}
         </span>
       </div>
       <form

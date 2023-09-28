@@ -44,7 +44,7 @@ describe('GroupInfo', () => {
 
   it('displays the size of the group correctly', () => {
     render(<GroupInfo group={mockGroup} subject={mockSubject} />);
-    const groupSize = screen.getByText('10 integrantes');
+    const groupSize = screen.getByText('10 integrantes máximo');
     expect(groupSize).toBeInTheDocument();
   });
 });
