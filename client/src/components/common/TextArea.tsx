@@ -23,7 +23,7 @@ export default function TextArea({
   touched = false,
   placeholder = '',
   required = false,
-  validateText = `Por favor escriba aquí`,
+  validateText = `Por favor escribe aquí`,
   value,
   onChange,
   Icon,

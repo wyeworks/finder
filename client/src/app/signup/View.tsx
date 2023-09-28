@@ -23,13 +23,13 @@ export default function View() {
       </div>
       <div>
         <p className='mt-5 text-center text-sm text-gray-500'>
-          Ya estas registrado?
+          ¿Ya estás registrado?
           <Link
             href='/signin'
             className='font-semibold leading-6 text-blue-600 hover:text-blue-500'
           >
             {' '}
-            Inicia Sesión
+            Inicia sesión
           </Link>
         </p>
       </div>

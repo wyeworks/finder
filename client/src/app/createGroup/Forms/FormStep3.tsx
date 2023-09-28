@@ -62,7 +62,7 @@ export default function FormStep3({
         <TextArea
           id='description'
           name='description'
-          placeholder={`Escriba la descripcion de ${groupName} aquí`}
+          placeholder={`Escribí la descripción de ${groupName} aquí`}
           maxWidth={false}
           className='pt-3'
           classNameWrapper='mt-3'
