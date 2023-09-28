@@ -146,7 +146,7 @@
   },
   "createGroup": {
     "step1": {
-      "description": "Primero elije la materia del grupo",
+      "description": "Primero elige la materia del grupo",
       "placeholderDropDownSuccess": "Seleccione la materia",
       "placeholderDropDownWaiting": "Cargando materias..."
     },
