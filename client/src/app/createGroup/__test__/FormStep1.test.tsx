@@ -25,7 +25,7 @@ describe('Create Group FormStep1', () => {
     ).toBeInTheDocument();
   });
 
-  test.only('handles subject selection and button click', async () => {
+  test('handles subject selection and button click', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       json: () =>
