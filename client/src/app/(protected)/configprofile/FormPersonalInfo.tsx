@@ -27,14 +27,16 @@ type PersonalInfoFormData = {
 
 type FormPersonalInfoProps = {
   user: User;
+  session: any;
+  onSessionUpdate: Function;
   subjects?: Subject[];
   careers?: Career[];
-  // eslint-disable-next-line no-unused-vars
-  onRefresh?: (refresh: boolean) => void;
 };
 
 export default function FormPersonalInfo({
   user,
+  session,
+  onSessionUpdate,
   subjects = [],
   careers = [],
 }: FormPersonalInfoProps) {
@@ -144,6 +146,20 @@ export default function FormPersonalInfo({
       setAlertVisible(true);
       setAlertMessage(strings.common.success.changeSuccess);
       setAlertType('success');
+
+      onSessionUpdate({
+        info: {
+          ...session.user,
+          name: formData.name,
+          bio: formData.biography,
+          birth_date: formData.birthdate,
+          social_networks: formData.social_networks,
+        },
+      });
+
+      setTimeout(() => {
+        window.location.href = '/home';
+      }, 1000);
     } catch (error) {
       setAlertMessage(strings.common.error.unexpectedError);
       setAlertVisible(true);
