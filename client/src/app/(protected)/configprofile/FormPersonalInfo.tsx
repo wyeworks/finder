@@ -9,7 +9,6 @@ import { User } from '@/types/User';
 import {
   formatDate,
   parseCareerToOption,
-  parseSubjectToOption,
   returnSocialNetworkIcon,
 } from '@/utils/Formatter';
 import { useEffect, useState } from 'react';
@@ -17,12 +16,16 @@ import DynamicAutoCompletes from '@/components/common/DynamicAutoCompletes';
 import { Subject } from '@/types/Subject';
 import { Career } from '@/types/Career';
 import { SocialNetworks } from '@/types/SocialNetworks';
+// import { Logger } from '@/services/Logger';
+// import { SubjectService } from '@/services/SubjectService';
 
 type PersonalInfoFormData = {
   name: string;
   birthdate: string;
   biography: string;
   social_networks: SocialNetworks;
+  career_ids: Number[];
+  subject_ids: Number[];
 };
 
 type FormPersonalInfoProps = {
@@ -37,9 +40,44 @@ export default function FormPersonalInfo({
   user,
   session,
   onSessionUpdate,
-  subjects = [],
+  // subjects = [],
   careers = [],
 }: FormPersonalInfoProps) {
+  // eslint-disable-next-line no-unused-vars
+  const [careersByUser, setCareersByUser] = useState<Career[]>([]);
+  // const [subjectsByUser, setSubjectsByUser] = useState<Subject[]>([]);
+  // const getCareers = async () => {
+  //   try {
+  //     const response = await fetch('/api/careers');
+  //     if (!response.ok) {
+  //       return null;
+  //     }
+  //     return await response.json();
+  //   } catch (error) {
+  //     Logger.error('Error trying to get careers:' + { error });
+  //     return null;
+  //   }
+  // };
+  useEffect(() => {
+    console.log(careersByUser);
+  }, [careersByUser]);
+
+  // useEffect(() => {
+  //   const fetchCareerByUser = async () => {
+  //     if (user) {
+  //       // const careers = await CareerService.getByUser(user)
+  //       const careers = await getCareers();
+  //       if (careers) {
+  //         setCareersByUser(careers);
+  //       }
+  //       // const subjects = await SubjectService.getByUser(user);
+  //       // setSubjectsByUser(subjects);
+  //     }
+  //   };
+  //   fetchCareerByUser();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
   let birthdate = '';
   // parse birthdate
   if (user.birth_date) {
@@ -50,8 +88,9 @@ export default function FormPersonalInfo({
     name: user?.name ?? '',
     birthdate: birthdate,
     biography: user?.bio ?? '',
-
     social_networks: generateSocialNetworks(user),
+    career_ids: user?.career_ids ?? [],
+    subject_ids: user?.subject_ids ?? [],
   });
   const [touched, setTouched] = useState({
     name: false,
@@ -62,13 +101,8 @@ export default function FormPersonalInfo({
   const [alertVisible, setAlertVisible] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertType, setAlertType] = useState<alertTypes>('error');
-  const [globalIdCounter, setGlobalIdCounter] = useState<number>(3);
   const [disabledSubmittButton, setDisabledSubmittButton] =
     useState<boolean>(true);
-
-  const updateCounter = () => {
-    setGlobalIdCounter((prevState) => prevState + 1);
-  };
 
   useEffect(() => {
     const changedSocialNetworks = () => {
@@ -117,6 +151,25 @@ export default function FormPersonalInfo({
       social_networks: { ...prevState.social_networks, [name]: value },
     }));
   };
+
+  const handleChangeCareers = (ids: string[]) => {
+    console.log('hola');
+    setFormData((prevState) => ({
+      ...prevState,
+      career_ids: ids.map((id) => {
+        return Number(id);
+      }),
+    }));
+  };
+
+  // const handleChangeSubjects = (ids: string[]) => {
+  //   setFormData((prevState) => ({
+  //     ...prevState,
+  //     subject_ids: ids.map((id) => {
+  //       return Number(id);
+  //     }),
+  //   }));
+  // };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -219,20 +272,29 @@ export default function FormPersonalInfo({
             maxWidth={false}
           />
           {/* Careers and subject sections */}
-          <DynamicAutoCompletes
-            title='Carreras'
-            placeholder='Elije una carrera'
-            options={parseCareerToOption(careers)}
-            updateCounter={updateCounter}
-            counterId={globalIdCounter}
-          />
-          <DynamicAutoCompletes
+          {careers.length != 0 && (
+            <>
+              <DynamicAutoCompletes
+                title='Carreras'
+                placeholder='Elije una carrera'
+                options={parseCareerToOption(careers)}
+                onChangeActualOptions={handleChangeCareers}
+                // defaultOptions={[{key: 'asdasd', label: 'asdasd'}, {key: '1231231', label: 'asdaqawdafsd'}]}
+                defaultOptions={parseCareerToOption(careers)}
+                buttonIds='career_button_'
+                dropDownIds='career_dropdown_'
+              />
+            </>
+          )}
+          {/* <DynamicAutoCompletes
             title='Materias'
             placeholder='Elije una materia'
             options={parseSubjectToOption(subjects)}
             updateCounter={updateCounter}
             counterId={globalIdCounter}
-          />
+            onChangeActualOptions={handleChangeSubjects}
+            // defaultOptions={parseCareerToOption(careers)}
+          /> */}
 
           <div className='block py-2'>
             <label className='block text-sm font-medium leading-6 text-gray-900'>

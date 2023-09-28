@@ -86,6 +86,8 @@ export async function PATCH(request: Request) {
         bio: requestBody.biography,
         birth_date: requestBody.birthdate,
         social_networks: requestBody.social_networks,
+        career_ids: requestBody.career_ids,
+        subject_ids: requestBody.subject_ids,
       },
     });
   }
