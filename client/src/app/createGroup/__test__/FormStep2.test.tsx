@@ -8,12 +8,10 @@ describe('Create Group FormStep2', () => {
     render(<FormStep2 nextPage={() => {}} setValue={() => {}} />);
 
     expect(
-      screen.getByText('Indica un nombre para el grupo')
+      screen.getByText(strings.createGroup.step2.description1)
     ).toBeInTheDocument();
     expect(
-      screen.getByText(
-        'Elije un nombre que ayude las personas a saber de que trata el grupo.'
-      )
+      screen.getByText(strings.createGroup.step2.description2)
     ).toBeInTheDocument();
 
     const inputElement = screen.getByPlaceholderText(

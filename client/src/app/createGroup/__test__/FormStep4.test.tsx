@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import FormStep4 from '../Forms/FormStep4';
 import { translateSpanishDays } from '@/utils/Formatter';
+import strings from '@/locales/strings.json';
 
 const mockSetValue = jest.fn();
 const mockHandleSubmit = jest.fn();
@@ -18,12 +19,10 @@ describe('Create Group FormStep4', () => {
     render(<FormStep4 {...defaultProps} />);
 
     expect(
-      screen.getByText('Si tiene horarios para juntarse...')
+      screen.getByText(strings.createGroup.step4.description1)
     ).toBeInTheDocument();
     expect(
-      screen.getByText(
-        'En el caso de que el grupo tenga alguna preferencia horaria para sus sesiones, dejalo claro con los integrantes pero también podrás actualizarlo más tarde.'
-      )
+      screen.getByText(strings.createGroup.step4.description2)
     ).toBeInTheDocument();
 
     dayLabels.forEach((day) => {

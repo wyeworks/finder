@@ -45,12 +45,10 @@ export default function FormStep4({ setValue, handleSubmit }: FormStep4Props) {
     <div className='grid grid-rows-[160px,auto,80px] justify-center sm:grid-rows-[110px,auto,80px]'>
       <div className='flex flex-col pb-2'>
         <span className='text-primaryBlue pt-4 text-2xl font-bold'>
-          Si tiene horarios para juntarse...
+          {strings.createGroup.step4.description1}
         </span>
         <span className='max-w-lg text-sm text-grayText'>
-          En el caso de que el grupo tenga alguna preferencia horaria para sus
-          sesiones, dejalo claro con los integrantes pero también podrás
-          actualizarlo más tarde.
+          {strings.createGroup.step4.description2}
         </span>
       </div>
       <div className='my-3'>

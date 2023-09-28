@@ -8,20 +8,28 @@ global.fetch = jest.fn();
 
 describe('Create Group FormStep1', () => {
   test('renders the component', async () => {
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({}),
+    });
     render(<FormStep1 nextPage={() => {}} setValue={() => {}} />);
 
     // Wait for the component to load subjects
-    await waitFor(() => screen.getByText('Primero elije la materia del grupo'));
+    await waitFor(() =>
+      screen.getByText(strings.createGroup.step1.description)
+    );
 
     // Assert that the elements are rendered
     expect(
-      screen.getByText('Primero elije la materia del grupo')
+      screen.getByText(strings.createGroup.step1.description)
     ).toBeInTheDocument();
     expect(
-      screen.getByPlaceholderText('Cargando materias...')
+      screen.getByPlaceholderText(
+        strings.createGroup.step1.placeholderDropDownWaiting
+      )
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Siguiente' })
+      screen.getByRole('button', { name: strings.form.nextButton.text })
     ).toBeInTheDocument();
   });
 
@@ -38,17 +46,25 @@ describe('Create Group FormStep1', () => {
     render(<FormStep1 nextPage={nextPageMock} setValue={setValueMock} />);
 
     // Wait for the component to load subjects
-    await waitFor(() => screen.getByText('Primero elije la materia del grupo'));
+    await waitFor(() =>
+      screen.getByText(strings.createGroup.step1.description)
+    );
 
     // Wait for the correct placeholder to be displayed
     await waitFor(() => {
       expect(
-        screen.getByPlaceholderText('Seleccione la materia')
+        screen.getByPlaceholderText(
+          strings.createGroup.step1.placeholderDropDownSuccess
+        )
       ).toBeInTheDocument();
     });
 
     // Click on the dropdown
-    userEvent.click(screen.getByPlaceholderText('Seleccione la materia'));
+    userEvent.click(
+      screen.getByPlaceholderText(
+        strings.createGroup.step1.placeholderDropDownSuccess
+      )
+    );
 
     // Wait for the dropdown to open and display the "Math" subject
     await waitFor(() => {

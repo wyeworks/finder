@@ -16,11 +16,11 @@ describe('Create Group FormStep3', () => {
   it('renders the component correctly', () => {
     render(<FormStep3 {...defaultProps} />);
 
-    expect(screen.getByText('Describe tu Grupo')).toBeInTheDocument();
     expect(
-      screen.getByText(
-        'Esto será lo que verá cualquier persona que encuentre tu grupo,pero támbien podrás actualizarlo más tarde.'
-      )
+      screen.getByText(strings.createGroup.step3.description1)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(strings.createGroup.step3.description2)
     ).toBeInTheDocument();
 
     const textAreaElement = screen.getByPlaceholderText(
