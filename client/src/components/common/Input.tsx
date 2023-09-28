@@ -25,6 +25,7 @@ type InputParams = {
   classNameInput?: string;
   minNumber?: number;
   max?: string | number;
+  classNameLabel?: string;
 };
 
 export default function Input({
@@ -46,6 +47,7 @@ export default function Input({
   classNameInput = '',
   minNumber,
   max,
+  classNameLabel = '',
 }: InputParams) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -61,7 +63,7 @@ export default function Input({
           {label && (
             <label
               htmlFor={id}
-              className='flex-1 text-sm font-medium leading-6 text-gray-900'
+              className={`flex-1 text-sm font-medium leading-6 text-gray-400 ${classNameLabel}`}
             >
               {label}
             </label>

@@ -64,8 +64,8 @@
       "validateText": "Ingresa una Descripción de Grupo"
     },
     "sizeInput": {
-      "placeholder": "Ingrese el tamaño del grupo deseado",
-      "validateText": "Ingrese un tamaño mayor a 1"
+      "placeholder": "Ingrese el tamaño del grupo",
+      "validateText": "El grupo debe tener al menos 2 miembros"
     },
     "nextButton": {
       "text": "Siguiente"

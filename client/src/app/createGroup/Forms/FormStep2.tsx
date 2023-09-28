@@ -3,13 +3,19 @@ import Input from '@/components/common/Input';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { CreateGroupData } from '../page';
+import LeftArrowIcon from '@/assets/Icons/LeftArrowIcon';
 
 type FormStep2Props = {
   nextPage: () => void;
   setValue: Dispatch<SetStateAction<CreateGroupData>>;
+  back: () => void;
 };
 
-export default function FormStep2({ nextPage, setValue }: FormStep2Props) {
+export default function FormStep2({
+  nextPage,
+  setValue,
+  back,
+}: FormStep2Props) {
   const [dataForm, setDataForm] = useState<{
     nameGroup: string;
     touched: boolean;
@@ -29,7 +35,15 @@ export default function FormStep2({ nextPage, setValue }: FormStep2Props) {
   };
 
   return (
-    <div className='grid grid-rows-[120px,160px] justify-center sm:grid-rows-[80px,160px]'>
+    <div className='grid grid-rows-[30px,120px,160px] justify-center sm:grid-rows-[30px,80px,160px]'>
+      <button
+        className='flex items-center gap-3 text-start'
+        onClick={() => {
+          back();
+        }}
+      >
+        <LeftArrowIcon className='h-4 w-4' /> Volver
+      </button>
       <div className='flex flex-col pb-2'>
         <span className='text-primaryBlue pt-4 text-2xl font-bold'>
           Indica un nombre para el grupo

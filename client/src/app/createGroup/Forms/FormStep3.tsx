@@ -4,17 +4,20 @@ import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { CreateGroupData } from '../page';
+import LeftArrowIcon from '@/assets/Icons/LeftArrowIcon';
 
 type FormStep3Props = {
   nextPage: () => void;
   setValue: Dispatch<SetStateAction<CreateGroupData>>;
   groupName: string;
+  back: () => void;
 };
 
 export default function FormStep3({
   nextPage,
   setValue,
   groupName,
+  back,
 }: FormStep3Props) {
   const [touched, setTouched] = useState<{
     description: boolean;
@@ -45,7 +48,15 @@ export default function FormStep3({
   };
 
   return (
-    <div className='grid grid-rows-[120px,140px,80px] justify-center gap-3 sm:grid-rows-[80px,140px,80px]'>
+    <div className='grid grid-rows-[30px,120px,140px,80px] justify-center gap-3 sm:grid-rows-[30px,80px,140px,80px]'>
+      <button
+        className='flex items-center gap-3 text-start'
+        onClick={() => {
+          back();
+        }}
+      >
+        <LeftArrowIcon className='h-4 w-4' /> Volver
+      </button>
       <div className='flex flex-col gap-2 pb-2'>
         <span className='text-primaryBlue pt-4 text-2xl font-bold'>
           Describe tu Grupo
@@ -76,14 +87,17 @@ export default function FormStep3({
           type='number'
           id='name'
           name='size'
-          placeholder={strings.form.sizeInput.placeholder}
-          maxWidth={false}
+          placeholder='10'
           classNameWrapper='pb-3 pt-3'
+          classNameInput='max-w-[100px]'
           required
           touched={touched.size}
           validateText={strings.form.sizeInput.validateText}
           onChange={handleChange}
           minNumber={2}
+          label='Indique la cantidad máxima de miembros para tu grupo'
+          classNameLabel='font-normal text-grayText'
+          max={1000}
         />
         <Button
           text={strings.form.nextButton.text}
