@@ -20,6 +20,7 @@ class Group < ApplicationRecord
   # Associations
   has_many :members, dependent: :destroy
   has_many :users, through: :members
+  has_many :requests, dependent: :destroy
   belongs_to :subject
 
   # Validations

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_23_204150) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_28_231605) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -57,6 +57,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_23_204150) do
     t.index ["user_id"], name: "index_members_on_user_id"
   end
 
+  create_table "requests", force: :cascade do |t|
+    t.integer "status"
+    t.string "reason"
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_requests_on_group_id"
+    t.index ["user_id"], name: "index_requests_on_user_id"
+  end
+
   create_table "subjects", force: :cascade do |t|
     t.string "name", null: false
     t.string "code", null: false
@@ -86,11 +97,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_23_204150) do
     t.datetime "birth_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "bio"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.json "social_networks"
-    t.text "bio"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -99,4 +110,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_23_204150) do
   add_foreign_key "groups", "subjects"
   add_foreign_key "members", "groups"
   add_foreign_key "members", "users"
+  add_foreign_key "requests", "groups"
+  add_foreign_key "requests", "users"
 end
