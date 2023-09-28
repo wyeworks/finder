@@ -1,11 +1,11 @@
 import Button from '@/components/common/Button';
-import CrossIcon from '@/assets/Icons/CrossIcon';
 import { Option } from '@/types/Option';
 import { useState } from 'react';
 import AddIcon from '@/assets/Icons/AddIcon';
 import AutoComplete from '@/components/common/AutoComplete';
+import TrashIcon from '@/assets/Icons/TrashIcon';
 
-interface CareersAndSubjectsProps {
+interface DynamicAutoCompletesProp {
   options: Option[];
   title?: string;
   placeholder?: string;
@@ -28,11 +28,7 @@ export default function DynamicAutoCompletes({
   placeholder = '',
   counterId,
   updateCounter,
-}: CareersAndSubjectsProps) {
-  const [selectedOption, setSelectedCareer] = useState<Option>({
-    key: '',
-    label: '',
-  });
+}: DynamicAutoCompletesProp) {
   // all the next inputs for deleting dropdowns
   const [dropDowns, setDropDowns] = useState<CareerDropDownType[]>([]);
 
@@ -62,28 +58,18 @@ export default function DynamicAutoCompletes({
       <label className='block text-sm font-medium leading-6 text-gray-900'>
         {title}
       </label>
-
+      <div>
+        <OptionsAdded
+          dropDowns={dropDowns}
+          onOptionDelete={onOptionDelete}
+          options={options}
+          onOptionChange={onOptionChange}
+          // currentlySelected={selectedOption}
+          placeholder={placeholder}
+        />
+      </div>
       <div className='mb-5 flex'>
-        <div className='w-[80%] md:w-[90%]'>
-          <AutoComplete
-            options={options}
-            onChange={(option) => {
-              setSelectedCareer({ key: option.key, label: option.label });
-            }}
-            value={selectedOption}
-            key={selectedOption.key}
-            disableOption={(option: Option) => {
-              return (
-                dropDowns.findIndex((career) => {
-                  return career.key === option.key;
-                }) != -1
-              );
-            }}
-            disabledText='Ya fue Seleccionada'
-            placeholder={placeholder}
-          />
-        </div>
-        <div className='w-[20%] md:w-[10%]'>
+        <div className='w-[100%] md:w-[100%]'>
           <Button
             Icon={<AddIcon className='h-6 w-6 text-sky-500' />}
             className='border border-gray-300 bg-white hover:bg-gray-200'
@@ -93,27 +79,16 @@ export default function DynamicAutoCompletes({
               setDropDowns((prevState) => [
                 ...prevState,
                 {
-                  label: selectedOption?.label ?? '',
-                  key: selectedOption?.key ?? '',
+                  label: '',
+                  key: '',
                   button_id: newButtonId,
                   input_id: newInputId,
                 },
               ]);
               updateCounter();
-              setSelectedCareer({ key: '', label: '' });
             }}
           />
         </div>
-      </div>
-      <div>
-        <OptionsAdded
-          dropDowns={dropDowns}
-          onOptionDelete={onOptionDelete}
-          options={options}
-          onOptionChange={onOptionChange}
-          currentlySelected={selectedOption}
-          placeholder={placeholder}
-        />
       </div>
     </>
   );
@@ -127,7 +102,7 @@ type dropDownProps = {
   options: Option[];
   // eslint-disable-next-line no-unused-vars
   onOptionChange: (inputId: string, label: string, key: string) => void;
-  currentlySelected: Option;
+  // currentlySelected: Option;
   placeholder: string;
 };
 function OptionsAdded({
@@ -135,7 +110,7 @@ function OptionsAdded({
   onOptionDelete,
   options,
   onOptionChange,
-  currentlySelected,
+  // currentlySelected,
   placeholder,
 }: dropDownProps) {
   return (
@@ -153,10 +128,7 @@ function OptionsAdded({
                 disableOption={(option: Option) => {
                   return (
                     dropDowns.findIndex((career) => {
-                      return (
-                        career.key === option.key ||
-                        option.key === currentlySelected.key
-                      );
+                      return career.key === option.key;
                     }) != -1
                   );
                 }}
@@ -169,7 +141,7 @@ function OptionsAdded({
             </div>
             <div className='w-[20%] md:w-[10%]'>
               <Button
-                Icon={<CrossIcon className='h-6 w-6 text-red-500' />}
+                Icon={<TrashIcon className='h-6 w-6 text-red-500' />}
                 className='border border-gray-300 bg-white hover:bg-gray-200'
                 onClick={() => {
                   onOptionDelete(dropDown.button_id);
