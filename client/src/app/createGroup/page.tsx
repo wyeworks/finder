@@ -126,16 +126,12 @@ export default function CreateGroup() {
       <div className='grid-rows-[150px, auto] grid'>
         <div className='grid grid-rows-3 gap-4 bg-whiteCustom pt-4'>
           <div className='grid grid-cols-3'>
-            <div>
-              {actualStep !== 5 && (
-                <button
-                  className='flex items-center gap-3 pl-3 text-start'
-                  onClick={() => backPage()}
-                >
-                  <LeftArrowIcon className='h-4 w-4' /> Volver
-                </button>
-              )}
-            </div>
+            <button
+              className='flex items-center gap-3 pl-3 text-start'
+              onClick={() => backPage()}
+            >
+              <LeftArrowIcon className='h-4 w-4' /> Volver
+            </button>
             <h1 className='text-primaryBlue text-center text-3xl font-bold'>
               finder.com
             </h1>

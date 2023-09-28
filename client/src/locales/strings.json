@@ -65,7 +65,7 @@
     },
     "sizeInput": {
       "placeholder": "Ingrese el tamaño del grupo deseado",
-      "validateText": "Ingrese un tamaño entre 2 y 100"
+      "validateText": "Ingrese un tamaño mayor a 1"
     },
     "nextButton": {
       "text": "Siguiente"

@@ -25,7 +25,7 @@ describe('Create Group FormStep2', () => {
     expect(buttonElement).toBeInTheDocument();
   });
 
-  test.only('handles form submission correctly', async () => {
+  test('handles form submission correctly', async () => {
     const nextPageMock = jest.fn();
     const setValueMock = jest.fn();
 
