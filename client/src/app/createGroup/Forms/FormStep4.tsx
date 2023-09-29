@@ -6,7 +6,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { CreateGroupData } from '../page';
 import { TimeOfDay } from '@/types/StudyGroup';
 import { translatePreference, translateSpanishDays } from '@/utils/Formatter';
-import LeftArrowIcon from '@/assets/Icons/LeftArrowIcon';
+import LayoutForms from './layout';
 
 const preferences: Option[] = [
   { key: TimeOfDay.No, label: translatePreference(TimeOfDay.No) },
@@ -48,15 +48,10 @@ export default function FormStep4({
   }
 
   return (
-    <div className='grid grid-rows-[30px,160px,auto,80px] justify-center sm:grid-rows-[30px,110px,auto,80px]'>
-      <button
-        className='flex items-center gap-3 text-start'
-        onClick={() => {
-          back();
-        }}
-      >
-        <LeftArrowIcon className='h-4 w-4' /> Volver
-      </button>
+    <LayoutForms
+      className='grid grid-rows-[30px,160px,auto,80px] justify-center sm:grid-rows-[30px,110px,auto,80px]'
+      backPage={back}
+    >
       <div className='flex flex-col pb-2'>
         <span className='text-primaryBlue pt-4 text-2xl font-bold'>
           {strings.createGroup.step4.description1}
@@ -91,6 +86,6 @@ export default function FormStep4({
           handleSubmit();
         }}
       />
-    </div>
+    </LayoutForms>
   );
 }

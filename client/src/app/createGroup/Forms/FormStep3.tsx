@@ -4,7 +4,7 @@ import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { CreateGroupData } from '../page';
-import LeftArrowIcon from '@/assets/Icons/LeftArrowIcon';
+import LayoutForms from './layout';
 
 type FormStep3Props = {
   nextPage: () => void;
@@ -50,15 +50,10 @@ export default function FormStep3({
   };
 
   return (
-    <div className='grid grid-rows-[30px,120px,140px,80px] justify-center gap-3 sm:grid-rows-[30px,80px,140px,80px]'>
-      <button
-        className='flex items-center gap-3 text-start'
-        onClick={() => {
-          back();
-        }}
-      >
-        <LeftArrowIcon className='h-4 w-4' /> Volver
-      </button>
+    <LayoutForms
+      className='grid grid-rows-[30px,120px,140px,80px] justify-center gap-3 sm:grid-rows-[30px,80px,140px,80px]'
+      backPage={back}
+    >
       <div className='flex flex-col gap-2 pb-2'>
         <span className='text-primaryBlue pt-4 text-2xl font-bold'>
           {strings.createGroup.step3.description1}
@@ -111,6 +106,6 @@ export default function FormStep3({
           classNameWrapper='w-1/3 mt-5'
         />
       </form>
-    </div>
+    </LayoutForms>
   );
 }
