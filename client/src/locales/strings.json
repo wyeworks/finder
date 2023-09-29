@@ -61,7 +61,8 @@
     "sizeInput": {
       "placeholder": "10",
       "validateTextMin": "El grupo debe tener al menos 2 miembros",
-      "validateTextMax": "El grupo no puede superar los 1000 miembros"
+      "validateTextMax": "El grupo no puede superar los 1000 miembros",
+      "label": "Indique la cantidad máxima de miembros para tu grupo"
     },
     "nextButton": {
       "text": "Siguiente"

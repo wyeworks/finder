@@ -100,7 +100,7 @@ export default function FormStep3({
           }
           onChange={handleChange}
           minNumber={2}
-          label='Indique la cantidad máxima de miembros para tu grupo'
+          label={strings.form.sizeInput.label}
           classNameLabel='font-normal text-grayText'
           max={1000}
         />
