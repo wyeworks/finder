@@ -11,7 +11,7 @@ module Users
                         "email '#{current_user.email}' was successfully logged in."
 
       render json: {
-        message: 'Logged in successfully.',
+        message: 'Sesión iniciada correctamente',
         user: UserSerializer.new(current_user).serializable_hash[:data][:attributes]
       }, status: :ok
     end
@@ -28,13 +28,13 @@ module Users
                           "email '#{current_user.email}' was successfully logged out."
 
         render json: {
-          message: 'Logged out successfully.'
+          message: 'Sesión cerrada correctamente'
         }, status: :ok
       else
         Rails.logger.info "Couldn't find an active session for logging out."
 
         render json: {
-          message: "Couldn't find an active session."
+          message: 'No se pudo encontrar una sesión activa'
         }, status: :unauthorized
       end
     end

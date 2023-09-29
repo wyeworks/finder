@@ -26,6 +26,7 @@ type InputParams = {
   minNumber?: number;
   max?: string | number;
   classNameLabel?: string;
+  autoComplete?: string;
 };
 
 export default function Input({
@@ -48,6 +49,7 @@ export default function Input({
   minNumber,
   max,
   classNameLabel = '',
+  autoComplete = type,
 }: InputParams) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -101,7 +103,7 @@ export default function Input({
           data-testid={id}
           name={name}
           type={GetType(type, isVisible)}
-          autoComplete={type}
+          autoComplete={autoComplete}
           placeholder={placeholder}
           required={required}
           value={value}

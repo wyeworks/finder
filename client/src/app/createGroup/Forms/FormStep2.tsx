@@ -46,10 +46,10 @@ export default function FormStep2({
       </button>
       <div className='flex flex-col pb-2'>
         <span className='text-primaryBlue pt-4 text-2xl font-bold'>
-          Indica un nombre para el grupo
+          {strings.createGroup.step2.description1}
         </span>
         <span className='text-sm text-grayText'>
-          Elije un nombre que ayude las personas a saber de que trata el grupo.
+          {strings.createGroup.step2.description2}
         </span>
       </div>
       <form
