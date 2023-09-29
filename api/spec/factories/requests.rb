@@ -1,8 +1,12 @@
 FactoryBot.define do
   factory :request do
-    status { 1 }
+    status { 'accepted' }
     reason { 'Reason' }
     user
     group
+
+    trait :with_rejected_status do
+      status { 'rejected' }
+    end
   end
 end
