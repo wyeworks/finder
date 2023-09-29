@@ -73,7 +73,10 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
         classNameWrapper='w-1/3'
         onClick={handleButton}
         disabled={
-          !subjects.some((subject) => subject.name === selectedSubject?.label)
+          !subjects.some(
+            (subject) =>
+              subject.name + `(${subject.code})` === selectedSubject?.label
+          )
         }
       />
     </div>
