@@ -166,6 +166,7 @@ export default function CreateGroup() {
               setValue={setCreateGroupData}
               groupName={createGroupData.name}
               back={backPage}
+              size={createGroupData.size}
             />
           )}
           {actualStep === 4 && (

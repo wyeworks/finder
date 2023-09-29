@@ -11,6 +11,7 @@ type FormStep3Props = {
   setValue: Dispatch<SetStateAction<CreateGroupData>>;
   groupName: string;
   back: () => void;
+  size: string;
 };
 
 export default function FormStep3({
@@ -18,6 +19,7 @@ export default function FormStep3({
   setValue,
   groupName,
   back,
+  size,
 }: FormStep3Props) {
   const [touched, setTouched] = useState<{
     description: boolean;
@@ -68,7 +70,7 @@ export default function FormStep3({
       <form
         noValidate
         onSubmit={handleSubmit}
-        className='grid grid-rows-[130px,60px,auto] gap-4'
+        className='grid grid-rows-[130px,60px,60px,auto] gap-4'
       >
         <TextArea
           id='description'
@@ -86,12 +88,16 @@ export default function FormStep3({
           type='number'
           id='size'
           name='size'
-          placeholder='10'
+          placeholder={strings.form.sizeInput.placeholder}
           classNameWrapper='pb-3 pt-3'
           classNameInput='max-w-[100px]'
           required
           touched={touched.size}
-          validateText={strings.form.sizeInput.validateText}
+          validateText={
+            size > '1000'
+              ? strings.form.sizeInput.validateTextMax
+              : strings.form.sizeInput.validateTextMin
+          }
           onChange={handleChange}
           minNumber={2}
           label='Indique la cantidad máxima de miembros para tu grupo'
@@ -102,7 +108,7 @@ export default function FormStep3({
           text={strings.form.nextButton.text}
           type='submit'
           className='rounded-2xl bg-primaryBlue hover:bg-hoverPrimaryBlue'
-          classNameWrapper='w-1/3'
+          classNameWrapper='w-1/3 mt-5'
         />
       </form>
     </div>
