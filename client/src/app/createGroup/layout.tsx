@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth';
 import SessionProvider from '@/components/providers/SessionProvider';
 import { redirect } from 'next/navigation';
 
-export default async function ProtectedLayout({
+export default async function CreateGroupLayout({
   children, // will be a page or nested layout
 }: {
   children: React.ReactNode;

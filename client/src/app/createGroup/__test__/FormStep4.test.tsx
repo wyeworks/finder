@@ -6,10 +6,12 @@ import strings from '@/locales/strings.json';
 
 const mockSetValue = jest.fn();
 const mockHandleSubmit = jest.fn();
+const mockBack = jest.fn();
 
 const defaultProps = {
   setValue: mockSetValue,
   handleSubmit: mockHandleSubmit,
+  back: mockBack,
 };
 
 describe('Create Group FormStep4', () => {

@@ -3,13 +3,19 @@ import Input from '@/components/common/Input';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { CreateGroupData } from '../page';
+import LayoutForms from './layout';
 
 type FormStep2Props = {
   nextPage: () => void;
   setValue: Dispatch<SetStateAction<CreateGroupData>>;
+  back: () => void;
 };
 
-export default function FormStep2({ nextPage, setValue }: FormStep2Props) {
+export default function FormStep2({
+  nextPage,
+  setValue,
+  back,
+}: FormStep2Props) {
   const [dataForm, setDataForm] = useState<{
     nameGroup: string;
     touched: boolean;
@@ -29,7 +35,10 @@ export default function FormStep2({ nextPage, setValue }: FormStep2Props) {
   };
 
   return (
-    <div className='grid grid-rows-[120px,160px] justify-center sm:grid-rows-[80px,160px]'>
+    <LayoutForms
+      className='grid grid-rows-[30px,120px,160px] justify-center sm:grid-rows-[30px,80px,160px]'
+      backPage={back}
+    >
       <div className='flex flex-col pb-2'>
         <span className='text-primaryBlue pt-4 text-2xl font-bold'>
           {strings.createGroup.step2.description1}
@@ -66,6 +75,6 @@ export default function FormStep2({ nextPage, setValue }: FormStep2Props) {
           classNameWrapper='w-1/3 pt-2 sm:pt-0'
         />
       </form>
-    </div>
+    </LayoutForms>
   );
 }

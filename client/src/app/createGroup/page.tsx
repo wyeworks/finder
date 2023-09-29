@@ -1,6 +1,5 @@
 'use client';
 
-import LeftArrowIcon from '@/assets/Icons/LeftArrowIcon';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import FormStep1 from './Forms/FormStep1';
@@ -13,6 +12,7 @@ import ErrorCreateGroup from './ErrorCreateGroup';
 import { BackendError } from '@/types/BackendError';
 import strings from '@/locales/strings.json';
 import { TimePreference } from '@/types/StudyGroup';
+import CrossIcon from '@/assets/Icons/CrossIcon';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 
 export type CreateGroupData = {
@@ -45,10 +45,6 @@ export default function CreateGroup() {
   }
 
   function backPage() {
-    if (actualStep === 1) {
-      router.push('/home');
-      return;
-    }
     setActualStep(actualStep - 1);
   }
 
@@ -123,14 +119,21 @@ export default function CreateGroup() {
     <div className='h-screen bg-whiteCustom '>
       <div className='grid-rows-[150px, auto] grid'>
         <div className='grid grid-rows-3 gap-4 bg-whiteCustom pt-4'>
-          <div className='grid grid-cols-3'>
-            <button
-              className='flex items-center gap-3 pl-3 text-start'
-              onClick={() => backPage()}
+          <div className='grid grid-cols-3 items-center'>
+            <div>
+              {actualStep !== 5 && !error && (
+                <button
+                  className='flex items-center gap-3 pl-3 text-start'
+                  onClick={() => router.push('/home')}
+                >
+                  <CrossIcon className='h-4 w-4' /> Cancelar
+                </button>
+              )}
+            </div>
+            <h1
+              className='text-primaryBlue cursor-pointer text-center text-3xl font-bold'
+              onClick={() => router.push('/home')}
             >
-              <LeftArrowIcon className='h-4 w-4' /> Volver
-            </button>
-            <h1 className='text-primaryBlue text-center text-3xl font-bold'>
               finder.com
             </h1>
           </div>
@@ -146,19 +149,26 @@ export default function CreateGroup() {
             <FormStep1 nextPage={nextPage} setValue={setCreateGroupData} />
           )}
           {actualStep === 2 && (
-            <FormStep2 nextPage={nextPage} setValue={setCreateGroupData} />
+            <FormStep2
+              nextPage={nextPage}
+              setValue={setCreateGroupData}
+              back={backPage}
+            />
           )}
           {actualStep === 3 && (
             <FormStep3
               nextPage={nextPage}
               setValue={setCreateGroupData}
               groupName={createGroupData.name}
+              back={backPage}
+              size={createGroupData.size}
             />
           )}
           {actualStep === 4 && (
             <FormStep4
               setValue={setCreateGroupData}
               handleSubmit={handleSubmit}
+              back={backPage}
             />
           )}
           {actualStep === 5 && handleStep5()}
