@@ -5,6 +5,7 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import strings from '@/locales/strings.json';
 import { useState } from 'react';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
 
 type SignUpFormData = {
   password: string;
@@ -45,20 +46,7 @@ export default function FormChangePassword() {
     }
 
     try {
-      const response = await fetch('/api/signup', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || strings.common.error.unexpectedError
-        );
-      }
+      await ApiCommunicator.clientSideEditUser(formData);
       setAlertVisible(true);
       setAlertMessage(strings.common.success.changeSuccess);
       setAlertType('success');

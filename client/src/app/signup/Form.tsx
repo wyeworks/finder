@@ -9,6 +9,7 @@ import strings from '@/locales/strings.json';
 import { BackendError } from '@/types/BackendError';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Logger } from '@/services/Logger';
 
 type SignUpFormData = {
@@ -56,20 +57,8 @@ export default function Form() {
     }
 
     try {
-      Logger.debug(
-        "Initializing POST request to '/api/signup' with body:",
-        formData
-      );
-      const response = await fetch('/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      Logger.debug('Received response:', response);
-
+      Logger.debug('Sending signup request with data:', formData);
+      const response = await ApiCommunicator.clientSideSignUp(formData);
       if (!response.ok) {
         const errorData = await response.json();
         const parsedError = errorData as BackendError;

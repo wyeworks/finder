@@ -98,7 +98,7 @@ describe('Form Component', () => {
     (fetch as jest.Mock).mockResolvedValueOnce({
       ok: false,
       json: async () => ({
-        message: "El usuario no pudo ser creado correctamente",
+        message: 'El usuario no pudo ser creado correctamente',
         errors: {
           email: ['El email utilizado no está disponible'],
         },
