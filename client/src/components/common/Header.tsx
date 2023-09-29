@@ -14,14 +14,14 @@ import EditIcon from '@/assets/Icons/EditIcon';
 import LogOutIcon from '@/assets/Icons/LogOutIcon';
 import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
-import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import defaultUser from '@/assets/images/default_user.png';
+import Link from 'next/link';
 
 const userNavigation = [
   {
     name: strings.header.navOptions.editProfile,
-    href: '#',
+    href: '/configprofile',
   },
   {
     name: strings.header.navOptions.endSession,
@@ -45,7 +45,7 @@ const userNavigationMobile = [
   },
   {
     name: strings.header.navOptions.editProfile,
-    href: '#',
+    href: '/configprofile',
     icon: <EditIcon className='mr-3 h-4 w-4' />,
   },
   {
@@ -63,12 +63,6 @@ type HeaderProps = {
 };
 
 export default function Header({ user }: HeaderProps) {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push('/configprofile');
-  };
-
   return (
     <>
       <Disclosure as='nav' className='bg-primaryBlue'>
@@ -78,15 +72,16 @@ export default function Header({ user }: HeaderProps) {
               <div className='flex h-16 items-center justify-between'>
                 <div className='flex items-center'>
                   <div className='flex-shrink-0'>
-                    <div
+                    <Link
+                      href='/home'
                       className='mx-2 flex cursor-pointer items-center'
-                      onClick={() => router.push('/home')}
+                      data-testid='finder-logo'
                     >
                       <IconLogoFinder className='h-12 w-12 text-white' />
                       <p className='ml-2 text-4xl text-white'>
                         <strong>finder.com</strong>
                       </p>
-                    </div>
+                    </Link>
                   </div>
                 </div>
                 <div className='hidden w-full md:block'>
@@ -146,9 +141,7 @@ export default function Header({ user }: HeaderProps) {
                               <a
                                 href={item.href}
                                 className='block px-4 py-2 text-sm text-gray-700 active:bg-gray-100'
-                                onClick={
-                                  item.onClick ? item.onClick : handleClick
-                                }
+                                onClick={item.onClick}
                               >
                                 {item.name}
                               </a>
@@ -204,7 +197,7 @@ export default function Header({ user }: HeaderProps) {
                       as='a'
                       href={item.href}
                       className='flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white'
-                      onClick={item.onClick ? item.onClick : handleClick}
+                      onClick={item.onClick}
                     >
                       {item.icon}
                       {item.name}
