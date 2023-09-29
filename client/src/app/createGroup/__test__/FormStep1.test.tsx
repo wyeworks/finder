@@ -68,9 +68,9 @@ describe('Create Group FormStep1', () => {
 
     // Wait for the dropdown to open and display the "Math" subject
     await waitFor(() => {
-      expect(screen.getByText('Math')).toBeInTheDocument();
+      expect(screen.getByText('Math(111)')).toBeInTheDocument();
     });
-    userEvent.click(screen.getByText('Math'));
+    userEvent.click(screen.getByText('Math(111)'));
 
     // Wait next button be enabled
     await waitFor(() => {
