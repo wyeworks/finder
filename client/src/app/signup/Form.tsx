@@ -76,10 +76,10 @@ export default function Form() {
         const errorMessages = [];
 
         if (parsedError.errors.email) {
-          errorMessages.push(strings.common.error.email);
+          errorMessages.push(parsedError.errors.email);
         }
         if (parsedError.errors.password) {
-          errorMessages.push(strings.common.error.password);
+          errorMessages.push(parsedError.errors.password);
         }
 
         setAlertMessage(errorMessages.join('\n'));

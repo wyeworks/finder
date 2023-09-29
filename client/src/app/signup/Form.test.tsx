@@ -68,12 +68,12 @@ describe('Form Component', () => {
     (fetch as jest.Mock).mockResolvedValueOnce({
       ok: false,
       json: async () => ({
-        message: "User couldn't be created successfully",
+        message: 'El usuario no pudo ser creado correctamente',
         errors: {
-          email: ['has already been taken'],
+          email: ['El email utilizado no está disponible'],
           password: [
-            'is too short (minimum is 8 characters)',
-            'Complexity requirement not met. Please use: 1 uppercase, 1 lowercase, 1 digit and 1 special character',
+            'La contraseña es demasiado corta. Debe tener al menos 8 caracteres',
+            'No se cumplen los requerimientos de complejidad de la contraseña',
           ],
         },
       }),
@@ -85,10 +85,10 @@ describe('Form Component', () => {
     // Wait for the specific error messages to appear
     await waitFor(() => {
       expect(screen.getByTestId('alert')).toHaveTextContent(
-        strings.common.error.password
+        'La contraseña es demasiado corta. Debe tener al menos 8 caracteres'
       );
       expect(screen.getByTestId('alert')).toHaveTextContent(
-        strings.common.error.email
+        'El email utilizado no está disponible'
       );
     });
   });
@@ -98,9 +98,9 @@ describe('Form Component', () => {
     (fetch as jest.Mock).mockResolvedValueOnce({
       ok: false,
       json: async () => ({
-        message: "User couldn't be created successfully",
+        message: "El usuario no pudo ser creado correctamente",
         errors: {
-          email: ['has already been taken'],
+          email: ['El email utilizado no está disponible'],
         },
       }),
     });
@@ -111,10 +111,10 @@ describe('Form Component', () => {
     // Wait for the specific error messages to appear
     await waitFor(() => {
       expect(screen.getByTestId('alert')).not.toHaveTextContent(
-        strings.common.error.password
+        'La contraseña es demasiado corta. Debe tener al menos 8 caracteres'
       );
       expect(screen.getByTestId('alert')).toHaveTextContent(
-        strings.common.error.email
+        'El email utilizado no está disponible'
       );
     });
   });

@@ -68,7 +68,7 @@ RSpec.describe GroupsController, type: :request do
       it 'returns JSON containing error message' do
         json_response = response.parsed_body
 
-        expect(json_response['errors']['group']).to include("Couldn't find Group with ID ##{group_id}")
+        expect(json_response['errors']['group']).to include("No se pudo encontrar el grupo con el ID ##{group_id}")
       end
     end
   end
@@ -163,11 +163,12 @@ RSpec.describe GroupsController, type: :request do
         it 'returns JSON containing error messages' do
           json_response = response.parsed_body
 
-          expect(json_response['message']).to include("Group couldn't be created successfully")
-          expect(json_response['errors']['name'][0]).to include("can't be blank")
-          expect(json_response['errors']['size'][0]).to include("can't be blank")
-          expect(json_response['errors']['size'][1]).to include('is not a number')
-          expect(json_response['errors']['subject'][0]).to include('must exist')
+          expect(json_response['message']).to include('El grupo no pudo ser creado correctamente')
+          expect(json_response['errors']['name'][0]).to include('El nombre del grupo no puede ser vacío')
+          expect(json_response['errors']['size'][0]).to include('El grupo debe tener una cantidad especificada')
+          expect(json_response['errors']['size'][1]).to include('La cantidad debe ser un número')
+          expect(json_response['errors']['subject'][0])
+            .to include('El grupo debe estar asociado a al menos una materia')
         end
       end
     end
@@ -192,7 +193,7 @@ RSpec.describe GroupsController, type: :request do
       it 'returns JSON containing error message' do
         json_response = response.parsed_body
 
-        expect(json_response).to include('You need to sign in or sign up before continuing')
+        expect(json_response).to include('Tienes que registrarte o iniciar sesión antes de continuar')
       end
     end
   end
@@ -289,11 +290,12 @@ RSpec.describe GroupsController, type: :request do
         it 'returns JSON containing error messages' do
           json_response = response.parsed_body
 
-          expect(json_response['message']).to include("Group couldn't be updated successfully")
-          expect(json_response['errors']['name'][0]).to include("can't be blank")
-          expect(json_response['errors']['size'][0]).to include("can't be blank")
-          expect(json_response['errors']['size'][1]).to include('is not a number')
-          expect(json_response['errors']['subject'][0]).to include('must exist')
+          expect(json_response['message']).to include('El grupo no pudo ser actualizado correctamente')
+          expect(json_response['errors']['name'][0]).to include('El nombre del grupo no puede ser vacío')
+          expect(json_response['errors']['size'][0]).to include('El grupo debe tener una cantidad especificada')
+          expect(json_response['errors']['size'][1]).to include('La cantidad debe ser un número')
+          expect(json_response['errors']['subject'][0])
+            .to include('El grupo debe estar asociado a al menos una materia')
         end
       end
     end
@@ -319,7 +321,8 @@ RSpec.describe GroupsController, type: :request do
       it 'returns JSON containing error message' do
         json_response = response.parsed_body
 
-        expect(json_response['errors']['group']).to include("User with ID ##{user.id} is not this group's Admin")
+        expect(json_response['errors']['group'])
+          .to include("El usuario con ID ##{user.id} no es administrador de este grupo")
       end
     end
   end
@@ -370,7 +373,8 @@ RSpec.describe GroupsController, type: :request do
       it 'returns JSON containing error message' do
         json_response = response.parsed_body
 
-        expect(json_response['errors']['group']).to include("User with ID ##{user.id} is not this group's Admin")
+        expect(json_response['errors']['group'])
+          .to include("El usuario con ID ##{user.id} no es administrador de este grupo")
       end
     end
   end
