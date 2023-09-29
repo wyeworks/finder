@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     handlerNeedsBody: false,
     apiHandler: async () => {
       const session = await getServerSession(authOptions);
-      return await ApiCommunicator.getSubjects(session!.user.id!);
+      return await ApiCommunicator.getSubjectsByUser(session!.user.id!);
     },
   });
 }

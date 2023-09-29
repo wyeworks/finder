@@ -6,9 +6,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 export default async function ConfigProfile() {
   const session = await getServerSession(authOptions);
   const user = await ApiCommunicator.getUser(session!.user.id!);
-  const subjects = await (
-    await ApiCommunicator.getSubjects(session!.user.id!)
-  ).json();
+  const subjects = await ApiCommunicator.getSubjects();
   const careers = await ApiCommunicator.getCareers();
 
   return (

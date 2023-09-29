@@ -141,7 +141,7 @@ export class ApiCommunicator {
     });
   }
 
-  static async getSubjects(id: string): Promise<any> {
+  static async getSubjectsByUser(id: string): Promise<any> {
     return await this.commonFetch({
       url: this.apiUrl() + '/users/' + id + '/subjects',
       method: 'GET',
@@ -197,16 +197,16 @@ export class ApiCommunicator {
     });
   }
 
-  static async getSubjectsByUser(id: string): Promise<any> {
+  static async getSubject(id: string): Promise<any> {
     return await this.commonFetch({
-      url: this.apiUrl() + `/users/${id}/subjects`,
+      url: this.apiUrl() + `/subjects/${id}`,
       method: 'GET',
     });
   }
 
-  static async getSubject(id: string): Promise<any> {
+  static async getSubjects(): Promise<any> {
     return await this.commonFetch({
-      url: this.apiUrl() + `/subjects/${id}`,
+      url: this.apiUrl() + `/subjects`,
       method: 'GET',
     });
   }
