@@ -13,6 +13,7 @@ type TextAreaParams = {
   className?: string;
   classNameWrapper?: string;
   maxWidth?: boolean;
+  resize?: boolean;
 };
 
 export default function TextArea({
@@ -22,13 +23,14 @@ export default function TextArea({
   touched = false,
   placeholder = '',
   required = false,
-  validateText = `Por favor escriba aquí`,
+  validateText = `Por favor escribe aquí`,
   value,
   onChange,
   Icon,
   className = '',
   classNameWrapper = '',
   maxWidth = true,
+  resize = false,
 }: TextAreaParams) {
   return (
     <div className={`${maxWidth && 'max-w-sm'} justify-center`}>
@@ -58,6 +60,7 @@ export default function TextArea({
           required={required}
           value={value}
           onChange={onChange}
+          style={{ resize: resize ? undefined : 'none' }}
         />
         {touched && (
           <p className='invisible text-sm text-red-600 peer-invalid:visible'>

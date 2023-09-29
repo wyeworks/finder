@@ -31,7 +31,7 @@ function EditButton() {
         }
       >
         <EditIcon className={'m-2 h-5 w-5 fill-white'} />
-        <p className={'mr-2 text-lg font-medium text-white'}>Editar Perfil</p>
+        <p className={'mr-2 text-lg font-medium text-white'}>Editar perfil</p>
       </button>
     </Link>
   );

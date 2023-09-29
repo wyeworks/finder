@@ -4,14 +4,10 @@
       "defaultError": "Algo salió mal",
       "unexpectedError": "Ocurrió un error inesperado, intenta de nuevo",
       "completeFields": "Por favor completa todos los campos correctamente",
-      "logInInvalid": "Email o Contraseña inválida",
+      "logInInvalid": "Email y/o contraseña inválidos",
       "signin": "El login no se pudo completar",
-      "signup": "El usuario no pudo ser creado",
-      "email": "Email debe ser ***@email.com",
-      "password": "Formato de la contraseña no es correcto",
-      "name": "Hubo un error al ingresar el nombre",
-      "subject": "Hubo un error al ingresar la materia",
-      "description": "Hubo un error al ingresar la descripcion"
+      "signup": "El usuario no pudo ser creado correctamente",
+      "unauthorized": "No tienes permiso para realizar esta acción"
     },
     "submitButton": {
       "text": "Enviar"
@@ -36,7 +32,7 @@
   "form": {
     "nameInput": {
       "label": "Nombre",
-      "placeholder": "Ingresa tu Nombre"
+      "placeholder": "Ingresa tu nombre"
     },
     "emailInput": {
       "label": "Email",
@@ -45,23 +41,23 @@
     },
     "passwordInput": {
       "label": "Contraseña",
-      "placeholder": "Ingresa tu Contraseña",
+      "placeholder": "Ingresa tu contraseña",
       "validateText": "Ingresa una contraseña válida",
-      "passwordInfo": "Asegurate de que tu contraseña tenga al menos 8 caracteres y contenga: \n- Una letra mayúscula \n- Una letra minúscula \n- Un número \n- Un caracter especial \n\n Evita usar contraseñas comunes como \"Abcd-12345\" o utilizar tu nombre y tu cumpleaños."
+      "passwordInfo": "Asegúrate de que tu contraseña tenga al menos 8 caracteres y contenga: \n- Una letra mayúscula \n- Una letra minúscula \n- Un número \n- Un caracter especial \n\n Evita usar contraseñas comunes como \"Abcd-12345\" o utilizar tu nombre y tu cumpleaños."
     },
     "createAccountButton": {
-      "text": "Crear Cuenta"
+      "text": "Crear cuenta"
     },
     "logInButton": {
-      "text": "Iniciar Sesión"
+      "text": "Iniciar sesión"
     },
     "nameGroupInput": {
-      "placeholder": "Grupo de <Materia>",
-      "validateText": "Ingresa un Nombre de Grupo"
+      "placeholder": "Grupo de <materia>",
+      "validateText": "Ingresa un nombre de grupo"
     },
     "descriptionGroupInput": {
-      "placeholder": "Descripcion de <Materia>",
-      "validateText": "Ingresa una Descripción de Grupo"
+      "placeholder": "Descripción de <materia>",
+      "validateText": "Ingresa una descripción de grupo"
     },
     "sizeInput": {
       "placeholder": "Ingrese el tamaño del grupo deseado",
@@ -78,15 +74,15 @@
     "navOptions": {
       "notifications": "Notificaciones",
       "messages": "Mensajes",
-      "editProfile": "Editar Perfil",
-      "endSession": "Cerrar Sesión"
+      "editProfile": "Editar perfil",
+      "endSession": "Cerrar sesión"
     }
   },
   "confirmation": {
     "imageAlt": "Confirmar email",
     "title": "finder.com",
     "headerText": "Confirme su dirección de correo",
-    "infoText": "Se ha enviado un correo electrónico a xxxx.xxxxx@email.com con los pasos necesarios para confirmar su registro",
+    "infoText": "Se te ha enviado un correo electrónico con los pasos necesarios para confirmar el registro",
     "loginButton": {
       "text": "Iniciar sesión"
     }
@@ -110,11 +106,11 @@
         },
         "oldPassInput": {
           "label": "Contraseña antigua",
-          "placeholder": "Ingresa tu Contraseña"
+          "placeholder": "Ingresa tu contraseña actual"
         },
         "newPassInput": {
           "label": "Contraseña nueva",
-          "placeholder": "Ingresa tu Contraseña nueva"
+          "placeholder": "Ingresa tu nueva contraseña "
         }
       },
       "personalInfo": {
@@ -127,11 +123,11 @@
         },
         "nameInput": {
           "label": "Nombre",
-          "placeholder": "Ingresa tu Nombre"
+          "placeholder": "Ingresa tu nombre"
         },
         "birthdateInput": {
           "label": "Fecha de nacimiento",
-          "placeholder": "Ingresa tu Fecha de nacimiento"
+          "placeholder": "Ingresa tu fecha de nacimiento"
         },
         "bioTextArea": {
           "label": "Biografía",
@@ -142,6 +138,25 @@
           "validateText": "Escribe un enlace correcto"
         }
       }
+    }
+  },
+  "createGroup": {
+    "step1": {
+      "description": "Primero elige la materia del grupo",
+      "placeholderDropDownSuccess": "Seleccione la materia",
+      "placeholderDropDownWaiting": "Cargando materias..."
+    },
+    "step2": {
+      "description1": "Indica un nombre para el grupo",
+      "description2": "Elige un nombre que ayude a las personas a saber de que trata el grupo."
+    },
+    "step3": {
+      "description1": "Describe tu grupo",
+      "description2": "Esto será lo que verá cualquier persona que encuentre tu grupo, pero también podrás actualizarlo más tarde."
+    },
+    "step4": {
+      "description1": "Si tiene horarios para juntarse...",
+      "description2": "En el caso de que el grupo tenga alguna preferencia horaria para sus sesiones, dejalo claro con los integrantes pero también podrás actualizarlo más tarde."
     }
   }
 }

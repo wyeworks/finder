@@ -28,7 +28,7 @@ class GroupsController < ApplicationController
       Rails.logger.info "Group has the following validation errors: #{@group.errors.full_messages}"
 
       render json: {
-        message: "Group couldn't be created successfully. #{@group.errors.full_messages.to_sentence}",
+        message: 'El grupo no pudo ser creado correctamente',
         errors: @group.errors.messages
       }, status: :unprocessable_entity
     end
@@ -43,7 +43,7 @@ class GroupsController < ApplicationController
       Rails.logger.info "Group has the following validation errors: #{@group.errors.full_messages}"
 
       render json: {
-        message: "Group couldn't be updated successfully. #{@group.errors.full_messages.to_sentence}",
+        message: 'El grupo no pudo ser actualizado correctamente',
         errors: @group.errors.messages
       }, status: :unprocessable_entity
     end
@@ -58,7 +58,7 @@ class GroupsController < ApplicationController
       Rails.logger.info "Group has the following validation errors: #{@group.errors.full_messages}"
 
       render json: {
-        message: "Group couldn't be deleted successfully. #{@group.errors.full_messages.to_sentence}",
+        message: 'El grupo no pudo ser borrado correctamente',
         errors: @group.errors.messages
       }, status: :unprocessable_entity
     end
@@ -73,7 +73,7 @@ class GroupsController < ApplicationController
 
     render json: {
       errors: {
-        group: ["Couldn't find Group with ID ##{params[:id]}"]
+        group: ["No se pudo encontrar el grupo con el ID ##{params[:id]}"]
       }
     }, status: :not_found
   end
@@ -89,7 +89,7 @@ class GroupsController < ApplicationController
 
     render json: {
       errors: {
-        group: ["User with ID ##{current_user.id} is not this group's Admin"]
+        group: ["El usuario con ID ##{current_user.id} no es administrador de este grupo"]
       }
     }, status: :unauthorized
   end

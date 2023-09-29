@@ -9,6 +9,7 @@ class User < ApplicationRecord
   # Associations
   has_many :members, dependent: :destroy
   has_many :groups, through: :members
+  has_many :requests, dependent: :destroy
   has_and_belongs_to_many :careers
   has_and_belongs_to_many :subjects
 
@@ -21,7 +22,7 @@ class User < ApplicationRecord
   def password_complexity
     return if password.blank? || password =~ PASSWORD_REGEX
 
-    errors.add :password, 'Complexity requirement not met. ' \
-                          'Please use: 1 uppercase, 1 lowercase, 1 digit and 1 special character'
+    errors.add :password, 'No se cumplen los requerimientos de complejidad de la contraseña. ' \
+                          'Por favor utilizar: 1 mayúscula, 1 minúscula, 1 dígito y un carácter especial'
   end
 end
