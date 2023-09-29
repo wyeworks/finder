@@ -13,14 +13,16 @@ export async function clientRequestHandler({
   handlerNeedsBody?: boolean;
 }): Promise<Response> {
   try {
-    Logger.debug('Processing client request', req.url);
+    Logger.debug('START: Client side request');
 
     const body = handlerNeedsBody ? await req.json() : undefined;
 
     const response = await apiHandler(body);
 
-    Logger.debug('Received response from Backend:', response);
+    Logger.debug('Response from backend:');
+    await Logger.logResponse(response);
 
+    Logger.debug('END: Returning response for client side request');
     return new Response(response.body, {
       status: response.status,
       headers: {

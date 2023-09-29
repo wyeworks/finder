@@ -50,7 +50,7 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
   return (
     <div className='grid grid-rows-3 justify-center gap-5'>
       <div className='text-primaryBlue pt-4 text-2xl font-bold'>
-        Primero elije la materia del grupo
+        {strings.createGroup.step1.description}
       </div>
       <SearchDropdown
         id='dropdown'
@@ -59,8 +59,8 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
         setOptionValue={setSelectedSubject}
         placeholder={
           subjects.length === 0
-            ? 'Cargando materias...'
-            : 'Seleccione la materia'
+            ? strings.createGroup.step1.placeholderDropDownWaiting
+            : strings.createGroup.step1.placeholderDropDownSuccess
         }
       />
       <Button

@@ -6,14 +6,16 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 export default async function ConfigProfile() {
   const session = await getServerSession(authOptions);
   const user = await ApiCommunicator.getUser(session!.user.id!);
-  const subjects = await ApiCommunicator.getSubjects(session!.user.id!);
+  const subjects = await (
+    await ApiCommunicator.getSubjects(session!.user.id!)
+  ).json();
   const careers = await ApiCommunicator.getCareers();
 
   return (
     <>
       <div className='flex w-full justify-center bg-primaryBlue md:flex'>
         <p className='flex w-[98%] items-center border-t-2 border-gray-500 py-5 text-2xl text-white'>
-          <strong className='pl-6 md:ml-12'>Editar Perfil</strong>
+          <strong className='pl-6 md:ml-12'>Editar perfil</strong>
         </p>
       </div>
       <div className='flex min-h-[500px] justify-center py-5'>

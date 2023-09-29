@@ -33,7 +33,7 @@ export class ApiCommunicator {
     handleNotOk?: boolean;
     asJSON?: boolean;
   }): Promise<any> {
-    Logger.debug('Starting common fetch');
+    Logger.debug('START: Common fetch');
 
     let headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -74,10 +74,16 @@ export class ApiCommunicator {
     Logger.debug('Url: ', url);
     Logger.debug('Fetching with options: ', fetchOptions);
     const response = await fetch(url, fetchOptions);
+    await Logger.logResponse(response);
 
-    Logger.debug('Response: ', response);
     if (!response.ok) {
-      Logger.warn('Response not ok');
+      Logger.warn(
+        'Response not ok',
+        'Human Readable: ',
+        response.statusText,
+        'Code: ',
+        response.status
+      );
       if (handleNotOk) {
         const errorData = await response.json();
         const errorMessage =
@@ -87,7 +93,7 @@ export class ApiCommunicator {
       }
     }
 
-    Logger.debug('Returning response');
+    Logger.debug('END: Returning response for common fetch');
     return asJSON && handleNotOk ? await response.json() : response;
   }
 
@@ -140,6 +146,7 @@ export class ApiCommunicator {
       url: this.apiUrl() + '/users/' + id + '/subjects',
       method: 'GET',
       mustBeAuthenticated: true,
+      asJSON: false,
     });
   }
 

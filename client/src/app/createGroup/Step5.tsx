@@ -32,7 +32,7 @@ export default function FormStep5({
         </span>
         <span className='max-w-lg text-sm text-grayText'>
           El grupo &apos;{groupName}&apos; ya está pronto para recibir al resto
-          de sus integrantes bajo la siguiente URL. Asegurese de compartirla con
+          de sus integrantes bajo la siguiente URL. Asegúrate de compartirla con
           ellos.
         </span>
       </div>

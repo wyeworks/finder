@@ -68,13 +68,16 @@ export default function CreateGroup() {
         const errorMessages = [];
 
         if (parsedError.errors.name) {
-          errorMessages.push(strings.common.error.name);
+          errorMessages.push(parsedError.errors.name);
         }
         if (parsedError.errors.subject) {
-          errorMessages.push(strings.common.error.subject);
+          errorMessages.push(parsedError.errors.subject);
         }
         if (parsedError.errors.description) {
-          errorMessages.push(strings.common.error.description);
+          errorMessages.push(parsedError.errors.description);
+        }
+        if (parsedError.errors.size) {
+          errorMessages.push(parsedError.errors.size);
         }
         if (errorMessages.length === 0) {
           errorMessages.push(strings.common.error.unexpectedError);
