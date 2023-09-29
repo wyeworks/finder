@@ -6,7 +6,8 @@
       "completeFields": "Por favor completa todos los campos correctamente",
       "logInInvalid": "Email y/o contraseña inválidos",
       "signin": "El login no se pudo completar",
-      "signup": "El usuario no pudo ser creado correctamente"
+      "signup": "El usuario no pudo ser creado correctamente",
+      "unauthorized": "No tienes permiso para realizar esta acción"
     },
     "submitButton": {
       "text": "Enviar"

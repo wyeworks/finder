@@ -13,24 +13,34 @@ const user: User = {
   email: 'test@email.com',
 };
 
-const mockOnSessionUpdate = jest.fn();
+//We want to mock the function useSession from next-auth/react
 // eslint-disable-next-line no-unused-vars
-mockOnSessionUpdate.mockImplementation((_: any) => {});
+const useSession = require('next-auth/react').useSession;
+jest.mock('next-auth/react', () => ({
+  useSession: jest.fn().mockReturnValue({
+    data: {
+      user: {
+        id: '1',
+        name: 'Test',
+        email: '',
+      },
+    },
+    update: jest.fn().mockReturnValue({}),
+  }),
+}));
+
+//We want to also mock ApiCommunicator.clientSideEditUser(id)
+// eslint-disable-next-line no-unused-vars
+const ApiCommunicator =
+  require('../../../services/ApiCommunicator').ApiCommunicator;
+jest.mock('../../../services/ApiCommunicator', () => ({
+  ApiCommunicator: {
+    clientSideEditUser: jest.fn().mockReturnValue({ ok: true }),
+  },
+}));
 
 const sut = () => {
-  return render(
-    <FormPersonalInfo
-      user={user}
-      session={{
-        user: {
-          id: '1',
-          name: 'Test',
-          email: '',
-        },
-      }}
-      onSessionUpdate={mockOnSessionUpdate}
-    />
-  );
+  return render(<FormPersonalInfo user={user} />);
 };
 
 describe('Form Personal Info Component', () => {

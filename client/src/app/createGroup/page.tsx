@@ -13,6 +13,7 @@ import { BackendError } from '@/types/BackendError';
 import strings from '@/locales/strings.json';
 import { TimePreference } from '@/types/StudyGroup';
 import CrossIcon from '@/assets/Icons/CrossIcon';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
 
 export type CreateGroupData = {
   name: string;
@@ -49,18 +50,12 @@ export default function CreateGroup() {
 
   async function handleSubmit() {
     try {
-      const response = await fetch('/api/createGroup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: createGroupData.name,
-          description: createGroupData.description,
-          size: createGroupData.size,
-          subject_id: createGroupData.subjectId,
-          time_preferences: createGroupData.timePreference,
-        }),
+      const response = await ApiCommunicator.clientSideCreateGroup({
+        name: createGroupData.name,
+        description: createGroupData.description,
+        size: createGroupData.size,
+        subject_id: createGroupData.subjectId,
+        time_preferences: createGroupData.timePreference,
       });
 
       if (!response.ok) {

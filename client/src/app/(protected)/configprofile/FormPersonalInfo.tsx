@@ -13,10 +13,12 @@ import {
   returnSocialNetworkIcon,
 } from '@/utils/Formatter';
 import { useEffect, useState } from 'react';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
 import DynamicAutoCompletes from '@/components/common/DynamicAutoCompletes';
 import { Subject } from '@/types/Subject';
 import { Career } from '@/types/Career';
 import { SocialNetworks } from '@/types/SocialNetworks';
+import { useSession } from 'next-auth/react';
 
 type PersonalInfoFormData = {
   name: string;
@@ -27,19 +29,17 @@ type PersonalInfoFormData = {
 
 type FormPersonalInfoProps = {
   user: User;
-  session: any;
-  onSessionUpdate: Function;
   subjects?: Subject[];
   careers?: Career[];
 };
 
 export default function FormPersonalInfo({
   user,
-  session,
-  onSessionUpdate,
   subjects = [],
   careers = [],
 }: FormPersonalInfoProps) {
+  const { data: session, update: onSessionUpdate } = useSession();
+
   let birthdate = '';
   // parse birthdate
   if (user.birth_date) {
@@ -130,26 +130,14 @@ export default function FormPersonalInfo({
     }
 
     try {
-      const response = await fetch('/api/signup', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || strings.common.error.unexpectedError
-        );
-      }
+      await ApiCommunicator.clientSideEditUser(formData);
       setAlertVisible(true);
       setAlertMessage(strings.common.success.changeSuccess);
       setAlertType('success');
 
-      onSessionUpdate({
+      await onSessionUpdate({
         info: {
-          ...session.user,
+          ...session!.user,
           name: formData.name,
           bio: formData.biography,
           birth_date: formData.birthdate,
