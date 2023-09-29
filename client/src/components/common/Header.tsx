@@ -72,7 +72,11 @@ export default function Header({ user }: HeaderProps) {
               <div className='flex h-16 items-center justify-between'>
                 <div className='flex items-center'>
                   <div className='flex-shrink-0'>
-                    <Link className='mx-2 flex items-center' href={'/home'}>
+                    <Link
+                      href='/home'
+                      className='mx-2 flex cursor-pointer items-center'
+                      data-testid='finder-logo'
+                    >
                       <IconLogoFinder className='h-12 w-12 text-white' />
                       <p className='ml-2 text-4xl text-white'>
                         <strong>finder.com</strong>
@@ -137,7 +141,7 @@ export default function Header({ user }: HeaderProps) {
                               <Link
                                 href={item.href}
                                 className='block px-4 py-2 text-sm text-gray-700 active:bg-gray-100'
-                                onClick={item.onClick ? item.onClick : () => {}}
+                                onClick={item.onClick}
                               >
                                 {item.name}
                               </Link>
@@ -193,7 +197,7 @@ export default function Header({ user }: HeaderProps) {
                       as='a'
                       href={item.href}
                       className='flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white'
-                      onClick={item.onClick ? item.onClick : () => {}}
+                      onClick={item.onClick}
                     >
                       {item.icon}
                       {item.name}

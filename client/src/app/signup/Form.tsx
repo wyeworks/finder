@@ -65,10 +65,10 @@ export default function Form() {
         const errorMessages = [];
 
         if (parsedError.errors.email) {
-          errorMessages.push(strings.common.error.email);
+          errorMessages.push(parsedError.errors.email);
         }
         if (parsedError.errors.password) {
-          errorMessages.push(strings.common.error.password);
+          errorMessages.push(parsedError.errors.password);
         }
 
         setAlertMessage(errorMessages.join('\n'));
@@ -89,6 +89,7 @@ export default function Form() {
         className='grid max-w-xs grid-rows-register-form gap-1 sm:pl-7'
         onSubmit={handleSubmit}
         noValidate
+        autoComplete='off'
       >
         <Input
           type='text'
@@ -129,6 +130,7 @@ export default function Form() {
           value={formData.password}
           onChange={handleChange}
           touched={touched.password}
+          autoComplete='new-password'
         />
         <Button
           type='submit'
