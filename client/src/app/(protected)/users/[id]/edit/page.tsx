@@ -2,15 +2,14 @@ import FormPersonalInfo from './FormPersonalInfo';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
-import { SubjectService } from '@/services/SubjectService';
 
 export default async function ConfigProfile() {
   const session = await getServerSession(authOptions);
   const user = await ApiCommunicator.getUser(session!.user.id!);
-  const subjects = await ApiCommunicator.getSubjects();
-  const careers = await ApiCommunicator.getCareers();
-  const careersByUser = await ApiCommunicator.getCareersByUser(user.id);
-  const subjectsByUser = await SubjectService.getByUser(user);
+  // const subjects = await ApiCommunicator.getSubjects();
+  // const careers = await ApiCommunicator.getCareers();
+  // const careersByUser = await ApiCommunicator.getCareersByUser(user.id);
+  // const subjectsByUser = await SubjectService.getByUser(user);
   return (
     <>
       <div className='flex w-full justify-center bg-primaryBlue md:flex'>
@@ -23,10 +22,10 @@ export default async function ConfigProfile() {
           {user && (
             <FormPersonalInfo
               user={user}
-              subjects={subjects}
-              careers={careers}
-              careersByUser={careersByUser}
-              subjectsByUser={subjectsByUser}
+              // subjects={subjects}
+              // careers={careers}
+              // careersByUser={careersByUser}
+              // subjectsByUser={subjectsByUser}
             />
           )}
         </div>
