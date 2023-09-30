@@ -55,3 +55,5 @@ es:
           attributes:
             user:
               required: "El usuario es requerido"
+        messages:
+          record_invalid: "El registro es inválido"
