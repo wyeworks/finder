@@ -25,20 +25,28 @@ type PersonalInfoFormData = {
   birthdate: string;
   biography: string;
   social_networks: SocialNetworks;
+  career_ids: Number[];
+  subject_ids: Number[];
 };
 
 type FormPersonalInfoProps = {
   user: User;
   subjects?: Subject[];
   careers?: Career[];
+  careersByUser?: Career[];
+  subjectsByUser?: Subject[];
 };
 
 export default function FormPersonalInfo({
   user,
-  subjects = [],
   careers = [],
+  careersByUser = [],
+  subjects = [],
+  subjectsByUser = [],
 }: FormPersonalInfoProps) {
   const { data: session, update: onSessionUpdate } = useSession();
+
+  const currentDate = new Date();
 
   let birthdate = '';
   // parse birthdate
@@ -50,9 +58,11 @@ export default function FormPersonalInfo({
     name: user?.name ?? '',
     birthdate: birthdate,
     biography: user?.bio ?? '',
-
     social_networks: generateSocialNetworks(user),
+    career_ids: user?.career_ids ?? [],
+    subject_ids: user?.subject_ids ?? [],
   });
+
   const [touched, setTouched] = useState({
     name: false,
     birthdate: false,
@@ -62,13 +72,8 @@ export default function FormPersonalInfo({
   const [alertVisible, setAlertVisible] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const [alertType, setAlertType] = useState<alertTypes>('error');
-  const [globalIdCounter, setGlobalIdCounter] = useState<number>(3);
   const [disabledSubmittButton, setDisabledSubmittButton] =
     useState<boolean>(true);
-
-  const updateCounter = () => {
-    setGlobalIdCounter((prevState) => prevState + 1);
-  };
 
   useEffect(() => {
     const changedSocialNetworks = () => {
@@ -81,12 +86,21 @@ export default function FormPersonalInfo({
       });
       return changed != -1;
     };
+    const changedCareerOrSubjects = () => {
+      return (
+        JSON.stringify(formData.career_ids) !==
+          JSON.stringify(user.career_ids ?? []) ||
+        JSON.stringify(formData.subject_ids) !==
+          JSON.stringify(user.subject_ids ?? [])
+      );
+    };
     const changesWereMade = () => {
       if (
         formData.name.trim() === user.name &&
         formData.biography.trim() === (user.bio ?? '') &&
         formData.birthdate === birthdate &&
-        !changedSocialNetworks()
+        !changedSocialNetworks() &&
+        !changedCareerOrSubjects()
       ) {
         setDisabledSubmittButton(true);
       } else {
@@ -118,6 +132,24 @@ export default function FormPersonalInfo({
     }));
   };
 
+  const handleChangeCareers = (ids: string[]) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      career_ids: ids.map((id) => {
+        return Number(id);
+      }),
+    }));
+  };
+
+  const handleChangeSubjects = (ids: string[]) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      subject_ids: ids.map((id) => {
+        return Number(id);
+      }),
+    }));
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setAlertVisible(false);
@@ -142,6 +174,8 @@ export default function FormPersonalInfo({
           bio: formData.biography,
           birth_date: formData.birthdate,
           social_networks: formData.social_networks,
+          career_ids: formData.career_ids,
+          subject_ids: formData.subject_ids,
         },
       });
 
@@ -191,7 +225,15 @@ export default function FormPersonalInfo({
           value={formData.birthdate}
           onChange={handleChange}
           classNameInput='bg-backgroundInput'
-          max={new Date().toISOString().split('T')[0]}
+          max={
+            new Date(
+              currentDate.getFullYear() - 17,
+              currentDate.getMonth(),
+              currentDate.getDate()
+            )
+              .toISOString()
+              .split('T')[0]
+          }
         />
         <div className='block w-full'>
           <TextArea
@@ -211,15 +253,19 @@ export default function FormPersonalInfo({
             title='Carreras'
             placeholder='Elije una carrera'
             options={parseCareerToOption(careers)}
-            updateCounter={updateCounter}
-            counterId={globalIdCounter}
+            onChangeActualOptions={handleChangeCareers}
+            defaultOptions={parseCareerToOption(careersByUser)}
+            buttonIds='career_button_'
+            dropDownIds='career_dropdown_'
           />
           <DynamicAutoCompletes
             title='Materias'
             placeholder='Elije una materia'
             options={parseSubjectToOption(subjects)}
-            updateCounter={updateCounter}
-            counterId={globalIdCounter}
+            onChangeActualOptions={handleChangeSubjects}
+            defaultOptions={parseSubjectToOption(subjectsByUser)}
+            buttonIds='subject_button_'
+            dropDownIds='subject_dropdown_'
           />
 
           <div className='block py-2'>
@@ -234,9 +280,7 @@ export default function FormPersonalInfo({
                     type='text'
                     id={key}
                     pattern={
-                      key != 'whatsapp' && key != 'telegram'
-                        ? `^.*${key}\.com\/.+`
-                        : '[0-9]*'
+                      key != 'whatsapp' ? `^.*${key}\.com\/.+` : '[0-9]*'
                     }
                     name={key}
                     Icon={returnSocialNetworkIcon(key)}
@@ -247,7 +291,7 @@ export default function FormPersonalInfo({
                     classNameInput='bg-backgroundInput'
                     classNameWrapper='h-[50px]'
                     validateText={
-                      key != 'whatsapp' && key != 'telegram'
+                      key != 'whatsapp'
                         ? strings.configProfile.forms.personalInfo
                             .socialNetworks.validateText
                         : 'Escribe un número correcto'
@@ -289,7 +333,6 @@ function generateSocialNetworks(user: User) {
     'twitter',
     'facebook',
     'reddit',
-    'telegram',
     'whatsapp',
   ];
   const result: SocialNetworks = {};

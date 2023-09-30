@@ -13,6 +13,7 @@ interface AutoCompleteProps {
   value?: Option;
   disabledText?: string;
   placeholder?: string;
+  id?: string;
 }
 
 export default function AutoComplete({
@@ -25,6 +26,7 @@ export default function AutoComplete({
   },
   disabledText = '',
   placeholder = '',
+  id = '',
 }: AutoCompleteProps) {
   const [selectedOption, setSelectedOption] = useState<Option>(value);
   const [query, setQuery] = useState('');
@@ -54,6 +56,7 @@ export default function AutoComplete({
               setQuery(event.target.value);
             }}
             placeholder={placeholder}
+            id={id}
           />
           <Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2'>
             <ArrowDownIcon className='h-5 w-5' />
