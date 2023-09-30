@@ -174,6 +174,8 @@ export default function FormPersonalInfo({
           bio: formData.biography,
           birth_date: formData.birthdate,
           social_networks: formData.social_networks,
+          career_ids: formData.career_ids,
+          subject_ids: formData.subject_ids,
         },
       });
 
