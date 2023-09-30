@@ -58,7 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_30_135651) do
   end
 
   create_table "requests", force: :cascade do |t|
-    t.integer "status", default: 0
+    t.integer "status", default: 0, null: false
     t.string "reason"
     t.bigint "user_id", null: false
     t.bigint "group_id", null: false

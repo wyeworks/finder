@@ -45,12 +45,13 @@ RSpec.describe Request, type: :model do
     context 'when there is an existing pending or accepted request for the same user and group' do
       let(:user) { create(:user) }
       let(:group) { create(:group) }
-      let!(:existing_request) { create(:request, user:, group:, status: 'pending') }
+      let!(:existing_request) { create(:request, user:, group:) }
       let(:new_request) { build(:request, user:, group:) }
 
       it 'does not allow the creation of a new request' do
+        expected_error = 'Ya hay una solicitud pendiente o aceptada para este usuario y grupo'
         expect(new_request).not_to be_valid
-        expect(new_request.errors[:general]).to include('Ya hay una solicitud pendiente o aceptada para este usuario y grupo')
+        expect(new_request.errors[:general]).to include(expected_error)
       end
     end
   end

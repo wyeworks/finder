@@ -43,7 +43,7 @@ RSpec.describe 'Groups::Requests', type: :request do
       end
 
       context 'when there is an existing pending or accepted request' do
-        let!(:existing_request) { create(:request, user:, group:, status: 'pending') }
+        let!(:existing_request) { create(:request, user:, group:) }
 
         before do
           post group_requests_path(group), headers:
@@ -59,8 +59,8 @@ RSpec.describe 'Groups::Requests', type: :request do
 
         it 'returns JSON containing error messages' do
           json_response = response.parsed_body
-
-          expect(json_response['errors']['general']).to include('Ya hay una solicitud pendiente o aceptada para este usuario y grupo')
+          expected_error = 'Ya hay una solicitud pendiente o aceptada para este usuario y grupo'
+          expect(json_response['errors']['general']).to include(expected_error)
         end
       end
 

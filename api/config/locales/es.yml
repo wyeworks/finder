@@ -31,6 +31,10 @@ es:
               inclusion: "El rol utilizado no es una opción válida"
             user:
               required: "El miembro debe estar asociado a un usuario"
+        request:
+          attributes:
+            user:
+              required: "El usuario es requerido"
         subject:
           attributes:
             code:
@@ -51,7 +55,3 @@ es:
             password:
               blank: "La contraseña no puede estar vacía"
               too_short: "La contraseña es demasiado corta. Debe tener al menos 8 caracteres"
-        request:
-          attributes:
-            user:
-              required: "El usuario es requerido"

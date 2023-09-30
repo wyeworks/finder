@@ -2,5 +2,8 @@ class RequestSerializer
   include JSONAPI::Serializer
 
   attributes :id,
-             :status
+             :status,
+             :reason,
+             :group_id,
+             :user_id
 end

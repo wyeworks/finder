@@ -4,7 +4,7 @@ module Groups
     before_action :authenticate_user!
 
     def create
-      @request = @group.requests.new(status: 'pending', user: current_user)
+      @request = Request.new(status: 'pending', user: current_user, group: @group)
 
       if @request.save
         Rails.logger.info 'Request was successfully created'

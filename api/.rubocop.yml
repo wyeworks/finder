@@ -24,9 +24,6 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Enabled: false
 
-Layout/LineLength:
-  Enabled: false
-
 Rails/FilePath:
   Enabled: false
 

@@ -38,7 +38,10 @@ class Group < ApplicationRecord
     return if time_preferences.blank?
 
     time_preferences.each_key do |key|
-      errors.add(:time_preferences, 'Debe tener una preferencia válida para cada día') unless DAY_PREFERENCES.include?(key) && TIME_PREFERENCES.include?(time_preferences[key])
+      unless DAY_PREFERENCES.include?(key) && TIME_PREFERENCES.include?(time_preferences[key])
+        errors.add(:time_preferences,
+                   'Debe tener una preferencia válida para cada día')
+      end
     end
   end
 end

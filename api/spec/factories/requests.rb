@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :request do
-    status { 'accepted' }
+    status { 'pending' }
     reason { 'Reason' }
     user
     group
