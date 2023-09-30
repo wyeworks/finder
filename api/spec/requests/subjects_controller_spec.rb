@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SubjectsController, type: :request do
+  # Index
   describe 'GET /subjects' do
     let(:subjects) { create_list :subject, 2 }
 
@@ -22,6 +23,7 @@ RSpec.describe SubjectsController, type: :request do
     end
   end
 
+  # Show
   describe 'GET /subjects/:id' do
     let(:subject) { create :subject }
 
