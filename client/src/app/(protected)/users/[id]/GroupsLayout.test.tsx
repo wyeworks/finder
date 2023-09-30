@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import GroupsLayout from '@/app/(protected)/user/[id]/GroupsLayout';
+import GroupsLayout from '@/app/(protected)/users/[id]/GroupsLayout';
 import { StudyGroupBuilder } from '../../../../../tests/builders/StudyGroupBuilder';
 
 global.fetch = jest.fn();
@@ -25,7 +25,7 @@ describe('GroupsLayout Component', () => {
   });
 
   describe('GroupCard Component', () => {
-    it('should show the group name', () => {
+    it('should show the groups name', () => {
       const grupoConNombre = StudyGroupBuilder.aStudyGroup()
         .withName('Bases de datos')
         .build();
@@ -37,7 +37,7 @@ describe('GroupsLayout Component', () => {
       );
     });
 
-    it('should show the group description', () => {
+    it('should show the groups description', () => {
       const grupoConDescripcion = StudyGroupBuilder.aStudyGroup()
         .withDescription('Grupo de bases de datos')
         .build();
@@ -49,7 +49,7 @@ describe('GroupsLayout Component', () => {
       ).toHaveTextContent('Grupo de bases de datos');
     });
 
-    it('should show the group banner', () => {
+    it('should show the groups banner', () => {
       const grupoWithBanner = StudyGroupBuilder.aStudyGroup()
         .withBanner('https://www.google.com')
         .build();
@@ -61,7 +61,7 @@ describe('GroupsLayout Component', () => {
       ).toBeInTheDocument();
     });
 
-    it('should show the group subject', () => {
+    it('should show the groups subject', () => {
       const grupoConSubject = StudyGroupBuilder.aStudyGroup()
         .withSubject(1)
         .build();

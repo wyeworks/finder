@@ -15,7 +15,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       authorize: async (credentials) => {
-        Logger.debug('Authorizing user with credentials: ' + credentials);
+        Logger.debug('Authorizing users with credentials: ' + credentials);
         const { email, password } = credentials!;
         const res = await ApiCommunicator.login({
           user: {
@@ -26,7 +26,7 @@ export const authOptions: NextAuthOptions = {
 
         const user = await res.json();
 
-        //if user or user.user is null or undefinded, then the login failed
+        //if users or users.users is null or undefinded, then the login failed
         if (!res.ok || !user || !user.user) {
           Logger.warn('User not authorized');
           return null;
@@ -50,7 +50,7 @@ export const authOptions: NextAuthOptions = {
 
       if (trigger === 'signIn' || trigger === 'signUp') {
         if (user) {
-          Logger.debug('Updating token with user: ', user);
+          Logger.debug('Updating token with users: ', user);
           token.user = user;
         }
       }

@@ -72,7 +72,7 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
         disabled={
           !subjects.some(
             (subject) =>
-              subject.name + `(${subject.code})` === selectedSubject?.label
+              subject.name + ` (${subject.code})` === selectedSubject?.label
           )
         }
       />

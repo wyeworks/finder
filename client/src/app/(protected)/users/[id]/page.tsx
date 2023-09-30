@@ -1,12 +1,12 @@
-import UserBanner from '@/app/(protected)/user/[id]/UserBanner';
+import UserBanner from '@/app/(protected)/users/[id]/UserBanner';
 import { GroupService } from '@/services/GroupService';
-import GroupsLayout from '@/app/(protected)/user/[id]/GroupsLayout';
+import GroupsLayout from '@/app/(protected)/users/[id]/GroupsLayout';
 import { Logger } from '@/services/Logger';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { SubjectService } from '@/services/SubjectService';
-import SubjectsLayout from '@/app/(protected)/user/[id]/SubjectLayout';
+import SubjectsLayout from '@/app/(protected)/users/[id]/SubjectLayout';
 
 type Props = {
   params: {
