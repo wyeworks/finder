@@ -110,6 +110,7 @@ export default function DynamicAutoCompletes({
       <div className='mb-5 flex'>
         <div className='w-[100%] md:w-[100%]'>
           <Button
+            id={buttonIds + 'add'}
             Icon={<AddIcon className='h-6 w-6 text-sky-500' />}
             className='border border-gray-300 bg-white hover:bg-gray-200'
             onClick={() => {
@@ -141,7 +142,6 @@ type dropDownProps = {
   options: Option[];
   // eslint-disable-next-line no-unused-vars
   onOptionChange: (inputId: string, label: string, key: string) => void;
-  // currentlySelected: Option;
   placeholder: string;
 };
 function OptionsAdded({
@@ -149,7 +149,6 @@ function OptionsAdded({
   onOptionDelete,
   options,
   onOptionChange,
-  // currentlySelected,
   placeholder,
 }: dropDownProps) {
   return (
@@ -174,6 +173,7 @@ function OptionsAdded({
                   onOptionChange(dropDown.input_id, option.label, option.key);
                 }}
                 placeholder={placeholder}
+                id={dropDown.input_id}
               />
             </div>
             <div className='w-[20%] md:w-[10%]'>
@@ -183,6 +183,7 @@ function OptionsAdded({
                 onClick={() => {
                   onOptionDelete(dropDown.button_id);
                 }}
+                id={dropDown.button_id}
               />
             </div>
           </div>
