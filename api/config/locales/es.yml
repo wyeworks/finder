@@ -1,6 +1,8 @@
 es:
   activerecord:
     errors:
+      messages:
+        invalid: "La validación falló y el record no es válido"
       models:
         career:
           attributes:

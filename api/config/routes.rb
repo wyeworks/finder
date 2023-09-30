@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     resources :requests, only: :create, module: :groups
   end
   resources :subjects, only: [:index, :show]
-  resources :users, only: :show do
+  resources :users, only: [:show, :destroy] do
     member do
       get :careers
       get :subjects
