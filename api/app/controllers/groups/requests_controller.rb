@@ -1,7 +1,7 @@
 module Groups
   class RequestsController < ApplicationController
     before_action :set_group
-    before_action :authenticate_user!, except: %i[index show]
+    before_action :authenticate_user!
 
     def create
       @request = @group.requests.new(status: 'pending', user: current_user)
@@ -32,6 +32,5 @@ module Groups
         }
       }, status: :not_found
     end
-
   end
 end

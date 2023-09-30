@@ -14,9 +14,8 @@ class Request < ApplicationRecord
   private
 
   def no_duplicate_pending_or_accepted_requests
-    existing_request = Request.where(user_id: user_id, group_id: group_id)
-                              .where(status: ['pending', 'accepted'])
-                              .exists?
+    existing_request = Request.where(user_id:, group_id:)
+                              .exists?(status: %w[pending accepted])
 
     errors.add(:general, 'Ya hay una solicitud pendiente o aceptada para este usuario y grupo') if existing_request
   end
