@@ -2,6 +2,7 @@ import FormPersonalInfo from './FormPersonalInfo';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
+import { SubjectService } from '@/services/SubjectService';
 
 export default async function ConfigProfile() {
   const session = await getServerSession(authOptions);
@@ -9,9 +10,7 @@ export default async function ConfigProfile() {
   const subjects = await ApiCommunicator.getSubjects();
   const careers = await ApiCommunicator.getCareers();
   const careersByUser = await ApiCommunicator.getCareersByUser(user.id);
-  const subjectsByUser = await ApiCommunicator.getSubjectsByUser(user.id);
-  console.log('asdasd');
-  console.log(subjectsByUser);
+  const subjectsByUser = await SubjectService.getByUser(user);
   return (
     <>
       <div className='flex w-full justify-center bg-primaryBlue md:flex'>

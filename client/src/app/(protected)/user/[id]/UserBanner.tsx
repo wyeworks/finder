@@ -7,7 +7,6 @@ import {
   InstagramButton,
   LinkedInButton,
   RedditButton,
-  TelegramButton,
   TwitterButton,
   WhatsappButton,
 } from '@/components/common/SocialNetworkButton';
@@ -70,9 +69,6 @@ function PhoneNumberLayout(props: { user: User }) {
     <div className={'mb-3'}>
       {props.user.social_networks?.whatsapp && (
         <WhatsappButton number={props.user.social_networks.whatsapp} />
-      )}
-      {props.user.social_networks?.telegram && (
-        <TelegramButton link={props.user.social_networks.telegram} />
       )}
     </div>
   );

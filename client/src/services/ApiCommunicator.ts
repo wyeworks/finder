@@ -145,6 +145,8 @@ export class ApiCommunicator {
     return await this.commonFetch({
       url: this.apiUrl() + '/users/' + id + '/subjects',
       method: 'GET',
+      mustBeAuthenticated: true,
+      asJSON: false,
     });
   }
 

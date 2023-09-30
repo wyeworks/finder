@@ -46,6 +46,8 @@ export default function FormPersonalInfo({
 }: FormPersonalInfoProps) {
   const { data: session, update: onSessionUpdate } = useSession();
 
+  const currentDate = new Date();
+
   let birthdate = '';
   // parse birthdate
   if (user.birth_date) {
@@ -84,11 +86,11 @@ export default function FormPersonalInfo({
       });
       return changed != -1;
     };
-    const changedCareerAndSubjects = () => {
+    const changedCareerOrSubjects = () => {
       return (
-        JSON.stringify(formData.career_ids) ===
-          JSON.stringify(user.career_ids ?? []) &&
-        JSON.stringify(formData.subject_ids) ===
+        JSON.stringify(formData.career_ids) !==
+          JSON.stringify(user.career_ids ?? []) ||
+        JSON.stringify(formData.subject_ids) !==
           JSON.stringify(user.subject_ids ?? [])
       );
     };
@@ -98,7 +100,7 @@ export default function FormPersonalInfo({
         formData.biography.trim() === (user.bio ?? '') &&
         formData.birthdate === birthdate &&
         !changedSocialNetworks() &&
-        !changedCareerAndSubjects
+        !changedCareerOrSubjects()
       ) {
         setDisabledSubmittButton(true);
       } else {
@@ -221,7 +223,15 @@ export default function FormPersonalInfo({
           value={formData.birthdate}
           onChange={handleChange}
           classNameInput='bg-backgroundInput'
-          max={new Date().toISOString().split('T')[0]}
+          max={
+            new Date(
+              currentDate.getFullYear() - 17,
+              currentDate.getMonth(),
+              currentDate.getDate()
+            )
+              .toISOString()
+              .split('T')[0]
+          }
         />
         <div className='block w-full'>
           <TextArea
@@ -268,9 +278,7 @@ export default function FormPersonalInfo({
                     type='text'
                     id={key}
                     pattern={
-                      key != 'whatsapp' && key != 'telegram'
-                        ? `^.*${key}\.com\/.+`
-                        : '[0-9]*'
+                      key != 'whatsapp' ? `^.*${key}\.com\/.+` : '[0-9]*'
                     }
                     name={key}
                     Icon={returnSocialNetworkIcon(key)}
@@ -281,7 +289,7 @@ export default function FormPersonalInfo({
                     classNameInput='bg-backgroundInput'
                     classNameWrapper='h-[50px]'
                     validateText={
-                      key != 'whatsapp' && key != 'telegram'
+                      key != 'whatsapp'
                         ? strings.configProfile.forms.personalInfo
                             .socialNetworks.validateText
                         : 'Escribe un número correcto'
@@ -323,7 +331,6 @@ function generateSocialNetworks(user: User) {
     'twitter',
     'facebook',
     'reddit',
-    'telegram',
     'whatsapp',
   ];
   const result: SocialNetworks = {};
