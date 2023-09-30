@@ -51,3 +51,7 @@ es:
             password:
               blank: "La contraseña no puede estar vacía"
               too_short: "La contraseña es demasiado corta. Debe tener al menos 8 caracteres"
+        request:
+          attributes:
+            user:
+              required: "El usuario es requerido"
