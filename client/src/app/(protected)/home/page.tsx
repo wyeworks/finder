@@ -17,7 +17,9 @@ export default async function HomePage() {
                 {session.user && (
                   <>
                     <strong>{session.user.name}</strong>
-                    <Link href={'/user/' + session.user.id}>Ver mi perfil</Link>
+                    <Link href={'/users/' + session.user.id}>
+                      Ver mi perfil
+                    </Link>
                   </>
                 )}
               </li>
@@ -27,7 +29,7 @@ export default async function HomePage() {
               <li className='mt-3'>
                 {/* this is a temporary button to test functionality easier */}
                 <Link
-                  href='/createGroup'
+                  href='/groups/new'
                   className='rounded-md bg-primaryBlue p-3 text-white'
                 >
                   Crear grupo

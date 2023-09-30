@@ -18,21 +18,23 @@ import { signOut } from 'next-auth/react';
 import defaultUser from '@/assets/images/default_user.png';
 import Link from 'next/link';
 
-const userNavigation = [
+const userNavigation = (user: User) => [
+  {
+    name: strings.header.navOptions.viewProfile,
+    href: `/users/${user.id}`,
+  },
   {
     name: strings.header.navOptions.editProfile,
-    href: '/configprofile',
+    href: `/users/${user.id}/edit`,
   },
   {
     name: strings.header.navOptions.endSession,
     href: '#',
-    onClick: () => {
-      signOut();
-    },
+    onClick: () => signOut().catch((e) => console.log(e)),
   },
 ];
 
-const userNavigationMobile = [
+const userNavigationMobile = (user: User) => [
   {
     name: strings.header.navOptions.notifications,
     href: '#',
@@ -44,17 +46,20 @@ const userNavigationMobile = [
     icon: <MessageIcon className='mr-3 h-4 w-4' />,
   },
   {
+    name: strings.header.navOptions.viewProfile,
+    href: `/users/${user.id}`,
+    icon: <EditIcon className='mr-3 h-4 w-4' />,
+  },
+  {
     name: strings.header.navOptions.editProfile,
-    href: '/configprofile',
+    href: `/users/${user.id}/edit`,
     icon: <EditIcon className='mr-3 h-4 w-4' />,
   },
   {
     name: strings.header.navOptions.endSession,
     href: '#',
     icon: <LogOutIcon className='mr-2 h-5 w-5' />,
-    onClick: () => {
-      signOut();
-    },
+    onClick: () => signOut().catch((e) => console.log(e)),
   },
 ];
 
@@ -136,7 +141,7 @@ export default function Header({ user }: HeaderProps) {
                         leaveTo='transform opacity-0 scale-95'
                       >
                         <Menu.Items className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-                          {userNavigation.map((item) => (
+                          {userNavigation(user).map((item) => (
                             <Menu.Item key={item.name}>
                               <Link
                                 href={item.href}
@@ -191,7 +196,7 @@ export default function Header({ user }: HeaderProps) {
                   </div>
                 </div>
                 <div className='mt-3 space-y-1 px-2'>
-                  {userNavigationMobile.map((item) => (
+                  {userNavigationMobile(user).map((item) => (
                     <Disclosure.Button
                       key={item.name}
                       as='a'

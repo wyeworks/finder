@@ -12,7 +12,7 @@ export class GroupService {
   }
 
   public static async getActiveGroups(user: User): Promise<StudyGroup[]> {
-    Logger.debug('Getting active groups for user: ' + user.name);
+    Logger.debug('Getting active groups for users: ' + user.name);
 
     const BasesDeDatos: StudyGroup = {
       id: 1,
@@ -41,7 +41,7 @@ export class GroupService {
 
     const grupos: StudyGroup[] = [BasesDeDatos, TProg, RedesComp];
 
-    Logger.debug('Active groups for user: ' + user.name + ' are: ' + grupos);
+    Logger.debug('Active groups for users: ' + user.name + ' are: ' + grupos);
     return Promise.resolve(grupos);
   }
 }

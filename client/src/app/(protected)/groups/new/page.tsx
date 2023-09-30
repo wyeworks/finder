@@ -90,7 +90,7 @@ export default function CreateGroup() {
       });
       nextPage();
     } catch (error) {
-      Logger.debug('Error trying to create group' + { error });
+      Logger.debug('Error trying to create groups' + { error });
       setError(true);
       nextPage();
     }

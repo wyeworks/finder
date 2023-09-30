@@ -7,7 +7,7 @@ describe('GroupInfo', () => {
     id: 123,
     subject_id: 1,
     name: 'Test Group',
-    description: 'This is a description for the test group.',
+    description: 'This is a description for the test groups.',
     size: 10,
   };
 
@@ -22,7 +22,7 @@ describe('GroupInfo', () => {
     render(<GroupInfo group={mockGroup} subject={mockSubject} />);
   });
 
-  it('displays the group name and ID correctly', () => {
+  it('displays the groups name and ID correctly', () => {
     render(<GroupInfo group={mockGroup} subject={mockSubject} />);
     const groupName = screen.getByText('Test Group #123');
     expect(groupName).toBeInTheDocument();
@@ -34,15 +34,15 @@ describe('GroupInfo', () => {
     expect(subjectName).toBeInTheDocument();
   });
 
-  it('displays the group description', () => {
+  it('displays the groups description', () => {
     render(<GroupInfo group={mockGroup} subject={mockSubject} />);
     const description = screen.getByText(
-      'This is a description for the test group.'
+      'This is a description for the test groups.'
     );
     expect(description).toBeInTheDocument();
   });
 
-  it('displays the size of the group correctly', () => {
+  it('displays the size of the groups correctly', () => {
     render(<GroupInfo group={mockGroup} subject={mockSubject} />);
     const groupSize = screen.getByText('10 integrantes máximo');
     expect(groupSize).toBeInTheDocument();

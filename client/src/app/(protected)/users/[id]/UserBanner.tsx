@@ -21,14 +21,10 @@ type UserBannerProps = {
   session: Session | null;
 };
 
-function EditButton() {
+function EditButton(props: { user: User }) {
   return (
-    <Link data-testid={'editButton'} href={'/configprofile'}>
-      <button
-        className={
-          'flex w-fit items-center rounded-md bg-[#2B2D54] p-2 lg:self-end'
-        }
-      >
+    <Link data-testid={'editButton'} href={`/users/${props.user.id}/edit`}>
+      <button className='flex w-fit items-center rounded-md bg-[#2B2D54] p-2 lg:self-end'>
         <EditIcon className={'m-2 h-5 w-5 fill-white'} />
         <p className={'mr-2 text-lg font-medium text-white'}>Editar perfil</p>
       </button>
@@ -180,7 +176,7 @@ export default async function UserBanner({ user, session }: UserBannerProps) {
         </div>
         <div className='mb-10 flex flex-col items-center lg:mb-0 lg:mr-20 lg:justify-around'>
           {user.social_networks && <SocialLinksLayout user={user} />}
-          {session?.user?.email === user.email && <EditButton />}
+          {session?.user?.email === user.email && <EditButton user={user} />}
         </div>
       </div>
     </div>
