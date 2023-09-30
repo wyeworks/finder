@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe GroupsController, type: :request do
-  #
-  #
   # Index
-
   describe 'GET /groups' do
     let(:groups) { create_list :group, 2 }
 
@@ -28,10 +25,7 @@ RSpec.describe GroupsController, type: :request do
     end
   end
 
-  #
-  #
   # Show
-
   describe 'GET /groups/:id' do
     let(:group) { create(:group) }
 
@@ -73,10 +67,7 @@ RSpec.describe GroupsController, type: :request do
     end
   end
 
-  #
-  #
   # Create
-
   describe 'POST /groups' do
     let(:user) { create :user }
     let(:subject) { create :subject }
@@ -198,10 +189,7 @@ RSpec.describe GroupsController, type: :request do
     end
   end
 
-  #
-  #
   # Update
-
   describe 'PATCH /groups/:id' do
     let(:user) { create :user }
     let(:subject) { create :subject }
@@ -327,10 +315,7 @@ RSpec.describe GroupsController, type: :request do
     end
   end
 
-  #
-  #
   # Destroy
-
   describe 'DELETE /groups/:id' do
     let(:user) { create :user }
     let(:group) { create :group }
