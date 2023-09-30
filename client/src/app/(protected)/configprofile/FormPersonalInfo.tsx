@@ -9,6 +9,7 @@ import { User } from '@/types/User';
 import {
   formatDate,
   parseCareerToOption,
+  parseSubjectToOption,
   returnSocialNetworkIcon,
 } from '@/utils/Formatter';
 import { useEffect, useState } from 'react';
@@ -32,50 +33,18 @@ type FormPersonalInfoProps = {
   user: User;
   subjects?: Subject[];
   careers?: Career[];
+  careersByUser?: Career[];
+  subjectsByUser?: Subject[];
 };
 
 export default function FormPersonalInfo({
   user,
-  // session,
-  // onSessionUpdate,
-  // subjects = [],
   careers = [],
+  careersByUser = [],
+  subjects = [],
+  subjectsByUser = [],
 }: FormPersonalInfoProps) {
   const { data: session, update: onSessionUpdate } = useSession();
-  // eslint-disable-next-line no-unused-vars
-  const [careersByUser, setCareersByUser] = useState<Career[]>([]);
-  // const [subjectsByUser, setSubjectsByUser] = useState<Subject[]>([]);
-  // const getCareers = async () => {
-  //   try {
-  //     const response = await fetch('/api/careers');
-  //     if (!response.ok) {
-  //       return null;
-  //     }
-  //     return await response.json();
-  //   } catch (error) {
-  //     Logger.error('Error trying to get careers:' + { error });
-  //     return null;
-  //   }
-  // };
-  useEffect(() => {
-    console.log(careersByUser);
-  }, [careersByUser]);
-
-  // useEffect(() => {
-  //   const fetchCareerByUser = async () => {
-  //     if (user) {
-  //       // const careers = await CareerService.getByUser(user)
-  //       const careers = await getCareers();
-  //       if (careers) {
-  //         setCareersByUser(careers);
-  //       }
-  //       // const subjects = await SubjectService.getByUser(user);
-  //       // setSubjectsByUser(subjects);
-  //     }
-  //   };
-  //   fetchCareerByUser();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   let birthdate = '';
   // parse birthdate
@@ -91,6 +60,7 @@ export default function FormPersonalInfo({
     career_ids: user?.career_ids ?? [],
     subject_ids: user?.subject_ids ?? [],
   });
+
   const [touched, setTouched] = useState({
     name: false,
     birthdate: false,
@@ -114,12 +84,21 @@ export default function FormPersonalInfo({
       });
       return changed != -1;
     };
+    const changedCareerAndSubjects = () => {
+      return (
+        JSON.stringify(formData.career_ids) ===
+          JSON.stringify(user.career_ids ?? []) &&
+        JSON.stringify(formData.subject_ids) ===
+          JSON.stringify(user.subject_ids ?? [])
+      );
+    };
     const changesWereMade = () => {
       if (
         formData.name.trim() === user.name &&
         formData.biography.trim() === (user.bio ?? '') &&
         formData.birthdate === birthdate &&
-        !changedSocialNetworks()
+        !changedSocialNetworks() &&
+        !changedCareerAndSubjects
       ) {
         setDisabledSubmittButton(true);
       } else {
@@ -152,7 +131,6 @@ export default function FormPersonalInfo({
   };
 
   const handleChangeCareers = (ids: string[]) => {
-    console.log('hola');
     setFormData((prevState) => ({
       ...prevState,
       career_ids: ids.map((id) => {
@@ -161,14 +139,14 @@ export default function FormPersonalInfo({
     }));
   };
 
-  // const handleChangeSubjects = (ids: string[]) => {
-  //   setFormData((prevState) => ({
-  //     ...prevState,
-  //     subject_ids: ids.map((id) => {
-  //       return Number(id);
-  //     }),
-  //   }));
-  // };
+  const handleChangeSubjects = (ids: string[]) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      subject_ids: ids.map((id) => {
+        return Number(id);
+      }),
+    }));
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -259,29 +237,24 @@ export default function FormPersonalInfo({
             maxWidth={false}
           />
           {/* Careers and subject sections */}
-          {careers.length != 0 && (
-            <>
-              <DynamicAutoCompletes
-                title='Carreras'
-                placeholder='Elije una carrera'
-                options={parseCareerToOption(careers)}
-                onChangeActualOptions={handleChangeCareers}
-                // defaultOptions={[{key: 'asdasd', label: 'asdasd'}, {key: '1231231', label: 'asdaqawdafsd'}]}
-                defaultOptions={parseCareerToOption(careers)}
-                buttonIds='career_button_'
-                dropDownIds='career_dropdown_'
-              />
-            </>
-          )}
-          {/* <DynamicAutoCompletes
+          <DynamicAutoCompletes
+            title='Carreras'
+            placeholder='Elije una carrera'
+            options={parseCareerToOption(careers)}
+            onChangeActualOptions={handleChangeCareers}
+            defaultOptions={parseCareerToOption(careersByUser)}
+            buttonIds='career_button_'
+            dropDownIds='career_dropdown_'
+          />
+          <DynamicAutoCompletes
             title='Materias'
             placeholder='Elije una materia'
             options={parseSubjectToOption(subjects)}
-            updateCounter={updateCounter}
-            counterId={globalIdCounter}
             onChangeActualOptions={handleChangeSubjects}
-            // defaultOptions={parseCareerToOption(careers)}
-          /> */}
+            defaultOptions={parseSubjectToOption(subjectsByUser)}
+            buttonIds='subject_button_'
+            dropDownIds='subject_dropdown_'
+          />
 
           <div className='block py-2'>
             <label className='block text-sm font-medium leading-6 text-gray-900'>

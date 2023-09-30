@@ -19,7 +19,7 @@ export default async function Page({ params }: Props) {
   const user = await ApiCommunicator.getUser(params.id);
   const groups = await GroupService.getActiveGroups(user);
   const session = await getServerSession(authOptions);
-  const subjects = await SubjectService.getByUser(user);
+  const subjects = await SubjectService.getByUser(user.id);
 
   return (
     <div className='bg-white md:bg-whiteCustom'>

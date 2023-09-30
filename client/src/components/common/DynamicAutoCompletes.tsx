@@ -56,6 +56,7 @@ export default function DynamicAutoCompletes({
       ]);
     });
     SetCounterId(count);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onOptionDelete = function (id: string) {
@@ -82,9 +83,13 @@ export default function DynamicAutoCompletes({
 
   useEffect(() => {
     onChangeActualOptions?.(
-      dropDowns.map((dropDown) => {
-        return dropDown.key;
-      })
+      dropDowns
+        .filter((dropDown) => {
+          return dropDown.key != '';
+        })
+        .map((dropDown) => {
+          return dropDown.key;
+        })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dropDowns]);
@@ -158,18 +163,16 @@ function OptionsAdded({
             <div className='w-[80%] md:w-[90%]'>
               <AutoComplete
                 value={{ key: dropDown.key, label: dropDown.label }}
-                options={options}
-                disableOption={(option: Option) => {
+                options={options.filter((option) => {
                   return (
                     dropDowns.findIndex((career) => {
                       return career.key === option.key;
-                    }) != -1
+                    }) == -1
                   );
-                }}
+                })}
                 onChange={(option: Option) => {
                   onOptionChange(dropDown.input_id, option.label, option.key);
                 }}
-                disabledText='Ya fue seleccionada'
                 placeholder={placeholder}
               />
             </div>

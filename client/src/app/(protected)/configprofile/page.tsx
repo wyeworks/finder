@@ -8,7 +8,10 @@ export default async function ConfigProfile() {
   const user = await ApiCommunicator.getUser(session!.user.id!);
   const subjects = await ApiCommunicator.getSubjects();
   const careers = await ApiCommunicator.getCareers();
-
+  const careersByUser = await ApiCommunicator.getCareersByUser(user.id);
+  const subjectsByUser = await ApiCommunicator.getSubjectsByUser(user.id);
+  console.log('asdasd');
+  console.log(subjectsByUser);
   return (
     <>
       <div className='flex w-full justify-center bg-primaryBlue md:flex'>
@@ -23,6 +26,8 @@ export default async function ConfigProfile() {
               user={user}
               subjects={subjects}
               careers={careers}
+              careersByUser={careersByUser}
+              subjectsByUser={subjectsByUser}
             />
           )}
         </div>

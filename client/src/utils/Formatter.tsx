@@ -25,7 +25,7 @@ export function removeAccents(str: string) {
 
 export function parseSubjectToOption(subjects: Subject[]): Option[] {
   const options: Option[] = subjects.map((subject) => ({
-    label: subject.name,
+    label: subject.name + ' - (' + subject.code + ')',
     key: subject.id.toString(),
   }));
   return options;
