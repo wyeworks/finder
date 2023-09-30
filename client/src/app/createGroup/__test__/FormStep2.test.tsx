@@ -5,7 +5,9 @@ import strings from '@/locales/strings.json';
 
 describe('Create Group FormStep2', () => {
   test('renders label,input and button elements', () => {
-    render(<FormStep2 nextPage={() => {}} setValue={() => {}} />);
+    render(
+      <FormStep2 nextPage={() => {}} setValue={() => {}} back={() => {}} />
+    );
 
     expect(
       screen.getByText(strings.createGroup.step2.description1)
@@ -27,7 +29,13 @@ describe('Create Group FormStep2', () => {
     const nextPageMock = jest.fn();
     const setValueMock = jest.fn();
 
-    render(<FormStep2 nextPage={nextPageMock} setValue={setValueMock} />);
+    render(
+      <FormStep2
+        nextPage={nextPageMock}
+        setValue={setValueMock}
+        back={() => {}}
+      />
+    );
 
     screen
       .getByPlaceholderText(strings.form.nameGroupInput.placeholder)

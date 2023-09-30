@@ -88,22 +88,24 @@ export default function SearchDropdown({
           </span>
           {isOpen && (
             <ul className='absolute z-10 mt-1 max-h-72 w-full overflow-auto rounded-md bg-white shadow-lg '>
-              {filteredOptions.map((option) => (
-                <li
-                  key={option.key}
-                  onClick={() => handleChangeOption(option.label, option.key)}
-                  className={`cursor-pointer px-3 py-2 text-sm text-gray-900 hover:bg-gray-200 ${
-                    disableOption?.(option)
-                      ? 'pointer-events-none text-slate-400'
-                      : ''
-                  } `}
-                >
-                  <span className='block'>{option.label}</span>
-                  {disableText != '' && disableOption?.(option) && (
-                    <span className='block text-xs'>{disableText}</span>
-                  )}
-                </li>
-              ))}
+              {filteredOptions
+                .sort((a, b) => a.label.localeCompare(b.label))
+                .map((option) => (
+                  <li
+                    key={option.key}
+                    onClick={() => handleChangeOption(option.label, option.key)}
+                    className={`cursor-pointer px-3 py-2 text-sm text-gray-900 hover:bg-gray-200 ${
+                      disableOption?.(option)
+                        ? 'pointer-events-none text-slate-400'
+                        : ''
+                    } `}
+                  >
+                    <span className='block'>{option.label}</span>
+                    {disableText != '' && disableOption?.(option) && (
+                      <span className='block text-xs'>{disableText}</span>
+                    )}
+                  </li>
+                ))}
             </ul>
           )}
         </div>

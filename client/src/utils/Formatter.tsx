@@ -67,21 +67,21 @@ export const translatePreference = (preference: TimeOfDay): string => {
 };
 
 export const translateSpanishDays: { [key: string]: string } = {
-  Domingo: 'Sunday',
   Lunes: 'Monday',
   Martes: 'Tuesday',
   Miércoles: 'Wednesday',
   Jueves: 'Thursday',
   Viernes: 'Friday',
   Sábado: 'Saturday',
+  Domingo: 'Sunday',
 };
 
 export const translateEnglishDays: { [key: string]: string } = {
-  Sunday: 'Domingo',
   Monday: 'Lunes',
   Tuesday: 'Martes',
   Wednesday: 'Miércoles',
   Thursday: 'Jueves',
   Friday: 'Viernes',
   Saturday: 'Sábado',
+  Sunday: 'Domingo',
 };
