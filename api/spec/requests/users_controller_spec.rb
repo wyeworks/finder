@@ -24,11 +24,9 @@ RSpec.describe UsersController, type: :request do
   end
 
   describe 'GET /users/:id/careers' do
-    let(:user) { create :user }
+    let(:user) { create :user, :with_careers }
 
     before do
-      create_list(:career, 2, users: [user])
-
       get careers_user_path(user)
     end
 
@@ -49,11 +47,9 @@ RSpec.describe UsersController, type: :request do
   end
 
   describe 'GET /users/:id/subjects' do
-    let(:user) { create :user }
+    let(:user) { create :user, :with_subjects }
 
     before do
-      create_list(:subject, 2, users: [user])
-
       get subjects_user_path(user)
     end
 
