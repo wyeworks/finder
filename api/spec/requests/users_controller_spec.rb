@@ -24,7 +24,7 @@ RSpec.describe UsersController, type: :request do
   end
 
   describe 'GET /users/:id/careers' do
-    let(:user) { build :user }
+    let(:user) { create :user }
 
     before do
       create_list(:career, 2, users: [user])
