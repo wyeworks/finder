@@ -76,6 +76,7 @@
     "navOptions": {
       "notifications": "Notificaciones",
       "messages": "Mensajes",
+      "viewProfile": "Ver perfil",
       "editProfile": "Editar perfil",
       "endSession": "Cerrar sesión"
     }

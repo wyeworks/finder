@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import UserBanner from '@/app/(protected)/user/[id]/UserBanner';
+import UserBanner from '@/app/(protected)/users/[id]/UserBanner';
 import {
   SocialNetworksBuilder,
   UserBuilder,
@@ -13,13 +13,13 @@ describe('UserBanner Component', () => {
     render(<UserBanner user={usuarioTipico} session={null} />);
   });
 
-  it('should show the user name', () => {
+  it('should show the users name', () => {
     render(<UserBanner user={usuarioTipico} session={null} />);
 
     expect(document.querySelector('h1')).toHaveTextContent(usuarioTipico.name);
   });
 
-  it('should show the user profile picture if it exists', () => {
+  it('should show the users profile picture if it exists', () => {
     render(<UserBanner user={usuarioTipico} session={null} />);
 
     const profileImage = screen.getByTestId('profileImage');
@@ -27,7 +27,7 @@ describe('UserBanner Component', () => {
     expect(profileImage).toBeInTheDocument();
   });
 
-  it('should show a default profile picture if the user does not have one', () => {
+  it('should show a default profile picture if the users does not have one', () => {
     const usuarioSinFoto = UserBuilder.aUser()
       .withProfileImage(undefined)
       .build();
@@ -39,7 +39,7 @@ describe('UserBanner Component', () => {
     expect(profileImage).toBeInTheDocument();
   });
 
-  it('should show the user bio if it exists', () => {
+  it('should show the users bio if it exists', () => {
     const usuarioConBio = UserBuilder.aUser().withBio('Bio de prueba').build();
 
     render(<UserBanner user={usuarioConBio} session={null} />);
@@ -47,7 +47,7 @@ describe('UserBanner Component', () => {
     expect(screen.getByText('Bio de prueba')).toBeInTheDocument();
   });
 
-  it('should show a default bio if the user does not have one', () => {
+  it('should show a default bio if the users does not have one', () => {
     const usuarioSinBio = UserBuilder.aUser().withBio(undefined).build();
 
     render(<UserBanner user={usuarioSinBio} session={null} />);
@@ -56,8 +56,8 @@ describe('UserBanner Component', () => {
   });
 
   describe('Social Networks links', () => {
-    describe('When the user has social networks', () => {
-      it("should show the user's social media link instagram if it exists", () => {
+    describe('When the users has social networks', () => {
+      it("should show the users's social media link instagram if it exists", () => {
         const usuarioConInstagram = UserBuilder.aUser()
           .withSocialNetworks(
             SocialNetworksBuilder.aSocialNetworks().withInstagram('instagram')
@@ -69,7 +69,7 @@ describe('UserBanner Component', () => {
         expect(screen.getByTestId('InstagramButton')).toBeInTheDocument();
       });
 
-      it("should show the user's social media link twitter if it exists", () => {
+      it("should show the users's social media link twitter if it exists", () => {
         const usuarioConTwitter = UserBuilder.aUser()
           .withSocialNetworks(
             SocialNetworksBuilder.aSocialNetworks().withTwitter('twitter')
@@ -81,7 +81,7 @@ describe('UserBanner Component', () => {
         expect(screen.getByTestId('TwitterButton')).toBeInTheDocument();
       });
 
-      it("should show the user's social media link linkedin if it exists", () => {
+      it("should show the users's social media link linkedin if it exists", () => {
         const usuarioConLinkedIn = UserBuilder.aUser()
           .withSocialNetworks(
             SocialNetworksBuilder.aSocialNetworks().withLinkedin('linkedin')
@@ -93,7 +93,7 @@ describe('UserBanner Component', () => {
         expect(screen.getByTestId('LinkedInButton')).toBeInTheDocument();
       });
 
-      it("should show the user's social media link discord if it exists", () => {
+      it("should show the users's social media link discord if it exists", () => {
         const usuarioConDiscord = UserBuilder.aUser()
           .withSocialNetworks(
             SocialNetworksBuilder.aSocialNetworks().withDiscord('discord')
@@ -125,7 +125,7 @@ describe('UserBanner Component', () => {
       });
     });
 
-    it("When the user doesn't have social networks", () => {
+    it("When the users doesn't have social networks", () => {
       const usuarioSinRedes = UserBuilder.aUser()
         .withSocialNetworks(undefined)
         .build();
@@ -138,7 +138,7 @@ describe('UserBanner Component', () => {
     });
   });
 
-  it('should show a button to edit the profile if the user is the owner of the profile', () => {
+  it('should show a button to edit the profile if the users is the owner of the profile', () => {
     const usuarioLogueado = UserBuilder.aUser().build();
     const sessionDeUsuario = {
       user: {
@@ -151,7 +151,7 @@ describe('UserBanner Component', () => {
     expect(screen.getByTestId('editButton')).toBeInTheDocument();
   });
 
-  it('should not show a button to edit the profile if the user is not the owner of the profile', () => {
+  it('should not show a button to edit the profile if the users is not the owner of the profile', () => {
     const usuario = UserBuilder.aUser().build();
     const sessionDeOtroUsuario = {
       user: {
