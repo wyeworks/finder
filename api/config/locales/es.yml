@@ -33,6 +33,10 @@ es:
               inclusion: "El rol utilizado no es una opción válida"
             user:
               required: "El miembro debe estar asociado a un usuario"
+        request:
+          attributes:
+            user:
+              required: "El usuario es requerido"
         subject:
           attributes:
             code:
