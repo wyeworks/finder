@@ -19,7 +19,7 @@ export default async function ConfigProfile() {
         </p>
       </div>
       <div className='flex min-h-[500px] justify-center py-5'>
-        <div className='block w-[98vw] rounded-lg md:w-[40%]'>
+        <div className='block w-[98vw] rounded-lg md:w-[90%] lg:w-[85%] xl:w-[40%]'>
           {user && (
             <FormPersonalInfo
               user={user}
