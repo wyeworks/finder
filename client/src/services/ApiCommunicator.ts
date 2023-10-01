@@ -138,6 +138,7 @@ export class ApiCommunicator {
       method: 'POST',
       data,
       mustBeAuthenticated: true,
+      asJSON: false,
     });
   }
 
