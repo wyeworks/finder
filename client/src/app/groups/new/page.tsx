@@ -11,7 +11,7 @@ import { Logger } from '@/services/Logger';
 import ErrorCreateGroup from './ErrorCreateGroup';
 import { BackendError } from '@/types/BackendError';
 import strings from '@/locales/strings.json';
-import { TimePreference } from '@/types/StudyGroup';
+import { TimeOfDay, TimePreference } from '@/types/StudyGroup';
 import CrossIcon from '@/assets/Icons/CrossIcon';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 
@@ -28,12 +28,21 @@ export default function CreateGroup() {
   const router = useRouter();
   const [actualStep, setActualStep] = useState<number>(1);
   const barWidth = `${(actualStep / 5) * 100}%`;
+  const noPreferences = TimeOfDay.NoPreferences;
   const [createGroupData, setCreateGroupData] = useState<CreateGroupData>({
     name: '',
     subjectId: '',
     description: '',
     size: '',
-    timePreference: {},
+    timePreference: {
+      Sunday: noPreferences,
+      Monday: noPreferences,
+      Tuesday: noPreferences,
+      Wednesday: noPreferences,
+      Thursday: noPreferences,
+      Friday: noPreferences,
+      Saturday: noPreferences,
+    },
   });
   const [error, setError] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
