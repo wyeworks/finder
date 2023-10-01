@@ -1,21 +1,25 @@
 import Button from '@/components/common/Button';
-import CrossIcon from '@/assets/Icons/CrossIcon';
 import { Option } from '@/types/Option';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddIcon from '@/assets/Icons/AddIcon';
 import AutoComplete from '@/components/common/AutoComplete';
+import TrashIcon from '@/assets/Icons/TrashIcon';
 
-interface CareersAndSubjectsProps {
+interface DynamicAutoCompletesProp {
   options: Option[];
   title?: string;
   placeholder?: string;
-  counterId: number;
-  updateCounter: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onChangeActualOptions?: (id: string[]) => void;
+  defaultOptions?: Option[];
+  //used for creating custom ids
+  dropDownIds: string;
+  buttonIds: string;
 }
 
 //button_id example = button_1,button_2...
 //input_id example = dropdown_1,dropdown_2...
-type CareerDropDownType = {
+type dropDownType = {
   label: string;
   key: string;
   button_id: string;
@@ -26,15 +30,34 @@ export default function DynamicAutoCompletes({
   options,
   title = '',
   placeholder = '',
-  counterId,
-  updateCounter,
-}: CareersAndSubjectsProps) {
-  const [selectedOption, setSelectedCareer] = useState<Option>({
-    key: '',
-    label: '',
-  });
+  onChangeActualOptions,
+  buttonIds,
+  dropDownIds,
+  defaultOptions = [],
+}: DynamicAutoCompletesProp) {
   // all the next inputs for deleting dropdowns
-  const [dropDowns, setDropDowns] = useState<CareerDropDownType[]>([]);
+  const [counterId, SetCounterId] = useState<number>(0);
+  const [dropDowns, setDropDowns] = useState<dropDownType[]>([]);
+
+  useEffect(() => {
+    let count = counterId;
+    defaultOptions.forEach((option) => {
+      const newInputId = dropDownIds + count.toString();
+      const newButtonId = buttonIds + count.toString();
+      count = count + 1;
+      setDropDowns((prevState) => [
+        ...prevState,
+        {
+          label: option.label,
+          key: option.key,
+          button_id: newButtonId,
+          input_id: newInputId,
+        },
+      ]);
+    });
+    SetCounterId(count);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onOptionDelete = function (id: string) {
     const dropDownsAux = dropDowns.filter((dropDown) => {
@@ -57,63 +80,55 @@ export default function DynamicAutoCompletes({
     });
     setDropDowns(dropDownsAux);
   };
+
+  useEffect(() => {
+    onChangeActualOptions?.(
+      dropDowns
+        .filter((dropDown) => {
+          return dropDown.key != '';
+        })
+        .map((dropDown) => {
+          return dropDown.key;
+        })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dropDowns]);
   return (
     <>
       <label className='block text-sm font-medium leading-6 text-gray-900'>
         {title}
       </label>
-
-      <div className='mb-5 flex'>
-        <div className='w-[80%] md:w-[90%]'>
-          <AutoComplete
-            options={options}
-            onChange={(option) => {
-              setSelectedCareer({ key: option.key, label: option.label });
-            }}
-            value={selectedOption}
-            key={selectedOption.key}
-            disableOption={(option: Option) => {
-              return (
-                dropDowns.findIndex((career) => {
-                  return career.key === option.key;
-                }) != -1
-              );
-            }}
-            disabledText='Ya fue Seleccionada'
-            placeholder={placeholder}
-          />
-        </div>
-        <div className='w-[20%] md:w-[10%]'>
-          <Button
-            Icon={<AddIcon className='h-6 w-6 text-sky-500' />}
-            className='border border-gray-300 bg-white hover:bg-gray-200'
-            onClick={() => {
-              const newInputId = 'dropdown_' + counterId.toString();
-              const newButtonId = 'button_' + counterId.toString();
-              setDropDowns((prevState) => [
-                ...prevState,
-                {
-                  label: selectedOption?.label ?? '',
-                  key: selectedOption?.key ?? '',
-                  button_id: newButtonId,
-                  input_id: newInputId,
-                },
-              ]);
-              updateCounter();
-              setSelectedCareer({ key: '', label: '' });
-            }}
-          />
-        </div>
-      </div>
       <div>
         <OptionsAdded
           dropDowns={dropDowns}
           onOptionDelete={onOptionDelete}
           options={options}
           onOptionChange={onOptionChange}
-          currentlySelected={selectedOption}
           placeholder={placeholder}
         />
+      </div>
+      <div className='mb-5 flex'>
+        <div className='w-[100%] md:w-[100%]'>
+          <Button
+            id={buttonIds + 'add'}
+            Icon={<AddIcon className='h-6 w-6 text-sky-500' />}
+            className='border border-gray-300 bg-white hover:bg-gray-200'
+            onClick={() => {
+              const newInputId = { dropDownIds } + counterId.toString();
+              const newButtonId = { buttonIds } + counterId.toString();
+              setDropDowns((prevState) => [
+                ...prevState,
+                {
+                  label: '',
+                  key: '',
+                  button_id: newButtonId,
+                  input_id: newInputId,
+                },
+              ]);
+              SetCounterId(counterId + 1);
+            }}
+          />
+        </div>
       </div>
     </>
   );
@@ -121,13 +136,12 @@ export default function DynamicAutoCompletes({
 
 //FUNCTIONALITY FOR OTHER DROPDOWNS
 type dropDownProps = {
-  dropDowns: CareerDropDownType[];
+  dropDowns: dropDownType[];
   // eslint-disable-next-line no-unused-vars
   onOptionDelete: (id: string) => void;
   options: Option[];
   // eslint-disable-next-line no-unused-vars
   onOptionChange: (inputId: string, label: string, key: string) => void;
-  currentlySelected: Option;
   placeholder: string;
 };
 function OptionsAdded({
@@ -135,12 +149,11 @@ function OptionsAdded({
   onOptionDelete,
   options,
   onOptionChange,
-  currentlySelected,
   placeholder,
 }: dropDownProps) {
   return (
     <>
-      {dropDowns.toReversed().map((dropDown) => {
+      {dropDowns.map((dropDown) => {
         return (
           <div
             className='mb-5 flex'
@@ -149,31 +162,28 @@ function OptionsAdded({
             <div className='w-[80%] md:w-[90%]'>
               <AutoComplete
                 value={{ key: dropDown.key, label: dropDown.label }}
-                options={options}
-                disableOption={(option: Option) => {
+                options={options.filter((option) => {
                   return (
                     dropDowns.findIndex((career) => {
-                      return (
-                        career.key === option.key ||
-                        option.key === currentlySelected.key
-                      );
-                    }) != -1
+                      return career.key === option.key;
+                    }) == -1
                   );
-                }}
+                })}
                 onChange={(option: Option) => {
                   onOptionChange(dropDown.input_id, option.label, option.key);
                 }}
-                disabledText='Ya fue seleccionada'
                 placeholder={placeholder}
+                id={dropDown.input_id}
               />
             </div>
             <div className='w-[20%] md:w-[10%]'>
               <Button
-                Icon={<CrossIcon className='h-6 w-6 text-red-500' />}
+                Icon={<TrashIcon className='h-6 w-6 text-red-500' />}
                 className='border border-gray-300 bg-white hover:bg-gray-200'
                 onClick={() => {
                   onOptionDelete(dropDown.button_id);
                 }}
+                id={dropDown.button_id}
               />
             </div>
           </div>

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CareersController, type: :request do
+  # Index
   describe 'GET /careers' do
     let(:careers) { create_list :career, 2 }
 

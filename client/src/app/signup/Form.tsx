@@ -9,6 +9,7 @@ import strings from '@/locales/strings.json';
 import { BackendError } from '@/types/BackendError';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Logger } from '@/services/Logger';
 
 type SignUpFormData = {
@@ -56,30 +57,18 @@ export default function Form() {
     }
 
     try {
-      Logger.debug(
-        "Initializing POST request to '/api/signup' with body:",
-        formData
-      );
-      const response = await fetch('/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      Logger.debug('Received response:', response);
-
+      Logger.debug('Sending signup request with data:', formData);
+      const response = await ApiCommunicator.clientSideSignUp(formData);
       if (!response.ok) {
         const errorData = await response.json();
         const parsedError = errorData as BackendError;
         const errorMessages = [];
 
         if (parsedError.errors.email) {
-          errorMessages.push(strings.common.error.email);
+          errorMessages.push(parsedError.errors.email);
         }
         if (parsedError.errors.password) {
-          errorMessages.push(strings.common.error.password);
+          errorMessages.push(parsedError.errors.password);
         }
 
         setAlertMessage(errorMessages.join('\n'));
@@ -100,6 +89,7 @@ export default function Form() {
         className='grid max-w-xs grid-rows-register-form gap-1 sm:pl-7'
         onSubmit={handleSubmit}
         noValidate
+        autoComplete='off'
       >
         <Input
           type='text'
@@ -140,6 +130,7 @@ export default function Form() {
           value={formData.password}
           onChange={handleChange}
           touched={touched.password}
+          autoComplete='new-password'
         />
         <Button
           type='submit'

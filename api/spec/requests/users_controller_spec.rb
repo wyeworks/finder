@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :request do
+  # Show
   describe 'GET /users/:id' do
     let(:user) { create :user, :with_social_networks }
 
@@ -23,12 +24,55 @@ RSpec.describe UsersController, type: :request do
     end
   end
 
-  describe 'GET /users/:id/careers' do
+  # Destroy
+  describe 'DELETE /users/:id' do
     let(:user) { create :user }
 
-    before do
-      create_list(:career, 2, users: [user])
+    context 'when user is authenticated' do
+      let(:headers) { { 'Authorization' => response.headers['Authorization'] } }
 
+      before do
+        # Authenticates user
+        post user_session_path,
+             params: {
+               user: {
+                 email: user.email,
+                 password: user.password
+               }
+             }
+
+        delete user_path(user.id), headers:
+      end
+
+      it 'deletes the user successfully' do
+        expect(User.count).to eq(0)
+      end
+    end
+
+    context 'when user is not authenticated' do
+      let(:headers) { {} }
+
+      before do
+        delete user_path(user.id), headers:
+      end
+
+      it 'returns http unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns JSON containing error message' do
+        json_response = response.parsed_body
+
+        expect(json_response).to include('Tienes que registrarte o iniciar sesión antes de continuar')
+      end
+    end
+  end
+
+  # Careers
+  describe 'GET /users/:id/careers' do
+    let(:user) { create :user, :with_careers }
+
+    before do
       get careers_user_path(user)
     end
 
@@ -48,12 +92,11 @@ RSpec.describe UsersController, type: :request do
     end
   end
 
+  # Subjects
   describe 'GET /users/:id/subjects' do
-    let(:user) { create :user }
+    let(:user) { create :user, :with_subjects }
 
     before do
-      create_list(:subject, 2, users: [user])
-
       get subjects_user_path(user)
     end
 

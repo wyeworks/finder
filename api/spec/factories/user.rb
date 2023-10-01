@@ -6,10 +6,6 @@ FactoryBot.define do
     confirmed_at { DateTime.now }
     birth_date { DateTime.parse('2023-01-01') }
 
-    careers { build_list :career, 1, users: [] }
-
-    subjects { build_list :subject, 1, users: [] }
-
     trait :with_confirmation_token do
       confirmed_at { nil }
       confirmation_token { 'some_token' }
@@ -22,6 +18,14 @@ FactoryBot.define do
           instagram: 'bar'
         }
       end
+    end
+
+    trait :with_careers do
+      careers { build_list :career, 2 }
+    end
+
+    trait :with_subjects do
+      subjects { build_list :subject, 2 }
     end
   end
 end
