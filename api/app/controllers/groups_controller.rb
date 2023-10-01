@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: %i[show update destroy]
+  before_action :set_group, only: %i[show update destroy members]
   before_action :authenticate_user!, except: %i[index show]
   before_action :authorize_admin!, only: %i[update destroy]
 
@@ -62,6 +62,10 @@ class GroupsController < ApplicationController
         errors: @group.errors.messages
       }, status: :unprocessable_entity
     end
+  end
+
+  def members
+    render json: UserSerializer.new(@group.users).serializable_hash
   end
 
   private
