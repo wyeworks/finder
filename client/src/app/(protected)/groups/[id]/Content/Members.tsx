@@ -64,26 +64,55 @@ const exampleUsers: Member[] = [
 
 export default function Members() {
   return (
-    <div className='grid grid-rows-[60px,auto]'>
-      <div className='max-w-[100%] border border-solid border-gray-200 sm:max-w-none'>
-        <Input
-          id='filter-input'
-          name='filter-input'
-          type='text'
-          placeholder='Filtrar'
-          Icon={<FilterIcon className='h-5 w-5' />}
-          maxWidth={false}
-          classNameWrapper='m-3'
-        />
+    <div>
+      {/* Requests */}
+      <div className='grid grid-rows-[40px,60px,auto]'>
+        <h2 className=' p-2 text-lg font-bold'>Solicitudes</h2>
+        <div className='max-w-[100%] border border-solid border-gray-200 sm:max-w-none'>
+          <Input
+            id='filter-input-request'
+            name='filter-input-request'
+            type='text'
+            placeholder='Filtrar Solicitudes'
+            Icon={<FilterIcon className='h-5 w-5' />}
+            maxWidth={false}
+            classNameWrapper='m-3'
+          />
+        </div>
+        <div className=' max-h-72 overflow-auto border-b border-solid border-gray-200'>
+          {exampleUsers.map((user, index) => {
+            return (
+              <div key={index}>
+                <MemberCard member={user} />
+              </div>
+            );
+          })}
+        </div>
       </div>
-      <div className=' max-h-72 overflow-auto border-b border-solid border-gray-200'>
-        {exampleUsers.map((user, index) => {
-          return (
-            <div key={index}>
-              <MemberCard member={user} />
-            </div>
-          );
-        })}
+
+      {/* Members */}
+      <div className='mb-10 grid grid-rows-[40px,60px,auto]'>
+        <h2 className=' p-2 text-lg font-bold'>Miembros</h2>
+        <div className='max-w-[100%] border border-solid border-gray-200 sm:max-w-none'>
+          <Input
+            id='filter-input-members'
+            name='filter-input-members'
+            type='text'
+            placeholder='Filtrar Miembros'
+            Icon={<FilterIcon className='h-5 w-5' />}
+            maxWidth={false}
+            classNameWrapper='m-3'
+          />
+        </div>
+        <div className=' max-h-72 overflow-auto border-b border-solid border-gray-200'>
+          {exampleUsers.map((user, index) => {
+            return (
+              <div key={index}>
+                <MemberCard member={user} />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

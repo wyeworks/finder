@@ -3,16 +3,14 @@ type TagProps = {
 };
 
 function getBackgroundColor(type: string) {
-  if (type === 'Administrador') return '#BCEDFF';
-  return '#9ca3af';
+  if (type === 'Administrador') return 'bg-[#BCEDFF]';
+  return 'bg-[#9ca3af]';
 }
 
 export default function Tag({ type }: TagProps) {
   const backgroundColor = getBackgroundColor(type);
   return (
-    <div
-      className={`rounded-lg  bg-[${backgroundColor}] w-fit bg-gray-400 p-1  text-sm `}
-    >
+    <div className={`w-fit rounded-lg p-1  text-sm  ${backgroundColor} `}>
       {type}
     </div>
   );
