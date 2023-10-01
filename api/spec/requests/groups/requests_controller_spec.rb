@@ -66,23 +66,23 @@ RSpec.describe 'Groups::Requests', type: :request do
 
       context 'when group has reached its maximum capacity' do
         let(:group) { create(:group, size: 1) }
-        let!(:member) { create(:member, group: group) }
-      
+        let!(:member) { create(:member, group:) }
+
         before do
           post group_requests_path(group), headers:
         end
-      
+
         it 'does not create a new Request' do
           expect(Request.count).to eq(0)
         end
-      
+
         it 'returns an error status' do
           expect(response).to have_http_status(:unprocessable_entity)
         end
-      
+
         it 'returns JSON containing error messages' do
           json_response = response.parsed_body
-          expect(json_response['errors']['group']).to include("El grupo ya ha alcanzado su capacidad máxima")
+          expect(json_response['errors']['group']).to include('El grupo ya ha alcanzado su capacidad máxima')
         end
       end
 
@@ -106,7 +106,7 @@ RSpec.describe 'Groups::Requests', type: :request do
           expect(json_response['errors']['user']).to include('Ya formas parte de este grupo')
         end
       end
-    end    
+    end
 
     context 'when user is not authenticated' do
       before do
@@ -130,6 +130,7 @@ RSpec.describe 'Groups::Requests', type: :request do
     let(:user) { create :user }
     let(:group) { create :group }
     let!(:request) { create :request, user:, group: }
+    let!(:admin_member) { create(:member, user:, group:, role: 'admin') }
 
     context 'when user is authenticated' do
       let(:headers) { { 'Authorization' => response.headers['Authorization'] } }

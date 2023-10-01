@@ -1,8 +1,8 @@
 module Groups
   class RequestsController < ApplicationController
     before_action :set_group
-    before_action :set_request, :authorize_admin!, only: :update
     before_action :authenticate_user!
+    before_action :set_request, :authorize_admin!, only: :update
 
     def create
       @request = Request.new(status: 'pending', user: current_user, group: @group)
@@ -69,12 +69,12 @@ module Groups
 
     def authorize_admin!
       return if @group.admin?(current_user)
-  
+
       Rails.logger.info "User with ID ##{current_user.id} is not this group's Admin"
-  
+
       render json: {
         errors: {
-          group: ["El usuario con ID ##{current_user.id} no es administrador de este grupo"]
+          request: ["El usuario con ID ##{current_user.id} no es administrador de este grupo"]
         }
       }, status: :unauthorized
     end
