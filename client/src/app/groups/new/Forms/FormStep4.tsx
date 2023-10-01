@@ -9,11 +9,11 @@ import { translatePreference, translateSpanishDays } from '@/utils/Formatter';
 import LayoutForms from './layout';
 
 const preferences: Option[] = [
-  { key: TimeOfDay.No, label: translatePreference(TimeOfDay.No) },
   {
     key: TimeOfDay.NoPreferences,
     label: translatePreference(TimeOfDay.NoPreferences),
   },
+  { key: TimeOfDay.No, label: translatePreference(TimeOfDay.No) },
   { key: TimeOfDay.Afternoon, label: translatePreference(TimeOfDay.Afternoon) },
   { key: TimeOfDay.Morning, label: translatePreference(TimeOfDay.Morning) },
   { key: TimeOfDay.Night, label: translatePreference(TimeOfDay.Night) },
