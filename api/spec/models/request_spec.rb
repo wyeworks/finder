@@ -54,5 +54,23 @@ RSpec.describe Request, type: :model do
         expect(new_request.errors[:general]).to include(expected_error)
       end
     end
+
+    context 'when trying to modify a request with status accepted or rejected' do
+      let(:accepted_request) { create(:request, status: 'accepted') }
+      let(:rejected_request) { create(:request, :with_rejected_status, :with_reason) }
+      expected_error = 'No se puede modificar una solicitud que ya ha sido aceptada o rechazada'
+
+      it 'does not allow modification of an accepted request' do
+        accepted_request.status = 'pending'
+        expect(accepted_request.save).to be_falsey
+        expect(accepted_request.errors[:status]).to include(expected_error)
+      end
+
+      it 'does not allow modification of a rejected request' do
+        rejected_request.status = 'pending'
+        expect(rejected_request.save).to be_falsey
+        expect(rejected_request.errors[:status]).to include(expected_error)
+      end
+    end
   end
 end
