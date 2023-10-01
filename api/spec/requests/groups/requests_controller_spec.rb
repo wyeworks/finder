@@ -64,20 +64,63 @@ RSpec.describe 'Groups::Requests', type: :request do
         end
       end
 
-      context 'when user is not authenticated' do
+      context 'when group has reached its maximum capacity' do
+        let(:group) { create(:group, size: 1) }
+        let!(:member) { create(:member, group: group) }
+      
         before do
-          post group_requests_path(group)
+          post group_requests_path(group), headers:
         end
-
-        it 'returns http unauthorized' do
-          expect(response).to have_http_status(:unauthorized)
+      
+        it 'does not create a new Request' do
+          expect(Request.count).to eq(0)
         end
-
-        it 'returns JSON containing error message' do
+      
+        it 'returns an error status' do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      
+        it 'returns JSON containing error messages' do
           json_response = response.parsed_body
-
-          expect(json_response).to include('Tienes que registrarte o iniciar sesión antes de continuar.')
+          expect(json_response['errors']['group']).to include("El grupo ya ha alcanzado su capacidad máxima")
         end
+      end
+
+      context 'when user is already a member of the group' do
+        let!(:member) { create(:member, user:, group:) }
+
+        before do
+          post group_requests_path(group), headers:
+        end
+
+        it 'does not create a new Request' do
+          expect(Request.count).to eq(0)
+        end
+
+        it 'returns an error status' do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'returns JSON containing error messages' do
+          json_response = response.parsed_body
+          expect(json_response['errors']['user']).to include('Ya formas parte de este grupo')
+        end
+      end
+    end    
+
+    context 'when user is not authenticated' do
+      before do
+        post group_requests_path(group)
+      end
+
+      it 'returns http unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns JSON containing error message' do
+        json_response = response.parsed_body
+
+        expect(json_response).to include('Tienes que registrarte o iniciar sesión antes de continuar.')
       end
     end
   end

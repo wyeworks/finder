@@ -42,6 +42,29 @@ RSpec.describe Request, type: :model do
       end
     end
 
+    context 'when user request to join a group they are already a member of' do
+      let(:user) { create(:user) }
+      let(:group) { create(:group) }
+      let!(:member) { create(:member, user:, group:) }
+      let(:request) { build(:request, user:, group:) }
+
+      it 'does not allow the creation of a request' do
+        expect(request).not_to be_valid
+        expect(request.errors[:user]).to include('Ya formas parte de este grupo')
+      end
+    end
+
+    context 'when group has reached its maximum capacity' do
+      let(:group) { create(:group, size: 1) }
+      let!(:member) { create(:member, group:) }
+      let(:request) { build(:request, group:) }
+
+      it 'does not allow the creation of a request' do
+        expect(request).not_to be_valid
+        expect(request.errors[:group]).to include('El grupo ya ha alcanzado su capacidad máxima')
+      end
+    end
+
     context 'when there is an existing pending or accepted request for the same user and group' do
       let(:user) { create(:user) }
       let(:group) { create(:group) }
