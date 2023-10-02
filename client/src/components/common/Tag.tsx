@@ -10,7 +10,9 @@ function getBackgroundColor(type: string) {
 export default function Tag({ type }: TagProps) {
   const backgroundColor = getBackgroundColor(type);
   return (
-    <div className={`w-fit rounded-lg p-1  text-sm  ${backgroundColor} `}>
+    <div
+      className={`w-fit rounded-lg p-1  text-sm  ${backgroundColor} font-light`}
+    >
       {type}
     </div>
   );

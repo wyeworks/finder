@@ -1,6 +1,9 @@
+'use client';
+
 import Input from '@/components/common/Input';
 import MemberCard from './MemberCard';
 import FilterIcon from '@/assets/Icons/FilterIcon';
+import { useState } from 'react';
 
 // Member and exampleUsers are temporary to show de ui without back end data
 export type Member = {
@@ -9,7 +12,7 @@ export type Member = {
   role: 'Miembro' | 'Administrador';
 };
 
-const exampleUsers: Member[] = [
+export const exampleUsers: Member[] = [
   {
     name: 'Juan Pérez',
     email: 'juan@example.com',
@@ -63,56 +66,38 @@ const exampleUsers: Member[] = [
 ];
 
 export default function Members() {
-  return (
-    <div>
-      {/* Requests */}
-      <div className='grid grid-rows-[40px,60px,auto]'>
-        <h2 className=' p-2 text-lg font-bold'>Solicitudes</h2>
-        <div className='max-w-[100%] border border-solid border-gray-200 sm:max-w-none'>
-          <Input
-            id='filter-input-request'
-            name='filter-input-request'
-            type='text'
-            placeholder='Filtrar Solicitudes'
-            Icon={<FilterIcon className='h-5 w-5' />}
-            maxWidth={false}
-            classNameWrapper='m-3'
-          />
-        </div>
-        <div className=' max-h-72 overflow-auto border-b border-solid border-gray-200'>
-          {exampleUsers.map((user, index) => {
-            return (
-              <div key={index}>
-                <MemberCard member={user} />
-              </div>
-            );
-          })}
-        </div>
-      </div>
+  const [filterText, setFilterText] = useState('');
 
-      {/* Members */}
-      <div className='mb-10 grid grid-rows-[40px,60px,auto]'>
-        <h2 className=' p-2 text-lg font-bold'>Miembros</h2>
-        <div className='max-w-[100%] border border-solid border-gray-200 sm:max-w-none'>
-          <Input
-            id='filter-input-members'
-            name='filter-input-members'
-            type='text'
-            placeholder='Filtrar Miembros'
-            Icon={<FilterIcon className='h-5 w-5' />}
-            maxWidth={false}
-            classNameWrapper='m-3'
-          />
-        </div>
-        <div className=' max-h-72 overflow-auto border-b border-solid border-gray-200'>
-          {exampleUsers.map((user, index) => {
-            return (
-              <div key={index}>
-                <MemberCard member={user} />
-              </div>
-            );
-          })}
-        </div>
+  const handleFilterChange = (event: any) => {
+    setFilterText(event.target.value);
+  };
+
+  const filteredUsers = exampleUsers.filter((user) =>
+    user.name.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  return (
+    <div className='mb-10 grid grid-rows-[40px,60px,auto]'>
+      <h2 className='p-2 text-lg font-bold'>Miembros</h2>
+      <div className='max-w-[100%] border border-solid border-gray-200 sm:max-w-none'>
+        <Input
+          id='filter-input-members'
+          name='filter-input-members'
+          type='text'
+          placeholder='Filtrar Miembros'
+          Icon={<FilterIcon className='h-5 w-5' />}
+          maxWidth={false}
+          classNameWrapper='m-3'
+          value={filterText}
+          onChange={handleFilterChange}
+        />
+      </div>
+      <div className='max-h-72 overflow-auto border-b border-solid border-gray-200'>
+        {filteredUsers.map((user, index) => (
+          <div key={index}>
+            <MemberCard member={user} renderRightSection='Tags' />
+          </div>
+        ))}
       </div>
     </div>
   );

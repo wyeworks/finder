@@ -5,6 +5,8 @@ import GroupSizeIcon from '@/assets/Icons/GroupSizeIcon';
 import TimePreferences from './Content/TimePreferences';
 import { StudyGroup } from '@/types/StudyGroup';
 import Members from './Content/Members';
+import UserPlusIcon from '@/assets/Icons/UserPlusIcon';
+import RequestJoinGroup from './Content/RequestJoinGroup';
 
 export type Section = {
   name: string;
@@ -36,6 +38,13 @@ const sections: Section[] = [
     icon: <GroupSizeIcon className='mr-2 h-5 w-5' />,
     // eslint-disable-next-line no-unused-vars
     content: (group: StudyGroup) => <Members />,
+  },
+  // this section will render only for admins
+  {
+    name: 'Solicitudes',
+    icon: <UserPlusIcon className='mr-2 h-5 w-5' />,
+    // eslint-disable-next-line no-unused-vars
+    content: (group: StudyGroup) => <RequestJoinGroup />,
   },
 ];
 
