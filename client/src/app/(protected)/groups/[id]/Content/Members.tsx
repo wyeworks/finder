@@ -77,8 +77,7 @@ export default function Members() {
   );
 
   return (
-    <div className='mb-10 grid grid-rows-[40px,60px,auto]'>
-      <h2 className='p-2 text-lg font-bold'>Miembros</h2>
+    <div className='mb-10 grid grid-rows-[60px,auto]'>
       <div className='max-w-[100%] border border-solid border-gray-200 sm:max-w-none'>
         <Input
           id='filter-input-members'
