@@ -31,7 +31,9 @@ export default async function ConfigProfile() {
                 careersByUser={careersByUser}
                 subjectsByUser={subjectsByUser}
               />
+              <div className='h-6' />
               <ChangePasswordSection user={user} />
+              <div className='h-6' />
               <DeleteUserSection user={user} />
             </>
           )}

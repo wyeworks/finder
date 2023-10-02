@@ -8,6 +8,7 @@ import DelayedConfirmDialog from '@/app/(protected)/users/[id]/edit/DelayedConfi
 import { Logger } from '@/services/Logger';
 import { UserService } from '@/services/UserService';
 import { signOut } from 'next-auth/react';
+import strings from '@/locales/strings.json';
 
 export function DeleteUserSection({ user }: { user: User }) {
   const [isAlertVisible, setIsAlertVisible] = useState(false);
@@ -51,8 +52,8 @@ export function DeleteUserSection({ user }: { user: User }) {
 
   return (
     <ConfigProfileSection
-      sectionTitle={'Eliminar perfil'}
-      confirmButtonText={'Eliminar perfil'}
+      sectionTitle={strings.form.deleteUser.title}
+      confirmButtonText={strings.form.deleteUser.confirmButtonText}
       isConfirmButtonDisabled={false}
       handleSubmit={handleSubmit}
       isAlertVisible={isAlertVisible}
@@ -63,26 +64,21 @@ export function DeleteUserSection({ user }: { user: User }) {
     >
       <div className='flex justify-center pl-2 pr-2 pt-2'>
         <p className='text-black'>
-          Si eliminas tu perfil, se eliminarán todos tus datos y te
-          desvincularás de todos los grupos a los que perteneces. Esta acción no
-          se puede deshacer. ¿Estás seguro que deseas eliminar tu perfil?
+          {strings.form.deleteUser.deleteExplanation}
         </p>
       </div>
       {open && (
         <DelayedConfirmDialog
           open={open}
           setOpen={setOpen}
-          description={
-            '¿Estás seguro que deseas eliminar tu perfil? Esta acción no se puede deshacer.'
-          }
-          title={'Eliminar perfil'}
+          description={strings.form.deleteUser.confirmDialogDescription}
+          title={strings.form.deleteUser.confirmDialogTitle}
           onCancel={handleCancel}
           onConfirm={handleConfirm}
-          confirmText={'Eliminar perfil'}
-          cancelText={'Cancelar'}
-          confirmColor={'red'}
+          confirmText={strings.form.deleteUser.confirmDialogConfirmButtonText}
+          cancelText={strings.form.deleteUser.confirmDialogCancelButtonText}
           delayDuration={5}
-          //The icon on the dialog is on a red background
+          confirmColor={'blue'}
           icon={<TrashCanIcon width={30} height={30} />}
         />
       )}

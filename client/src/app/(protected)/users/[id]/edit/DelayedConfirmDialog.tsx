@@ -8,7 +8,6 @@ function DelayedConfirmDialog({
   onConfirm,
   confirmText = 'Confirm',
   cancelText = 'Cancel',
-  confirmColor = 'blue',
   delayDuration = 5, // Default delay duration in seconds
   description,
   title,
@@ -136,7 +135,7 @@ function DelayedConfirmDialog({
                     className={`inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-sm ${
                       isConfirmDisabled
                         ? 'cursor-not-allowed bg-gray-300 text-gray-600'
-                        : `bg-${confirmColor}-600 text-white hover:bg-${confirmColor}-500`
+                        : `bg-red-600 text-white hover:bg-red-500`
                     } sm:ml-3 sm:w-auto`}
                     onClick={handleConfirm}
                     disabled={isConfirmDisabled}

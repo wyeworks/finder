@@ -81,8 +81,8 @@ export function ChangePasswordSection({ user }: { user: User }) {
 
   return (
     <ConfigProfileSection
-      sectionTitle={'Cambiar contraseña'}
-      confirmButtonText={'Actualizar'}
+      sectionTitle={strings.form.cambiarPassword.title}
+      confirmButtonText={strings.form.cambiarPassword.confirmButtonText}
       isConfirmButtonDisabled={isActualizarDisabled}
       handleSubmit={handleSubmit}
       isAlertVisible={isAlertVisible}
@@ -93,8 +93,8 @@ export function ChangePasswordSection({ user }: { user: User }) {
         type='text'
         id='current-password'
         name='current-password'
-        label={'Contraseña actual'}
-        placeholder={'Ingrese su contraseña actual'}
+        label={strings.form.cambiarPassword.oldPasswordLabel}
+        placeholder={strings.form.cambiarPassword.oldPasswordPlaceholder}
         required
         value={currentPassword}
         onChange={handleCurrentPasswordChange}
@@ -106,8 +106,8 @@ export function ChangePasswordSection({ user }: { user: User }) {
         type='text'
         id='new-password'
         name='new-password'
-        label={'Nueva contraseña'}
-        placeholder={'Ingrese su nueva contraseña'}
+        label={strings.form.cambiarPassword.newPasswordLabel}
+        placeholder={strings.form.cambiarPassword.newPasswordPlaceholder}
         required
         value={newPassword}
         onChange={handleNewPasswordChange}
@@ -120,8 +120,8 @@ export function ChangePasswordSection({ user }: { user: User }) {
         type='text'
         id='new-password-confirm'
         name='new-password-confirm'
-        label={'Confirmar nueva contraseña'}
-        placeholder={'Confirme su nueva contraseña'}
+        label={strings.form.cambiarPassword.confirmNewPasswordLabel}
+        placeholder={strings.form.cambiarPassword.confirmNewPasswordPlaceholder}
         required
         value={newPasswordConfirm}
         onChange={handleNewPasswordConfirmChange}
