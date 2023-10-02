@@ -3,6 +3,25 @@ module Groups
     before_action :set_group
     before_action :authenticate_user!
 
+    def index
+      unless @group.admin?(current_user)
+        Rails.logger.info "User with ID ##{current_user.id} is not this group's Admin"
+
+        return render json: {
+          errors: {
+            group: ["El usuario con ID ##{current_user.id} no es administrador de este grupo"]
+          }
+        }, status: :unauthorized
+      end
+
+      requests = @group.requests.where(status: 'pending')
+      serialized_requests = requests.map do |request|
+        RequestSerializer.new(request).serializable_hash[:data][:attributes]
+      end
+
+      render json: serialized_requests
+    end
+
     def create
       @request = Request.new(status: 'pending', user: current_user, group: @group)
 
