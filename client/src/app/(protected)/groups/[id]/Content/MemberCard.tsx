@@ -58,7 +58,7 @@ export default function MemberCard({
             text='Rechazar'
             type='button'
             Icon={<TrashIcon className='h-6 w-6' />}
-            className=' h-8 items-center bg-[#9ca3af] !font-light !text-black hover:bg-gray-300 sm:m-3  '
+            className=' h-8 items-center bg-gray-300 !font-light !text-black hover:bg-gray-400 sm:m-3  '
           />
         </div>
       )}

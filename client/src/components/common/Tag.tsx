@@ -4,7 +4,7 @@ type TagProps = {
 
 function getBackgroundColor(type: string) {
   if (type === 'Administrador') return 'bg-[#BCEDFF]';
-  return 'bg-[#9ca3af]';
+  return 'bg-gray-300';
 }
 
 export default function Tag({ type }: TagProps) {
