@@ -67,6 +67,15 @@ export default function FormPersonalInfo({
     name: false,
     birthdate: false,
     biography: false,
+    social_networks: {
+      discord: false,
+      instagram: false,
+      linkedin: false,
+      twitter: false,
+      facebook: false,
+      reddit: false,
+      whatsapp: false,
+    },
   });
 
   const [alertVisible, setAlertVisible] = useState<boolean>(false);
@@ -129,6 +138,10 @@ export default function FormPersonalInfo({
     setFormData((prevState) => ({
       ...prevState,
       social_networks: { ...prevState.social_networks, [name]: value },
+    }));
+    setTouched((prevTouched) => ({
+      ...prevTouched,
+      social_networks: { ...prevTouched.social_networks, [name]: true },
     }));
   };
 
@@ -241,6 +254,7 @@ export default function FormPersonalInfo({
         id='biography'
         label={strings.configProfile.forms.personalInfo.bioTextArea.label}
         name='biography'
+        touched={touched.biography}
         placeholder={
           strings.configProfile.forms.personalInfo.bioTextArea.placeholder
         }
@@ -293,7 +307,7 @@ export default function FormPersonalInfo({
                         .validateText
                     : 'Escribe un número correcto'
                 }
-                touched={true}
+                touched={touched.social_networks[key as keyof SocialNetworks]}
               />
             );
           })}

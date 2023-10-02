@@ -2,7 +2,6 @@
 
 import { ConfigProfileSection } from '@/app/(protected)/users/[id]/edit/ConfigProfileSection';
 import Input from '@/components/common/Input';
-import EyeIcon from '@/assets/Icons/EyeIcon';
 import React, { useEffect, useState } from 'react';
 import { alertTypes } from '@/components/common/Alert';
 import { UserService } from '@/services/UserService';
@@ -90,7 +89,7 @@ export function ChangePasswordSection({ user }: { user: User }) {
       alertType={alertType}
     >
       <Input
-        type='text'
+        type='password'
         id='current-password'
         name='current-password'
         label={strings.form.cambiarPassword.oldPasswordLabel}
@@ -99,11 +98,10 @@ export function ChangePasswordSection({ user }: { user: User }) {
         value={currentPassword}
         onChange={handleCurrentPasswordChange}
         touched={false}
-        Icon={<EyeIcon className='h-5 w-5' />}
         classNameInput='bg-backgroundInput'
       />
       <Input
-        type='text'
+        type='password'
         id='new-password'
         name='new-password'
         label={strings.form.cambiarPassword.newPasswordLabel}
@@ -112,12 +110,11 @@ export function ChangePasswordSection({ user }: { user: User }) {
         value={newPassword}
         onChange={handleNewPasswordChange}
         touched={false}
-        Icon={<EyeIcon className='h-5 w-5' />}
         classNameInput='bg-backgroundInput'
         fieldInfo={strings.form.passwordInput.passwordInfo}
       />
       <Input
-        type='text'
+        type='password'
         id='new-password-confirm'
         name='new-password-confirm'
         label={strings.form.cambiarPassword.confirmNewPasswordLabel}
@@ -126,7 +123,6 @@ export function ChangePasswordSection({ user }: { user: User }) {
         value={newPasswordConfirm}
         onChange={handleNewPasswordConfirmChange}
         touched={false}
-        Icon={<EyeIcon className='h-5 w-5' />}
         classNameInput='bg-backgroundInput'
       />
     </ConfigProfileSection>
