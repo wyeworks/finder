@@ -33,6 +33,11 @@ export default function RequestJoinGroup() {
         />
       </div>
       <div className='max-h-72 overflow-auto border-b border-solid border-gray-200'>
+        {filteredUsers.length === 0 && (
+          <div className='border-x border-solid p-10 text-center'>
+            No se encontraron solicitudes
+          </div>
+        )}
         {filteredUsers.map((user, index) => (
           <div key={index}>
             <MemberCard member={user} renderRightSection='Buttons' />
