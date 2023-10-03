@@ -14,7 +14,7 @@ RSpec.describe SubjectsController, type: :request do
     end
 
     it 'returns JSON containing all subjects data' do
-      json_response = response.parsed_body
+      json_response = response.parsed_body['data']
 
       expect(json_response[0]['id']).to be_a(Integer)
       expect(json_response[0]['name']).to be_a(String)
