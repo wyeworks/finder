@@ -1,12 +1,10 @@
 class SubjectsController < ApplicationController
   before_action :set_subject, only: :show
+  after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def index
-    subjects = Subject.all.map do |subject|
-      SubjectSerializer.new(subject).serializable_hash[:data][:attributes]
-    end
-
-    render json: subjects
+    @pagy, @records = pagy(Subject.all)
+    render json: { data: @records }
   end
 
   def show
