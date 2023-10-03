@@ -69,7 +69,7 @@ type HeaderProps = {
 
 export default function Header({ user }: HeaderProps) {
   return (
-    <>
+    <header>
       <Disclosure as='nav' className='bg-primaryBlue'>
         {({ open }) => (
           <>
@@ -214,6 +214,6 @@ export default function Header({ user }: HeaderProps) {
           </>
         )}
       </Disclosure>
-    </>
+    </header>
   );
 }

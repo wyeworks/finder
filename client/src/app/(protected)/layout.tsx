@@ -4,6 +4,7 @@ import SessionProvider from '@/components/providers/SessionProvider';
 import { redirect } from 'next/navigation';
 import { User } from '@/types/User';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
+import Footer from '@/components/common/Footer';
 
 export default async function ProtectedLayout({
   children, // will be a page or nested layout
@@ -17,10 +18,11 @@ export default async function ProtectedLayout({
   }
 
   return (
-    <section className='h-full min-h-screen bg-gray-50'>
+    <section className='flex h-full min-h-screen flex-col'>
       <SessionProvider session={session}>
         {session.user && <Header user={session.user as User} />}
-        {children}
+        <main className='flex-1 bg-gray-50'>{children}</main>
+        <Footer />
       </SessionProvider>
     </section>
   );
