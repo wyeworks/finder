@@ -6,6 +6,7 @@ import MemberCard from './MemberCard';
 import { useState } from 'react';
 import { Member } from './Members';
 import strings from '@/locales/strings.json';
+import { removeAccents } from '@/utils/Formatter';
 
 type RequestJoinGroupProps = {
   requestUsers: Member[];
@@ -21,7 +22,9 @@ export default function RequestJoinGroup({
   };
 
   const filteredUsers = requestUsers.filter((user) =>
-    user.name.toLowerCase().includes(filterText.toLowerCase())
+    removeAccents(user.name.toLowerCase()).includes(
+      removeAccents(filterText.toLowerCase())
+    )
   );
 
   return (

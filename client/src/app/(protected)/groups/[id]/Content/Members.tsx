@@ -5,6 +5,7 @@ import MemberCard from './MemberCard';
 import FilterIcon from '@/assets/Icons/FilterIcon';
 import { useState } from 'react';
 import strings from '@/locales/strings.json';
+import { removeAccents } from '@/utils/Formatter';
 
 export type Member = {
   name: string;
@@ -24,7 +25,9 @@ export default function Members({ members }: MembersProps) {
   };
 
   const filteredUsers = members.filter((user) =>
-    user.name.toLowerCase().includes(filterText.toLowerCase())
+    removeAccents(user.name.toLowerCase()).includes(
+      removeAccents(filterText.toLowerCase())
+    )
   );
 
   return (
