@@ -19,7 +19,7 @@ export default function MemberCard({
   const { name, email, role } = member;
   return (
     <div
-      className='grid w-full max-w-[100%] grid-cols-[40px,auto,auto] items-center 
+      className='grid w-full max-w-[100%] grid-cols-[40px,180px,auto] items-center 
         border border-solid border-gray-200 p-2 hover:bg-gray-100 sm:max-w-none sm:grid-cols-[10%,55%,35%]'
     >
       <div className='p-3'>
@@ -31,9 +31,13 @@ export default function MemberCard({
           height={30}
         />
       </div>
-      <div className='flex flex-col overflow-auto'>
-        <span className=' font-bold'>{name}</span>
-        <span>{email}</span>
+      <div className='mr-2 flex flex-col overflow-clip'>
+        <span className='overflow-hidden overflow-ellipsis whitespace-nowrap font-bold'>
+          {name}
+        </span>
+        <span className='overflow-hidden overflow-ellipsis whitespace-nowrap'>
+          {email}
+        </span>
       </div>
       {renderRightSection === 'Tags' && (
         <div className='grid grid-cols-[auto,20px]'>
@@ -52,13 +56,13 @@ export default function MemberCard({
             type='button'
             Icon={<UserPlusIcon className='mr-1 h-5 w-5' />}
             classNameWrapper='h-4'
-            className='h-8 items-center bg-[#BCEDFF] !font-light !text-black hover:bg-blue-200 sm:m-3  '
+            className='h-8 items-center !bg-[#BCEDFF] !font-light !text-black hover:!bg-blue-300 sm:m-3  '
           />
           <Button
             text='Rechazar'
             type='button'
             Icon={<TrashIcon className='h-6 w-6' />}
-            className=' h-8 items-center bg-gray-300 !font-light !text-black hover:bg-gray-400 sm:m-3  '
+            className=' h-8 items-center !bg-gray-300 !font-light !text-black hover:!bg-gray-400 sm:m-3  '
           />
         </div>
       )}
