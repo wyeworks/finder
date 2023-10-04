@@ -164,7 +164,7 @@
   },
   "groups": {
     "membersTab": {
-      "emptyMessage": "No se encontraron Miembros"
+      "emptyMessage": "No se encontraron miembros"
     },
     "requestTab": {
       "emptyMessage": " No se encontraron solicitudes"
