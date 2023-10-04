@@ -9,7 +9,7 @@ type AuthFlowProps = {
 export default function AuthView({ children }: AuthFlowProps) {
   return (
     <div
-      className='flex h-screen items-center justify-center bg-gray-100'
+      className='flex h-full items-center justify-center bg-gray-100'
       id='container'
     >
       <div
