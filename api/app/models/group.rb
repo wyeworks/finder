@@ -32,6 +32,18 @@ class Group < ApplicationRecord
     members.exists?(user:, role: 'admin')
   end
 
+  def admins
+    members.where(role: 'admin')
+  end
+
+  def participants
+    members.where(role: 'participant')
+  end
+
+  def promote_oldest_member!
+    participants.order(:created_at).first.promote!
+  end
+
   private
 
   def validate_time_preferences
