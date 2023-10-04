@@ -68,6 +68,8 @@ export const exampleUsers: Member[] = [
   },
 ];
 
+const isAdmin = true;
+
 const sections: Section[] = [
   {
     name: 'Sesiones',
@@ -93,7 +95,7 @@ const sections: Section[] = [
     content: (group: StudyGroup) => <Members members={exampleUsers} />,
   },
   // this section will render only for admins
-  {
+  isAdmin && {
     name: 'Solicitudes',
     icon: <UserPlusIcon className='mr-2 h-5 w-5' />,
     // eslint-disable-next-line no-unused-vars

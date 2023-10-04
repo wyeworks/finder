@@ -19,7 +19,7 @@ export default function MemberCard({
   const { name, email, role } = member;
   return (
     <div
-      className='grid w-full max-w-[100%] grid-cols-[40px,180px,auto] items-center 
+      className='grid w-full max-w-[100%] grid-cols-[40px,160px,auto] items-center 
         border border-solid border-gray-200 p-2 hover:bg-gray-100 sm:max-w-none sm:grid-cols-[10%,55%,35%]'
     >
       <div className='p-3'>
@@ -41,7 +41,11 @@ export default function MemberCard({
       </div>
       {renderRightSection === 'Tags' && (
         <div className='grid grid-cols-[auto,20px]'>
-          <div className={`${role === 'Miembro' ? 'sm:pl-5' : 'sm:pl-2'}`}>
+          <div
+            className={`${
+              role === 'Miembro' ? 'justify-self-center sm:pl-5' : 'sm:pl-2'
+            }`}
+          >
             <Tag type={role} />
           </div>
           <div>
