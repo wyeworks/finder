@@ -41,11 +41,7 @@ export default function MemberCard({
       </div>
       {renderRightSection === 'Tags' && (
         <div className='grid grid-cols-[auto,20px]'>
-          <div
-            className={`${
-              role === 'Miembro' ? 'justify-self-center sm:pl-5' : 'sm:pl-2'
-            }`}
-          >
+          <div className='justify-self-center'>
             <Tag type={role} />
           </div>
           <div>
