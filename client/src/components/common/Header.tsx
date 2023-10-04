@@ -4,7 +4,6 @@ import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import Image from 'next/image';
 import InputSearch from './InputSearch';
-import IconLogoFinder from '@/assets/Icons/IconLogoFinder';
 import NotificationIcon from '@/assets/Icons/NotificationIcon';
 import MessageIcon from '@/assets/Icons/MessageIcon';
 import CrossIcon from '@/assets/Icons/CrossIcon';
@@ -17,6 +16,7 @@ import { User } from '@/types/User';
 import { signOut } from 'next-auth/react';
 import defaultUser from '@/assets/images/default_user.png';
 import Link from 'next/link';
+import FinderLogoIcon from '@/assets/Icons/FinderLogoIcon';
 
 const userNavigation = (user: User) => [
   {
@@ -82,9 +82,9 @@ export default function Header({ user }: HeaderProps) {
                       className='mx-2 flex cursor-pointer items-center'
                       data-testid='finder-logo'
                     >
-                      <IconLogoFinder className='h-12 w-12 text-white' />
+                      <FinderLogoIcon fill='white' height={50} width={41.666} />
                       <p className='ml-2 text-4xl text-white'>
-                        <strong>finder.com</strong>
+                        <strong>finder</strong>
                       </p>
                     </Link>
                   </div>
