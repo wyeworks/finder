@@ -10,13 +10,16 @@ type GroupTabsProps = {
 };
 
 export default function GroupTabs({ group }: GroupTabsProps) {
+  const isAdmin = true; // this const is temporary, waiting to connect with back
+  const gridTemplate = isAdmin ? 'grid-cols-5' : 'grid-cols-4';
+
   return (
     <div className='grid grid-cols-1 sm:grid-cols-5'>
       <div className='sm:col-span-1'></div>
       <div className='col-span-4 sm:col-span-3'>
         <Tab.Group>
           <div className='border-b border-t border-gray-200'>
-            <Tab.List className='grid grid-cols-4 gap-4 text-xl'>
+            <Tab.List className={`grid ${gridTemplate} gap-4 text-xl`}>
               {sections.map((section) => (
                 <Tab key={section.name} as={Fragment}>
                   {({ selected }) => (
