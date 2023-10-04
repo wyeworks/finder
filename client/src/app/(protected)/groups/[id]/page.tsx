@@ -29,8 +29,8 @@ export default async function Group({ params }: Props) {
   }
 
   return (
-    <div className='flex h-screen w-full flex-col'>
-      <div className='h-1/4'>
+    <div className='flex h-full w-full flex-col'>
+      <div className='h-40 sm:h-48'>
         <Image
           src='/default_group_banner.png'
           alt='Banner'

@@ -37,6 +37,8 @@ es:
           attributes:
             user:
               required: "El usuario es requerido"
+            reason:
+              blank: "La razón es requerida para rechazar la solicitud"
         subject:
           attributes:
             code:
