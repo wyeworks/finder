@@ -36,6 +36,8 @@ module Users
     protected
 
     def update_resource(resource, params)
+      resource.avatar.attach(params[:avatar])
+
       if params[:password].present?
         resource.update_with_password(params)
       else
@@ -104,6 +106,7 @@ module Users
               :name,
               :birth_date,
               :bio,
+              :avatar,
               social_networks: {},
               career_ids: [],
               subject_ids: []

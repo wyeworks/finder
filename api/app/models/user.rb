@@ -13,6 +13,9 @@ class User < ApplicationRecord
   has_and_belongs_to_many :careers
   has_and_belongs_to_many :subjects
 
+  # Active Storage
+  has_one_attached :avatar
+
   # Validations
   validates :name, presence: true
   validate :password_complexity
