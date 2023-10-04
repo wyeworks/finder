@@ -1,18 +1,11 @@
 module Groups
   class RequestsController < ApplicationController
+    include GroupAdminConcern
     before_action :set_group
     before_action :authenticate_user!
 
     def index
-      unless @group.admin?(current_user)
-        Rails.logger.info "User with ID ##{current_user.id} is not this group's Admin"
-
-        return render json: {
-          errors: {
-            group: ["El usuario con ID ##{current_user.id} no es administrador de este grupo"]
-          }
-        }, status: :unauthorized
-      end
+      return unless authorize_group_admin!
 
       requests = @group.requests.where(status: 'pending')
       serialized_requests = requests.map do |request|
