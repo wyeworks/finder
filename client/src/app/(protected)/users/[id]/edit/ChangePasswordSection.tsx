@@ -11,23 +11,18 @@ import strings from '@/locales/strings.json';
 export function ChangePasswordSection({ user }: { user: User }) {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState<alertTypes>('success');
   const [isAlertVisible, setIsAlertVisible] = useState(false);
   const [isActualizarDisabled, setIsActualizarDisabled] = useState(false);
 
   useEffect(() => {
-    if (
-      currentPassword === '' ||
-      newPassword === '' ||
-      newPasswordConfirm === ''
-    ) {
+    if (currentPassword === '' || newPassword === '') {
       setIsActualizarDisabled(true);
     } else {
       setIsActualizarDisabled(false);
     }
-  }, [currentPassword, newPassword, newPasswordConfirm]);
+  }, [currentPassword, newPassword]);
 
   function handleCurrentPasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
     setCurrentPassword(e.target.value);
@@ -39,13 +34,6 @@ export function ChangePasswordSection({ user }: { user: User }) {
     setIsAlertVisible(false);
   }
 
-  function handleNewPasswordConfirmChange(
-    e: React.ChangeEvent<HTMLInputElement>
-  ) {
-    setNewPasswordConfirm(e.target.value);
-    setIsAlertVisible(false);
-  }
-
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const isCurrentFormValid = event.currentTarget.checkValidity();
@@ -54,13 +42,6 @@ export function ChangePasswordSection({ user }: { user: User }) {
       event.stopPropagation();
       setIsAlertVisible(true);
       setAlertMessage('Por favor complete los campos requeridos');
-      setAlertType('error');
-      return;
-    }
-
-    if (newPassword !== newPasswordConfirm) {
-      setIsAlertVisible(true);
-      setAlertMessage('Las contraseñas no coinciden');
       setAlertType('error');
       return;
     }
@@ -112,18 +93,6 @@ export function ChangePasswordSection({ user }: { user: User }) {
         touched={false}
         classNameInput='bg-backgroundInput'
         fieldInfo={strings.form.passwordInput.passwordInfo}
-      />
-      <Input
-        type='password'
-        id='new-password-confirm'
-        name='new-password-confirm'
-        label={strings.form.cambiarPassword.confirmNewPasswordLabel}
-        placeholder={strings.form.cambiarPassword.confirmNewPasswordPlaceholder}
-        required
-        value={newPasswordConfirm}
-        onChange={handleNewPasswordConfirmChange}
-        touched={false}
-        classNameInput='bg-backgroundInput'
       />
     </ConfigProfileSection>
   );
