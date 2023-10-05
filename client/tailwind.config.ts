@@ -24,6 +24,7 @@ const config: Config = {
         hoverPrimaryBlue: '#075985',
         whiteCustom: '#FAFAFA',
         backgroundInput: '#fcfcfc',
+        error: '#DC3545',
       },
       textColor: {
         whiteTextHeader: '#FAFAFA',
