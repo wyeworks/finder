@@ -83,7 +83,7 @@
   },
   "confirmation": {
     "imageAlt": "Confirmar email",
-    "title": "finder.com",
+    "title": "finder",
     "headerText": "Confirme su dirección de correo",
     "infoText": "Se te ha enviado un correo electrónico con los pasos necesarios para confirmar el registro",
     "loginButton": {
@@ -160,6 +160,14 @@
     "step4": {
       "description1": "Si tiene horarios para juntarse...",
       "description2": "En el caso de que el grupo tenga alguna preferencia horaria para sus sesiones, dejalo claro con los integrantes pero también podrás actualizarlo más tarde."
+    }
+  },
+  "groups": {
+    "membersTab": {
+      "emptyMessage": "No se encontraron miembros"
+    },
+    "requestTab": {
+      "emptyMessage": " No se encontraron solicitudes"
     }
   }
 }
