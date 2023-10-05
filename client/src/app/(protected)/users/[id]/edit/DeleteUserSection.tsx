@@ -1,7 +1,7 @@
 'use client';
 
 import { ConfigProfileSection } from '@/app/(protected)/users/[id]/edit/ConfigProfileSection';
-import { TrashCanIcon } from '@/components/common/icons/TrashCanIcon';
+import { TrashCanIcon } from '@/assets/Icons/TrashCanIcon';
 import React, { useState } from 'react';
 import { User } from '@/types/User';
 import DelayedConfirmDialog from '@/app/(protected)/users/[id]/edit/DelayedConfirmDialog';
