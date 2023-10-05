@@ -65,7 +65,11 @@ class GroupsController < ApplicationController
   end
 
   def members
-    render json: UserSerializer.new(@group.users).serializable_hash
+    members = @group.members
+    serialized_members = members.map do |member|
+      MemberSerializer.new(member).serializable_hash[:data][:attributes]
+    end
+    render json: serialized_members
   end
 
   private
