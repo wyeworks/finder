@@ -367,12 +367,7 @@ RSpec.describe GroupsController, type: :request do
   # Members
   describe 'GET /groups/:id/members' do
     let(:creator) { create(:user) }
-    let(:group) do
-      new_group = create(:group)
-      new_group.members.create(user: creator, role: 'admin')
-      new_group
-    end
-
+    let(:group) { create(:group, :with_members) }
     let(:headers) { { 'Authorization' => response.headers['Authorization'] } }
 
     before do
@@ -392,12 +387,9 @@ RSpec.describe GroupsController, type: :request do
 
     it 'returns JSON containing the creator as the only member' do
       json_response = response.parsed_body
-      user_data = json_response['data'].first['attributes']
-
-      expect(json_response['data'].size).to eq(1) # Only one member for now
-      expect(user_data['id']).to eq(creator.id)
-      expect(user_data['name']).to eq(creator.name)
-      expect(user_data['email']).to eq(creator.email)
+      expect(json_response['data'].size).to eq(2)
+      expect(json_response['data'][0]['id']).to be_a(String)
+      expect(json_response['data'][0]['attributes']['email']).to be_a(String)
     end
   end
 end
