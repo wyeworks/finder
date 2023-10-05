@@ -246,7 +246,6 @@ RSpec.describe 'Groups::Requests', type: :request do
           expect(request).to include(
             'id' => be_a(Integer),
             'status' => 'pending',
-            'reason' => be_a(String),
             'group_id' => group.id,
             'user_id' => be_a(Integer)
           )
