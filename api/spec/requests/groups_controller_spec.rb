@@ -371,6 +371,7 @@ RSpec.describe GroupsController, type: :request do
     let(:headers) { { 'Authorization' => response.headers['Authorization'] } }
 
     before do
+      group.members.create(user: creator, role: 'admin')
       post user_session_path,
            params: {
              user: {
@@ -387,7 +388,7 @@ RSpec.describe GroupsController, type: :request do
 
     it 'returns JSON containing the creator as the only member' do
       json_response = response.parsed_body
-      expect(json_response.size).to eq(2)
+      expect(json_response.size).to eq(3)
       expect(json_response[0]['id']).to be_a(Integer)
       expect(json_response[0]['email']).to be_a(String)
     end
