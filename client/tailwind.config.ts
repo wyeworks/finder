@@ -31,6 +31,7 @@ const config: Config = {
         inputTextColor: '#a0a0a0',
         grayText: '#71717A',
         primaryBlue: { DEFAULT: '#242760', 100: '#7479db' },
+        leaveRed: '#DC3545',
       },
     },
   },

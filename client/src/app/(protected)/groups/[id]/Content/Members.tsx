@@ -6,6 +6,8 @@ import FilterIcon from '@/assets/Icons/FilterIcon';
 import { useState } from 'react';
 import strings from '@/locales/strings.json';
 import { removeAccents } from '@/utils/Formatter';
+import Button from '@/components/common/Button';
+import OutIcon from '@/assets/Icons/OutIcon';
 
 export type Member = {
   name: string;
@@ -60,6 +62,14 @@ export default function Members({ members }: MembersProps) {
           </div>
         ))}
       </div>
+      <Button
+        type='button'
+        text={'Salir del grupo'}
+        id='leave-group-button'
+        classNameWrapper='mt-4 w-fit sm:ml-[40%] ml-[33%]'
+        className='justify-self-center !border !border-solid !border-gray-200 !bg-gray-50 !text-leaveRed hover:!bg-gray-100'
+        Icon={<OutIcon className='mr-2 h-6 w-6 text-leaveRed' />}
+      />
     </div>
   );
 }
