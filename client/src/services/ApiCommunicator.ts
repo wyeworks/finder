@@ -167,6 +167,7 @@ export class ApiCommunicator {
       method: 'POST',
       data,
       asJSON: false,
+      handleNotOk: false,
     });
   }
 
