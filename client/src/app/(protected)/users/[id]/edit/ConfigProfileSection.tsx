@@ -12,6 +12,7 @@ export function ConfigProfileSection({
   isAlertVisible,
   alertMessage,
   alertType,
+  alertTitle = '',
   children,
 }: {
   sectionTitle: string;
@@ -25,6 +26,7 @@ export function ConfigProfileSection({
   alertMessage: string;
   alertType: alertTypes;
   children: React.ReactNode;
+  alertTitle?: string;
 }) {
   return (
     <div className='mt-3 sm:w-full'>
@@ -56,6 +58,7 @@ export function ConfigProfileSection({
             isVisible={isAlertVisible}
             message={alertMessage}
             alertType={alertType}
+            title={alertTitle}
           />
         </div>
       </form>

@@ -7,6 +7,7 @@ import { alertTypes } from '@/components/common/Alert';
 import { UserService } from '@/services/UserService';
 import { User } from '@/types/User';
 import strings from '@/locales/strings.json';
+import { BackendError } from '@/types/BackendError';
 
 export function ChangePasswordSection({ user }: { user: User }) {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -15,9 +16,16 @@ export function ChangePasswordSection({ user }: { user: User }) {
   const [alertType, setAlertType] = useState<alertTypes>('success');
   const [isAlertVisible, setIsAlertVisible] = useState(false);
   const [isActualizarDisabled, setIsActualizarDisabled] = useState(false);
+  const [alertTitle, setAlertTitle] = useState<string>('Error');
+  const [touched, setTouched] = useState({
+    currentPassword: false,
+    newPassword: false,
+  });
 
   useEffect(() => {
-    if (currentPassword === '' || newPassword === '') {
+    // commented for the moment, because current password is not implemented in back yet
+    // if (currentPassword === '' || newPassword === '') {
+    if (newPassword === '') {
       setIsActualizarDisabled(true);
     } else {
       setIsActualizarDisabled(false);
@@ -32,6 +40,7 @@ export function ChangePasswordSection({ user }: { user: User }) {
   function handleNewPasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
     setNewPassword(e.target.value);
     setIsAlertVisible(false);
+    setTouched((prevTouched) => ({ ...prevTouched, newPassword: true }));
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -41,19 +50,46 @@ export function ChangePasswordSection({ user }: { user: User }) {
     if (!isCurrentFormValid) {
       event.stopPropagation();
       setIsAlertVisible(true);
-      setAlertMessage('Por favor complete los campos requeridos');
+      setAlertMessage('Por favor completa los campos correctamente');
+      setAlertTitle('Campos incorrectos');
       setAlertType('error');
       return;
     }
 
     try {
-      await UserService.modifyPassword(user.id, currentPassword, newPassword);
+      const response = await UserService.modifyPassword(
+        user.id,
+        currentPassword,
+        newPassword
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        const parsedError = errorData as BackendError;
+        const errorMessages = [];
+
+        if (parsedError.errors.password) {
+          errorMessages.push(parsedError.errors.password);
+        }
+
+        setAlertMessage(errorMessages.join('\n'));
+        setIsAlertVisible(true);
+        setAlertType('error');
+        setAlertTitle(parsedError.message);
+        return;
+      }
+      const successData = await response.json();
       setIsAlertVisible(true);
       setAlertMessage('Contraseña modificada con éxito');
+      setAlertTitle(successData.message);
       setAlertType('success');
+
+      setTimeout(() => {
+        setIsAlertVisible(false);
+      }, 2000);
     } catch (error: any) {
       setIsAlertVisible(true);
       setAlertMessage(error.message);
+      setAlertTitle(strings.common.error.defaultError);
       setAlertType('error');
       return;
     }
@@ -68,32 +104,40 @@ export function ChangePasswordSection({ user }: { user: User }) {
       isAlertVisible={isAlertVisible}
       alertMessage={alertMessage}
       alertType={alertType}
+      alertTitle={alertTitle}
     >
-      <Input
-        type='password'
-        id='current-password'
-        name='current-password'
-        label={strings.form.cambiarPassword.oldPasswordLabel}
-        placeholder={strings.form.cambiarPassword.oldPasswordPlaceholder}
-        required
-        value={currentPassword}
-        onChange={handleCurrentPasswordChange}
-        touched={false}
-        classNameInput='bg-backgroundInput'
-      />
-      <Input
-        type='password'
-        id='new-password'
-        name='new-password'
-        label={strings.form.cambiarPassword.newPasswordLabel}
-        placeholder={strings.form.cambiarPassword.newPasswordPlaceholder}
-        required
-        value={newPassword}
-        onChange={handleNewPasswordChange}
-        touched={false}
-        classNameInput='bg-backgroundInput'
-        fieldInfo={strings.form.passwordInput.passwordInfo}
-      />
+      {/* hidden for the moment, because current password is not implemented in back yet  */}
+      <div className='hidden'>
+        <Input
+          type='password'
+          id='current-password'
+          name='current-password'
+          label={strings.form.cambiarPassword.oldPasswordLabel}
+          placeholder={strings.form.cambiarPassword.oldPasswordPlaceholder}
+          // commented for the moment, because current password is not implemented in back yet
+          // required
+          value={currentPassword}
+          onChange={handleCurrentPasswordChange}
+          touched={touched.newPassword}
+          classNameInput='bg-backgroundInput'
+        />
+      </div>
+      <div className='mt-4'>
+        <Input
+          type='password'
+          id='new-password'
+          name='new-password'
+          pattern='^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.]).{8,}$'
+          label={strings.form.cambiarPassword.newPasswordLabel}
+          placeholder={strings.form.cambiarPassword.newPasswordPlaceholder}
+          value={newPassword}
+          onChange={handleNewPasswordChange}
+          touched={touched.newPassword}
+          classNameInput='bg-backgroundInput'
+          fieldInfo={strings.form.passwordInput.passwordInfo}
+          validateText={strings.form.passwordInput.validateText}
+        />
+      </div>
     </ConfigProfileSection>
   );
 }

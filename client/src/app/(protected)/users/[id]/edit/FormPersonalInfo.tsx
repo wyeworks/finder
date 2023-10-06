@@ -83,6 +83,7 @@ export default function FormPersonalInfo({
   const [alertType, setAlertType] = useState<alertTypes>('error');
   const [disabledSubmittButton, setDisabledSubmittButton] =
     useState<boolean>(true);
+  const [alertTitle, setAlertTitle] = useState<string>('Error');
 
   useEffect(() => {
     const changedSocialNetworks = () => {
@@ -179,6 +180,7 @@ export default function FormPersonalInfo({
       setAlertVisible(true);
       setAlertMessage(strings.common.success.changeSuccess);
       setAlertType('success');
+      setAlertTitle(strings.common.success.defaultSuccess);
 
       await onSessionUpdate({
         info: {
@@ -193,12 +195,13 @@ export default function FormPersonalInfo({
       });
 
       setTimeout(() => {
-        window.location.href = '/home';
+        window.location.reload();
       }, 1000);
     } catch (error) {
       setAlertMessage(strings.common.error.unexpectedError);
       setAlertVisible(true);
       setAlertType('error');
+      setAlertTitle(strings.common.error.defaultError);
     }
   };
 
@@ -213,6 +216,7 @@ export default function FormPersonalInfo({
       isAlertVisible={alertVisible}
       alertMessage={alertMessage}
       alertType={alertType}
+      alertTitle={alertTitle}
     >
       <Input
         type='text'
