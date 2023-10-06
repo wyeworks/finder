@@ -50,8 +50,8 @@ export function ChangePasswordSection({ user }: { user: User }) {
     if (!isCurrentFormValid) {
       event.stopPropagation();
       setIsAlertVisible(true);
-      setAlertMessage('Por favor completa los campos correctamente');
-      setAlertTitle('Campos incorrectos');
+      setAlertMessage('Por favor completa el campo correctamente');
+      setAlertTitle('Campo incorrecto');
       setAlertType('error');
       return;
     }
