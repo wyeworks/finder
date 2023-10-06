@@ -8,7 +8,7 @@ export default function View() {
       className='grid-row-3 grid min-h-full justify-center px-6 pb-6 sm:py-12 lg:px-8'
       id='login-view'
     >
-      <div id='login-header'>
+      <div id='login-header' className='grid'>
         <h2 className='mt-6 flex items-center justify-center gap-3 text-center font-sans text-4xl font-bold leading-9 tracking-tight text-primaryBlue'>
           <FinderLogoIcon fill='#242760' height={50} width={41.666} />
           finder
