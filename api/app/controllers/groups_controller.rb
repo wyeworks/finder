@@ -83,16 +83,4 @@ class GroupsController < ApplicationController
   def group_params
     params.require(:group).permit(:name, :description, :size, :subject_id, time_preferences: {})
   end
-
-  def authorize_admin!
-    return if @group.admin?(current_user)
-
-    Rails.logger.info "User with ID ##{current_user.id} is not this group's Admin"
-
-    render json: {
-      errors: {
-        group: ["El usuario con ID ##{current_user.id} no es administrador de este grupo"]
-      }
-    }, status: :unauthorized
-  end
 end

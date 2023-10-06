@@ -219,28 +219,27 @@ RSpec.describe 'Groups::Requests', type: :request do
 
     context 'when user is authenticated' do
       before do
-        post user_session_path,
-             params: {
-               user: {
-                 email: user.email,
-                 password: user.password
-               }
-             }
+        headers
       end
 
       context 'when user is admin of the group' do
+        let(:request1) { create :request, group: }
+        let(:request2) { create :request, group: }
         before do
           group.members.create(user:, role: 'admin')
-          create_list(:request, 2, group:)
+          request1
+          request2
           get group_requests_path(group), headers:
         end
 
         it 'returns all requests for the group' do
           expect(response).to have_http_status(:ok)
-
           json_response = response.parsed_body
           expect(json_response).to be_an(Array)
           expect(json_response.size).to eq(2)
+
+          request_ids = json_response.pluck('id')
+          expect(request_ids).to include(request1.id, request2.id)
 
           request = json_response.first
           expect(request).to include(
