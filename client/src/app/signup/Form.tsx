@@ -84,7 +84,10 @@ export default function Form() {
   };
 
   return (
-    <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm' id='register-form'>
+    <div
+      className='mt-3 sm:mx-auto sm:mt-10 sm:w-full sm:max-w-sm'
+      id='register-form'
+    >
       <form
         className='grid max-w-xs grid-rows-register-form gap-1 sm:pl-7'
         onSubmit={handleSubmit}
