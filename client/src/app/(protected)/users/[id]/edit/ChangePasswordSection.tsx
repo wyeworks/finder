@@ -85,7 +85,7 @@ export function ChangePasswordSection({ user }: { user: User }) {
 
       setTimeout(() => {
         setIsAlertVisible(false);
-      }, 2000);
+      }, 7000);
     } catch (error: any) {
       setIsAlertVisible(true);
       setAlertMessage(error.message);
