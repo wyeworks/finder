@@ -13,9 +13,5 @@ class MemberSerializer
     member.user.name
   end
 
-  attribute :bio do |member|
-    member.user.bio
-  end
-
   attribute :role
 end

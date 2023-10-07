@@ -70,7 +70,6 @@ export class ApiCommunicator {
         credentials: 'include',
       };
     }
-
     Logger.debug('Url: ', url);
     Logger.debug('Fetching with options: ', fetchOptions);
     const response = await fetch(url, fetchOptions);
@@ -84,6 +83,7 @@ export class ApiCommunicator {
         'Code: ',
         response.status
       );
+
       if (handleNotOk) {
         const errorData = await response.json();
         const errorMessage =
@@ -102,6 +102,8 @@ export class ApiCommunicator {
       url: '/api/signup',
       method: 'PATCH',
       data,
+      handleNotOk: false,
+      asJSON: false,
     });
   }
 
@@ -174,6 +176,7 @@ export class ApiCommunicator {
       method: 'POST',
       data,
       asJSON: false,
+      handleNotOk: false,
     });
   }
 
@@ -184,6 +187,7 @@ export class ApiCommunicator {
       data,
       mustBeAuthenticated: true,
       asJSON: false,
+      handleNotOk: false,
     });
   }
 

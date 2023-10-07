@@ -1,8 +1,18 @@
 module Groups
   class RequestsController < ApplicationController
-    before_action :set_group
-    before_action :authenticate_user!
-    before_action :set_request, :authorize_admin!, only: :update
+    include GroupAdminConcern
+    before_action :set_group, :authenticate_user!
+    before_action :set_request, only: :update
+    before_action :authorize_group_admin!, only: %i[index update]
+
+    def index
+      requests = @group.requests.where(status: 'pending')
+      serialized_requests = requests.map do |request|
+        RequestSerializer.new(request).serializable_hash[:data][:attributes]
+      end
+
+      render json: serialized_requests
+    end
 
     def create
       @request = Request.new(status: 'pending', user: current_user, group: @group)
