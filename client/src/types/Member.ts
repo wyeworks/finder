@@ -4,4 +4,7 @@ export type Member = {
   name: string;
   email: string;
   role: 'Miembro' | 'Administrador';
+  groupId?: string;
+  reason?: string;
+  userId?: string; // check if is necessary
 };

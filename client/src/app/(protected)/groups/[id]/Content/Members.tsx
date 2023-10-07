@@ -33,7 +33,7 @@ export default function Members() {
       await getMembers()
         .then((response) => response.json())
         .then((data) => {
-          setMembers(data);
+          if (!data.error) setMembers(data);
         });
     };
     fetchData();

@@ -136,7 +136,16 @@ export class ApiCommunicator {
 
   static async clientSideMembersGroup(id: string): Promise<any> {
     return await this.commonFetch({
-      url: '/api/MembersGroup/' + id,
+      url: '/api/groups/' + id + '/memberGroup',
+      method: 'GET',
+      handleNotOk: false,
+      asJSON: true,
+    });
+  }
+
+  static async clientSideRequestJoinGroup(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: '/api/groups/' + id + '/requestJoinGroup',
       method: 'GET',
       handleNotOk: false,
       asJSON: true,
@@ -242,6 +251,15 @@ export class ApiCommunicator {
   static async getMembersGroup(id: string): Promise<any> {
     return await this.commonFetch({
       url: this.apiUrl() + '/groups/' + id + '/members',
+      method: 'GET',
+      mustBeAuthenticated: true,
+      asJSON: false,
+    });
+  }
+
+  static async getRequestJoinGroup(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + '/groups/' + id + '/requests',
       method: 'GET',
       mustBeAuthenticated: true,
       asJSON: false,

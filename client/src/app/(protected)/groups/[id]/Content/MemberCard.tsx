@@ -21,7 +21,8 @@ export default function MemberCard({
   member,
   renderRightSection,
 }: MemberCardProp) {
-  const { name, email, role } = member;
+  const { id, name, email, role } = member;
+
   return (
     <div
       className='grid w-full max-w-[100%] grid-cols-[40px,160px,auto] items-center 
@@ -39,6 +40,7 @@ export default function MemberCard({
       <div className='mr-2 flex flex-col overflow-clip'>
         <span className='overflow-hidden overflow-ellipsis whitespace-nowrap font-bold'>
           {name}
+          {id}
         </span>
         <span className='overflow-hidden overflow-ellipsis whitespace-nowrap'>
           {email}
