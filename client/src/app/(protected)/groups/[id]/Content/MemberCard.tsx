@@ -2,7 +2,7 @@ import EllipsisVerticalIcon from '@/assets/Icons/EllipsisVerticalIcon';
 import Image from 'next/image';
 import defaultUser from '@/assets/images/default_user.png';
 import Tag from '@/components/common/Tag';
-import { Member } from './Members';
+import { Member } from '@/types/Member';
 import Button from '@/components/common/Button';
 import UserPlusIcon from '@/assets/Icons/UserPlusIcon';
 import TrashIcon from '@/assets/Icons/TrashIcon';
@@ -11,6 +11,11 @@ type MemberCardProp = {
   member: Member;
   renderRightSection: 'Buttons' | 'Tags';
 };
+
+function mapRole(backEndRole: string) {
+  if (backEndRole === 'admin') return 'Administrador';
+  return 'Miembro';
+}
 
 export default function MemberCard({
   member,
@@ -42,7 +47,7 @@ export default function MemberCard({
       {renderRightSection === 'Tags' && (
         <div className='grid grid-cols-[auto,20px]'>
           <div className='justify-self-center'>
-            <Tag type={role} />
+            <Tag type={mapRole(role)} />
           </div>
           <div>
             <EllipsisVerticalIcon className='h-6 w-6' />

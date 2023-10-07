@@ -132,6 +132,15 @@ export class ApiCommunicator {
     });
   }
 
+  static async clientSideMembersGroup(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: '/api/MembersGroup/' + id,
+      method: 'GET',
+      handleNotOk: false,
+      asJSON: true,
+    });
+  }
+
   static async createGroup(data: any): Promise<any> {
     return await this.commonFetch({
       url: this.apiUrl() + '/groups',
@@ -223,6 +232,15 @@ export class ApiCommunicator {
     return await this.commonFetch({
       url: this.apiUrl() + `/groups/${id}`,
       method: 'GET',
+    });
+  }
+
+  static async getMembersGroup(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + '/groups/' + id + '/members',
+      method: 'GET',
+      mustBeAuthenticated: true,
+      asJSON: false,
     });
   }
 }

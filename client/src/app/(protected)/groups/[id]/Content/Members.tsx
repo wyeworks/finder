@@ -3,34 +3,55 @@
 import Input from '@/components/common/Input';
 import MemberCard from './MemberCard';
 import FilterIcon from '@/assets/Icons/FilterIcon';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import strings from '@/locales/strings.json';
 import { removeAccents } from '@/utils/Formatter';
 import Button from '@/components/common/Button';
 import OutIcon from '@/assets/Icons/OutIcon';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
+import { usePathname } from 'next/navigation';
+import { Logger } from '@/services/Logger';
+import { Member } from '@/types/Member';
 
-export type Member = {
-  name: string;
-  email: string;
-  role: 'Miembro' | 'Administrador';
-};
-
-type MembersProps = {
-  members: Member[];
-};
-
-export default function Members({ members }: MembersProps) {
+export default function Members() {
+  const pathname = usePathname();
+  const groupId = pathname.split('/')[2];
   const [filterText, setFilterText] = useState('');
+  const [members, setMembers] = useState<Member[]>([]);
+
+  const getMembers = useCallback(async () => {
+    try {
+      return await ApiCommunicator.clientSideMembersGroup(groupId);
+    } catch (error) {
+      Logger.error('Error trying to get members:' + { error });
+      return null;
+    }
+  }, [groupId]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getMembers()
+        .then((response) => response.json())
+        .then((data) => {
+          setMembers(data);
+        });
+    };
+    fetchData();
+  }, [getMembers]);
 
   const handleFilterChange = (event: any) => {
     setFilterText(event.target.value);
   };
 
-  const filteredUsers = members.filter((user) =>
+  const filteredUsers = members.filter((user: any) =>
     removeAccents(user.name.toLowerCase()).includes(
       removeAccents(filterText.toLowerCase())
     )
   );
+
+  if (members.length === 0) {
+    return <></>;
+  }
 
   return (
     <div
@@ -56,7 +77,7 @@ export default function Members({ members }: MembersProps) {
             {strings.groups.membersTab.emptyMessage}
           </div>
         )}
-        {filteredUsers.map((user, index) => (
+        {filteredUsers.map((user: any, index: number) => (
           <div key={index}>
             <MemberCard member={user} renderRightSection='Tags' />
           </div>

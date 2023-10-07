@@ -5,6 +5,7 @@ import { User } from '@/types/User';
 import { StudyGroup } from '@/types/StudyGroup';
 import { Logger } from '@/services/Logger';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
+import { Member } from '@/types/Member';
 
 export class GroupService {
   public static async getGroup(id: string): Promise<StudyGroup> {
@@ -43,5 +44,11 @@ export class GroupService {
 
     Logger.debug('Active groups for users: ' + user.name + ' are: ' + grupos);
     return Promise.resolve(grupos);
+  }
+
+  public static async getMembersGroup(groupId: string): Promise<Member[]> {
+    return await ApiCommunicator.clientSideMembersGroup(groupId).then(
+      (response) => response.json()
+    );
   }
 }

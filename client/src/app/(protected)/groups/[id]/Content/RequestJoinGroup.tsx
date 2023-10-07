@@ -4,7 +4,7 @@ import FilterIcon from '@/assets/Icons/FilterIcon';
 import Input from '@/components/common/Input';
 import MemberCard from './MemberCard';
 import { useState } from 'react';
-import { Member } from './Members';
+import { Member } from '@/types/Member';
 import strings from '@/locales/strings.json';
 import { removeAccents } from '@/utils/Formatter';
 

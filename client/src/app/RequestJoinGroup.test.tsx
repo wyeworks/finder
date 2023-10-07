@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import RequestJoinGroup from './(protected)/groups/[id]/Content/RequestJoinGroup';
-import { Member } from './(protected)/groups/[id]/Content/Members';
+import { Member } from '@/types/Member';
 import strings from '@/locales/strings.json';
 
 describe('RequestJoinGroup Component Tests', () => {
