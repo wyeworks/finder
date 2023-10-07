@@ -15,7 +15,7 @@ async function GroupCard({ group }: GroupCardProps) {
   return (
     <div
       data-testid={`groupCard-${group.name}`}
-      className='m-10 flex w-[444px] flex-col overflow-hidden rounded-2xl shadow-2xl'
+      className='m-5 flex flex-col overflow-hidden rounded-2xl shadow-2xl lg:w-[444px]'
     >
       <Image
         data-testid={`groupBanner-${group.banner ?? 'default'}`}
@@ -55,10 +55,7 @@ type GroupsLayoutProps = {
 
 function SubscribedGroups({ children }: { children: React.ReactNode }) {
   return (
-    <div
-      data-testid='subscribedGroups'
-      className='flex flex-row flex-wrap justify-center lg:justify-start'
-    >
+    <div data-testid='subscribedGroups' className='grid-cols-2 lg:grid'>
       {children}
     </div>
   );

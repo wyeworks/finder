@@ -158,7 +158,7 @@ async function Careers({ user }: { user: User }) {
 export default async function UserBanner({ user }: UserBannerProps) {
   const session = await getServerSession(authOptions);
   return (
-    <div className='flex w-full flex-col bg-transparent'>
+    <div className='flex w-full flex-col border-b-2 border-gray-100 bg-transparent'>
       <div className='flex flex-col justify-center lg:mt-0 lg:flex-row lg:justify-between lg:pl-20'>
         <div className='mt-10 flex flex-col items-center lg:flex-row'>
           <UserProfileImage profileImage={user.profileImage} />

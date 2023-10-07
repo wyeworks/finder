@@ -11,10 +11,9 @@ type SubjectsLayoutProps = {
 function SubjectItem({ subject }: { subject: Subject }) {
   return (
     <div className='border-b-2 p-5'>
-      <h1 className='text-lg font-bold text-[#242760]'>
-        {subject.code} - {subject.name}
-      </h1>
-      <h2 className='text-md text-[#3D405B]'>{subject.credits} créditos</h2>
+      <p className='text-lg font-bold text-[#242760]'>
+        {subject.name} <small className='text-gray-600'>({subject.code})</small>
+      </p>
     </div>
   );
 }
@@ -22,21 +21,21 @@ function SubjectItem({ subject }: { subject: Subject }) {
 async function SubjectList({ user }: { user: User }) {
   const subjects = await SubjectService.getByUser(user);
   return (
-    <>
+    <div className='h-min'>
       {subjects.map((subject) => (
         <SubjectItem key={subject.code} subject={subject} />
       ))}
-    </>
+    </div>
   );
 }
 
 export default async function SubjectsLayout({ user }: SubjectsLayoutProps) {
   return (
-    <div className='overflow-hidden lg:ml-10 lg:w-1/4 lg:rounded-2xl lg:border-2 lg:bg-white'>
+    <div className='h-min overflow-hidden lg:ml-10 lg:rounded-2xl lg:border-2 lg:bg-white'>
       <div className='border-b-2 p-5 text-[#2B2D54] lg:bg-[#2B2D54] lg:text-white'>
-        <h1 className='text-4xl font-extrabold'>Materias</h1>
+        <h1 className='text-4xl font-extrabold'>Materias en curso</h1>
       </div>
-      <div className='h-fit'>
+      <div>
         <Suspense fallback={<Loading />}>
           <SubjectList user={user} />
         </Suspense>

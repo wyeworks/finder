@@ -17,7 +17,7 @@ export default async function Page({ params }: Props) {
   return (
     <div className='bg-white md:bg-whiteCustom'>
       <UserBanner user={user} />
-      <div className='flex flex-col lg:flex-row lg:p-20'>
+      <div className='flex flex-col items-start justify-center lg:flex-row lg:pt-20'>
         <GroupsLayout user={user} />
         <SubjectsLayout user={user} />
       </div>
