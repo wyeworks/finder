@@ -49,6 +49,36 @@ module Groups
       }, status: :unprocessable_entity
     end
 
+    def show_for_user
+      user = User.find_by(id: params[:user_id])
+
+      unless user
+        Rails.logger.info "User with ID ##{params[:user_id]} not found"
+
+        render json: {
+          errors: {
+            user: ["No se pudo encontrar el usuario con el ID ##{params[:user_id]}"]
+          }
+        }, status: :not_found and return
+      end
+
+      request = @group.requests.find_by(user:)
+
+      unless request
+        Rails.logger.info "No request found for User ID ##{params[:user_id]} in Group with ID ##{params[:group_id]}"
+
+        error_message = "No se pudo encontrar la solicitud del usuario con el ID ##{params[:user_id]} " \
+                        "para el grupo con el ID ##{params[:group_id]}"
+        render json: {
+          errors: {
+            request: [error_message]
+          }
+        }, status: :not_found and return
+      end
+
+      render json: RequestSerializer.new(request).serializable_hash[:data][:attributes], status: :ok
+    end
+
     private
 
     def set_group
@@ -75,18 +105,6 @@ module Groups
           request: [error_message]
         }
       }, status: :not_found
-    end
-
-    def authorize_admin!
-      return if @group.admin?(current_user)
-
-      Rails.logger.info "User with ID ##{current_user.id} is not this group's Admin"
-
-      render json: {
-        errors: {
-          request: ["El usuario con ID ##{current_user.id} no es administrador de este grupo"]
-        }
-      }, status: :unauthorized
     end
 
     def request_params

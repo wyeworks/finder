@@ -274,4 +274,55 @@ RSpec.describe 'Groups::Requests', type: :request do
       end
     end
   end
+
+  describe 'GET /groups/:group_id/requests/users/:user_id' do
+    let(:user) { create(:user) }
+    let(:group) { create(:group) }
+
+    let(:headers) do
+      post user_session_path, params: { user: { email: user.email, password: user.password } }
+      { 'Authorization' => response.headers['Authorization'] }
+    end
+
+    context 'when user is authenticated' do
+      before do
+        headers
+      end
+
+      context 'when request exists for the user in the group' do
+        let!(:request) { create :request, user:, group: }
+
+        before do
+          get "/groups/#{group.id}/requests/users/#{user.id}", headers:
+        end
+
+        it 'returns the request for the user' do
+          expect(response).to have_http_status(:ok)
+          json_response = response.parsed_body
+          expect(json_response['id']).to eq(request.id)
+          expect(json_response['status']).to eq('pending')
+        end
+      end
+
+      context 'when no request exists for the user in the group' do
+        before do
+          get "/groups/#{group.id}/requests/users/#{user.id}", headers:
+        end
+
+        it 'returns a not found status' do
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+
+    context 'when user is not authenticated' do
+      before do
+        get "/groups/#{group.id}/requests/users/#{user.id}"
+      end
+
+      it 'returns http unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end
