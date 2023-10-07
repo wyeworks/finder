@@ -8,6 +8,7 @@ import { UserService } from '@/services/UserService';
 import { User } from '@/types/User';
 import strings from '@/locales/strings.json';
 import { BackendError } from '@/types/BackendError';
+import { mustHaveUpperCaseLowerCaseAndEightCharacters } from '@/utils/Pattern';
 
 export function ChangePasswordSection({ user }: { user: User }) {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -127,7 +128,7 @@ export function ChangePasswordSection({ user }: { user: User }) {
           type='password'
           id='new-password'
           name='new-password'
-          pattern='^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.]).{8,}$'
+          pattern={mustHaveUpperCaseLowerCaseAndEightCharacters()}
           label={strings.form.cambiarPassword.newPasswordLabel}
           placeholder={strings.form.cambiarPassword.newPasswordPlaceholder}
           value={newPassword}

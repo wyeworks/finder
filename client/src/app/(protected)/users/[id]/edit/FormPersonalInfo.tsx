@@ -19,6 +19,7 @@ import { Career } from '@/types/Career';
 import { SocialNetworks } from '@/types/SocialNetworks';
 import { useSession } from 'next-auth/react';
 import { ConfigProfileSection } from '@/app/(protected)/users/[id]/edit/ConfigProfileSection';
+import { mustBePhoneNumer, mustBeURLWithUsername } from '@/utils/Pattern';
 
 type PersonalInfoFormData = {
   name: string;
@@ -298,7 +299,11 @@ export default function FormPersonalInfo({
                 key={index}
                 type='text'
                 id={key}
-                pattern={key != 'whatsapp' ? `^.*${key}\.com\/.+` : '[0-9]*'}
+                pattern={
+                  key != 'whatsapp'
+                    ? mustBeURLWithUsername(key)
+                    : mustBePhoneNumer()
+                }
                 name={key}
                 Icon={returnSocialNetworkIcon(key)}
                 value={formData.social_networks[key as keyof SocialNetworks]}
