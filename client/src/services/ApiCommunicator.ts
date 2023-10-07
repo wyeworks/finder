@@ -248,4 +248,28 @@ export class ApiCommunicator {
       asJSON: false,
     });
   }
+
+  static async getRequestStateGroup(
+    groupId: string,
+    userId: string
+  ): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + `/groups/${groupId}/requests/users/${userId}`,
+      method: 'GET',
+      handleNotOk: false,
+      asJSON: false,
+    });
+  }
+
+  static async clientSideGetRequestStateGroup(
+    groupId: string,
+    userId: string
+  ): Promise<any> {
+    return await this.commonFetch({
+      url: `/api/groups/${groupId}/requests/users/${userId}`,
+      method: 'GET',
+      handleNotOk: false,
+      asJSON: false,
+    });
+  }
 }

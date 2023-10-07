@@ -5,34 +5,68 @@ import GroupSizeIcon from '@/assets/Icons/GroupSizeIcon';
 import { Subject } from '@/types/Subject';
 import Button from '@/components/common/Button';
 import { GroupService } from '@/services/GroupService';
+import { User } from '@/types/User';
+import strings from '@/locales/strings.json';
 
 type GroupInfoProps = {
   group: StudyGroup;
   subject: Subject;
+  user: User;
 };
 
-export default function GroupInfo({ group, subject }: GroupInfoProps) {
-  const { id, name, description, size } = group;
+export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
+  const { id, name, description, size, user_ids } = group;
   const handleRequestGroup = async function () {
     if (id) {
       await GroupService.clientSideSubmitRequest(id.toString());
     }
   };
+
+  const inGroup = () => {
+    let res = false;
+    if (user_ids) {
+      res = user_ids.includes(Number(user.id));
+    }
+    return res;
+  };
+
+  const isRequestPending = () => {
+    let res = true;
+    if (user_ids) {
+      // res = user_ids.includes(Number(user.id));
+    }
+    return res;
+  };
   return (
     <div className='mt-4 grid grid-cols-1 sm:grid-cols-5'>
       <div className='col-span-1'></div>
       <div className='text-center sm:col-span-3 sm:text-left '>
-        <div className='flex '>
-          <h1 className='mb-3 w-[85%] text-4xl'>
-            {name} #{id}
-          </h1>
-          <div className='w-[15%] min-w-[175px] justify-center'>
-            <Button
-              text='Unirse al grupo'
-              className='bg-primaryBlue hover:bg-hoverPrimaryBlue'
-              onClick={handleRequestGroup}
-            />
+        <div className='flex'>
+          <div className='flex w-full items-center justify-center sm:justify-start md:w-[85%]'>
+            <h1 className='mb-3 text-4xl'>{name}</h1>
+            <span className='text-md mb-2 ml-2 rounded-full bg-primaryBlue px-2.5 py-0.5 font-medium text-white'>
+              <strong>#{id}</strong>
+            </span>
           </div>
+
+          {!inGroup() && (
+            <div className='hidden min-w-[175px] justify-center md:flex md:w-[15%]'>
+              <Button
+                text={
+                  isRequestPending()
+                    ? strings.groups.infoTab.pendingRequestButtonText
+                    : strings.groups.infoTab.requestButtonText
+                }
+                className={
+                  isRequestPending()
+                    ? 'bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-slate-500'
+                    : 'bg-primaryBlue hover:bg-hoverPrimaryBlue'
+                }
+                disabled={isRequestPending()}
+                onClick={handleRequestGroup}
+              />
+            </div>
+          )}
         </div>
 
         <p className='mb-3 text-xl font-bold'>{subject.name}</p>
@@ -43,6 +77,22 @@ export default function GroupInfo({ group, subject }: GroupInfoProps) {
             <span>{size} integrantes máximo</span>
           </div>
         </div>
+        {!inGroup() && (
+          <div className='flex w-full justify-center sm:justify-start md:hidden'>
+            <Button
+              text={
+                isRequestPending() ? 'Solicitud pendiente' : 'Unirse al grupo'
+              }
+              className={
+                isRequestPending()
+                  ? 'bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-slate-500'
+                  : 'bg-primaryBlue hover:bg-hoverPrimaryBlue'
+              }
+              disabled={isRequestPending()}
+              onClick={handleRequestGroup}
+            />
+          </div>
+        )}
       </div>
       <div className='sm:col-span-1'></div>
     </div>

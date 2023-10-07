@@ -27,4 +27,5 @@ export type StudyGroup = {
   time_preferences?: TimePreference;
   isLab?: boolean;
   banner?: string;
+  user_ids?: number[];
 };
