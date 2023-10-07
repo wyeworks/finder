@@ -51,22 +51,22 @@ module Groups
 
     def show_for_user
       user = User.find_by(id: params[:user_id])
-    
+
       unless user
         Rails.logger.info "User with ID ##{params[:user_id]} not found"
-    
+
         render json: {
           errors: {
             user: ["No se pudo encontrar el usuario con el ID ##{params[:user_id]}"]
           }
         }, status: :not_found and return
       end
-    
-      request = @group.requests.find_by(user: user)
-    
+
+      request = @group.requests.find_by(user:)
+
       unless request
         Rails.logger.info "No request found for User ID ##{params[:user_id]} in Group with ID ##{params[:group_id]}"
-    
+
         error_message = "No se pudo encontrar la solicitud del usuario con el ID ##{params[:user_id]} " \
                         "para el grupo con el ID ##{params[:group_id]}"
         render json: {
@@ -75,10 +75,9 @@ module Groups
           }
         }, status: :not_found and return
       end
-    
+
       render json: RequestSerializer.new(request).serializable_hash[:data][:attributes], status: :ok
     end
-    
 
     private
 
