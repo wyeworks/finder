@@ -36,7 +36,7 @@ function EditButton(props: { user: User }) {
 
 function SocialNetworkButtons(props: { social_networks: SocialNetworks }) {
   return (
-    <div className='mt-10 flex h-16 flex-row items-center justify-evenly lg:mt-0'>
+    <div className='ml-10 mt-10 flex h-16 flex-row items-center justify-evenly lg:mt-0'>
       {props.social_networks.instagram && (
         <InstagramButton link={props.social_networks.instagram} />
       )}
