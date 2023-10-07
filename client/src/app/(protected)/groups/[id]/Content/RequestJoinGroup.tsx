@@ -17,7 +17,8 @@ export default function RequestJoinGroup() {
   const groupId = pathname.split('/')[2];
   const [filterText, setFilterText] = useState('');
   const [requestUsers, setRequestMembers] = useState<Member[]>([]);
-  const [showRequest, setShowRequest] = useState<boolean>(true);
+  const [forbiddenData, setForbiddenData] = useState<boolean>(false);
+  const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
 
   const fetchData = useCallback(async () => {
     try {
@@ -26,10 +27,12 @@ export default function RequestJoinGroup() {
       const data = await request.json();
       if (!request.ok) {
         const parsedError = data as BackendError;
-        if (parsedError.errors.group) setShowRequest(false);
+        if (parsedError.errors.group) setForbiddenData(false);
+        setIsLoadingData(false);
         return;
       }
-      setShowRequest(true);
+      setForbiddenData(true);
+      setIsLoadingData(false);
       setRequestMembers(data);
     } catch (error) {
       Logger.error('Error trying to get request to join group: ' + { error });
@@ -50,7 +53,11 @@ export default function RequestJoinGroup() {
     )
   );
 
-  if (!showRequest) {
+  if (isLoadingData) {
+    return <></>;
+  }
+
+  if (!forbiddenData) {
     return (
       <div className='border border-solid p-10 text-center'>
         Solo los administradores del grupo pueden ver las solicitudes
