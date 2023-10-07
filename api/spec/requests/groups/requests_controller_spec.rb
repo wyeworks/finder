@@ -207,4 +207,69 @@ RSpec.describe 'Groups::Requests', type: :request do
       end
     end
   end
+
+  describe 'GET /groups/:group_id/requests' do
+    let(:user) { create(:user) }
+    let(:group) { create(:group) }
+
+    let(:headers) do
+      post user_session_path, params: { user: { email: user.email, password: user.password } }
+      { 'Authorization' => response.headers['Authorization'] }
+    end
+
+    context 'when user is authenticated' do
+      before do
+        headers
+      end
+
+      context 'when user is admin of the group' do
+        let(:request1) { create :request, group: }
+        let(:request2) { create :request, group: }
+        before do
+          group.members.create(user:, role: 'admin')
+          request1
+          request2
+          get group_requests_path(group), headers:
+        end
+
+        it 'returns all requests for the group' do
+          expect(response).to have_http_status(:ok)
+          json_response = response.parsed_body
+          expect(json_response).to be_an(Array)
+          expect(json_response.size).to eq(2)
+
+          request_ids = json_response.pluck('id')
+          expect(request_ids).to include(request1.id, request2.id)
+
+          request = json_response.first
+          expect(request).to include(
+            'id' => be_a(Integer),
+            'status' => 'pending',
+            'group_id' => group.id,
+            'user_id' => be_a(Integer)
+          )
+        end
+      end
+
+      context 'when user is not an admin of the group' do
+        before do
+          get group_requests_path(group), headers:
+        end
+
+        it 'returns unauthorized' do
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+    end
+
+    context 'when user is not authenticated' do
+      before do
+        get group_requests_path(group)
+      end
+
+      it 'returns http unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end
