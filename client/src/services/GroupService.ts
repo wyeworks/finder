@@ -44,4 +44,8 @@ export class GroupService {
     Logger.debug('Active groups for users: ' + user.name + ' are: ' + grupos);
     return Promise.resolve(grupos);
   }
+
+  public static async clientSideSubmitRequest(id: string): Promise<any> {
+    return await ApiCommunicator.clientSideSubmitRequestGroup(id);
+  }
 }

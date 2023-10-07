@@ -226,4 +226,23 @@ export class ApiCommunicator {
       method: 'GET',
     });
   }
+
+  static async submitRequestGroup(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + `/groups/${id}/requests`,
+      method: 'POST',
+      mustBeAuthenticated: true,
+      asJSON: false,
+      handleNotOk: false,
+    });
+  }
+
+  static async clientSideSubmitRequestGroup(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: `/api/groups/${id}/requests`,
+      method: 'POST',
+      handleNotOk: false,
+      asJSON: false,
+    });
+  }
 }
