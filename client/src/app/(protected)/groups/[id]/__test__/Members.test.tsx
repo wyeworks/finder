@@ -2,24 +2,9 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Members from '../Content/Members';
-import { Member } from '@/types/Member';
 import strings from '@/locales/strings.json';
 
 describe('Members Component Tests', () => {
-  // eslint-disable-next-line no-unused-vars
-  const memberUsers: Member[] = [
-    {
-      name: 'Juan Pérez',
-      email: 'juan@example.com',
-      role: 'participant',
-    },
-    {
-      name: 'María González',
-      email: 'maria@example.com',
-      role: 'admin',
-    },
-  ];
-
   test('should render without crashing', () => {
     render(<Members />);
     const membersComponent = screen.getByTestId('members-component');
