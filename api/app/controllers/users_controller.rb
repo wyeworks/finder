@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user
-  before_action :authenticate_user!, only: :destroy
+  before_action :authenticate_user!, :handle_user_groups, only: :destroy
 
   def show
     render json: UserSerializer.new(@user).serializable_hash[:data][:attributes]
@@ -41,5 +41,31 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
+  end
+
+  def handle_user_groups
+    @user.groups.each do |group|
+      next unless group.admin?(@user)
+
+      if group.admins.count == 1
+        if group.members.count == 1
+          group.destroy
+
+          Rails.logger.info "Group ##{group.id} was successfully deleted"
+        else
+          group.promote_oldest_member!
+
+          Rails.logger.info "Oldest member has been promoted as admin for group ##{group.id}"
+        end
+      end
+    rescue ActiveRecord::RecordInvalid
+      Rails.logger.info "Couldn't promote oldest member for one of the user's groups"
+
+      render json: {
+        errors: {
+          group: ['No se pudo promover al participante más antiguo de uno de los grupos de este usuario']
+        }
+      }, status: :unprocessable_entity
+    end
   end
 end

@@ -2,7 +2,7 @@ import EyeClosedIcon from '@/assets/Icons/EyeClosedIcon';
 import EyeIcon from '@/assets/Icons/EyeIcon';
 import { useState } from 'react';
 import TooltipIcon from '@/components/common/TooltipIcon';
-import InfoIcon from '@/components/common/icons/InfoIcon';
+import InfoIcon from '@/assets/Icons/InfoIcon';
 
 type InputParams = {
   type: string;

@@ -5,4 +5,8 @@ class Member < ApplicationRecord
 
   # Validations
   validates :role, presence: true, inclusion: { in: %w[admin participant] }
+
+  def promote!
+    update!(role: 'admin')
+  end
 end

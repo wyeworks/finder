@@ -141,7 +141,7 @@ export default function CreateGroup() {
               )}
             </div>
             <h1
-              className='flex cursor-pointer items-center justify-center gap-3 text-center text-3xl font-bold text-primaryBlue'
+              className='flex min-w-[150px] cursor-pointer items-center justify-center gap-3 text-center text-3xl font-bold text-primaryBlue'
               onClick={() => router.push('/home')}
             >
               <FinderLogoIcon fill='#242760' height={50} width={41.666} />

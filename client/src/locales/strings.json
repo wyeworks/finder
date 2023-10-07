@@ -55,6 +55,23 @@
       "placeholder": "Grupo de <materia>",
       "validateText": "Ingresa un nombre de grupo"
     },
+    "cambiarPassword": {
+      "title": "Cambiar contraseña",
+      "confirmButtonText": "Actualizar",
+      "oldPasswordLabel": "Contraseña actual",
+      "oldPasswordPlaceholder": "Ingresa tu contraseña actual",
+      "newPasswordLabel": "Nueva contraseña",
+      "newPasswordPlaceholder": "Ingresa tu nueva contraseña"
+    },
+    "deleteUser": {
+      "title": "Eliminar perfil",
+      "confirmButtonText": "Eliminar perfil",
+      "deleteExplanation": "Si eliminas tu perfil, se eliminarán todos tus datos y seras desvinculado de todos los grupos a los que perteneces. Esta acción no se puede deshacer.",
+      "confirmDialogDescription": "¿Estás seguro que deseas eliminar tu perfil? Esta acción no se puede deshacer.",
+      "confirmDialogTitle": "Eliminar perfil",
+      "confirmDialogConfirmButtonText": "Eliminar perfil",
+      "confirmDialogCancelButtonText": "Cancelar"
+    },
     "descriptionGroupInput": {
       "placeholder": "Descripción de <materia>",
       "validateText": "Ingresa una descripción de grupo"
