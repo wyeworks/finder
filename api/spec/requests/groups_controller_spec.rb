@@ -22,6 +22,7 @@ RSpec.describe GroupsController, type: :request do
       expect(json_response[0]['size']).to be_a(Integer)
       expect(json_response[0]['time_preferences']).to be_a(Hash)
       expect(json_response[0]['subject_id']).to be_a(Integer)
+      expect(json_response[0]['subject_name']).to be_a(String)
     end
   end
 
@@ -49,6 +50,7 @@ RSpec.describe GroupsController, type: :request do
         expect(json_response['size']).to eq(group.size)
         expect(json_response['time_preferences']).to eq(group.time_preferences)
         expect(json_response['subject_id']).to eq(group.subject_id)
+        expect(json_response['subject_name']).to eq(group.subject.name)
       end
     end
 

@@ -246,7 +246,9 @@ RSpec.describe 'Groups::Requests', type: :request do
             'id' => be_a(Integer),
             'status' => 'pending',
             'group_id' => group.id,
-            'user_id' => be_a(Integer)
+            'user_id' => be_a(Integer),
+            'user_name' => be_a(String),
+            'user_email' => be_a(String)
           )
         end
       end
