@@ -11,6 +11,10 @@ export class GroupService {
     return (await ApiCommunicator.getGroup(id)) as StudyGroup;
   }
 
+  public static async getGroups(): Promise<StudyGroup[]> {
+    return (await ApiCommunicator.getGroups()) as StudyGroup[];
+  }
+
   public static async getActiveGroups(user: User): Promise<StudyGroup[]> {
     Logger.debug('Getting active groups for users: ' + user.name);
 

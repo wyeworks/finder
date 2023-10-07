@@ -229,4 +229,11 @@ export class ApiCommunicator {
       method: 'GET',
     });
   }
+
+  static async getGroups(): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + `/groups`,
+      method: 'GET',
+    });
+  }
 }

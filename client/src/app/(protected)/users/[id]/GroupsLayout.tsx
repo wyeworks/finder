@@ -1,50 +1,6 @@
+import { GroupCard } from '@/components/common/GroupCard';
 import { StudyGroup } from '@/types/StudyGroup';
-import Image from 'next/image';
 import React from 'react';
-import { SubjectService } from '@/services/SubjectService';
-
-type GroupCardProps = {
-  group: StudyGroup;
-};
-
-async function GroupCard({ group }: GroupCardProps) {
-  const subject = await SubjectService.getSubject(group.subject_id);
-  return (
-    <div
-      data-testid={`groupCard-${group.name}`}
-      className='m-10 flex w-[444px] flex-col overflow-hidden rounded-2xl shadow-2xl'
-    >
-      <Image
-        data-testid={`groupBanner-${group.banner ?? 'default'}`}
-        src={group.banner ? group.banner : '/default_group_banner.png'}
-        alt={group.name}
-        width={891}
-        height={306}
-        className='w-full'
-      />
-      <div className='bg-white p-5'>
-        <h1
-          data-testid={`groupSubject-${group.subject_id}`}
-          className='text-base font-bold text-[#242760]'
-        >
-          {subject.name}
-        </h1>
-        <h1
-          data-testid={`groupName-${group.name}`}
-          className='text-xl font-normal text-[#050838]'
-        >
-          {group.name}
-        </h1>
-        <p
-          data-testid={`groupDescription-${group.description}`}
-          className='text-base font-light text-[#A0A0A0]'
-        >
-          {group.description}
-        </p>
-      </div>
-    </div>
-  );
-}
 
 type GroupsLayoutProps = {
   groups: StudyGroup[];
@@ -83,7 +39,11 @@ export default function GroupsLayout({ groups }: GroupsLayoutProps) {
       {groups.length !== 0 ? (
         <SubscribedGroups>
           {groups.map((group) => (
-            <GroupCard key={group.name} group={group} />
+            <GroupCard
+              key={group.name}
+              group={group}
+              className='m-10 flex w-[444px]'
+            />
           ))}
         </SubscribedGroups>
       ) : (
