@@ -1,8 +1,11 @@
 import { Subject } from '@/types/Subject';
-import React from 'react';
+import React, { Suspense } from 'react';
+import { SubjectService } from '@/services/SubjectService';
+import { User } from '@/types/User';
+import Loading from '@/components/common/Loading';
 
 type SubjectsLayoutProps = {
-  subjects: Subject[];
+  user: User;
 };
 
 function SubjectItem({ subject }: { subject: Subject }) {
@@ -16,16 +19,27 @@ function SubjectItem({ subject }: { subject: Subject }) {
   );
 }
 
-export default function SubjectsLayout({ subjects }: SubjectsLayoutProps) {
+async function SubjectList({ user }: { user: User }) {
+  const subjects = await SubjectService.getByUser(user);
+  return (
+    <>
+      {subjects.map((subject) => (
+        <SubjectItem key={subject.code} subject={subject} />
+      ))}
+    </>
+  );
+}
+
+export default async function SubjectsLayout({ user }: SubjectsLayoutProps) {
   return (
     <div className='overflow-hidden lg:ml-10 lg:w-1/4 lg:rounded-2xl lg:border-2 lg:bg-white'>
       <div className='border-b-2 p-5 text-[#2B2D54] lg:bg-[#2B2D54] lg:text-white'>
         <h1 className='text-4xl font-extrabold'>Materias</h1>
       </div>
       <div className='h-fit'>
-        {subjects.map((subject) => (
-          <SubjectItem key={subject.code} subject={subject} />
-        ))}
+        <Suspense fallback={<Loading />}>
+          <SubjectList user={user} />
+        </Suspense>
       </div>
     </div>
   );

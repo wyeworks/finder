@@ -1,7 +1,10 @@
 import { StudyGroup } from '@/types/StudyGroup';
 import Image from 'next/image';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { SubjectService } from '@/services/SubjectService';
+import { GroupService } from '@/services/GroupService';
+import { User } from '@/types/User';
+import Loading from '@/components/common/Loading';
 
 type GroupCardProps = {
   group: StudyGroup;
@@ -47,7 +50,7 @@ async function GroupCard({ group }: GroupCardProps) {
 }
 
 type GroupsLayoutProps = {
-  groups: StudyGroup[];
+  user: User;
 };
 
 function SubscribedGroups({ children }: { children: React.ReactNode }) {
@@ -74,12 +77,10 @@ function EmptyGroups() {
   );
 }
 
-export default function GroupsLayout({ groups }: GroupsLayoutProps) {
+async function GroupGrid({ user }: GroupsLayoutProps) {
+  const groups = await GroupService.getActiveGroups(user);
   return (
-    <div className='overflow-hidden border-[#E7E7E7] bg-[#F3F4F6] lg:rounded-2xl lg:border-2 lg:bg-white'>
-      <div className='p-5 text-[#2B2D54] lg:border-b-2 lg:bg-[#2B2D54] lg:text-white'>
-        <h1 className='text-4xl font-extrabold'>Grupos</h1>
-      </div>
+    <>
       {groups.length !== 0 ? (
         <SubscribedGroups>
           {groups.map((group) => (
@@ -89,6 +90,19 @@ export default function GroupsLayout({ groups }: GroupsLayoutProps) {
       ) : (
         <EmptyGroups />
       )}
+    </>
+  );
+}
+
+export default async function GroupsLayout({ user }: GroupsLayoutProps) {
+  return (
+    <div className='overflow-hidden border-[#E7E7E7] bg-[#F3F4F6] lg:rounded-2xl lg:border-2 lg:bg-white'>
+      <div className='p-5 text-[#2B2D54] lg:border-b-2 lg:bg-[#2B2D54] lg:text-white'>
+        <h1 className='text-4xl font-extrabold'>Grupos</h1>
+      </div>
+      <Suspense fallback={<Loading />}>
+        <GroupGrid user={user} />
+      </Suspense>
     </div>
   );
 }
