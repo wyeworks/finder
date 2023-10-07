@@ -1,10 +1,13 @@
 export type Member = {
-  id?: any; // put string o number here
   bio?: string;
-  name: string;
-  email: string;
-  role: 'Miembro' | 'Administrador';
-  groupId?: string;
+  name?: string;
+  email?: string;
+  role?: 'admin' | 'participant';
+  id?: string;
+  status?: string;
   reason?: string;
-  userId?: string; // check if is necessary
+  group_id?: string;
+  user_id?: string;
+  user_name?: string;
+  user_email?: string;
 };

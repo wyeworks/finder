@@ -11,12 +11,12 @@ describe('Members Component Tests', () => {
     {
       name: 'Juan Pérez',
       email: 'juan@example.com',
-      role: 'Miembro',
+      role: 'participant',
     },
     {
       name: 'María González',
       email: 'maria@example.com',
-      role: 'Administrador',
+      role: 'admin',
     },
   ];
 

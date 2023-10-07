@@ -9,6 +9,7 @@ import Members from './Content/Members';
 import { Member } from '@/types/Member';
 import UserPlusIcon from '@/assets/Icons/UserPlusIcon';
 import RequestJoinGroup from './Content/RequestJoinGroup';
+// import { GroupService } from '@/services/GroupService';
 
 export type Section = {
   name: string;
@@ -21,52 +22,52 @@ export const exampleUsers: Member[] = [
   {
     name: 'Juan Pérez',
     email: 'juan@example.com',
-    role: 'Miembro',
+    role: 'participant',
   },
   {
     name: 'María González',
     email: 'maria@example.com',
-    role: 'Administrador',
+    role: 'admin',
   },
   {
     name: 'Luis Rodríguez',
     email: 'luis@example.com',
-    role: 'Miembro',
+    role: 'participant',
   },
   {
     name: 'Ana López',
     email: 'ana@exampleeeeeelargeeeeeeee.com',
-    role: 'Administrador',
+    role: 'admin',
   },
   {
     name: 'Carlos Martínez',
     email: 'carlos@example.com',
-    role: 'Miembro',
+    role: 'participant',
   },
   {
     name: 'Laura Sánchez',
     email: 'laura@example.com',
-    role: 'Miembro',
+    role: 'participant',
   },
   {
     name: 'Pedro Ramirez',
     email: 'pedro@example.com',
-    role: 'Miembro',
+    role: 'participant',
   },
   {
     name: 'Isabel Pérez',
     email: 'isabel@example.com',
-    role: 'Administrador',
+    role: 'admin',
   },
   {
     name: 'Antonio García',
     email: 'antonio@example.com',
-    role: 'Miembro',
+    role: 'participant',
   },
   {
     name: 'Carmen Torres',
     email: 'carmen@example.com',
-    role: 'Miembro',
+    role: 'participant',
   },
 ];
 
@@ -101,9 +102,7 @@ const sections: Section[] = [
     name: 'Solicitudes',
     icon: <UserPlusIcon className='mr-2 h-5 w-5' />,
     // eslint-disable-next-line no-unused-vars
-    content: (group: StudyGroup) => (
-      <RequestJoinGroup requestUsers={exampleUsers} />
-    ),
+    content: (group: StudyGroup) => <RequestJoinGroup />,
   },
 ];
 

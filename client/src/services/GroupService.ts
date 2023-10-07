@@ -47,8 +47,13 @@ export class GroupService {
   }
 
   public static async getMembersGroup(groupId: string): Promise<Member[]> {
-    return await ApiCommunicator.clientSideMembersGroup(groupId).then(
-      (response) => response.json()
-    );
+    try {
+      const response = await ApiCommunicator.clientSideMembersGroup(groupId);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      Logger.error('Error trying to get members: ' + error);
+      return [];
+    }
   }
 }

@@ -3,15 +3,14 @@
 import Input from '@/components/common/Input';
 import MemberCard from './MemberCard';
 import FilterIcon from '@/assets/Icons/FilterIcon';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import strings from '@/locales/strings.json';
 import { removeAccents } from '@/utils/Formatter';
 import Button from '@/components/common/Button';
 import OutIcon from '@/assets/Icons/OutIcon';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { usePathname } from 'next/navigation';
-import { Logger } from '@/services/Logger';
 import { Member } from '@/types/Member';
+import { GroupService } from '@/services/GroupService';
 
 export default function Members() {
   const pathname = usePathname();
@@ -19,25 +18,15 @@ export default function Members() {
   const [filterText, setFilterText] = useState('');
   const [members, setMembers] = useState<Member[]>([]);
 
-  const getMembers = useCallback(async () => {
-    try {
-      return await ApiCommunicator.clientSideMembersGroup(groupId);
-    } catch (error) {
-      Logger.error('Error trying to get members:' + { error });
-      return null;
-    }
-  }, [groupId]);
-
   useEffect(() => {
     const fetchData = async () => {
-      await getMembers()
-        .then((response) => response.json())
-        .then((data) => {
-          if (!data.error) setMembers(data);
-        });
+      try {
+        const getMembers = await GroupService.getMembersGroup(groupId);
+        setMembers(getMembers);
+      } catch (error) {}
     };
     fetchData();
-  }, [getMembers]);
+  }, [groupId]);
 
   const handleFilterChange = (event: any) => {
     setFilterText(event.target.value);
@@ -79,7 +68,7 @@ export default function Members() {
         )}
         {filteredUsers.map((user: any, index: number) => (
           <div key={index}>
-            <MemberCard member={user} renderRightSection='Tags' />
+            <MemberCard member={user} type='Tags' />
           </div>
         ))}
       </div>

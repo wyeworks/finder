@@ -1,26 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import RequestJoinGroup from './(protected)/groups/[id]/Content/RequestJoinGroup';
-import { Member } from '@/types/Member';
+import RequestJoinGroup from '../Content/RequestJoinGroup';
 import strings from '@/locales/strings.json';
 
 describe('RequestJoinGroup Component Tests', () => {
-  const requestUsers: Member[] = [
-    {
-      name: 'Juan Pérez',
-      email: 'juan@example.com',
-      role: 'Miembro',
-    },
-    {
-      name: 'María González',
-      email: 'maria@example.com',
-      role: 'Administrador',
-    },
-  ];
-
   test('should render without crashing', () => {
-    render(<RequestJoinGroup requestUsers={requestUsers} />);
+    render(<RequestJoinGroup />);
 
     const requestJoinGroupComponent = screen.getByTestId(
       'request-join-group-component'
@@ -29,7 +15,7 @@ describe('RequestJoinGroup Component Tests', () => {
   });
 
   test('should show empty message', () => {
-    render(<RequestJoinGroup requestUsers={[]} />);
+    render(<RequestJoinGroup />);
 
     const noRequestsMessage = screen.getByText(
       strings.groups.requestTab.emptyMessage
@@ -38,7 +24,7 @@ describe('RequestJoinGroup Component Tests', () => {
   });
 
   test('should test filter', async () => {
-    render(<RequestJoinGroup requestUsers={requestUsers} />);
+    render(<RequestJoinGroup />);
 
     const filterInput = screen.getByPlaceholderText('Filtrar Solicitudes');
     await userEvent.type(filterInput, 'Juan');

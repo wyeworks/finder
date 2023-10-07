@@ -6,47 +6,61 @@ import MemberCard from './MemberCard';
 import { useEffect, useState } from 'react';
 import { Member } from '@/types/Member';
 import strings from '@/locales/strings.json';
-// import { removeAccents } from '@/utils/Formatter';
 import { usePathname } from 'next/navigation';
+// import { GroupService } from '@/services/GroupService';
+// import { removeAccents } from '@/utils/Formatter';
+import { BackendError } from '@/types/BackendError';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
-// import { Logger } from '@/services/Logger';
+import { Logger } from '@/services/Logger';
 
-type RequestJoinGroupProps = {
-  requestUsers: Member[];
-};
-
-export default function RequestJoinGroup({} // requestUsers,
-: RequestJoinGroupProps) {
-  const [filterText, setFilterText] = useState('');
+export default function RequestJoinGroup() {
   const pathname = usePathname();
   const groupId = pathname.split('/')[2];
-  const [requestUsers2, setRequestMembers] = useState<Member[]>([]);
-
-  async function getRequestMembers() {
-    return await ApiCommunicator.clientSideRequestJoinGroup(groupId);
-    // .then((response) => response.json()).catch((error)=> Logger.error('Error trying to get members:' + { error }));
-  }
+  const [filterText, setFilterText] = useState('');
+  const [requestUsers, setRequestMembers] = useState<Member[]>([]);
+  const [showRequest, setShowRequest] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      await getRequestMembers()
-        .then((response) => response.json())
-        .then((data) => {
-          if (!data.error) setRequestMembers(data);
-        });
+      try {
+        const request: any =
+          await ApiCommunicator.clientSideRequestJoinGroup(groupId);
+        const data = await request.json();
+        if (!request.ok) {
+          const parsedError = data as BackendError;
+          if (parsedError.errors.group) setShowRequest(false);
+          return;
+        }
+        setShowRequest(true);
+        setRequestMembers(data);
+      } catch (error) {
+        Logger.error('Error trying to get request to join group: ' + { error });
+      }
     };
     fetchData();
-  }, []);
+  }, [groupId]);
 
   const handleFilterChange = (event: any) => {
     setFilterText(event.target.value);
   };
 
-  const filteredUsers = requestUsers2;
-  // .filter((user) =>
-  //   removeAccents(user.name.toLowerCase()).includes(
-  //     removeAccents(filterText.toLowerCase())
-  //   )
+  if (requestUsers.length === 0) {
+    return <></>;
+  }
+
+  if (!showRequest) {
+    return (
+      <div className='border border-solid p-10 text-center'>
+        Debe ser administrador del grupo para ver las solicitudes
+      </div>
+    );
+  }
+
+  const filteredUsers = requestUsers;
+  // filter((user) =>
+  //     user.name?.toLowerCase()?.includes(
+  //       removeAccents(filterText.toLowerCase())
+  //     )
   // );
 
   return (
@@ -75,7 +89,7 @@ export default function RequestJoinGroup({} // requestUsers,
         )}
         {filteredUsers.map((user, index) => (
           <div key={index}>
-            <MemberCard member={user} renderRightSection='Buttons' />
+            <MemberCard member={user} type='Buttons' />
           </div>
         ))}
       </div>
