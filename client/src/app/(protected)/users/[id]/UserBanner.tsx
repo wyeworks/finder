@@ -36,7 +36,7 @@ function EditButton(props: { user: User }) {
 
 function SocialNetworkButtons(props: { social_networks: SocialNetworks }) {
   return (
-    <div className='mt-10 flex flex-row items-center justify-evenly'>
+    <div className='mt-10 flex h-16 flex-row items-center justify-evenly lg:mt-0'>
       {props.social_networks.instagram && (
         <InstagramButton link={props.social_networks.instagram} />
       )}
@@ -59,26 +59,6 @@ function SocialNetworkButtons(props: { social_networks: SocialNetworks }) {
   );
 }
 
-function SocialNetworksLayout(props: { user: User }) {
-  return (
-    <>
-      {props.user.social_networks && (
-        <SocialNetworkButtons social_networks={props.user.social_networks} />
-      )}
-    </>
-  );
-}
-
-function PhoneNumberLayout(props: { user: User }) {
-  return (
-    <>
-      {props.user.social_networks?.whatsapp && (
-        <WhatsappButton number={props.user.social_networks.whatsapp} />
-      )}
-    </>
-  );
-}
-
 function UserBio(props: { bio: string }) {
   return (
     <h1 className='text-center text-2xl text-[#3D405B] lg:mt-2 lg:text-left'>
@@ -91,7 +71,7 @@ function UserCareers(props: { careers: string[] }) {
   if (props.careers.length == 1) {
     return (
       <div className='mb-2 flex h-full items-center justify-center self-center lg:mt-4 lg:self-start'>
-        <h1 className='text-2xl text-[#212B36]'>{props.careers[0]}</h1>
+        <h1 className='text-2xl/6 text-[#212B36]'>{props.careers[0]}</h1>
       </div>
     );
   } else if (props.careers.length > 0) {
@@ -163,6 +143,19 @@ async function Careers({ user }: { user: User }) {
   );
 }
 
+function SocialNetworks({ user }: { user: User }) {
+  return (
+    <div className='mt-10 flex h-16 flex-col items-center justify-center lg:flex-row lg:justify-start'>
+      {user.social_networks && (
+        <SocialNetworkButtons social_networks={user.social_networks} />
+      )}
+      {user.social_networks?.whatsapp && (
+        <WhatsappButton number={user.social_networks.whatsapp} />
+      )}
+    </div>
+  );
+}
+
 export default async function UserBanner({ user }: UserBannerProps) {
   const session = await getServerSession(authOptions);
   return (
@@ -176,13 +169,10 @@ export default async function UserBanner({ user }: UserBannerProps) {
               <Careers user={user} />
             </Suspense>
             {user.bio && <UserBio bio={user.bio} />}
-            <div className='mt-3 flex h-16 flex-col items-center justify-center lg:flex-row lg:justify-start'>
-              <SocialNetworksLayout user={user} />
-              <PhoneNumberLayout user={user} />
-            </div>
+            <SocialNetworks user={user} />
           </div>
         </div>
-        <div className='m-10 flex justify-center lg:mr-20 lg:mt-10'>
+        <div className='m-10 mt-20 flex justify-center lg:mr-20 lg:mt-10'>
           {session?.user?.email === user.email && <EditButton user={user} />}
         </div>
       </div>
