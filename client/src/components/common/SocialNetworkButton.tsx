@@ -18,7 +18,7 @@ function SocialNetworkButton(props: SocialNetworkButtonProps) {
     <a
       data-testid={`${props.name}Button`}
       href={props.link}
-      className='m-2 lg:mt-10'
+      className='h-16 w-16'
     >
       {props.icon}
     </a>
@@ -87,9 +87,9 @@ function FacebookButton(props: { link: string }) {
 
 function WhatsappButton(props: { number: string }) {
   return (
-    <div className='m-2 flex items-center justify-center'>
-      <WhatsappIcon className='mt-3 h-16 w-16 fill-gray-600' />
-      <p className='ml-2 h-min text-4xl text-gray-600'>{props.number}</p>
+    <div className='flex h-16 flex-row items-center justify-center'>
+      <WhatsappIcon className='h-16 w-16 fill-gray-600' />
+      <p className='h-min text-2xl text-gray-600'>{props.number}</p>
     </div>
   );
 }
