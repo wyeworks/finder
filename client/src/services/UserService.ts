@@ -11,14 +11,10 @@ export class UserService {
     id: string,
     currentPassword: string,
     newPassword: string
-  ): Promise<void> {
-    Logger.debug(
-      'UserService.modifyPassword',
-      id,
-      currentPassword,
-      newPassword
-    );
-    return;
+  ): Promise<any> {
+    return await ApiCommunicator.clientSideEditUser({
+      newPassword: newPassword,
+    });
   }
 
   public static async deleteUser(id: string): Promise<void> {
