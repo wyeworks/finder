@@ -273,7 +273,7 @@ RSpec.describe 'Groups::Requests', type: :request do
     end
   end
 
-  describe 'GET /groups/:group_id/requests/user/:user_id' do
+  describe 'GET /groups/:group_id/requests/users/:user_id' do
     let(:user) { create(:user) }
     let(:group) { create(:group) }
 
@@ -291,7 +291,7 @@ RSpec.describe 'Groups::Requests', type: :request do
         let!(:request) { create :request, user:, group: }
 
         before do
-          get "/groups/#{group.id}/requests/user/#{user.id}", headers:
+          get "/groups/#{group.id}/requests/users/#{user.id}", headers:
         end
 
         it 'returns the request for the user' do
@@ -304,7 +304,7 @@ RSpec.describe 'Groups::Requests', type: :request do
 
       context 'when no request exists for the user in the group' do
         before do
-          get "/groups/#{group.id}/requests/user/#{user.id}", headers:
+          get "/groups/#{group.id}/requests/users/#{user.id}", headers:
         end
 
         it 'returns a not found status' do
@@ -315,7 +315,7 @@ RSpec.describe 'Groups::Requests', type: :request do
 
     context 'when user is not authenticated' do
       before do
-        get "/groups/#{group.id}/requests/user/#{user.id}"
+        get "/groups/#{group.id}/requests/users/#{user.id}"
       end
 
       it 'returns http unauthorized' do
