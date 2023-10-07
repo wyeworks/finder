@@ -48,4 +48,14 @@ export class GroupService {
   public static async clientSideSubmitRequest(id: string): Promise<any> {
     return await ApiCommunicator.clientSideSubmitRequestGroup(id);
   }
+
+  public static async clientSideGetRequestState(
+    groupId: string,
+    userId: string
+  ): Promise<any> {
+    return await ApiCommunicator.clientSideGetRequestStateGroup(
+      groupId,
+      userId
+    );
+  }
 }

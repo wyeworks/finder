@@ -7,6 +7,7 @@ import Button from '@/components/common/Button';
 import { GroupService } from '@/services/GroupService';
 import { User } from '@/types/User';
 import strings from '@/locales/strings.json';
+import { useEffect, useState } from 'react';
 
 type GroupInfoProps = {
   group: StudyGroup;
@@ -16,6 +17,7 @@ type GroupInfoProps = {
 
 export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
   const { id, name, description, size, user_ids } = group;
+  const [requestPending, setRequestPending] = useState<boolean>(false);
   const handleRequestGroup = async function () {
     if (id) {
       await GroupService.clientSideSubmitRequest(id.toString());
@@ -30,13 +32,26 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
     return res;
   };
 
-  const isRequestPending = () => {
-    let res = true;
-    if (user_ids) {
-      // res = user_ids.includes(Number(user.id));
-    }
-    return res;
-  };
+  useEffect(() => {
+    const isRequestPending = async () => {
+      let res = true;
+      if (user_ids && id) {
+        const response = await GroupService.clientSideGetRequestState(
+          id.toString(),
+          user.id
+        );
+        if (!response.ok) {
+          res = response.status === 404 ? false : true;
+        } else {
+          const body = await response.json();
+          res = body.status === 'pending';
+        }
+      }
+      setRequestPending(res);
+    };
+    isRequestPending();
+  }, [id, user.id, user_ids]);
+
   return (
     <div className='mt-4 grid grid-cols-1 sm:grid-cols-5'>
       <div className='col-span-1'></div>
@@ -53,16 +68,16 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
             <div className='hidden min-w-[175px] justify-center md:flex md:w-[15%]'>
               <Button
                 text={
-                  isRequestPending()
+                  requestPending
                     ? strings.groups.infoTab.pendingRequestButtonText
                     : strings.groups.infoTab.requestButtonText
                 }
                 className={
-                  isRequestPending()
+                  requestPending
                     ? 'bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-slate-500'
                     : 'bg-primaryBlue hover:bg-hoverPrimaryBlue'
                 }
-                disabled={isRequestPending()}
+                disabled={requestPending}
                 onClick={handleRequestGroup}
               />
             </div>
@@ -80,15 +95,13 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
         {!inGroup() && (
           <div className='flex w-full justify-center sm:justify-start md:hidden'>
             <Button
-              text={
-                isRequestPending() ? 'Solicitud pendiente' : 'Unirse al grupo'
-              }
+              text={requestPending ? 'Solicitud pendiente' : 'Unirse al grupo'}
               className={
-                isRequestPending()
+                requestPending
                   ? 'bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-slate-500'
                   : 'bg-primaryBlue hover:bg-hoverPrimaryBlue'
               }
-              disabled={isRequestPending()}
+              disabled={requestPending}
               onClick={handleRequestGroup}
             />
           </div>

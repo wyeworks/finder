@@ -256,6 +256,7 @@ export class ApiCommunicator {
     return await this.commonFetch({
       url: this.apiUrl() + `/groups/${groupId}/requests/users/${userId}`,
       method: 'GET',
+      mustBeAuthenticated: true,
       handleNotOk: false,
       asJSON: false,
     });

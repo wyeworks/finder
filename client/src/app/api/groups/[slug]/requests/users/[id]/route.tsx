@@ -9,9 +9,9 @@ export async function GET(
   const userId = params.id;
   return clientRequestHandler({
     req: request,
+    handlerNeedsBody: false,
     apiHandler: async () => {
       return await ApiCommunicator.getRequestStateGroup(groupId, userId);
     },
-    handlerNeedsBody: false,
   });
 }
