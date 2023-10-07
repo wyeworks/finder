@@ -6,7 +6,6 @@ import DiscordIcon from '@/assets/Icons/DiscordIcon';
 import RedditIcon from '@/assets/Icons/RedditIcon';
 import FacebookIcon from '@/assets/Icons/FacebookIcon';
 import WhatsappIcon from '@/assets/Icons/WhatsappIcon';
-import TelegramIcon from '@/assets/Icons/TelegramIcon';
 
 type SocialNetworkButtonProps = {
   name: string;
@@ -18,7 +17,7 @@ function SocialNetworkButton(props: SocialNetworkButtonProps) {
   return (
     <a
       data-testid={`${props.name}Button`}
-      href={`https://${props.link}`}
+      href={props.link}
       className='m-2 lg:mt-10'
     >
       {props.icon}
@@ -31,7 +30,7 @@ function InstagramButton(props: { link: string }) {
     <SocialNetworkButton
       name={'Instagram'}
       link={props.link}
-      icon={<InstagramIcon className='h-16 w-16' />}
+      icon={<InstagramIcon className='h-16 w-16 fill-gray-600' />}
     />
   );
 }
@@ -41,7 +40,7 @@ function LinkedInButton(props: { link: string }) {
     <SocialNetworkButton
       name={'LinkedIn'}
       link={props.link}
-      icon={<LinkedInIcon className='h-16 w-16' />}
+      icon={<LinkedInIcon className='h-16 w-16 fill-gray-600' />}
     />
   );
 }
@@ -51,7 +50,7 @@ function TwitterButton(props: { link: string }) {
     <SocialNetworkButton
       name={'Twitter'}
       link={props.link}
-      icon={<TwitterIcon className='h-16 w-16' />}
+      icon={<TwitterIcon className='h-16 w-16 fill-gray-600' />}
     />
   );
 }
@@ -61,7 +60,7 @@ function DiscordButton(props: { link: string }) {
     <SocialNetworkButton
       name={'Discord'}
       link={props.link}
-      icon={<DiscordIcon className='h-16 w-16' />}
+      icon={<DiscordIcon className='h-16 w-16 fill-gray-600' />}
     />
   );
 }
@@ -71,7 +70,7 @@ function RedditButton(props: { link: string }) {
     <SocialNetworkButton
       name={'Reddit'}
       link={props.link}
-      icon={<RedditIcon className='h-16 w-16' />}
+      icon={<RedditIcon className='h-16 w-16 fill-gray-600' />}
     />
   );
 }
@@ -81,7 +80,7 @@ function FacebookButton(props: { link: string }) {
     <SocialNetworkButton
       name={'Facebook'}
       link={props.link}
-      icon={<FacebookIcon className='h-16 w-16' />}
+      icon={<FacebookIcon className='h-16 w-16 fill-gray-600' />}
     />
   );
 }
@@ -89,17 +88,8 @@ function FacebookButton(props: { link: string }) {
 function WhatsappButton(props: { number: string }) {
   return (
     <div className='m-2 flex items-center justify-center'>
-      <WhatsappIcon className='mt-3 h-8 w-8' />
-      <p className='ml-2 text-2xl text-black'>{props.number}</p>
-    </div>
-  );
-}
-
-function TelegramButton(props: { link: string }) {
-  return (
-    <div className={'m-2 flex items-center justify-center'}>
-      <TelegramIcon className='mt-3 h-8 w-8' />
-      <p className='ml-2 text-2xl text-black'>{props.link}</p>
+      <WhatsappIcon className='mt-3 h-16 w-16 fill-gray-600' />
+      <p className='ml-2 h-min text-4xl text-gray-600'>{props.number}</p>
     </div>
   );
 }
@@ -112,5 +102,4 @@ export {
   RedditButton,
   FacebookButton,
   WhatsappButton,
-  TelegramButton,
 };
