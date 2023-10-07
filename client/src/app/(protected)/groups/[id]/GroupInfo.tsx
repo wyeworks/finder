@@ -34,7 +34,7 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
 
   useEffect(() => {
     const isRequestPending = async () => {
-      let res = true;
+      let res = false;
       if (user_ids && id) {
         const response = await GroupService.clientSideGetRequestState(
           id.toString(),

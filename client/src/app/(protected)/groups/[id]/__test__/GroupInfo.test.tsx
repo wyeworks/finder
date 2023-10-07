@@ -3,6 +3,11 @@ import { render, screen } from '@testing-library/react';
 import GroupInfo from '../GroupInfo';
 import { User } from '@/types/User';
 
+jest.mock('../../../../../services/GroupService', () => ({
+  clientSideSubmitRequest: jest.fn(),
+  clientSideGetRequestState: jest.fn().mockReturnValue({ ok: true }),
+}));
+
 describe('GroupInfo', () => {
   const mockGroup = {
     id: 123,
@@ -35,8 +40,10 @@ describe('GroupInfo', () => {
     render(
       <GroupInfo group={mockGroup} subject={mockSubject} user={mockUser} />
     );
-    const groupName = screen.getByText('Test Group #123');
+    const groupName = screen.getByText('Test Group');
+    const groupId = screen.getByText('#123');
     expect(groupName).toBeInTheDocument();
+    expect(groupId).toBeInTheDocument();
   });
 
   it('displays the subject name', () => {
@@ -63,5 +70,9 @@ describe('GroupInfo', () => {
     );
     const groupSize = screen.getByText('10 integrantes máximo');
     expect(groupSize).toBeInTheDocument();
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 });
