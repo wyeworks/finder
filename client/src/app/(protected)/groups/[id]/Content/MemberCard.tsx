@@ -7,10 +7,12 @@ import Button from '@/components/common/Button';
 import UserPlusIcon from '@/assets/Icons/UserPlusIcon';
 import TrashIcon from '@/assets/Icons/TrashIcon';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
+import { Logger } from '@/services/Logger';
 
 type MemberCardProp = {
   member: Member;
   type: 'Buttons' | 'Tags';
+  fetchData?: () => void;
 };
 
 function mapRole(backEndRole: string) {
@@ -18,7 +20,11 @@ function mapRole(backEndRole: string) {
   return 'Miembro';
 }
 
-export default function MemberCard({ member, type }: MemberCardProp) {
+export default function MemberCard({
+  member,
+  type,
+  fetchData,
+}: MemberCardProp) {
   const {
     name,
     email,
@@ -29,17 +35,20 @@ export default function MemberCard({ member, type }: MemberCardProp) {
     user_name,
   } = member;
 
-  async function acceptMember() {
-    await ApiCommunicator.clientSideHandleRequestGroup(group_id, user_id, {
-      status: 'accepted',
-      reason: '',
-    });
-  }
-  async function rejectedMember() {
-    await ApiCommunicator.clientSideHandleRequestGroup(group_id, user_id, {
-      status: 'rejected',
-      reason: 'admin rejected user',
-    });
+  async function handleJoin(status: 'accepted' | 'rejected') {
+    let reason = '';
+    if (status === 'rejected') reason = 'admin rejected user';
+    try {
+      await ApiCommunicator.clientSideHandleRequestGroup({
+        groupId: group_id,
+        userId: user_id,
+        status: status,
+        reason: reason,
+      });
+      if (fetchData) fetchData();
+    } catch (error) {
+      Logger.debug('Error trying accepted or rejected user' + { error });
+    }
   }
 
   return (
@@ -82,14 +91,14 @@ export default function MemberCard({ member, type }: MemberCardProp) {
             Icon={<UserPlusIcon className='mr-1 h-5 w-5' />}
             classNameWrapper='h-4'
             className='h-8 items-center !bg-[#BCEDFF] !font-light !text-black hover:!bg-blue-300 sm:m-3'
-            onClick={acceptMember}
+            onClick={() => handleJoin('accepted')}
           />
           <Button
             text='Rechazar'
             type='button'
             Icon={<TrashIcon className='h-6 w-6' />}
             className=' h-8 items-center !bg-gray-300 !font-light !text-black hover:!bg-gray-400 sm:m-3'
-            onClick={rejectedMember}
+            onClick={() => handleJoin('rejected')}
           />
         </div>
       )}

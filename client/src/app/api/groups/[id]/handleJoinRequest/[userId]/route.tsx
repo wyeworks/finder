@@ -10,7 +10,9 @@ export async function PATCH(
   return await clientRequestHandler({
     req: request,
     apiHandler: async (requestBody) => {
-      return await ApiCommunicator.handleRequestGroup(groupId, userId, {
+      return await ApiCommunicator.handleRequestGroup({
+        groupId,
+        userId,
         status: requestBody.status,
         reason: requestBody.reason,
       });

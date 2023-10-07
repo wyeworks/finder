@@ -152,13 +152,9 @@ export class ApiCommunicator {
     });
   }
 
-  static async clientSideHandleRequestGroup(
-    userId: string,
-    groupId: string,
-    data: any
-  ): Promise<any> {
+  static async clientSideHandleRequestGroup(data: any): Promise<any> {
     return await this.commonFetch({
-      url: '/api/groups/' + groupId + '/handleJoinRequest/' + userId,
+      url: '/api/groups/' + data.groupId + '/handleJoinRequest/' + data.userId,
       method: 'PATCH',
       data,
       handleNotOk: false,
@@ -281,13 +277,10 @@ export class ApiCommunicator {
     });
   }
 
-  static async handleRequestGroup(
-    userId: string,
-    groupId: string,
-    data: any
-  ): Promise<any> {
+  static async handleRequestGroup(data: any): Promise<any> {
     return await this.commonFetch({
-      url: this.apiUrl() + '/groups/' + groupId + '/requests/' + userId,
+      url:
+        this.apiUrl() + '/groups/' + data.groupId + '/requests/' + data.userId,
       method: 'PATCH',
       data,
       mustBeAuthenticated: true,
