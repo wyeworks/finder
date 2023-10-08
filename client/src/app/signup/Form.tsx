@@ -11,6 +11,10 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Logger } from '@/services/Logger';
+import {
+  mustBeMailAdress,
+  mustHaveUpperCaseLowerCaseAndEightCharacters,
+} from '@/utils/Pattern';
 
 type SignUpFormData = {
   name: string;
@@ -84,7 +88,10 @@ export default function Form() {
   };
 
   return (
-    <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm' id='register-form'>
+    <div
+      className='mt-3 sm:mx-auto sm:mt-10 sm:w-full sm:max-w-sm'
+      id='register-form'
+    >
       <form
         className='grid max-w-xs grid-rows-register-form gap-1 sm:pl-7'
         onSubmit={handleSubmit}
@@ -107,7 +114,7 @@ export default function Form() {
           type='email'
           id='email'
           name='email'
-          pattern='^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+          pattern={mustBeMailAdress()}
           label={strings.form.emailInput.label}
           placeholder={strings.form.emailInput.placeholder}
           validateText={strings.form.emailInput.validateText}
@@ -121,7 +128,7 @@ export default function Form() {
           type='password'
           id='password'
           name='password'
-          pattern='^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.]).{8,}$'
+          pattern={mustHaveUpperCaseLowerCaseAndEightCharacters()}
           label={strings.form.passwordInput.label}
           fieldInfo={strings.form.passwordInput.passwordInfo}
           placeholder={strings.form.passwordInput.placeholder}

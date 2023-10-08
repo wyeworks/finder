@@ -3,11 +3,13 @@ import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { SubjectService } from '@/services/SubjectService';
+import { ChangePasswordSection } from '@/app/(protected)/users/[id]/edit/ChangePasswordSection';
+import { DeleteUserSection } from '@/app/(protected)/users/[id]/edit/DeleteUserSection';
 
 export default async function ConfigProfile() {
   const session = await getServerSession(authOptions);
   const user = await ApiCommunicator.getUser(session!.user.id!);
-  const subjects = await ApiCommunicator.getSubjects();
+  const subjects = await SubjectService.getAll();
   const careers = await ApiCommunicator.getCareers();
   const careersByUser = await ApiCommunicator.getCareersByUser(user.id);
   const subjectsByUser = await SubjectService.getByUser(user);
@@ -21,13 +23,19 @@ export default async function ConfigProfile() {
       <div className='flex min-h-[500px] justify-center py-5'>
         <div className='block w-[98vw] rounded-lg md:w-[90%] lg:w-[85%] xl:w-[40%]'>
           {user && (
-            <FormPersonalInfo
-              user={user}
-              subjects={subjects}
-              careers={careers}
-              careersByUser={careersByUser}
-              subjectsByUser={subjectsByUser}
-            />
+            <>
+              <FormPersonalInfo
+                user={user}
+                subjects={subjects}
+                careers={careers}
+                careersByUser={careersByUser}
+                subjectsByUser={subjectsByUser}
+              />
+              <div className='h-6' />
+              <ChangePasswordSection user={user} />
+              <div className='h-6' />
+              <DeleteUserSection user={user} />
+            </>
           )}
         </div>
       </div>

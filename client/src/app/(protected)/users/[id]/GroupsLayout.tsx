@@ -1,3 +1,4 @@
+import { GroupCard } from '@/components/common/GroupCard';
 import { StudyGroup } from '@/types/StudyGroup';
 import Image from 'next/image';
 import React, { Suspense } from 'react';
@@ -49,7 +50,7 @@ function GroupCard({ group, subject }: GroupCardProps) {
     </div>
   );
 }
-
+        
 type GroupsLayoutProps = {
   user: User;
 };
@@ -85,6 +86,11 @@ export function Groups({ groups }: { groups: GroupCardProps[] }) {
               key={props.group.name}
               group={props.group}
               subject={props.subject}
+          {groups.map((group) => (
+            <GroupCard
+              key={group.name}
+              group={group}
+              className='m-10 flex w-[444px]'
             />
           ))}
         </SubscribedGroups>

@@ -14,7 +14,10 @@ Rails.application.routes.draw do
 
   resources :careers, only: :index
   resources :groups, except: [:new, :edit] do
-    resources :requests, only: :create, module: :groups
+    get :members, on: :member
+    resources :requests, only: [:create, :index, :update], module: :groups do
+      get 'users/:user_id', to: 'requests#show_for_user', on: :collection
+    end
   end
   resources :subjects, only: [:index, :show]
   resources :users, only: [:show, :destroy] do

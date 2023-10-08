@@ -70,7 +70,6 @@ export class ApiCommunicator {
         credentials: 'include',
       };
     }
-
     Logger.debug('Url: ', url);
     Logger.debug('Fetching with options: ', fetchOptions);
     const response = await fetch(url, fetchOptions);
@@ -84,6 +83,7 @@ export class ApiCommunicator {
         'Code: ',
         response.status
       );
+
       if (handleNotOk) {
         const errorData = await response.json();
         const errorMessage =
@@ -102,6 +102,8 @@ export class ApiCommunicator {
       url: '/api/signup',
       method: 'PATCH',
       data,
+      handleNotOk: false,
+      asJSON: false,
     });
   }
 
@@ -117,6 +119,13 @@ export class ApiCommunicator {
 
   static async clientSideSubjectsByUser() {
     return await this.commonFetch({
+      url: '/api/subjects/byUser',
+      method: 'GET',
+    });
+  }
+
+  static async clientSideGetSubjects() {
+    return await this.commonFetch({
       url: '/api/subjects',
       method: 'GET',
     });
@@ -126,6 +135,35 @@ export class ApiCommunicator {
     return await this.commonFetch({
       url: '/api/createGroup',
       method: 'POST',
+      data,
+      handleNotOk: false,
+      asJSON: false,
+    });
+  }
+
+  static async clientSideMembersGroup(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: '/api/groups/' + id + '/memberGroup',
+      method: 'GET',
+      handleNotOk: false,
+      asJSON: true,
+    });
+  }
+
+  static async clientSideRequestJoinGroup(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: '/api/groups/' + id + '/requestJoinGroup',
+      method: 'GET',
+      handleNotOk: false,
+      asJSON: true,
+    });
+  }
+
+  static async clientSideHandleRequestGroup(data: any): Promise<any> {
+    return await this.commonFetch({
+      url:
+        '/api/groups/' + data.groupId + '/handleJoinRequest/' + data.requestId,
+      method: 'PATCH',
       data,
       handleNotOk: false,
       asJSON: false,
@@ -165,6 +203,7 @@ export class ApiCommunicator {
       method: 'POST',
       data,
       asJSON: false,
+      handleNotOk: false,
     });
   }
 
@@ -175,6 +214,7 @@ export class ApiCommunicator {
       data,
       mustBeAuthenticated: true,
       asJSON: false,
+      handleNotOk: false,
     });
   }
 
@@ -209,6 +249,7 @@ export class ApiCommunicator {
     return await this.commonFetch({
       url: this.apiUrl() + `/subjects`,
       method: 'GET',
+      asJSON: false,
     });
   }
 
@@ -223,6 +264,92 @@ export class ApiCommunicator {
     return await this.commonFetch({
       url: this.apiUrl() + `/groups/${id}`,
       method: 'GET',
+    });
+  }
+
+  static async getGroups(): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + `/groups`,
+      method: 'GET',
+    });
+  }
+
+  static async submitRequestGroup(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + `/groups/${id}/requests`,
+      method: 'POST',
+      mustBeAuthenticated: true,
+      asJSON: false,
+      handleNotOk: false,
+    });
+  }
+
+  static async clientSideSubmitRequestGroup(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: `/api/groups/${id}/requestJoinGroup`,
+      method: 'POST',
+      handleNotOk: false,
+      asJSON: false,
+    });
+  }
+
+  static async getRequestStateGroup(
+    groupId: string,
+    userId: string
+  ): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + `/groups/${groupId}/requests/users/${userId}`,
+      method: 'GET',
+      mustBeAuthenticated: true,
+      handleNotOk: false,
+      asJSON: false,
+    });
+  }
+
+  static async clientSideGetRequestStateGroup(
+    groupId: string,
+    userId: string
+  ): Promise<any> {
+    return await this.commonFetch({
+      url: `/api/groups/${groupId}/requests/users/${userId}`,
+      method: 'GET',
+      handleNotOk: false,
+      asJSON: false,
+    });
+  }
+
+  static async getMembersGroup(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + '/groups/' + id + '/members',
+      method: 'GET',
+      mustBeAuthenticated: true,
+      asJSON: false,
+    });
+  }
+
+  static async getRequestJoinGroup(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + '/groups/' + id + '/requests',
+      method: 'GET',
+      mustBeAuthenticated: true,
+      asJSON: false,
+      handleNotOk: false,
+    });
+  }
+
+  static async handleRequestGroup(data: any): Promise<any> {
+    return await this.commonFetch({
+      url:
+        this.apiUrl() +
+        '/groups/' +
+        data.groupId +
+        '/requests/' +
+        data.requestId,
+      method: 'PATCH',
+      data,
+      mustBeAuthenticated: true,
+      asJSON: false,
+      handleNotOk: false,
     });
   }
 }

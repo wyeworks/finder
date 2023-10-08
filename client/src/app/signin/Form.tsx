@@ -75,9 +75,12 @@ export default function Form() {
   };
 
   return (
-    <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm' id='login-form'>
+    <div
+      className='mt-3 sm:mx-auto sm:mt-10 sm:w-full sm:max-w-sm'
+      id='login-form'
+    >
       <form
-        className='grid max-w-xs grid-rows-login-form gap-1 sm:pl-7'
+        className='grid w-full grid-rows-login-form gap-1 sm:max-w-xs sm:pl-7'
         onSubmit={handleSubmit}
         noValidate
       >

@@ -11,9 +11,10 @@ import { Logger } from '@/services/Logger';
 import ErrorCreateGroup from './ErrorCreateGroup';
 import { BackendError } from '@/types/BackendError';
 import strings from '@/locales/strings.json';
-import { TimePreference } from '@/types/StudyGroup';
+import { TimeOfDay, TimePreference } from '@/types/StudyGroup';
 import CrossIcon from '@/assets/Icons/CrossIcon';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
+import FinderLogoIcon from '@/assets/Icons/FinderLogoIcon';
 
 export type CreateGroupData = {
   name: string;
@@ -28,12 +29,21 @@ export default function CreateGroup() {
   const router = useRouter();
   const [actualStep, setActualStep] = useState<number>(1);
   const barWidth = `${(actualStep / 5) * 100}%`;
+  const noPreferences = TimeOfDay.NoPreferences;
   const [createGroupData, setCreateGroupData] = useState<CreateGroupData>({
     name: '',
     subjectId: '',
     description: '',
     size: '',
-    timePreference: {},
+    timePreference: {
+      Sunday: noPreferences,
+      Monday: noPreferences,
+      Tuesday: noPreferences,
+      Wednesday: noPreferences,
+      Thursday: noPreferences,
+      Friday: noPreferences,
+      Saturday: noPreferences,
+    },
   });
   const [error, setError] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
@@ -116,7 +126,7 @@ export default function CreateGroup() {
   }
 
   return (
-    <div className='h-screen bg-whiteCustom '>
+    <div className='h-full bg-whiteCustom '>
       <div className='grid-rows-[150px, auto] grid'>
         <div className='grid grid-rows-3 gap-4 bg-whiteCustom pt-4'>
           <div className='grid grid-cols-3 items-center'>
@@ -131,13 +141,14 @@ export default function CreateGroup() {
               )}
             </div>
             <h1
-              className='text-primaryBlue cursor-pointer text-center text-3xl font-bold'
+              className='flex min-w-[150px] cursor-pointer items-center justify-center gap-3 text-center text-3xl font-bold text-primaryBlue'
               onClick={() => router.push('/home')}
             >
-              finder.com
+              <FinderLogoIcon fill='#242760' height={50} width={41.666} />
+              finder
             </h1>
           </div>
-          <div className='mb-4 mt-4 overflow-hidden bg-gray-200'>
+          <div className='mb-2 mt-2 h-2 overflow-hidden bg-gray-200'>
             <div style={{ width: barWidth }} className='h-2 bg-primaryBlue' />
           </div>
           <div className='text-center text-grayText'>

@@ -5,6 +5,9 @@ import { GroupService } from '@/services/GroupService';
 import { SubjectService } from '@/services/SubjectService';
 import GroupDisclosure from './GroupDisclosure';
 import EmptyBoxImage from '@/assets/images/empty_box.png';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
 
 type Props = {
   params: {
@@ -15,8 +18,12 @@ type Props = {
 export default async function Group({ params }: Props) {
   let group;
   let subject;
+  let session;
+  let user;
 
   try {
+    session = await getServerSession(authOptions);
+    user = await ApiCommunicator.getUser(session!.user.id!);
     group = await GroupService.getGroup(params.id);
     subject = await SubjectService.getSubject(group.subject_id);
   } catch (error) {
@@ -29,8 +36,8 @@ export default async function Group({ params }: Props) {
   }
 
   return (
-    <div className='flex h-screen w-full flex-col'>
-      <div className='h-1/4'>
+    <div className='flex h-full w-full flex-col'>
+      <div className='h-40 sm:h-48'>
         <Image
           src='/default_group_banner.png'
           alt='Banner'
@@ -40,7 +47,7 @@ export default async function Group({ params }: Props) {
         />
       </div>
       <div className='mb-2 flex-shrink-0'>
-        <GroupInfo group={group} subject={subject} />
+        <GroupInfo group={group} subject={subject} user={user} />
       </div>
       <div className='flex-shrink-0 flex-grow'>
         {/* Displayed only on mobile */}

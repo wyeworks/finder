@@ -35,6 +35,16 @@ export default async function HomePage() {
                   Crear grupo
                 </Link>
               </li>
+              <br />
+              <li className='mt-3'>
+                {/* this is a temporary button to test functionality easier */}
+                <Link
+                  href='/groups'
+                  className='rounded-md bg-primaryBlue p-3 text-white'
+                >
+                  Listar Grupos
+                </Link>
+              </li>
             </ul>
           </div>
         </>
