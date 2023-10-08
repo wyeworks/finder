@@ -3,29 +3,75 @@
 import FilterIcon from '@/assets/Icons/FilterIcon';
 import Input from '@/components/common/Input';
 import MemberCard from './MemberCard';
-import { useState } from 'react';
-import { Member } from './Members';
+import { useCallback, useEffect, useState } from 'react';
+import { Member } from '@/types/Member';
 import strings from '@/locales/strings.json';
+import { usePathname } from 'next/navigation';
 import { removeAccents } from '@/utils/Formatter';
+import { BackendError } from '@/types/BackendError';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
+import { Logger } from '@/services/Logger';
 
-type RequestJoinGroupProps = {
-  requestUsers: Member[];
-};
-
-export default function RequestJoinGroup({
-  requestUsers,
-}: RequestJoinGroupProps) {
+export default function RequestJoinGroup() {
+  const pathname = usePathname();
+  const groupId = pathname.split('/')[2];
   const [filterText, setFilterText] = useState('');
+  const [requestUsers, setRequestMembers] = useState<Member[]>([]);
+  const [forbiddenData, setForbiddenData] = useState<boolean>(false);
+  const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
+
+  const fetchData = useCallback(async () => {
+    try {
+      const request: any =
+        await ApiCommunicator.clientSideRequestJoinGroup(groupId);
+      const data = await request.json();
+      if (!request.ok) {
+        const parsedError = data as BackendError;
+        if (parsedError.errors.group) setForbiddenData(false);
+        setIsLoadingData(false);
+        return;
+      }
+      setForbiddenData(true);
+      setIsLoadingData(false);
+      setRequestMembers(data);
+    } catch (error) {
+      Logger.error('Error trying to get request to join group: ' + { error });
+    }
+  }, [groupId]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const handleFilterChange = (event: any) => {
     setFilterText(event.target.value);
   };
 
-  const filteredUsers = requestUsers.filter((user) =>
-    removeAccents(user.name.toLowerCase()).includes(
+  const filteredUsers = requestUsers.filter((user: any) =>
+    removeAccents(user.user_name.toLowerCase()).includes(
       removeAccents(filterText.toLowerCase())
     )
   );
+
+  if (isLoadingData) {
+    return <></>;
+  }
+
+  if (!forbiddenData) {
+    return (
+      <div className='border border-solid p-10 text-center'>
+        Solo los administradores del grupo pueden ver las solicitudes
+      </div>
+    );
+  }
+
+  if (requestUsers.length === 0) {
+    return (
+      <div className='border border-solid p-10 text-center'>
+        No hay solicitudes
+      </div>
+    );
+  }
 
   return (
     <div
@@ -53,7 +99,7 @@ export default function RequestJoinGroup({
         )}
         {filteredUsers.map((user, index) => (
           <div key={index}>
-            <MemberCard member={user} renderRightSection='Buttons' />
+            <MemberCard member={user} type='Buttons' fetchData={fetchData} />
           </div>
         ))}
       </div>

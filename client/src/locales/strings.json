@@ -185,6 +185,11 @@
     },
     "requestTab": {
       "emptyMessage": " No se encontraron solicitudes"
+    },
+    "infoTab": {
+      "pendingRequestButtonText": "Solicitud pendiente",
+      "requestButtonText": "Unirse al grupo",
+      "reachedSizeLimit": "El grupo ya está lleno"
     }
   }
 }

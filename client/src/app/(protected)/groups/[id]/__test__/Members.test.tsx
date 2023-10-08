@@ -1,31 +1,18 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Members, { Member } from '../Content/Members';
+import Members from '../Content/Members';
 import strings from '@/locales/strings.json';
 
 describe('Members Component Tests', () => {
-  const memberUsers: Member[] = [
-    {
-      name: 'Juan Pérez',
-      email: 'juan@example.com',
-      role: 'Miembro',
-    },
-    {
-      name: 'María González',
-      email: 'maria@example.com',
-      role: 'Administrador',
-    },
-  ];
-
   test('should render without crashing', () => {
-    render(<Members members={memberUsers} />);
+    render(<Members />);
     const membersComponent = screen.getByTestId('members-component');
     expect(membersComponent).toBeInTheDocument();
   });
 
   test('should show empty message', () => {
-    render(<Members members={[]} />);
+    render(<Members />);
 
     const noMembersMessage = screen.getByText(
       strings.groups.membersTab.emptyMessage
@@ -34,7 +21,7 @@ describe('Members Component Tests', () => {
   });
 
   test('should test filter', async () => {
-    render(<Members members={memberUsers} />);
+    render(<Members />);
 
     const filterInput = screen.getByPlaceholderText('Filtrar Miembros');
     await userEvent.type(filterInput, 'Juan');

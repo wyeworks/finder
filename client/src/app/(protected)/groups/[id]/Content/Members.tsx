@@ -3,32 +3,44 @@
 import Input from '@/components/common/Input';
 import MemberCard from './MemberCard';
 import FilterIcon from '@/assets/Icons/FilterIcon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import strings from '@/locales/strings.json';
 import { removeAccents } from '@/utils/Formatter';
+import Button from '@/components/common/Button';
+import OutIcon from '@/assets/Icons/OutIcon';
+import { usePathname } from 'next/navigation';
+import { Member } from '@/types/Member';
+import { GroupService } from '@/services/GroupService';
 
-export type Member = {
-  name: string;
-  email: string;
-  role: 'Miembro' | 'Administrador';
-};
-
-type MembersProps = {
-  members: Member[];
-};
-
-export default function Members({ members }: MembersProps) {
+export default function Members() {
+  const pathname = usePathname();
+  const groupId = pathname.split('/')[2];
   const [filterText, setFilterText] = useState('');
+  const [members, setMembers] = useState<Member[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const getMembers = await GroupService.getMembersGroup(groupId);
+        setMembers(getMembers);
+      } catch (error) {}
+    };
+    fetchData();
+  }, [groupId]);
 
   const handleFilterChange = (event: any) => {
     setFilterText(event.target.value);
   };
 
-  const filteredUsers = members.filter((user) =>
+  const filteredUsers = members.filter((user: any) =>
     removeAccents(user.name.toLowerCase()).includes(
       removeAccents(filterText.toLowerCase())
     )
   );
+
+  if (members.length === 0) {
+    return <></>;
+  }
 
   return (
     <div
@@ -54,12 +66,20 @@ export default function Members({ members }: MembersProps) {
             {strings.groups.membersTab.emptyMessage}
           </div>
         )}
-        {filteredUsers.map((user, index) => (
+        {filteredUsers.map((user: any, index: number) => (
           <div key={index}>
-            <MemberCard member={user} renderRightSection='Tags' />
+            <MemberCard member={user} type='Tags' />
           </div>
         ))}
       </div>
+      <Button
+        type='button'
+        text={'Salir del grupo'}
+        id='leave-group-button'
+        classNameWrapper='mt-4 w-fit sm:ml-[40%] ml-[33%]'
+        className='justify-self-center !border !border-solid !border-gray-200 !bg-gray-50 !text-leaveRed hover:!bg-gray-100'
+        Icon={<OutIcon className='mr-2 h-6 w-6 text-leaveRed' />}
+      />
     </div>
   );
 }

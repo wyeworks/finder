@@ -2,21 +2,55 @@ import EllipsisVerticalIcon from '@/assets/Icons/EllipsisVerticalIcon';
 import Image from 'next/image';
 import defaultUser from '@/assets/images/default_user.png';
 import Tag from '@/components/common/Tag';
-import { Member } from './Members';
+import { Member } from '@/types/Member';
 import Button from '@/components/common/Button';
 import UserPlusIcon from '@/assets/Icons/UserPlusIcon';
 import TrashIcon from '@/assets/Icons/TrashIcon';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
+import { Logger } from '@/services/Logger';
 
 type MemberCardProp = {
   member: Member;
-  renderRightSection: 'Buttons' | 'Tags';
+  type: 'Buttons' | 'Tags';
+  fetchData?: () => void;
 };
+
+function mapRole(backEndRole: string) {
+  if (backEndRole === 'admin') return 'Administrador';
+  return 'Miembro';
+}
 
 export default function MemberCard({
   member,
-  renderRightSection,
+  type,
+  fetchData,
 }: MemberCardProp) {
-  const { name, email, role } = member;
+  const {
+    name,
+    email,
+    role = '',
+    group_id = '',
+    user_email,
+    user_name,
+    id = '',
+  } = member;
+
+  async function handleJoin(status: 'accepted' | 'rejected') {
+    let reason = '';
+    if (status === 'rejected') reason = 'admin rejected user';
+    try {
+      await ApiCommunicator.clientSideHandleRequestGroup({
+        groupId: group_id,
+        requestId: id,
+        status: status,
+        reason: reason,
+      });
+      if (fetchData) fetchData();
+    } catch (error) {
+      Logger.debug('Error trying accepted or rejected user' + { error });
+    }
+  }
+
   return (
     <div
       className='grid w-full max-w-[100%] grid-cols-[40px,160px,auto] items-center 
@@ -33,36 +67,38 @@ export default function MemberCard({
       </div>
       <div className='mr-2 flex flex-col overflow-clip'>
         <span className='overflow-hidden overflow-ellipsis whitespace-nowrap font-bold'>
-          {name}
+          {name ? name : user_name}
         </span>
         <span className='overflow-hidden overflow-ellipsis whitespace-nowrap'>
-          {email}
+          {email ? email : user_email}
         </span>
       </div>
-      {renderRightSection === 'Tags' && (
+      {type === 'Tags' && (
         <div className='grid grid-cols-[auto,20px]'>
           <div className='justify-self-center'>
-            <Tag type={role} />
+            <Tag type={mapRole(role)} />
           </div>
           <div>
             <EllipsisVerticalIcon className='h-6 w-6' />
           </div>
         </div>
       )}
-      {renderRightSection === 'Buttons' && (
-        <div className='grid grid-rows-[30px,30px] gap-3 sm:grid-cols-[100px,100px] sm:grid-rows-none sm:gap-6 '>
+      {type === 'Buttons' && (
+        <div className='grid grid-rows-[30px,30px] gap-3 sm:grid-cols-[100px,100px] sm:grid-rows-none sm:gap-6'>
           <Button
             text='Aceptar'
             type='button'
             Icon={<UserPlusIcon className='mr-1 h-5 w-5' />}
             classNameWrapper='h-4'
-            className='h-8 items-center !bg-[#BCEDFF] !font-light !text-black hover:!bg-blue-300 sm:m-3  '
+            className='h-8 items-center !bg-[#BCEDFF] !font-light !text-black hover:!bg-blue-300 sm:m-3'
+            onClick={() => handleJoin('accepted')}
           />
           <Button
             text='Rechazar'
             type='button'
             Icon={<TrashIcon className='h-6 w-6' />}
-            className=' h-8 items-center !bg-gray-300 !font-light !text-black hover:!bg-gray-400 sm:m-3  '
+            className=' h-8 items-center !bg-gray-300 !font-light !text-black hover:!bg-gray-400 sm:m-3'
+            onClick={() => handleJoin('rejected')}
           />
         </div>
       )}
