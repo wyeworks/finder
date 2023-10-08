@@ -5,7 +5,7 @@ import View from './View';
 
 export default async function Groups() {
   const groups = await GroupService.getGroups();
-  const subjects = await SubjectService.getSubjects();
+  const subjects = await SubjectService.getAll();
 
   return (
     <div className='flex flex-col'>
