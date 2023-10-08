@@ -23,9 +23,10 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
 
   const getSubjects = async () => {
     try {
-      return await ApiCommunicator.clientSideSubjectsByUser();
+      // return await ApiCommunicator.clientSideSubjectsByUser();
+      return await ApiCommunicator.clientSideGetSubjects();
     } catch (error) {
-      Logger.error('Error trying to get subjects:' + { error });
+      Logger.error('Error trying to get subjects:', error);
       return null;
     }
   };
@@ -49,7 +50,7 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
 
   return (
     <div className='grid grid-rows-3 justify-center gap-5'>
-      <div className='text-primaryBlue pt-4 text-2xl font-bold'>
+      <div className='pt-4 text-2xl font-bold text-primaryBlue'>
         {strings.createGroup.step1.description}
       </div>
       <SearchDropdown
