@@ -1,8 +1,9 @@
 'use client';
 
 import SearchDropdown from '@/components/common/SearchDropDown';
+import { TimeOfDay } from '@/types/StudyGroup';
 import { Subject } from '@/types/Subject';
-import { parseSubjectToOption } from '@/utils/Formatter';
+import { parseSubjectToOption, translatePreference } from '@/utils/Formatter';
 
 type FilterBarProps = {
   subjects: Subject[];
@@ -33,7 +34,7 @@ export default function FilterBar({ subjects }: FilterBarProps) {
               value='manana'
               className='mr-2'
             />
-            Mañana
+            {translatePreference(TimeOfDay.Morning)}
           </label>
         </div>
         <div className='px-4'>
@@ -44,7 +45,7 @@ export default function FilterBar({ subjects }: FilterBarProps) {
               value='tarde'
               className='mr-2'
             />
-            Tarde
+            {translatePreference(TimeOfDay.Afternoon)}
           </label>
         </div>
         <div className='px-4'>
@@ -55,7 +56,7 @@ export default function FilterBar({ subjects }: FilterBarProps) {
               value='noche'
               className='mr-2'
             />
-            Noche
+            {translatePreference(TimeOfDay.Night)}
           </label>
         </div>
       </div>
