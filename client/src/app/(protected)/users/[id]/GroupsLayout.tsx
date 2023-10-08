@@ -1,17 +1,18 @@
 import { StudyGroup } from '@/types/StudyGroup';
 import Image from 'next/image';
 import React, { Suspense } from 'react';
-import { SubjectService } from '@/services/SubjectService';
 import { GroupService } from '@/services/GroupService';
 import { User } from '@/types/User';
 import Loading from '@/components/common/Loading';
+import { Subject } from '@/types/Subject';
+import { SubjectService } from '@/services/SubjectService';
 
 type GroupCardProps = {
   group: StudyGroup;
+  subject: Subject;
 };
 
-async function GroupCard({ group }: GroupCardProps) {
-  const subject = await SubjectService.getSubject(group.subject_id);
+function GroupCard({ group, subject }: GroupCardProps) {
   return (
     <div
       data-testid={`groupCard-${group.name}`}
@@ -74,14 +75,17 @@ function EmptyGroups() {
   );
 }
 
-async function GroupGrid({ user }: GroupsLayoutProps) {
-  const groups = await GroupService.getActiveGroups(user);
+export function Groups({ groups }: { groups: GroupCardProps[] }) {
   return (
     <>
       {groups.length !== 0 ? (
         <SubscribedGroups>
-          {groups.map((group) => (
-            <GroupCard key={group.name} group={group} />
+          {groups.map((props) => (
+            <GroupCard
+              key={props.group.name}
+              group={props.group}
+              subject={props.subject}
+            />
           ))}
         </SubscribedGroups>
       ) : (
@@ -91,7 +95,21 @@ async function GroupGrid({ user }: GroupsLayoutProps) {
   );
 }
 
-export default async function GroupsLayout({ user }: GroupsLayoutProps) {
+async function GroupGrid({ user }: GroupsLayoutProps) {
+  const groups = await GroupService.getActiveGroups(user);
+  const subjects = groups.map((group) =>
+    SubjectService.getSubject(group.subject_id)
+  );
+  const subjectsResolved = await Promise.all(subjects);
+  const groupsWithSubjects = groups.map((group, index) => ({
+    group,
+    subject: subjectsResolved[index],
+  }));
+
+  return <Groups groups={groupsWithSubjects} />;
+}
+
+export default function GroupsLayout({ user }: GroupsLayoutProps) {
   return (
     <div className='overflow-hidden border-[#E7E7E7] bg-[#F3F4F6] lg:rounded-2xl lg:border-2 lg:bg-white'>
       <div className='p-5 text-[#2B2D54] lg:border-b-2 lg:bg-[#2B2D54] lg:text-white'>
