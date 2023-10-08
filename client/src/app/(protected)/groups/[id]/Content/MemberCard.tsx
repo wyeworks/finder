@@ -8,11 +8,14 @@ import UserPlusIcon from '@/assets/Icons/UserPlusIcon';
 import TrashIcon from '@/assets/Icons/TrashIcon';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Logger } from '@/services/Logger';
+import { BackendError } from '@/types/BackendError';
 
 type MemberCardProp = {
   member: Member;
   type: 'Buttons' | 'Tags';
   fetchData?: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onError?: (error: string[]) => void;
 };
 
 function mapRole(backEndRole: string) {
@@ -24,6 +27,7 @@ export default function MemberCard({
   member,
   type,
   fetchData,
+  onError,
 }: MemberCardProp) {
   const {
     name,
@@ -39,12 +43,17 @@ export default function MemberCard({
     let reason = '';
     if (status === 'rejected') reason = 'admin rejected user';
     try {
-      await ApiCommunicator.clientSideHandleRequestGroup({
+      const response = await ApiCommunicator.clientSideHandleRequestGroup({
         groupId: group_id,
         requestId: id,
         status: status,
         reason: reason,
       });
+      if (!response.ok) {
+        const error = (await response.json()) as BackendError;
+        if (onError) onError(error.errors.group ?? ['Error inesperado']);
+        return;
+      }
       if (fetchData) fetchData();
     } catch (error) {
       Logger.debug('Error trying accepted or rejected user' + { error });

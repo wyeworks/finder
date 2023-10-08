@@ -3,7 +3,7 @@
 import FilterIcon from '@/assets/Icons/FilterIcon';
 import Input from '@/components/common/Input';
 import MemberCard from './MemberCard';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Member } from '@/types/Member';
 import strings from '@/locales/strings.json';
 import { usePathname } from 'next/navigation';
@@ -11,6 +11,7 @@ import { removeAccents } from '@/utils/Formatter';
 import { BackendError } from '@/types/BackendError';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Logger } from '@/services/Logger';
+import Alert, { alertTypes } from '@/components/common/Alert';
 
 export default function RequestJoinGroup() {
   const pathname = usePathname();
@@ -19,8 +20,18 @@ export default function RequestJoinGroup() {
   const [requestUsers, setRequestMembers] = useState<Member[]>([]);
   const [forbiddenData, setForbiddenData] = useState<boolean>(false);
   const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState<alertTypes>('success');
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+
+  function onError(error: string[]) {
+    setIsAlertVisible(true);
+    setAlertMessage(error.join(', '));
+    setAlertType('error');
+  }
 
   const fetchData = useCallback(async () => {
+    setIsAlertVisible(false);
     try {
       const request: any =
         await ApiCommunicator.clientSideRequestJoinGroup(groupId);
@@ -99,9 +110,21 @@ export default function RequestJoinGroup() {
         )}
         {filteredUsers.map((user, index) => (
           <div key={index}>
-            <MemberCard member={user} type='Buttons' fetchData={fetchData} />
+            <MemberCard
+              member={user}
+              type='Buttons'
+              fetchData={fetchData}
+              onError={onError}
+            />
           </div>
         ))}
+        <div className='mb-3'>
+          <Alert
+            isVisible={isAlertVisible}
+            message={alertMessage}
+            alertType={alertType}
+          />
+        </div>
       </div>
     </div>
   );
