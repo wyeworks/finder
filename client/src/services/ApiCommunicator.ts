@@ -119,6 +119,13 @@ export class ApiCommunicator {
 
   static async clientSideSubjectsByUser() {
     return await this.commonFetch({
+      url: '/api/subjects/byUser',
+      method: 'GET',
+    });
+  }
+
+  static async clientSideGetSubjects() {
+    return await this.commonFetch({
       url: '/api/subjects',
       method: 'GET',
     });
@@ -242,6 +249,7 @@ export class ApiCommunicator {
     return await this.commonFetch({
       url: this.apiUrl() + `/subjects`,
       method: 'GET',
+      asJSON: false,
     });
   }
 
