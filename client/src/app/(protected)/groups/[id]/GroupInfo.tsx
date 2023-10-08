@@ -8,6 +8,7 @@ import { GroupService } from '@/services/GroupService';
 import { User } from '@/types/User';
 import strings from '@/locales/strings.json';
 import { useEffect, useState } from 'react';
+import Alert from '@/components/common/Alert';
 
 type GroupInfoProps = {
   group: StudyGroup;
@@ -19,6 +20,9 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
   const { id, name, description, size, user_ids } = group;
   const [requestPending, setRequestPending] = useState<boolean>(false);
   const [finishedLoading, setFinishedLoading] = useState<boolean>(false);
+  const [reachedGroupLimit, setReachedGroupLimit] = useState<boolean>(false);
+  const [inGroup, setInGroup] = useState<boolean>(false);
+
   const handleRequestGroup = async function () {
     if (id) {
       await GroupService.clientSideSubmitRequest(id.toString());
@@ -42,13 +46,15 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
     }
   };
 
-  const inGroup = () => {
-    let res = false;
+  useEffect(() => {
     if (user_ids) {
-      res = user_ids.includes(Number(user.id));
+      const res = user_ids.includes(Number(user.id));
+      setInGroup(res);
     }
-    return res;
-  };
+    if (user_ids && size && user_ids.length === size) {
+      setReachedGroupLimit(true);
+    }
+  }, [size, user.id, user_ids]);
 
   useEffect(() => {
     const isRequestPending = async () => {
@@ -72,11 +78,10 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
     isRequestPending();
   }, [id, user.id, user_ids]);
 
-  const buttonJoinMobile = () => {
+  const buttonJoin = () => {
     return (
-      !inGroup() &&
-      finishedLoading && (
-        <div className='flex w-full justify-center sm:justify-start md:hidden'>
+      <>
+        {!reachedGroupLimit && (
           <Button
             text={requestPending ? 'Solicitud pendiente' : 'Unirse al grupo'}
             className={
@@ -87,8 +92,14 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
             disabled={requestPending}
             onClick={handleRequestGroup}
           />
-        </div>
-      )
+        )}
+        <Alert
+          isVisible={reachedGroupLimit}
+          message={strings.groups.infoTab.reachedSizeLimit}
+          title=''
+          alertType='info'
+        />
+      </>
     );
   };
 
@@ -104,22 +115,9 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
             </span>
           </div>
 
-          {!inGroup() && finishedLoading && (
+          {!inGroup && finishedLoading && (
             <div className='hidden min-w-[175px] justify-center md:flex md:w-[15%]'>
-              <Button
-                text={
-                  requestPending
-                    ? strings.groups.infoTab.pendingRequestButtonText
-                    : strings.groups.infoTab.requestButtonText
-                }
-                className={
-                  requestPending
-                    ? 'bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-slate-500'
-                    : 'bg-primaryBlue hover:bg-hoverPrimaryBlue'
-                }
-                disabled={requestPending}
-                onClick={handleRequestGroup}
-              />
+              {buttonJoin()}
             </div>
           )}
         </div>
@@ -132,7 +130,11 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
             <span>{size} integrantes máximo</span>
           </div>
         </div>
-        {buttonJoinMobile()}
+        {!inGroup && finishedLoading && (
+          <div className='flex w-full justify-center sm:justify-start md:hidden'>
+            {buttonJoin()}
+          </div>
+        )}
       </div>
       <div className='sm:col-span-1'></div>
     </div>

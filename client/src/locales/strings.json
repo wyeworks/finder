@@ -188,7 +188,8 @@
     },
     "infoTab": {
       "pendingRequestButtonText": "Solicitud pendiente",
-      "requestButtonText": "Unirse al grupo"
+      "requestButtonText": "Unirse al grupo",
+      "reachedSizeLimit": "El grupo ya está lleno"
     }
   }
 }
