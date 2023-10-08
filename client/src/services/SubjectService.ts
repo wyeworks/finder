@@ -13,6 +13,10 @@ export class SubjectService {
     return (await ApiCommunicator.getSubject(id.toString())) as Subject;
   }
 
+  public static async getSubjects(): Promise<Subject[]> {
+    return (await ApiCommunicator.getSubjects()) as Subject[];
+  }
+
   public static async getAll(): Promise<Subject[]> {
     return (await (await ApiCommunicator.getSubjects()).json()) as Subject[];
   }

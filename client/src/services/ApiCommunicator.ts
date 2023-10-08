@@ -267,6 +267,13 @@ export class ApiCommunicator {
     });
   }
 
+  static async getGroups(): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + `/groups`,
+      method: 'GET',
+    });
+  }
+
   static async submitRequestGroup(id: string): Promise<any> {
     return await this.commonFetch({
       url: this.apiUrl() + `/groups/${id}/requests`,
