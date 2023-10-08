@@ -14,3 +14,17 @@ export async function GET(
     handlerNeedsBody: false,
   });
 }
+
+export async function POST(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  const groupId = params.id;
+  return clientRequestHandler({
+    req: request,
+    apiHandler: async () => {
+      return await ApiCommunicator.submitRequestGroup(groupId);
+    },
+    handlerNeedsBody: false,
+  });
+}

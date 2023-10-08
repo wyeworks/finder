@@ -31,8 +31,8 @@ export default function MemberCard({
     role = '',
     group_id = '',
     user_email,
-    user_id = '',
     user_name,
+    id = '',
   } = member;
 
   async function handleJoin(status: 'accepted' | 'rejected') {
@@ -41,7 +41,7 @@ export default function MemberCard({
     try {
       await ApiCommunicator.clientSideHandleRequestGroup({
         groupId: group_id,
-        userId: user_id,
+        requestId: id,
         status: status,
         reason: reason,
       });

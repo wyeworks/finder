@@ -18,9 +18,27 @@ type GroupInfoProps = {
 export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
   const { id, name, description, size, user_ids } = group;
   const [requestPending, setRequestPending] = useState<boolean>(false);
+  const [finishedLoading, setFinishedLoading] = useState<boolean>(false);
   const handleRequestGroup = async function () {
     if (id) {
       await GroupService.clientSideSubmitRequest(id.toString());
+      //beautify later
+      let res = false;
+      setFinishedLoading(false);
+      if (user_ids && id) {
+        const response = await GroupService.clientSideGetRequestState(
+          id.toString(),
+          user.id
+        );
+        if (!response.ok) {
+          res = response.status === 404 ? false : true;
+        } else {
+          const body = await response.json();
+          res = body.status === 'pending';
+        }
+      }
+      setRequestPending(res);
+      setFinishedLoading(true);
     }
   };
 
@@ -35,6 +53,7 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
   useEffect(() => {
     const isRequestPending = async () => {
       let res = false;
+      setFinishedLoading(false);
       if (user_ids && id) {
         const response = await GroupService.clientSideGetRequestState(
           id.toString(),
@@ -48,6 +67,7 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
         }
       }
       setRequestPending(res);
+      setFinishedLoading(true);
     };
     isRequestPending();
   }, [id, user.id, user_ids]);
@@ -64,7 +84,7 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
             </span>
           </div>
 
-          {!inGroup() && (
+          {!inGroup() && finishedLoading && (
             <div className='hidden min-w-[175px] justify-center md:flex md:w-[15%]'>
               <Button
                 text={

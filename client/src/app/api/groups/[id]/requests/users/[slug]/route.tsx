@@ -5,8 +5,8 @@ export async function GET(
   request: Request,
   { params }: { params: { slug: string; id: string } }
 ) {
-  const groupId = params.slug;
-  const userId = params.id;
+  const groupId = params.id;
+  const userId = params.slug;
   return clientRequestHandler({
     req: request,
     handlerNeedsBody: false,

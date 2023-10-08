@@ -154,7 +154,8 @@ export class ApiCommunicator {
 
   static async clientSideHandleRequestGroup(data: any): Promise<any> {
     return await this.commonFetch({
-      url: '/api/groups/' + data.groupId + '/handleJoinRequest/' + data.userId,
+      url:
+        '/api/groups/' + data.groupId + '/handleJoinRequest/' + data.requestId,
       method: 'PATCH',
       data,
       handleNotOk: false,
@@ -270,7 +271,7 @@ export class ApiCommunicator {
 
   static async clientSideSubmitRequestGroup(id: string): Promise<any> {
     return await this.commonFetch({
-      url: `/api/groups/${id}/requests`,
+      url: `/api/groups/${id}/requestJoinGroup`,
       method: 'POST',
       handleNotOk: false,
       asJSON: false,
@@ -324,7 +325,11 @@ export class ApiCommunicator {
   static async handleRequestGroup(data: any): Promise<any> {
     return await this.commonFetch({
       url:
-        this.apiUrl() + '/groups/' + data.groupId + '/requests/' + data.userId,
+        this.apiUrl() +
+        '/groups/' +
+        data.groupId +
+        '/requests/' +
+        data.requestId,
       method: 'PATCH',
       data,
       mustBeAuthenticated: true,
