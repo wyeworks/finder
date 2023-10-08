@@ -12,15 +12,13 @@ import {
 } from '@/components/common/SocialNetworkButton';
 import Link from 'next/link';
 import defaultUser from '@/assets/images/default_user.png';
-import { getServerSession } from 'next-auth';
-import { CareerService } from '@/services/CareerService';
-import React, { Suspense } from 'react';
-import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
-import Loading from '@/components/common/Loading';
 import { SocialNetworks } from '@/types/SocialNetworks';
+import { Career } from '@/types/Career';
 
 type UserBannerProps = {
   user: User;
+  careers: Career[];
+  isLoggedUser: boolean;
 };
 
 function EditButton(props: { user: User }) {
@@ -61,7 +59,10 @@ function SocialNetworkButtons(props: { social_networks: SocialNetworks }) {
 
 function UserBio(props: { bio: string }) {
   return (
-    <h1 className='text-center text-2xl text-[#3D405B] lg:mt-2 lg:text-left'>
+    <h1
+      data-testid={'BioField'}
+      className='text-center text-2xl text-[#3D405B] lg:mt-2 lg:text-left'
+    >
       {props.bio}
     </h1>
   );
@@ -144,8 +145,7 @@ function UserProfileImage({ profileImage }: { profileImage?: string }) {
   );
 }
 
-async function Careers({ user }: { user: User }) {
-  const careers = await CareerService.getByUser(user);
+function Careers({ careers }: { careers: Career[] }) {
   return (
     <div className='flex flex-col flex-wrap lg:flex-row'>
       {careers.length > 0 && (
@@ -170,8 +170,11 @@ function SocialNetworks({ user }: { user: User }) {
   );
 }
 
-export default async function UserBanner({ user }: UserBannerProps) {
-  const session = await getServerSession(authOptions);
+export default function UserBanner({
+  user,
+  careers,
+  isLoggedUser,
+}: UserBannerProps) {
   return (
     <div className='flex w-full flex-col border-b-2 border-gray-100 bg-transparent'>
       <div className='flex flex-col justify-center lg:mt-0 lg:flex-row lg:justify-between lg:pl-20'>
@@ -179,15 +182,13 @@ export default async function UserBanner({ user }: UserBannerProps) {
           <UserProfileImage profileImage={user.profileImage} />
           <div className={'flex flex-col lg:ml-10 lg:justify-start'}>
             <UserName user={user} />
-            <Suspense fallback={<Loading />}>
-              <Careers user={user} />
-            </Suspense>
+            <Careers careers={careers} />
             {user.bio && <UserBio bio={user.bio} />}
             <SocialNetworks user={user} />
           </div>
         </div>
         <div className='m-10 mt-20 flex justify-center lg:mr-20 lg:mt-10'>
-          {session?.user?.email === user.email && <EditButton user={user} />}
+          {isLoggedUser && <EditButton user={user} />}
         </div>
       </div>
     </div>
