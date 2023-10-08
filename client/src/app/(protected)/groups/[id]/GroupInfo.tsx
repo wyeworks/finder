@@ -72,6 +72,26 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
     isRequestPending();
   }, [id, user.id, user_ids]);
 
+  const buttonJoinMobile = () => {
+    return (
+      !inGroup() &&
+      finishedLoading && (
+        <div className='flex w-full justify-center sm:justify-start md:hidden'>
+          <Button
+            text={requestPending ? 'Solicitud pendiente' : 'Unirse al grupo'}
+            className={
+              requestPending
+                ? 'bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-slate-500'
+                : 'bg-primaryBlue hover:bg-hoverPrimaryBlue'
+            }
+            disabled={requestPending}
+            onClick={handleRequestGroup}
+          />
+        </div>
+      )
+    );
+  };
+
   return (
     <div className='mt-4 grid grid-cols-1 sm:grid-cols-5'>
       <div className='col-span-1'></div>
@@ -112,20 +132,7 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
             <span>{size} integrantes máximo</span>
           </div>
         </div>
-        {!inGroup() && (
-          <div className='flex w-full justify-center sm:justify-start md:hidden'>
-            <Button
-              text={requestPending ? 'Solicitud pendiente' : 'Unirse al grupo'}
-              className={
-                requestPending
-                  ? 'bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-slate-500'
-                  : 'bg-primaryBlue hover:bg-hoverPrimaryBlue'
-              }
-              disabled={requestPending}
-              onClick={handleRequestGroup}
-            />
-          </div>
-        )}
+        {buttonJoinMobile()}
       </div>
       <div className='sm:col-span-1'></div>
     </div>
