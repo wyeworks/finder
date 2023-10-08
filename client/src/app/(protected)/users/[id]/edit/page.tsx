@@ -9,7 +9,7 @@ import { DeleteUserSection } from '@/app/(protected)/users/[id]/edit/DeleteUserS
 export default async function ConfigProfile() {
   const session = await getServerSession(authOptions);
   const user = await ApiCommunicator.getUser(session!.user.id!);
-  const subjects = await ApiCommunicator.getSubjects();
+  const subjects = await SubjectService.getAll();
   const careers = await ApiCommunicator.getCareers();
   const careersByUser = await ApiCommunicator.getCareersByUser(user.id);
   const subjectsByUser = await SubjectService.getByUser(user);
