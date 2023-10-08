@@ -62,7 +62,7 @@ module Groups
         }, status: :not_found and return
       end
 
-      request = @group.requests.find_by(user:)
+      request = @group.requests.where(user:).order(created_at: :desc).first
 
       unless request
         Rails.logger.info "No request found for User ID ##{params[:user_id]} in Group with ID ##{params[:group_id]}"
