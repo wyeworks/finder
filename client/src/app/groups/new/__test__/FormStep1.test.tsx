@@ -6,6 +6,15 @@ import strings from '@/locales/strings.json';
 // Mock fetch function
 global.fetch = jest.fn();
 
+// eslint-disable-next-line no-unused-vars
+const ApiCommunicator =
+  require('../../../../services/ApiCommunicator').ApiCommunicator;
+jest.mock('../../../../services/ApiCommunicator', () => ({
+  ApiCommunicator: {
+    clientSideGetSubjects: jest.fn().mockReturnValue({ ok: true }),
+  },
+}));
+
 describe('Create Group FormStep1', () => {
   test('renders the component', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({

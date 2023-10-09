@@ -29,11 +29,11 @@ jest.mock('next-auth/react', () => ({
   }),
 }));
 
-//We want to also mock ApiCommunicator.clientSideEditUser(id)
+// We want to also mock ApiCommunicator.clientSideEditUser(id)
 // eslint-disable-next-line no-unused-vars
 const ApiCommunicator =
   require('../../../../../services/ApiCommunicator').ApiCommunicator;
-jest.mock('../../../services/ApiCommunicator', () => ({
+jest.mock('../../../../../services/ApiCommunicator', () => ({
   ApiCommunicator: {
     clientSideEditUser: jest.fn().mockReturnValue({ ok: true }),
   },
@@ -77,7 +77,9 @@ describe('Form Personal Info Component', () => {
   });
 
   it('should make a successful API call when form is submitted with valid data', async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({ ok: true }); // Mock a successful fetch call
+    (ApiCommunicator.clientSideEditUser as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+    }); // Mock a successful fetch call
 
     sut();
 
@@ -106,7 +108,9 @@ describe('Form Personal Info Component', () => {
 
     // Wait for the fetch to be called
     await waitFor(async () => {
-      expect(fetch).toHaveBeenCalledWith('/api/signup', expect.anything());
+      expect(ApiCommunicator.clientSideEditUser).toHaveBeenCalledWith(
+        expect.anything()
+      );
     });
   });
 

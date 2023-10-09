@@ -10,6 +10,16 @@ const mockGroup: StudyGroup = {
   subject_id: 1,
 };
 
+// eslint-disable-next-line no-unused-vars
+const ApiCommunicator =
+  require('../../../../../services/ApiCommunicator').ApiCommunicator;
+jest.mock('../../../../../services/ApiCommunicator', () => ({
+  ApiCommunicator: {
+    clientSideMembersGroup: jest.fn().mockReturnValue({ ok: true }),
+    clientSideHandleRequestGroup: jest.fn().mockReturnValue({ ok: true }),
+  },
+}));
+
 describe('GroupTabs', () => {
   it('renders without crashing', () => {
     render(<GroupTabs group={mockGroup} />);

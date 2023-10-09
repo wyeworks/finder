@@ -8,6 +8,15 @@ import * as nextAuthReact from 'next-auth/react';
 jest.mock('next-auth/react');
 const nextAuthReactMocked = nextAuthReact as jest.Mocked<typeof nextAuthReact>;
 
+// eslint-disable-next-line no-unused-vars
+const ApiCommunicator =
+  require('../../services/ApiCommunicator').ApiCommunicator;
+jest.mock('../../services/ApiCommunicator', () => ({
+  ApiCommunicator: {
+    signUp: jest.fn().mockReturnValue({ ok: true }),
+  },
+}));
+
 describe('Form Component', () => {
   it('should render without crashing', () => {
     render(<Form />);

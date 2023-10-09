@@ -4,6 +4,16 @@ import userEvent from '@testing-library/user-event';
 import Members from '../Content/Members';
 import strings from '@/locales/strings.json';
 
+// eslint-disable-next-line no-unused-vars
+const ApiCommunicator =
+  require('../../../../../services/ApiCommunicator').ApiCommunicator;
+jest.mock('../../../../../services/ApiCommunicator', () => ({
+  ApiCommunicator: {
+    clientSideMembersGroup: jest.fn().mockReturnValue([]),
+    clientSideHandleRequestGroup: jest.fn().mockReturnValue({ ok: true }),
+  },
+}));
+
 describe('Members Component Tests', () => {
   test('should render without crashing', () => {
     render(<Members />);
