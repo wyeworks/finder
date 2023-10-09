@@ -2,8 +2,10 @@ import React from 'react';
 import { GroupService } from '@/services/GroupService';
 import { SubjectService } from '@/services/SubjectService';
 import View from './View';
+import { revalidatePath } from 'next/cache';
 
 export default async function Groups() {
+  revalidatePath('/');
   const groups = await GroupService.getGroups();
   const subjects = await SubjectService.getAll();
 

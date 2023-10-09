@@ -38,12 +38,12 @@ export default async function HomePage() {
               <br />
               <li className='mt-3'>
                 {/* this is a temporary button to test functionality easier */}
-                <Link
+                <a
                   href='/groups'
                   className='rounded-md bg-primaryBlue p-3 text-white'
                 >
                   Listar Grupos
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
