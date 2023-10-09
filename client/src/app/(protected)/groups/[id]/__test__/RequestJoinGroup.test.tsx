@@ -4,6 +4,31 @@ import userEvent from '@testing-library/user-event';
 import RequestJoinGroup from '../Content/RequestJoinGroup';
 import strings from '@/locales/strings.json';
 
+//We want to also mock ApiCommunicator.clientSideEditUser(id)
+// eslint-disable-next-line no-unused-vars
+const ApiCommunicator =
+  require('../../../../services/ApiCommunicator').ApiCommunicator;
+jest.mock('../../../../services/ApiCommunicator', () => ({
+  ApiCommunicator: {
+    getSubject: jest.fn().mockReturnValue({
+      ok: true,
+      data: {
+        id: 1,
+        name: 'Bases de datos',
+        code: 'IS2',
+        credits: 5,
+      },
+    }),
+  },
+}));
+
+//We want to mock the function useSession from next-auth/react
+// eslint-disable-next-line no-unused-vars
+const usePathname = require('next/navigation').usePathname();
+jest.mock('next/navigation', () => ({
+  usePathname: jest.fn().mockReturnValue('groups/1'),
+}));
+
 describe('RequestJoinGroup Component Tests', () => {
   test('should render without crashing', () => {
     render(<RequestJoinGroup />);
