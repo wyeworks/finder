@@ -123,6 +123,7 @@ export default function RequestJoinGroup() {
             isVisible={isAlertVisible}
             message={alertMessage}
             alertType={alertType}
+            withTitle={false}
           />
         </div>
       </div>

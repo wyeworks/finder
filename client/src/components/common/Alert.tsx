@@ -9,6 +9,7 @@ type AlertProps = {
   title?: string;
   type?: string;
   alertType?: alertTypes;
+  withTitle?: boolean;
 };
 
 export default function Alert({
@@ -18,6 +19,7 @@ export default function Alert({
   alertType = 'warning',
   title = getAlertTypeDefaultTitle(alertType),
   message = getAlertTypeDefaultMessage(alertType),
+  withTitle = true,
 }: AlertProps) {
   if (isVisible) {
     return (
@@ -28,7 +30,7 @@ export default function Alert({
         )}`}
         role={type}
       >
-        <p className='font-bold'>{title}</p>
+        {withTitle && <p className='font-bold'>{title}</p>}
         <p>{message}</p>
       </div>
     );
