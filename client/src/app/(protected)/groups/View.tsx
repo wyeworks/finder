@@ -14,7 +14,7 @@ type ViewProps = {
 
 export default function View({ groups, subjects }: ViewProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 16;
+  const itemsPerPage = 12;
   const [displayGroups, setDisplayGroups] = useState<StudyGroup[]>([]);
 
   useEffect(() => {
