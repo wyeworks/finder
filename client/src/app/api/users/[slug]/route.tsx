@@ -14,3 +14,17 @@ export async function GET(
     handlerNeedsBody: false,
   });
 }
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: { slug: string } }
+) {
+  const userId = params.slug;
+  return clientRequestHandler({
+    req: request,
+    apiHandler: async () => {
+      return await ApiCommunicator.deleteUser(userId);
+    },
+    handlerNeedsBody: false,
+  });
+}

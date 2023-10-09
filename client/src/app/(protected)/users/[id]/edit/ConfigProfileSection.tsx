@@ -42,7 +42,7 @@ export function ConfigProfileSection({
         <div className='mt-3 flex justify-end gap-3'>
           <Button
             type='submit'
-            id='confirm-button'
+            id={`confirm-button-${sectionTitle}`}
             text={confirmButtonText}
             disabled={isConfirmButtonDisabled}
             //If there is an icon then add some padding to the left
