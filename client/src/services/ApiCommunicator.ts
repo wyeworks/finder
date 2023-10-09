@@ -107,6 +107,14 @@ export class ApiCommunicator {
     });
   }
 
+  static async clientSideDeleteUser(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: '/api/users/' + id,
+      method: 'DELETE',
+      asJSON: false,
+    });
+  }
+
   static async clientSideSignUp(data: any): Promise<any> {
     return await this.commonFetch({
       url: '/api/signup',
@@ -350,6 +358,15 @@ export class ApiCommunicator {
       mustBeAuthenticated: true,
       asJSON: false,
       handleNotOk: false,
+    });
+  }
+
+  static async deleteUser(id: string): Promise<any> {
+    return await this.commonFetch({
+      url: this.apiUrl() + '/users/' + id,
+      method: 'DELETE',
+      mustBeAuthenticated: true,
+      asJSON: false,
     });
   }
 }
