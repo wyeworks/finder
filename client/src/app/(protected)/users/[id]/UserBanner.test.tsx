@@ -1,33 +1,26 @@
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import UserBanner from '@/app/(protected)/users/[id]/UserBanner';
 import {
   SocialNetworksBuilder,
   UserBuilder,
 } from '../../../../../tests/builders/UserBuilder';
-import React from 'react';
+import { Session } from 'next-auth';
 
 describe('UserBanner Component', () => {
   const usuarioTipico = UserBuilder.aUser().build();
 
   it('should render without crashing', () => {
-    render(
-      <UserBanner user={usuarioTipico} careers={[]} isLoggedUser={false} />
-    );
+    render(<UserBanner user={usuarioTipico} session={null} />);
   });
 
   it('should show the users name', () => {
-    render(
-      <UserBanner user={usuarioTipico} careers={[]} isLoggedUser={false} />
-    );
+    render(<UserBanner user={usuarioTipico} session={null} />);
 
     expect(document.querySelector('h1')).toHaveTextContent(usuarioTipico.name);
   });
 
   it('should show the users profile picture if it exists', () => {
-    render(
-      <UserBanner user={usuarioTipico} careers={[]} isLoggedUser={false} />
-    );
+    render(<UserBanner user={usuarioTipico} session={null} />);
 
     const profileImage = screen.getByTestId('profileImage');
 
@@ -39,9 +32,7 @@ describe('UserBanner Component', () => {
       .withProfileImage(undefined)
       .build();
 
-    render(
-      <UserBanner user={usuarioSinFoto} careers={[]} isLoggedUser={false} />
-    );
+    render(<UserBanner user={usuarioSinFoto} session={null} />);
 
     const profileImage = screen.getByTestId('defaultProfileImage');
 
@@ -51,21 +42,17 @@ describe('UserBanner Component', () => {
   it('should show the users bio if it exists', () => {
     const usuarioConBio = UserBuilder.aUser().withBio('Bio de prueba').build();
 
-    render(
-      <UserBanner user={usuarioConBio} careers={[]} isLoggedUser={false} />
-    );
+    render(<UserBanner user={usuarioConBio} session={null} />);
 
     expect(screen.getByText('Bio de prueba')).toBeInTheDocument();
   });
 
-  it('should not show a bio if the user does not have one', () => {
+  it('should show a default bio if the users does not have one', () => {
     const usuarioSinBio = UserBuilder.aUser().withBio(undefined).build();
 
-    render(
-      <UserBanner user={usuarioSinBio} careers={[]} isLoggedUser={false} />
-    );
+    render(<UserBanner user={usuarioSinBio} session={null} />);
 
-    expect(screen.queryByTestId('BioField')).not.toBeInTheDocument();
+    expect(screen.getByText('Sin bio')).toBeInTheDocument();
   });
 
   describe('Social Networks links', () => {
@@ -77,13 +64,7 @@ describe('UserBanner Component', () => {
           )
           .build();
 
-        render(
-          <UserBanner
-            user={usuarioConInstagram}
-            careers={[]}
-            isLoggedUser={false}
-          />
-        );
+        render(<UserBanner user={usuarioConInstagram} session={null} />);
 
         expect(screen.getByTestId('InstagramButton')).toBeInTheDocument();
       });
@@ -95,13 +76,7 @@ describe('UserBanner Component', () => {
           )
           .build();
 
-        render(
-          <UserBanner
-            user={usuarioConTwitter}
-            careers={[]}
-            isLoggedUser={false}
-          />
-        );
+        render(<UserBanner user={usuarioConTwitter} session={null} />);
 
         expect(screen.getByTestId('TwitterButton')).toBeInTheDocument();
       });
@@ -113,13 +88,7 @@ describe('UserBanner Component', () => {
           )
           .build();
 
-        render(
-          <UserBanner
-            user={usuarioConLinkedIn}
-            careers={[]}
-            isLoggedUser={false}
-          />
-        );
+        render(<UserBanner user={usuarioConLinkedIn} session={null} />);
 
         expect(screen.getByTestId('LinkedInButton')).toBeInTheDocument();
       });
@@ -131,13 +100,7 @@ describe('UserBanner Component', () => {
           )
           .build();
 
-        render(
-          <UserBanner
-            user={usuarioConDiscord}
-            isLoggedUser={false}
-            careers={[]}
-          />
-        );
+        render(<UserBanner user={usuarioConDiscord} session={null} />);
 
         expect(screen.getByTestId('DiscordButton')).toBeInTheDocument();
       });
@@ -153,13 +116,7 @@ describe('UserBanner Component', () => {
           )
           .build();
 
-        render(
-          <UserBanner
-            user={usuarioConTodasLasRedes}
-            isLoggedUser={false}
-            careers={[]}
-          />
-        );
+        render(<UserBanner user={usuarioConTodasLasRedes} session={null} />);
 
         expect(screen.getByTestId('InstagramButton')).toBeInTheDocument();
         expect(screen.getByTestId('TwitterButton')).toBeInTheDocument();
@@ -173,9 +130,7 @@ describe('UserBanner Component', () => {
         .withSocialNetworks(undefined)
         .build();
 
-      render(
-        <UserBanner user={usuarioSinRedes} careers={[]} isLoggedUser={false} />
-      );
+      render(<UserBanner user={usuarioSinRedes} session={null} />);
 
       expect(
         screen.queryByTestId('socialNetworksLayout')
@@ -185,18 +140,26 @@ describe('UserBanner Component', () => {
 
   it('should show a button to edit the profile if the users is the owner of the profile', () => {
     const usuarioLogueado = UserBuilder.aUser().build();
+    const sessionDeUsuario = {
+      user: {
+        email: usuarioLogueado.email,
+      },
+    } as Session;
 
-    render(
-      <UserBanner user={usuarioLogueado} careers={[]} isLoggedUser={true} />
-    );
+    render(<UserBanner user={usuarioLogueado} session={sessionDeUsuario} />);
 
     expect(screen.getByTestId('editButton')).toBeInTheDocument();
   });
 
   it('should not show a button to edit the profile if the users is not the owner of the profile', () => {
     const usuario = UserBuilder.aUser().build();
+    const sessionDeOtroUsuario = {
+      user: {
+        email: 'someOtherEmail',
+      },
+    } as Session;
 
-    render(<UserBanner user={usuario} isLoggedUser={false} careers={[]} />);
+    render(<UserBanner user={usuario} session={sessionDeOtroUsuario} />);
 
     expect(screen.queryByTestId('editButton')).not.toBeInTheDocument();
   });

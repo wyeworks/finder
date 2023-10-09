@@ -1,38 +1,12 @@
 import { render, screen } from '@testing-library/react';
-import { Groups } from '@/app/(protected)/users/[id]/GroupsLayout';
+import GroupsLayout from '@/app/(protected)/users/[id]/GroupsLayout';
 import { StudyGroupBuilder } from '../../../../../tests/builders/StudyGroupBuilder';
-import { Subject } from '@/types/Subject';
 
 global.fetch = jest.fn();
 
-//We want to also mock ApiCommunicator.clientSideEditUser(id)
-// eslint-disable-next-line no-unused-vars
-const ApiCommunicator =
-  require('../../../../services/ApiCommunicator').ApiCommunicator;
-jest.mock('../../../../services/ApiCommunicator', () => ({
-  ApiCommunicator: {
-    getSubject: jest.fn().mockReturnValue({
-      ok: true,
-      data: {
-        id: 1,
-        name: 'Bases de datos',
-        code: 'IS2',
-        credits: 5,
-      },
-    }),
-  },
-}));
-
-const sampleSubject: Subject = {
-  id: 1,
-  name: 'Bases de datos',
-  code: 'IS2',
-  credits: 5,
-};
-
 describe('GroupsLayout Component', () => {
   it('should show a message saying there are no groups if there are no groups', () => {
-    render(<Groups groups={[]} />);
+    render(<GroupsLayout groups={[]} />);
 
     expect(screen.getByTestId('emptyGroups')).toBeInTheDocument();
   });
@@ -43,14 +17,7 @@ describe('GroupsLayout Component', () => {
       .build();
     const grupoPIS = StudyGroupBuilder.aStudyGroup().withName('PIS').build();
 
-    render(
-      <Groups
-        groups={[
-          { group: grupoBasesDeDatos, subject: sampleSubject },
-          { group: grupoPIS, subject: sampleSubject },
-        ]}
-      />
-    );
+    render(<GroupsLayout groups={[grupoBasesDeDatos, grupoPIS]} />);
 
     expect(screen.getByTestId('subscribedGroups')).toBeInTheDocument();
     expect(screen.getByTestId('groupCard-Bases de datos')).toBeInTheDocument();
@@ -63,9 +30,7 @@ describe('GroupsLayout Component', () => {
         .withName('Bases de datos')
         .build();
 
-      render(
-        <Groups groups={[{ group: grupoConNombre, subject: sampleSubject }]} />
-      );
+      render(<GroupsLayout groups={[grupoConNombre]} />);
 
       expect(screen.getByTestId('groupName-Bases de datos')).toHaveTextContent(
         'Bases de datos'
@@ -77,11 +42,7 @@ describe('GroupsLayout Component', () => {
         .withDescription('Grupo de bases de datos')
         .build();
 
-      render(
-        <Groups
-          groups={[{ group: grupoConDescripcion, subject: sampleSubject }]}
-        />
-      );
+      render(<GroupsLayout groups={[grupoConDescripcion]} />);
 
       expect(
         screen.getByTestId('groupDescription-Grupo de bases de datos')
@@ -93,9 +54,7 @@ describe('GroupsLayout Component', () => {
         .withBanner('https://www.google.com')
         .build();
 
-      render(
-        <Groups groups={[{ group: grupoWithBanner, subject: sampleSubject }]} />
-      );
+      render(<GroupsLayout groups={[grupoWithBanner]} />);
 
       expect(
         screen.getByTestId('groupBanner-https://www.google.com')
@@ -107,13 +66,9 @@ describe('GroupsLayout Component', () => {
         .withSubject(1)
         .build();
 
-      render(
-        <Groups groups={[{ group: grupoConSubject, subject: sampleSubject }]} />
-      );
+      render(<GroupsLayout groups={[grupoConSubject]} />);
 
-      expect(screen.getByTestId('groupSubject-1')).toHaveTextContent(
-        sampleSubject.name
-      );
+      expect(screen.getByTestId('groupSubject-1')).toHaveTextContent('1');
     });
   });
 });
