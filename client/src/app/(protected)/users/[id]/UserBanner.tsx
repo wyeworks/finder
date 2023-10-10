@@ -134,7 +134,7 @@ function UserCareers(props: { careers: string[] }) {
 
 function UserName(props: { user: User }) {
   return (
-    <h1 className='mb-2 text-center text-5xl font-bold text-[#2B2D54] lg:text-start'>
+    <h1 className='text-center text-5xl font-bold text-[#2B2D54] lg:text-start'>
       {props.user.name}
     </h1>
   );
