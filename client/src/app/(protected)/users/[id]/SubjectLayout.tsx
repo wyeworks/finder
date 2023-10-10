@@ -10,7 +10,7 @@ type SubjectsLayoutProps = {
 
 function SubjectItem({ subject }: { subject: Subject }) {
   return (
-    <div className='border-b-2 p-5'>
+    <div className='border-b-2 p-5 last-of-type:border-b-0'>
       <p className='text-lg font-bold text-[#242760]'>
         {subject.name} <small className='text-gray-600'>({subject.code})</small>
       </p>
