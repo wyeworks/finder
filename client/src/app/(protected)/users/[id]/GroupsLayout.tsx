@@ -98,7 +98,7 @@ export function Groups({ groups }: { groups: GroupCardProps[] }) {
 async function GroupGrid({ user }: GroupsLayoutProps) {
   const groups = await GroupService.getActiveGroups(user);
   const subjects = groups.map((group) =>
-    SubjectService.getSubject(group.subject_id)
+    SubjectService.getById(group.subject_id)
   );
   const subjectsResolved = await Promise.all(subjects);
   const groupsWithSubjects = groups.map((group, index) => ({
