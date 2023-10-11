@@ -17,10 +17,10 @@ export default async function ProtectedLayout({
   }
 
   return (
-    <section className='h-full min-h-screen bg-gray-50'>
+    <section className='flex h-full flex-col'>
       <SessionProvider session={session}>
         {session.user && <Header user={session.user as User} />}
-        {children}
+        <main className='flex-1'>{children}</main>
       </SessionProvider>
     </section>
   );

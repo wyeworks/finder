@@ -13,7 +13,17 @@ RSpec.describe Member, type: :model do
       invalid_member = build(:member, role: 'fake_role')
 
       expect(invalid_member).not_to be_valid
-      expect(invalid_member.errors[:role]).to include('is not included in the list')
+      expect(invalid_member.errors[:role]).to include('El rol utilizado no es una opción válida')
+    end
+  end
+
+  describe '#promote!' do
+    let(:member) { create :member, role: 'participant' }
+
+    it 'changes member role to admin' do
+      member.promote!
+
+      expect(member.reload.role).to eq('admin')
     end
   end
 end

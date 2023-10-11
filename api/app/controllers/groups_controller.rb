@@ -1,7 +1,9 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: %i[show update destroy]
+  include GroupAdminConcern
+
+  before_action :set_group, only: %i[show update destroy members]
   before_action :authenticate_user!, except: %i[index show]
-  before_action :authorize_admin!, only: %i[update destroy]
+  before_action :authorize_group_admin!, only: %i[update destroy]
 
   def index
     groups = Group.all.map do |group|
@@ -28,7 +30,7 @@ class GroupsController < ApplicationController
       Rails.logger.info "Group has the following validation errors: #{@group.errors.full_messages}"
 
       render json: {
-        message: "Group couldn't be created successfully. #{@group.errors.full_messages.to_sentence}",
+        message: 'El grupo no pudo ser creado correctamente',
         errors: @group.errors.messages
       }, status: :unprocessable_entity
     end
@@ -43,7 +45,7 @@ class GroupsController < ApplicationController
       Rails.logger.info "Group has the following validation errors: #{@group.errors.full_messages}"
 
       render json: {
-        message: "Group couldn't be updated successfully. #{@group.errors.full_messages.to_sentence}",
+        message: 'El grupo no pudo ser actualizado correctamente',
         errors: @group.errors.messages
       }, status: :unprocessable_entity
     end
@@ -58,10 +60,18 @@ class GroupsController < ApplicationController
       Rails.logger.info "Group has the following validation errors: #{@group.errors.full_messages}"
 
       render json: {
-        message: "Group couldn't be deleted successfully. #{@group.errors.full_messages.to_sentence}",
+        message: 'El grupo no pudo ser borrado correctamente',
         errors: @group.errors.messages
       }, status: :unprocessable_entity
     end
+  end
+
+  def members
+    members = @group.members
+    serialized_members = members.map do |member|
+      MemberSerializer.new(member).serializable_hash[:data][:attributes]
+    end
+    render json: serialized_members
   end
 
   private
@@ -73,24 +83,12 @@ class GroupsController < ApplicationController
 
     render json: {
       errors: {
-        group: ["Couldn't find Group with ID ##{params[:id]}"]
+        group: ["No se pudo encontrar el grupo con el ID ##{params[:id]}"]
       }
     }, status: :not_found
   end
 
   def group_params
     params.require(:group).permit(:name, :description, :size, :subject_id, time_preferences: {})
-  end
-
-  def authorize_admin!
-    return if @group.admin?(current_user)
-
-    Rails.logger.info "User with ID ##{current_user.id} is not this group's Admin"
-
-    render json: {
-      errors: {
-        group: ["User with ID ##{current_user.id} is not this group's Admin"]
-      }
-    }, status: :unauthorized
   end
 end

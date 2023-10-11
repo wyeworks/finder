@@ -6,5 +6,4 @@ export type SocialNetworks = {
   reddit?: string;
   facebook?: string;
   whatsapp?: string;
-  telegram?: string;
 };

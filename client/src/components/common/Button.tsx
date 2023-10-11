@@ -7,6 +7,7 @@ type ButtonParams = {
   classNameWrapper?: string;
   disabled?: boolean;
   Icon?: React.ReactNode;
+  spaceBetween?: number;
 };
 
 export default function Button({
@@ -18,6 +19,7 @@ export default function Button({
   classNameWrapper = '',
   disabled = false,
   Icon,
+  spaceBetween = 0,
 }: ButtonParams) {
   return (
     <div className={`${classNameWrapper}`}>
@@ -31,7 +33,7 @@ export default function Button({
         disabled={disabled}
       >
         {Icon && <>{Icon}</>}
-
+        {spaceBetween > 0 && <div style={{ width: `${spaceBetween}px` }} />}
         {text}
       </button>
     </div>

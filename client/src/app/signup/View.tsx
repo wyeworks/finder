@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Form from './Form';
+import FinderLogoIcon from '@/assets/Icons/FinderLogoIcon';
 
 export default function View() {
   return (
@@ -7,9 +8,10 @@ export default function View() {
       className='grid-row-3 grid min-h-full justify-center px-6 pb-6 sm:py-12 lg:px-8'
       id='register-view'
     >
-      <div id='register-header'>
-        <h2 className='mt-6 block text-center font-sans text-4xl font-bold leading-9 tracking-tight text-gray-900 md:hidden'>
-          finder.com
+      <div id='register-header' className='grid'>
+        <h2 className='mt-6 flex items-center justify-center gap-3 text-center font-sans text-4xl font-bold leading-9 tracking-tight text-primaryBlue'>
+          <FinderLogoIcon fill='#242760' height={50} width={41.666} />
+          finder
         </h2>
         <h2 className='mt-4 text-center text-2xl font-normal leading-9 tracking-tight text-gray-900 sm:mt-10'>
           Registrarse

@@ -4,7 +4,6 @@ import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import Image from 'next/image';
 import InputSearch from './InputSearch';
-import IconLogoFinder from '@/assets/Icons/IconLogoFinder';
 import NotificationIcon from '@/assets/Icons/NotificationIcon';
 import MessageIcon from '@/assets/Icons/MessageIcon';
 import CrossIcon from '@/assets/Icons/CrossIcon';
@@ -14,25 +13,28 @@ import EditIcon from '@/assets/Icons/EditIcon';
 import LogOutIcon from '@/assets/Icons/LogOutIcon';
 import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
-import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import defaultUser from '@/assets/images/default_user.png';
+import Link from 'next/link';
+import FinderLogoIcon from '@/assets/Icons/FinderLogoIcon';
 
-const userNavigation = [
+const userNavigation = (user: User) => [
+  {
+    name: strings.header.navOptions.viewProfile,
+    href: `/users/${user.id}`,
+  },
   {
     name: strings.header.navOptions.editProfile,
-    href: '#',
+    href: `/users/${user.id}/edit`,
   },
   {
     name: strings.header.navOptions.endSession,
     href: '#',
-    onClick: () => {
-      signOut();
-    },
+    onClick: () => signOut().catch((e) => console.log(e)),
   },
 ];
 
-const userNavigationMobile = [
+const userNavigationMobile = (user: User) => [
   {
     name: strings.header.navOptions.notifications,
     href: '#',
@@ -44,17 +46,20 @@ const userNavigationMobile = [
     icon: <MessageIcon className='mr-3 h-4 w-4' />,
   },
   {
+    name: strings.header.navOptions.viewProfile,
+    href: `/users/${user.id}`,
+    icon: <EditIcon className='mr-3 h-4 w-4' />,
+  },
+  {
     name: strings.header.navOptions.editProfile,
-    href: '#',
+    href: `/users/${user.id}/edit`,
     icon: <EditIcon className='mr-3 h-4 w-4' />,
   },
   {
     name: strings.header.navOptions.endSession,
     href: '#',
     icon: <LogOutIcon className='mr-2 h-5 w-5' />,
-    onClick: () => {
-      signOut();
-    },
+    onClick: () => signOut().catch((e) => console.log(e)),
   },
 ];
 
@@ -63,14 +68,8 @@ type HeaderProps = {
 };
 
 export default function Header({ user }: HeaderProps) {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push('/configprofile');
-  };
-
   return (
-    <>
+    <header>
       <Disclosure as='nav' className='bg-primaryBlue'>
         {({ open }) => (
           <>
@@ -78,12 +77,16 @@ export default function Header({ user }: HeaderProps) {
               <div className='flex h-16 items-center justify-between'>
                 <div className='flex items-center'>
                   <div className='flex-shrink-0'>
-                    <div className='mx-2 flex items-center'>
-                      <IconLogoFinder className='h-12 w-12 text-white' />
+                    <Link
+                      href='/home'
+                      className='mx-2 flex cursor-pointer items-center'
+                      data-testid='finder-logo'
+                    >
+                      <FinderLogoIcon fill='white' height={50} width={41.666} />
                       <p className='ml-2 text-4xl text-white'>
-                        <strong>finder.com</strong>
+                        <strong>finder</strong>
                       </p>
-                    </div>
+                    </Link>
                   </div>
                 </div>
                 <div className='hidden w-full md:block'>
@@ -138,17 +141,15 @@ export default function Header({ user }: HeaderProps) {
                         leaveTo='transform opacity-0 scale-95'
                       >
                         <Menu.Items className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-                          {userNavigation.map((item) => (
+                          {userNavigation(user).map((item) => (
                             <Menu.Item key={item.name}>
-                              <a
+                              <Link
                                 href={item.href}
                                 className='block px-4 py-2 text-sm text-gray-700 active:bg-gray-100'
-                                onClick={
-                                  item.onClick ? item.onClick : handleClick
-                                }
+                                onClick={item.onClick}
                               >
                                 {item.name}
-                              </a>
+                              </Link>
                             </Menu.Item>
                           ))}
                         </Menu.Items>
@@ -195,13 +196,13 @@ export default function Header({ user }: HeaderProps) {
                   </div>
                 </div>
                 <div className='mt-3 space-y-1 px-2'>
-                  {userNavigationMobile.map((item) => (
+                  {userNavigationMobile(user).map((item) => (
                     <Disclosure.Button
                       key={item.name}
                       as='a'
                       href={item.href}
                       className='flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white'
-                      onClick={item.onClick ? item.onClick : handleClick}
+                      onClick={item.onClick}
                     >
                       {item.icon}
                       {item.name}
@@ -213,6 +214,6 @@ export default function Header({ user }: HeaderProps) {
           </>
         )}
       </Disclosure>
-    </>
+    </header>
   );
 }

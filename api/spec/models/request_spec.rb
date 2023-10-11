@@ -41,5 +41,59 @@ RSpec.describe Request, type: :model do
         expect(request).not_to be_valid
       end
     end
+
+    context 'when user request to join a group they are already a member of' do
+      let(:user) { create(:user) }
+      let(:group) { create(:group) }
+      let!(:member) { create(:member, user:, group:) }
+      let(:request) { build(:request, user:, group:) }
+
+      it 'does not allow the creation of a request' do
+        expect(request).not_to be_valid
+        expect(request.errors[:user]).to include('Ya formas parte de este grupo')
+      end
+    end
+
+    context 'when group has reached its maximum capacity' do
+      let(:group) { create(:group, size: 1) }
+      let!(:member) { create(:member, group:) }
+      let(:request) { build(:request, group:) }
+
+      it 'does not allow the creation of a request' do
+        expect(request).not_to be_valid
+        expect(request.errors[:group]).to include('El grupo ya ha alcanzado su capacidad máxima')
+      end
+    end
+
+    context 'when there is an existing pending or accepted request for the same user and group' do
+      let(:user) { create(:user) }
+      let(:group) { create(:group) }
+      let!(:existing_request) { create(:request, user:, group:) }
+      let(:new_request) { build(:request, user:, group:) }
+
+      it 'does not allow the creation of a new request' do
+        expected_error = 'Ya hay una solicitud pendiente o aceptada para este usuario y grupo'
+        expect(new_request).not_to be_valid
+        expect(new_request.errors[:general]).to include(expected_error)
+      end
+    end
+
+    context 'when trying to modify a request with status accepted or rejected' do
+      let(:accepted_request) { create(:request, status: 'accepted') }
+      let(:rejected_request) { create(:request, :with_rejected_status, :with_reason) }
+      expected_error = 'No se puede modificar una solicitud que ya ha sido aceptada o rechazada'
+
+      it 'does not allow modification of an accepted request' do
+        accepted_request.status = 'pending'
+        expect(accepted_request.save).to be_falsey
+        expect(accepted_request.errors[:status]).to include(expected_error)
+      end
+
+      it 'does not allow modification of a rejected request' do
+        rejected_request.status = 'pending'
+        expect(rejected_request.save).to be_falsey
+        expect(rejected_request.errors[:status]).to include(expected_error)
+      end
+    end
   end
 end

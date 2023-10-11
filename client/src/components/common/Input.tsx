@@ -2,7 +2,7 @@ import EyeClosedIcon from '@/assets/Icons/EyeClosedIcon';
 import EyeIcon from '@/assets/Icons/EyeIcon';
 import { useState } from 'react';
 import TooltipIcon from '@/components/common/TooltipIcon';
-import InfoIcon from '@/components/common/icons/InfoIcon';
+import InfoIcon from '@/assets/Icons/InfoIcon';
 
 type InputParams = {
   type: string;
@@ -25,6 +25,7 @@ type InputParams = {
   classNameInput?: string;
   minNumber?: number;
   max?: string | number;
+  classNameLabel?: string;
   autoComplete?: string;
 };
 
@@ -47,6 +48,7 @@ export default function Input({
   classNameInput = '',
   minNumber,
   max,
+  classNameLabel = '',
   autoComplete = type,
 }: InputParams) {
   const [isVisible, setIsVisible] = useState(false);
@@ -63,7 +65,7 @@ export default function Input({
           {label && (
             <label
               htmlFor={id}
-              className='flex-1 text-sm font-medium leading-6 text-gray-900'
+              className={`flex-1 text-sm font-medium leading-6 text-gray-400 ${classNameLabel}`}
             >
               {label}
             </label>

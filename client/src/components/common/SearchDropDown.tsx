@@ -71,39 +71,43 @@ export default function SearchDropdown({
       )}
       <div className='relative -mb-3'>
         <div className='relative'>
-          <input
-            type='text'
-            value={selectedValue}
-            onChange={(e) => handleChangeInput(e.target.value)}
-            onClick={() => setIsOpen(!isOpen)}
-            id={id}
-            data-testid={id}
-            placeholder={placeholder}
-            className='peer mr-2 block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6' // Agrega margen derecho
-          />
-          <span className='pointer-events-none absolute inset-y-0 right-0 mt-2 flex h-fit items-center pr-3'>
-            <ArrowDownIcon
-              className={`h-5 w-5 ${isOpen ? 'rotate-180 transform' : ''}`}
+          <div className='relative'>
+            <input
+              type='text'
+              value={selectedValue}
+              onChange={(e) => handleChangeInput(e.target.value)}
+              onClick={() => setIsOpen(!isOpen)}
+              id={id}
+              data-testid={id}
+              placeholder={placeholder}
+              className='peer block w-full px-3 py-1.5 pr-8 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6' // Added pr-8 to add padding on the right
             />
-          </span>
+            <span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3'>
+              <ArrowDownIcon
+                className={`h-5 w-5 ${isOpen ? 'rotate-180 transform' : ''}`}
+              />
+            </span>
+          </div>
           {isOpen && (
             <ul className='absolute z-10 mt-1 max-h-72 w-full overflow-auto rounded-md bg-white shadow-lg '>
-              {filteredOptions.map((option) => (
-                <li
-                  key={option.key}
-                  onClick={() => handleChangeOption(option.label, option.key)}
-                  className={`cursor-pointer px-3 py-2 text-sm text-gray-900 hover:bg-gray-200 ${
-                    disableOption?.(option)
-                      ? 'pointer-events-none text-slate-400'
-                      : ''
-                  } `}
-                >
-                  <span className='block'>{option.label}</span>
-                  {disableText != '' && disableOption?.(option) && (
-                    <span className='block text-xs'>{disableText}</span>
-                  )}
-                </li>
-              ))}
+              {filteredOptions
+                .sort((a, b) => a.label.localeCompare(b.label))
+                .map((option) => (
+                  <li
+                    key={option.key}
+                    onClick={() => handleChangeOption(option.label, option.key)}
+                    className={`cursor-pointer px-3 py-2 text-sm text-gray-900 hover:bg-gray-200 ${
+                      disableOption?.(option)
+                        ? 'pointer-events-none text-slate-400'
+                        : ''
+                    } `}
+                  >
+                    <span className='block'>{option.label}</span>
+                    {disableText != '' && disableOption?.(option) && (
+                      <span className='block text-xs'>{disableText}</span>
+                    )}
+                  </li>
+                ))}
             </ul>
           )}
         </div>

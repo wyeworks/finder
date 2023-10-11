@@ -4,14 +4,10 @@
       "defaultError": "Algo salió mal",
       "unexpectedError": "Ocurrió un error inesperado, intenta de nuevo",
       "completeFields": "Por favor completa todos los campos correctamente",
-      "logInInvalid": "Email o Contraseña inválida",
+      "logInInvalid": "Email y/o contraseña inválidos",
       "signin": "El login no se pudo completar",
-      "signup": "El usuario no pudo ser creado",
-      "email": "Email debe ser ***@email.com",
-      "password": "Formato de la contraseña no es correcto",
-      "name": "Hubo un error al ingresar el nombre",
-      "subject": "Hubo un error al ingresar la materia",
-      "description": "Hubo un error al ingresar la descripcion"
+      "signup": "El usuario no pudo ser creado correctamente",
+      "unauthorized": "No tienes permiso para realizar esta acción"
     },
     "submitButton": {
       "text": "Enviar"
@@ -47,7 +43,7 @@
       "label": "Contraseña",
       "placeholder": "Ingresa tu contraseña",
       "validateText": "Ingresa una contraseña válida",
-      "passwordInfo": "Asegúrate de que tu contraseña tenga al menos 8 caracteres y contenga: \n- Una letra mayúscula \n- Una letra minúscula \n- Un número \n- Un caracter especial \n\n Evita usar contraseñas comunes como \"Abcd-12345\" o utilizar tu nombre y tu cumpleaños."
+      "passwordInfo": "Asegúrate de que tu contraseña tenga al menos 8 caracteres y contenga: \n- Una letra mayúscula \n- Una letra minúscula \n- Un número \n- Un caracter especial \n\n Evita usar contraseñas con patrones simples como \"Abcd-12345\", con tu nombre y/o fecha de cumpleaños."
     },
     "createAccountButton": {
       "text": "Crear cuenta"
@@ -59,13 +55,32 @@
       "placeholder": "Grupo de <materia>",
       "validateText": "Ingresa un nombre de grupo"
     },
+    "cambiarPassword": {
+      "title": "Cambiar contraseña",
+      "confirmButtonText": "Actualizar",
+      "oldPasswordLabel": "Contraseña actual",
+      "oldPasswordPlaceholder": "Ingresa tu contraseña actual",
+      "newPasswordLabel": "Nueva contraseña",
+      "newPasswordPlaceholder": "Ingresa tu nueva contraseña"
+    },
+    "deleteUser": {
+      "title": "Eliminar perfil",
+      "confirmButtonText": "Eliminar perfil",
+      "deleteExplanation": "Si eliminas tu perfil, se eliminarán todos tus datos y seras desvinculado de todos los grupos a los que perteneces. Esta acción no se puede deshacer.",
+      "confirmDialogDescription": "¿Estás seguro que deseas eliminar tu perfil? Esta acción no se puede deshacer.",
+      "confirmDialogTitle": "Eliminar perfil",
+      "confirmDialogConfirmButtonText": "Eliminar perfil",
+      "confirmDialogCancelButtonText": "Cancelar"
+    },
     "descriptionGroupInput": {
       "placeholder": "Descripción de <materia>",
       "validateText": "Ingresa una descripción de grupo"
     },
     "sizeInput": {
-      "placeholder": "Ingrese el tamaño del grupo deseado",
-      "validateText": "Ingrese un tamaño mayor a 1"
+      "placeholder": "10",
+      "validateTextMin": "El grupo debe tener al menos 2 miembros",
+      "validateTextMax": "El grupo no puede superar los 1000 miembros",
+      "label": "Indique la cantidad máxima de miembros para tu grupo"
     },
     "nextButton": {
       "text": "Siguiente"
@@ -78,15 +93,16 @@
     "navOptions": {
       "notifications": "Notificaciones",
       "messages": "Mensajes",
+      "viewProfile": "Ver perfil",
       "editProfile": "Editar perfil",
       "endSession": "Cerrar sesión"
     }
   },
   "confirmation": {
     "imageAlt": "Confirmar email",
-    "title": "finder.com",
+    "title": "finder",
     "headerText": "Confirme su dirección de correo",
-    "infoText": "Se ha enviado un correo electrónico a xxxx.xxxxx@email.com con los pasos necesarios para confirmar su registro",
+    "infoText": "Se te ha enviado un correo electrónico con los pasos necesarios para confirmar el registro",
     "loginButton": {
       "text": "Iniciar sesión"
     }
@@ -161,6 +177,19 @@
     "step4": {
       "description1": "Si tiene horarios para juntarse...",
       "description2": "En el caso de que el grupo tenga alguna preferencia horaria para sus sesiones, dejalo claro con los integrantes pero también podrás actualizarlo más tarde."
+    }
+  },
+  "groups": {
+    "membersTab": {
+      "emptyMessage": "No se encontraron miembros"
+    },
+    "requestTab": {
+      "emptyMessage": " No se encontraron solicitudes"
+    },
+    "infoTab": {
+      "pendingRequestButtonText": "Solicitud pendiente",
+      "requestButtonText": "Unirse al grupo",
+      "reachedSizeLimit": "El grupo ya está lleno"
     }
   }
 }

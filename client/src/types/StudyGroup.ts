@@ -23,8 +23,10 @@ export type StudyGroup = {
   name: string;
   description?: string;
   subject_id: number;
+  subject_name?: string;
   size?: number;
   time_preferences?: TimePreference;
   isLab?: boolean;
   banner?: string;
+  user_ids?: number[];
 };

@@ -4,29 +4,20 @@
 import { User } from '@/types/User';
 import { StudyGroup } from '@/types/StudyGroup';
 import { Logger } from '@/services/Logger';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
+import { Member } from '@/types/Member';
 
 export class GroupService {
   public static async getGroup(id: string): Promise<StudyGroup> {
-    const RAILS_API_URL = process.env.RAILS_API_URL;
+    return (await ApiCommunicator.getGroup(id)) as StudyGroup;
+  }
 
-    if (!RAILS_API_URL) {
-      throw new Error('RAILS_API_URL is not defined');
-    }
-
-    const URL = process.env.RAILS_API_URL + '/groups/' + id;
-
-    const res = await fetch(URL);
-    const json = await res.json();
-
-    if (!res.ok) {
-      throw new Error(json.errors);
-    }
-
-    return json as StudyGroup;
+  public static async getGroups(): Promise<StudyGroup[]> {
+    return (await ApiCommunicator.getGroups()) as StudyGroup[];
   }
 
   public static async getActiveGroups(user: User): Promise<StudyGroup[]> {
-    Logger.debug('Getting active groups for user: ' + user.name);
+    Logger.debug('Getting active groups for users: ' + user.name);
 
     const BasesDeDatos: StudyGroup = {
       id: 1,
@@ -55,7 +46,32 @@ export class GroupService {
 
     const grupos: StudyGroup[] = [BasesDeDatos, TProg, RedesComp];
 
-    Logger.debug('Active groups for user: ' + user.name + ' are: ' + grupos);
+    Logger.debug('Active groups for users: ' + user.name + ' are: ' + grupos);
     return Promise.resolve(grupos);
+  }
+
+  public static async clientSideSubmitRequest(id: string): Promise<any> {
+    return await ApiCommunicator.clientSideSubmitRequestGroup(id);
+  }
+
+  public static async clientSideGetRequestState(
+    groupId: string,
+    userId: string
+  ): Promise<any> {
+    return await ApiCommunicator.clientSideGetRequestStateGroup(
+      groupId,
+      userId
+    );
+  }
+
+  public static async getMembersGroup(groupId: string): Promise<Member[]> {
+    try {
+      const response = await ApiCommunicator.clientSideMembersGroup(groupId);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      Logger.error('Error trying to get members: ' + error);
+      return [];
+    }
   }
 }

@@ -26,7 +26,7 @@ RSpec.describe Users::RegistrationsController, type: :request do
       it 'returns JSON containing user data' do
         json_response = response.parsed_body
 
-        expect(json_response['message']).to include('User was successfully created')
+        expect(json_response['message']).to include('El usuario fue creado correctamente')
         expect(json_response['user']['email']).to eq(email)
         expect(json_response['user']['name']).to eq(name)
       end
@@ -42,9 +42,10 @@ RSpec.describe Users::RegistrationsController, type: :request do
       it 'returns JSON containing error message' do
         json_response = response.parsed_body
 
-        expect(json_response['message']).to include("User couldn't be created successfully")
-        expect(json_response['errors']['password'][0]).to include('is too short')
-        expect(json_response['errors']['password'][1]).to include('Complexity requirement not met')
+        expect(json_response['message']).to include('El usuario no pudo ser creado correctamente')
+        expect(json_response['errors']['password'][0]).to include('La contraseña es demasiado corta')
+        expect(json_response['errors']['password'][1])
+          .to include('No se cumplen los requerimientos de complejidad de la contraseña')
       end
     end
   end
@@ -92,7 +93,7 @@ RSpec.describe Users::RegistrationsController, type: :request do
       it 'updates user details' do
         json_response = response.parsed_body
 
-        expect(json_response['message']).to include('User was successfully updated')
+        expect(json_response['message']).to include('El usuario fue actualizado correctamente')
         expect(json_response['user']['birth_date']).to eq(new_birth_date.to_s)
         expect(json_response['user']['bio']).to eq(new_bio)
         expect(json_response['user']['social_networks']).to eq(new_social_networks.with_indifferent_access)
@@ -111,7 +112,7 @@ RSpec.describe Users::RegistrationsController, type: :request do
       it 'updates user password' do
         json_response = response.parsed_body
 
-        expect(json_response['message']).to include('User was successfully updated')
+        expect(json_response['message']).to include('El usuario fue actualizado correctamente')
         expect(user.reload.valid_password?(new_password)).to be true
       end
     end
@@ -126,9 +127,10 @@ RSpec.describe Users::RegistrationsController, type: :request do
       it 'returns JSON containing error message' do
         json_response = response.parsed_body
 
-        expect(json_response['message']).to include("User couldn't be updated successfully")
-        expect(json_response['errors']['password'][0]).to include('is too short')
-        expect(json_response['errors']['password'][1]).to include('Complexity requirement not met')
+        expect(json_response['message']).to include('El usuario no pudo ser actualizado correctamente')
+        expect(json_response['errors']['password'][0]).to include('La contraseña es demasiado corta')
+        expect(json_response['errors']['password'][1])
+          .to include('No se cumplen los requerimientos de complejidad de la contraseña')
       end
     end
   end

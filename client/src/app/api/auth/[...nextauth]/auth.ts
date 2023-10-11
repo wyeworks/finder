@@ -1,6 +1,7 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { Logger } from '@/services/Logger';
+import { ApiCommunicator } from '@/services/ApiCommunicator';
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -14,36 +15,27 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       authorize: async (credentials) => {
-        Logger.debug('Authorizing user with credentials: ' + credentials);
-        const { email, password } = credentials as {
-          email: string;
-          password: string;
-        };
-        const URL = process.env.RAILS_API_URL + '/users/login';
-        Logger.debug('Fetching from URL: ' + URL);
-        const res = await fetch(URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        Logger.debug('Authorizing users with credentials: ' + credentials);
+        const { email, password } = credentials!;
+        const res = await ApiCommunicator.login({
+          user: {
+            email,
+            password,
           },
-          body: JSON.stringify({
-            user: {
-              email,
-              password,
-            },
-          }),
-          credentials: 'include',
         });
-        Logger.debug('Received response: ' + res);
+
         const user = await res.json();
-        if (res.ok && user && user.user) {
-          Logger.debug('User authorized: ' + user.user);
-          user.user.accessToken = res.headers.get('Authorization');
-          return user.user;
-        } else {
-          Logger.debug('User not authorized');
+
+        //if users or users.users is null or undefinded, then the login failed
+        if (!res.ok || !user || !user.user) {
+          Logger.warn('User not authorized');
           return null;
         }
+
+        Logger.debug('User authorized: ', user.user);
+        Logger.debug('User', user);
+        user.user.accessToken = res.headers.get('Authorization');
+        return user.user;
       },
     }),
   ],
@@ -58,7 +50,7 @@ export const authOptions: NextAuthOptions = {
 
       if (trigger === 'signIn' || trigger === 'signUp') {
         if (user) {
-          Logger.debug('Updating token with user: ', user);
+          Logger.debug('Updating token with users: ', user);
           token.user = user;
         }
       }
