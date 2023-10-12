@@ -23,6 +23,7 @@ export class ApiCommunicator {
     withCredentials = false,
     handleNotOk = true,
     asJSON = true,
+    accessToken,
   }: {
     url: string;
     method: string;
@@ -32,6 +33,7 @@ export class ApiCommunicator {
     // eslint-disable-next-line no-unused-vars
     handleNotOk?: boolean;
     asJSON?: boolean;
+    accessToken?: string;
   }): Promise<any> {
     Logger.debug('START: Common fetch');
 
@@ -49,6 +51,13 @@ export class ApiCommunicator {
       headers = {
         ...headers,
         Authorization: session.user.accessToken,
+      };
+    }
+
+    if (accessToken && !mustBeAuthenticated) {
+      headers = {
+        ...headers,
+        Authorization: accessToken,
       };
     }
 
