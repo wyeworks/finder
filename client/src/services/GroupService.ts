@@ -13,7 +13,6 @@ export type ApiOptions = {
 };
 
 export class GroupService {
-  //pronto
   public static async getById(
     id: string,
     accessToken: string,
@@ -28,7 +27,7 @@ export class GroupService {
 
     return response as StudyGroup;
   }
-  //pronto
+
   public static async getAll(
     accessToken: string,
     options?: ApiOptions
@@ -76,7 +75,7 @@ export class GroupService {
     Logger.debug('Active groups for users: ' + user.name + ' are: ' + grupos);
     return Promise.resolve(grupos);
   }
-  //pronto
+
   public static async submitRequest(
     id: string,
     accessToken: string,
@@ -91,7 +90,7 @@ export class GroupService {
 
     return response;
   }
-  //pronto
+
   public static async getRequestState(
     groupId: string,
     userId: string,
@@ -109,7 +108,7 @@ export class GroupService {
 
     return response;
   }
-  //pronto
+
   public static async getGroupMembers(
     groupId: string,
     accessToken: string,

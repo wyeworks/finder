@@ -35,10 +35,11 @@ export default function RequestJoinGroup() {
   const fetchData = useCallback(async () => {
     setIsAlertVisible(false);
     try {
-      const request: any = await GroupService.submitRequest(
+      const request: any = await GroupService.getRequestJoinGroup(
         groupId,
         session?.user.accessToken!,
         {
+          asJSON: false,
           handleNotOk: false,
         }
       );
