@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   before_action :set_user, :authenticate_user!
-  before_action :authenticate_user!
   before_action :handle_user_groups, only: :destroy
 
   def show
