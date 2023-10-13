@@ -7,25 +7,36 @@ import { Logger } from '@/services/Logger';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Member } from '@/types/Member';
 
+export type Options = {
+  asJSON: boolean;
+  handleNotOk: boolean;
+};
+
 export class GroupService {
   public static async getById(
     id: string,
-    accessToken: string
+    accessToken: string,
+    options?: Options
   ): Promise<StudyGroup> {
     const response = await ApiCommunicator.commonFetch({
       url: process.env.NEXT_PUBLIC_RAILS_API_URL + `/groups/${id}`,
       method: 'GET',
       accessToken,
+      ...options,
     });
 
     return response as StudyGroup;
   }
 
-  public static async getAll(accessToken: string): Promise<StudyGroup[]> {
+  public static async getAll(
+    accessToken: string,
+    options?: Options
+  ): Promise<StudyGroup[]> {
     const response = await ApiCommunicator.commonFetch({
       url: process.env.NEXT_PUBLIC_RAILS_API_URL + `/groups`,
       method: 'GET',
       accessToken,
+      ...options,
     });
 
     return response as StudyGroup[];
@@ -67,14 +78,14 @@ export class GroupService {
 
   public static async submitRequest(
     id: string,
-    accessToken: string
+    accessToken: string,
+    options?: Options
   ): Promise<any> {
     const response = await ApiCommunicator.commonFetch({
       url: process.env.NEXT_PUBLIC_RAILS_API_URL + `/groups/${id}/requests`,
       method: 'POST',
       accessToken,
-      asJSON: false,
-      handleNotOk: false,
+      ...options,
     });
 
     return response;
@@ -83,7 +94,8 @@ export class GroupService {
   public static async getRequestState(
     groupId: string,
     userId: string,
-    accessToken: string
+    accessToken: string,
+    options?: Options
   ): Promise<any> {
     const response = await ApiCommunicator.commonFetch({
       url:
@@ -91,8 +103,7 @@ export class GroupService {
         `/groups/${groupId}/requests/users/${userId}`,
       method: 'GET',
       accessToken,
-      handleNotOk: false,
-      asJSON: false,
+      ...options,
     });
 
     return response;
@@ -100,7 +111,8 @@ export class GroupService {
 
   public static async getGroupMembers(
     groupId: string,
-    accessToken: string
+    accessToken: string,
+    options?: Options
   ): Promise<Member[]> {
     try {
       const response = await ApiCommunicator.commonFetch({
@@ -111,7 +123,7 @@ export class GroupService {
           '/members',
         method: 'GET',
         accessToken,
-        asJSON: false,
+        ...options,
       });
 
       const data = await response.json();
@@ -124,20 +136,22 @@ export class GroupService {
 
   public static async createGroup(
     data: any,
-    accessToken: string
+    accessToken: string,
+    options?: Options
   ): Promise<any> {
     return await ApiCommunicator.commonFetch({
       url: process.env.NEXT_PUBLIC_RAILS_API_URL + '/groups',
       method: 'POST',
       data,
       accessToken,
-      asJSON: false,
+      ...options,
     });
   }
 
   public static async handleRequestGroup(
     data: any,
-    accessToken: string
+    accessToken: string,
+    options?: Options
   ): Promise<any> {
     return await ApiCommunicator.commonFetch({
       url:
@@ -149,22 +163,21 @@ export class GroupService {
       method: 'PATCH',
       data,
       accessToken,
-      asJSON: false,
-      handleNotOk: false,
+      ...options,
     });
   }
 
   public static async getRequestJoinGroup(
     id: string,
-    accessToken: string
+    accessToken: string,
+    options?: Options
   ): Promise<any> {
     return await ApiCommunicator.commonFetch({
       url:
         process.env.NEXT_PUBLIC_RAILS_API_URL + '/groups/' + id + '/requests',
       method: 'GET',
       accessToken,
-      asJSON: false,
-      handleNotOk: false,
+      ...options,
     });
   }
 }
