@@ -13,8 +13,9 @@ import { BackendError } from '@/types/BackendError';
 import strings from '@/locales/strings.json';
 import { TimeOfDay, TimePreference } from '@/types/StudyGroup';
 import CrossIcon from '@/assets/Icons/CrossIcon';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
 import FinderLogoIcon from '@/assets/Icons/FinderLogoIcon';
+import { useSession } from 'next-auth/react';
+import { GroupService } from '@/services/GroupService';
 
 export type CreateGroupData = {
   name: string;
@@ -26,6 +27,7 @@ export type CreateGroupData = {
 };
 
 export default function CreateGroup() {
+  const { data: session } = useSession();
   const router = useRouter();
   const [actualStep, setActualStep] = useState<number>(1);
   const barWidth = `${(actualStep / 5) * 100}%`;
@@ -60,13 +62,16 @@ export default function CreateGroup() {
 
   async function handleSubmit() {
     try {
-      const response = await ApiCommunicator.clientSideCreateGroup({
-        name: createGroupData.name,
-        description: createGroupData.description,
-        size: createGroupData.size,
-        subject_id: createGroupData.subjectId,
-        time_preferences: createGroupData.timePreference,
-      });
+      const response = await GroupService.createGroup(
+        {
+          name: createGroupData.name,
+          description: createGroupData.description,
+          size: createGroupData.size,
+          subject_id: createGroupData.subjectId,
+          time_preferences: createGroupData.timePreference,
+        },
+        session?.user.accessToken!
+      );
 
       if (!response.ok) {
         const errorData = await response.json();

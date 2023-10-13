@@ -24,7 +24,7 @@ export default async function Group({ params }: Props) {
   try {
     session = await getServerSession(authOptions);
     user = await ApiCommunicator.getUser(session!.user.id!);
-    group = await GroupService.getGroup(params.id);
+    group = await GroupService.getById(params.id, session!.user.accessToken!);
     subject = await SubjectService.getById(
       group.subject_id,
       session?.user.accessToken!

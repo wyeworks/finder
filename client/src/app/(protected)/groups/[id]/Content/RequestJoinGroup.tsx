@@ -9,11 +9,13 @@ import strings from '@/locales/strings.json';
 import { usePathname } from 'next/navigation';
 import { removeAccents } from '@/utils/Formatter';
 import { BackendError } from '@/types/BackendError';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Logger } from '@/services/Logger';
 import Alert, { alertTypes } from '@/components/common/Alert';
+import { GroupService } from '@/services/GroupService';
+import { useSession } from 'next-auth/react';
 
 export default function RequestJoinGroup() {
+  const { data: session } = useSession();
   const pathname = usePathname();
   const groupId = pathname.split('/')[2];
   const [filterText, setFilterText] = useState('');
@@ -33,8 +35,10 @@ export default function RequestJoinGroup() {
   const fetchData = useCallback(async () => {
     setIsAlertVisible(false);
     try {
-      const request: any =
-        await ApiCommunicator.clientSideRequestJoinGroup(groupId);
+      const request: any = await GroupService.submitRequest(
+        groupId,
+        session?.user.accessToken!
+      );
       const data = await request.json();
       if (!request.ok) {
         const parsedError = data as BackendError;

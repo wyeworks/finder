@@ -9,6 +9,7 @@ import { User } from '@/types/User';
 import strings from '@/locales/strings.json';
 import { useEffect, useState } from 'react';
 import Alert from '@/components/common/Alert';
+import { useSession } from 'next-auth/react';
 
 type GroupInfoProps = {
   group: StudyGroup;
@@ -17,6 +18,7 @@ type GroupInfoProps = {
 };
 
 export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
+  const { data: session } = useSession();
   const { id, name, description, size, user_ids } = group;
   const [requestPending, setRequestPending] = useState<boolean>(false);
   const [finishedLoading, setFinishedLoading] = useState<boolean>(false);
@@ -25,14 +27,18 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
 
   const handleRequestGroup = async function () {
     if (id) {
-      await GroupService.clientSideSubmitRequest(id.toString());
+      await GroupService.submitRequest(
+        id.toString(),
+        session?.user.accessToken!
+      );
       //beautify later
       let res = false;
       setFinishedLoading(false);
       if (user_ids && id) {
-        const response = await GroupService.clientSideGetRequestState(
+        const response = await GroupService.getRequestState(
           id.toString(),
-          user.id
+          user.id,
+          session?.user.accessToken!
         );
         if (!response.ok) {
           res = response.status === 404 ? false : true;
@@ -61,9 +67,10 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
       let res = false;
       setFinishedLoading(false);
       if (user_ids && id) {
-        const response = await GroupService.clientSideGetRequestState(
+        const response = await GroupService.getRequestState(
           id.toString(),
-          user.id
+          user.id,
+          session?.user.accessToken!
         );
         if (!response.ok) {
           res = response.status === 404 ? false : true;
