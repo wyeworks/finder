@@ -37,7 +37,10 @@ export default function RequestJoinGroup() {
     try {
       const request: any = await GroupService.submitRequest(
         groupId,
-        session?.user.accessToken!
+        session?.user.accessToken!,
+        {
+          handleNotOk: false,
+        }
       );
       const data = await request.json();
       if (!request.ok) {

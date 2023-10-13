@@ -25,7 +25,8 @@ export default function Members() {
       try {
         const getMembers = await GroupService.getGroupMembers(
           groupId,
-          session?.user.accessToken!
+          session?.user.accessToken!,
+          { asJSON: false }
         );
         setMembers(getMembers);
       } catch (error) {}

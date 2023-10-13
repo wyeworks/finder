@@ -55,7 +55,11 @@ export default function MemberCard({
           status: status,
           reason: reason,
         },
-        session?.user.accessToken!
+        session?.user.accessToken!,
+        {
+          handleNotOk: false,
+          asJSON: false,
+        }
       );
       if (!response.ok) {
         const error = (await response.json()) as BackendError;

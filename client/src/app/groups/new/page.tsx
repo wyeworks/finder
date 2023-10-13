@@ -70,7 +70,11 @@ export default function CreateGroup() {
           subject_id: createGroupData.subjectId,
           time_preferences: createGroupData.timePreference,
         },
-        session?.user.accessToken!
+        session?.user.accessToken!,
+        {
+          handleNotOk: false,
+          asJSON: false,
+        }
       );
 
       if (!response.ok) {

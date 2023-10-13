@@ -29,7 +29,11 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
     if (id) {
       await GroupService.submitRequest(
         id.toString(),
-        session?.user.accessToken!
+        session?.user.accessToken!,
+        {
+          handleNotOk: false,
+          asJSON: false,
+        }
       );
       //beautify later
       let res = false;
@@ -38,7 +42,11 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
         const response = await GroupService.getRequestState(
           id.toString(),
           user.id,
-          session?.user.accessToken!
+          session?.user.accessToken!,
+          {
+            handleNotOk: false,
+            asJSON: false,
+          }
         );
         if (!response.ok) {
           res = response.status === 404 ? false : true;
@@ -70,7 +78,11 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
         const response = await GroupService.getRequestState(
           id.toString(),
           user.id,
-          session?.user.accessToken!
+          session?.user.accessToken!,
+          {
+            handleNotOk: false,
+            asJSON: false,
+          }
         );
         if (!response.ok) {
           res = response.status === 404 ? false : true;
