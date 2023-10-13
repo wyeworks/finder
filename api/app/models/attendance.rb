@@ -7,5 +7,5 @@ class Attendance < ApplicationRecord
   belongs_to :session
 
   # Validations
-  validates :status, presence: true, inclusion: { in: %w[pending accepted rejected] }
+  validates :status, presence: true, inclusion: { in: statuses.keys }
 end
