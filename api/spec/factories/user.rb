@@ -27,5 +27,11 @@ FactoryBot.define do
     trait :with_subjects do
       subjects { build_list :subject, 2 }
     end
+
+    trait :with_groups do
+      after(:create) do |user|
+        create_list(:member, 2, user:)
+      end
+    end
   end
 end

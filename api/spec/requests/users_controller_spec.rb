@@ -213,4 +213,33 @@ RSpec.describe UsersController, type: :request do
       expect(json_response[0]['credits']).to be_a(Integer)
     end
   end
+
+  # Groups
+  describe 'GET /users/:id/groups' do
+    let(:user) { create :user, :with_groups }
+
+    before do
+      get groups_user_path(user)
+    end
+
+    it 'returns a successful response' do
+      expect(response).to be_successful
+    end
+
+    it "returns JSON containing user's groups data" do
+      json_response = response.parsed_body
+
+      expect(json_response.size).to eq(2)
+      group_ids = json_response.pluck('id')
+      user_group_ids = user.groups.pluck(:id)
+      expect(group_ids).to match_array(user_group_ids)
+      expect(json_response[0]['id']).to be_a(Integer)
+      expect(json_response[0]['name']).to be_a(String)
+      expect(json_response[0]['description']).to be_a(String)
+      expect(json_response[0]['size']).to be_a(Integer)
+      expect(json_response[0]['time_preferences']).to be_a(Hash)
+      expect(json_response[0]['subject_id']).to be_a(Integer)
+      expect(json_response[0]['subject_name']).to be_a(String)
+    end
+  end
 end

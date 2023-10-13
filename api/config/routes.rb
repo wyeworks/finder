@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     member do
       get :careers
       get :subjects
+      get :groups, to: 'users#groups'
     end
   end
 end

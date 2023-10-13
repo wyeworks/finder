@@ -37,6 +37,14 @@ class UsersController < ApplicationController
     render json: subjects
   end
 
+  def groups
+    groups = @user.groups.map do |group|
+      GroupSerializer.new(group).serializable_hash[:data][:attributes]
+    end
+
+    render json: groups
+  end
+
   private
 
   def set_user
