@@ -7,16 +7,16 @@ import { Logger } from '@/services/Logger';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Member } from '@/types/Member';
 
-export type Options = {
-  asJSON: boolean;
-  handleNotOk: boolean;
+export type ApiOptions = {
+  asJSON?: boolean;
+  handleNotOk?: boolean;
 };
 
 export class GroupService {
   public static async getById(
     id: string,
     accessToken: string,
-    options?: Options
+    options?: ApiOptions
   ): Promise<StudyGroup> {
     const response = await ApiCommunicator.commonFetch({
       url: process.env.NEXT_PUBLIC_RAILS_API_URL + `/groups/${id}`,
@@ -30,7 +30,7 @@ export class GroupService {
 
   public static async getAll(
     accessToken: string,
-    options?: Options
+    options?: ApiOptions
   ): Promise<StudyGroup[]> {
     const response = await ApiCommunicator.commonFetch({
       url: process.env.NEXT_PUBLIC_RAILS_API_URL + `/groups`,
@@ -79,7 +79,7 @@ export class GroupService {
   public static async submitRequest(
     id: string,
     accessToken: string,
-    options?: Options
+    options?: ApiOptions
   ): Promise<any> {
     const response = await ApiCommunicator.commonFetch({
       url: process.env.NEXT_PUBLIC_RAILS_API_URL + `/groups/${id}/requests`,
@@ -95,7 +95,7 @@ export class GroupService {
     groupId: string,
     userId: string,
     accessToken: string,
-    options?: Options
+    options?: ApiOptions
   ): Promise<any> {
     const response = await ApiCommunicator.commonFetch({
       url:
@@ -112,7 +112,7 @@ export class GroupService {
   public static async getGroupMembers(
     groupId: string,
     accessToken: string,
-    options?: Options
+    options?: ApiOptions
   ): Promise<Member[]> {
     try {
       const response = await ApiCommunicator.commonFetch({
@@ -137,7 +137,7 @@ export class GroupService {
   public static async createGroup(
     data: any,
     accessToken: string,
-    options?: Options
+    options?: ApiOptions
   ): Promise<any> {
     return await ApiCommunicator.commonFetch({
       url: process.env.NEXT_PUBLIC_RAILS_API_URL + '/groups',
@@ -151,7 +151,7 @@ export class GroupService {
   public static async handleRequestGroup(
     data: any,
     accessToken: string,
-    options?: Options
+    options?: ApiOptions
   ): Promise<any> {
     return await ApiCommunicator.commonFetch({
       url:
@@ -170,7 +170,7 @@ export class GroupService {
   public static async getRequestJoinGroup(
     id: string,
     accessToken: string,
-    options?: Options
+    options?: ApiOptions
   ): Promise<any> {
     return await ApiCommunicator.commonFetch({
       url:
