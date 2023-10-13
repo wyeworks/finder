@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { GroupCard } from '@/components/common/GroupCard';
 import { StudyGroup } from '@/types/StudyGroup';
-import FilterBar from './FilterBar';
 import MobileFilters from './MobileFilters';
 import { Subject } from '@/types/Subject';
 import Pagination from './Pagination';
 import FilterIcon from '@/assets/Icons/FilterIcon';
+import DesktopFilters from './DesktopFilters';
 
 type ViewProps = {
   groups: StudyGroup[];
@@ -41,7 +41,7 @@ export default function View({ groups, subjects }: ViewProps) {
 
       {/* Desktop Filter Bar */}
       <div className='hidden w-1/3 md:block'>
-        <FilterBar subjects={subjects} />
+        <DesktopFilters subjects={subjects} />
       </div>
 
       <div className='flex-grow'>
