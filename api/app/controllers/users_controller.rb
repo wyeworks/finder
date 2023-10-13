@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user
-  before_action :authenticate_user!, :handle_user_groups, only: :destroy
+  before_action :set_user, :authenticate_user!
+  before_action :authenticate_user!
+  before_action :handle_user_groups, only: :destroy
 
   def show
     render json: UserSerializer.new(@user).serializable_hash[:data][:attributes]
@@ -49,6 +50,14 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    Rails.logger.info "Couldn't find User with ID ##{params[:id]}"
+
+    render json: {
+      errors: {
+        user: ["No se pudo encontrar el usuario con el ID ##{params[:id]}"]
+      }
+    }, status: :not_found
   end
 
   def handle_user_groups

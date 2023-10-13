@@ -5,22 +5,57 @@ RSpec.describe UsersController, type: :request do
   describe 'GET /users/:id' do
     let(:user) { create :user, :with_social_networks }
 
-    before do
-      get user_path(user)
+    let(:headers) do
+      post user_session_path, params: { user: { email: user.email, password: user.password } }
+      { 'Authorization' => response.headers['Authorization'] }
     end
 
-    it 'returns a successful response' do
-      expect(response).to be_successful
+    context 'when user is authenticated' do
+      before do
+        get user_path(user), headers:
+      end
+
+      it 'returns a successful response' do
+        expect(response).to be_successful
+      end
+
+      it 'returns JSON containing user data' do
+        json_response = response.parsed_body
+
+        expect(json_response['id']).to eq(user.id)
+        expect(json_response['email']).to eq(user.email)
+        expect(json_response['name']).to eq(user.name)
+        expect(DateTime.parse(json_response['birth_date'])).to eq(user.birth_date)
+        expect(json_response['social_networks']).to eq(user.social_networks)
+      end
     end
 
-    it 'returns JSON containing user data' do
-      json_response = response.parsed_body
+    context 'when user is not authenticated' do
+      before do
+        get user_path(user)
+      end
 
-      expect(json_response['id']).to eq(user.id)
-      expect(json_response['email']).to eq(user.email)
-      expect(json_response['name']).to eq(user.name)
-      expect(DateTime.parse(json_response['birth_date'])).to eq(user.birth_date)
-      expect(json_response['social_networks']).to eq(user.social_networks)
+      it 'returns http unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when user does not exist' do
+      let(:non_existent_user_id) { User.maximum(:id).to_i + 1 }
+
+      before do
+        get user_path(non_existent_user_id), headers:
+      end
+
+      it 'returns http not found' do
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'returns JSON containing error message' do
+        json_response = response.parsed_body
+        expected_error = "No se pudo encontrar el usuario con el ID ##{non_existent_user_id}"
+        expect(json_response['errors']['user']).to include(expected_error)
+      end
     end
   end
 
@@ -172,23 +207,40 @@ RSpec.describe UsersController, type: :request do
   describe 'GET /users/:id/careers' do
     let(:user) { create :user, :with_careers }
 
-    before do
-      get careers_user_path(user)
+    let(:headers) do
+      post user_session_path, params: { user: { email: user.email, password: user.password } }
+      { 'Authorization' => response.headers['Authorization'] }
     end
 
-    it 'returns a successful response' do
-      expect(response).to be_successful
+    context 'when user is authenticated' do
+      before do
+        get careers_user_path(user), headers:
+      end
+
+      it 'returns a successful response' do
+        expect(response).to be_successful
+      end
+
+      it "returns JSON containing user's careers data" do
+        json_response = response.parsed_body
+
+        expect(json_response[0]['id']).to be_a(Integer)
+        expect(json_response[0]['name']).to be_a(String)
+        expect(json_response[0]['code']).to be_a(String)
+        expect(json_response[0]['approved_on']).to be_a(String)
+        expect(json_response[0]['years']).to be_a(Integer)
+        expect(json_response[0]['credits']).to be_a(Integer)
+      end
     end
 
-    it "returns JSON containing user's careers data" do
-      json_response = response.parsed_body
+    context 'when user is not authenticated' do
+      before do
+        get careers_user_path(user)
+      end
 
-      expect(json_response[0]['id']).to be_a(Integer)
-      expect(json_response[0]['name']).to be_a(String)
-      expect(json_response[0]['code']).to be_a(String)
-      expect(json_response[0]['approved_on']).to be_a(String)
-      expect(json_response[0]['years']).to be_a(Integer)
-      expect(json_response[0]['credits']).to be_a(Integer)
+      it 'returns http unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
 
@@ -196,21 +248,38 @@ RSpec.describe UsersController, type: :request do
   describe 'GET /users/:id/subjects' do
     let(:user) { create :user, :with_subjects }
 
-    before do
-      get subjects_user_path(user)
+    let(:headers) do
+      post user_session_path, params: { user: { email: user.email, password: user.password } }
+      { 'Authorization' => response.headers['Authorization'] }
     end
 
-    it 'returns a successful response' do
-      expect(response).to be_successful
+    context 'when user is authenticated' do
+      before do
+        get subjects_user_path(user), headers:
+      end
+
+      it 'returns a successful response' do
+        expect(response).to be_successful
+      end
+
+      it "returns JSON containing user's subjects data" do
+        json_response = response.parsed_body
+
+        expect(json_response[0]['id']).to be_a(Integer)
+        expect(json_response[0]['name']).to be_a(String)
+        expect(json_response[0]['code']).to be_a(String)
+        expect(json_response[0]['credits']).to be_a(Integer)
+      end
     end
 
-    it "returns JSON containing user's subjects data" do
-      json_response = response.parsed_body
+    context 'when user is not authenticated' do
+      before do
+        get subjects_user_path(user)
+      end
 
-      expect(json_response[0]['id']).to be_a(Integer)
-      expect(json_response[0]['name']).to be_a(String)
-      expect(json_response[0]['code']).to be_a(String)
-      expect(json_response[0]['credits']).to be_a(Integer)
+      it 'returns http unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
 
@@ -218,28 +287,45 @@ RSpec.describe UsersController, type: :request do
   describe 'GET /users/:id/groups' do
     let(:user) { create :user, :with_groups }
 
+    let(:headers) do
+      post user_session_path, params: { user: { email: user.email, password: user.password } }
+      { 'Authorization' => response.headers['Authorization'] }
+    end
+
     before do
-      get groups_user_path(user)
+      get groups_user_path(user), headers:
     end
 
-    it 'returns a successful response' do
-      expect(response).to be_successful
+    context 'when user is authenticated' do
+      it 'returns a successful response' do
+        expect(response).to be_successful
+      end
+
+      it "returns JSON containing user's groups data" do
+        json_response = response.parsed_body
+
+        expect(json_response.size).to eq(2)
+        group_ids = json_response.pluck('id')
+        user_group_ids = user.groups.pluck(:id)
+        expect(group_ids).to match_array(user_group_ids)
+        expect(json_response[0]['id']).to be_a(Integer)
+        expect(json_response[0]['name']).to be_a(String)
+        expect(json_response[0]['description']).to be_a(String)
+        expect(json_response[0]['size']).to be_a(Integer)
+        expect(json_response[0]['time_preferences']).to be_a(Hash)
+        expect(json_response[0]['subject_id']).to be_a(Integer)
+        expect(json_response[0]['subject_name']).to be_a(String)
+      end
     end
 
-    it "returns JSON containing user's groups data" do
-      json_response = response.parsed_body
+    context 'when user is not authenticated' do
+      before do
+        get groups_user_path(user)
+      end
 
-      expect(json_response.size).to eq(2)
-      group_ids = json_response.pluck('id')
-      user_group_ids = user.groups.pluck(:id)
-      expect(group_ids).to match_array(user_group_ids)
-      expect(json_response[0]['id']).to be_a(Integer)
-      expect(json_response[0]['name']).to be_a(String)
-      expect(json_response[0]['description']).to be_a(String)
-      expect(json_response[0]['size']).to be_a(Integer)
-      expect(json_response[0]['time_preferences']).to be_a(Hash)
-      expect(json_response[0]['subject_id']).to be_a(Integer)
-      expect(json_response[0]['subject_name']).to be_a(String)
+      it 'returns http unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
 end
