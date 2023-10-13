@@ -11,7 +11,7 @@ const ApiCommunicator =
   require('../../../../services/ApiCommunicator').ApiCommunicator;
 jest.mock('../../../../services/ApiCommunicator', () => ({
   ApiCommunicator: {
-    getSubject: jest.fn().mockReturnValue({
+    getById: jest.fn().mockReturnValue({
       ok: true,
       data: {
         id: 1,

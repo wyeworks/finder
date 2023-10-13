@@ -6,6 +6,8 @@ import { User } from '@/types/User';
 import Loading from '@/components/common/Loading';
 import { Subject } from '@/types/Subject';
 import { SubjectService } from '@/services/SubjectService';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 
 type GroupCardProps = {
   group: StudyGroup;
@@ -96,9 +98,10 @@ export function Groups({ groups }: { groups: GroupCardProps[] }) {
 }
 
 async function GroupGrid({ user }: GroupsLayoutProps) {
+  const session = await getServerSession(authOptions);
   const groups = await GroupService.getActiveGroups(user);
   const subjects = groups.map((group) =>
-    SubjectService.getSubject(group.subject_id)
+    SubjectService.getById(group.subject_id, session?.user.accessToken!)
   );
   const subjectsResolved = await Promise.all(subjects);
   const groupsWithSubjects = groups.map((group, index) => ({

@@ -3,11 +3,14 @@ import { GroupService } from '@/services/GroupService';
 import { SubjectService } from '@/services/SubjectService';
 import View from './View';
 import { revalidatePath } from 'next/cache';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 
 export default async function Groups() {
   revalidatePath('/');
+  const session = await getServerSession(authOptions);
   const groups = await GroupService.getGroups();
-  const subjects = await SubjectService.getAll();
+  const subjects = await SubjectService.getAll(session?.user.accessToken!);
 
   return (
     <div className='flex flex-col'>

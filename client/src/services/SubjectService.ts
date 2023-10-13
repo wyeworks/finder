@@ -3,21 +3,43 @@ import { Subject } from '@/types/Subject';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 
 export class SubjectService {
-  public static async getByUser(user: User): Promise<Subject[]> {
-    return (await (
-      await ApiCommunicator.getSubjectsByUser(user.id)
-    ).json()) as Subject[];
+  public static async getByUser(
+    user: User,
+    accessToken: string
+  ): Promise<Subject[]> {
+    const response = await ApiCommunicator.commonFetch({
+      url:
+        process.env.NEXT_PUBLIC_RAILS_API_URL +
+        '/users/' +
+        user.id +
+        '/subjects',
+      method: 'GET',
+      accessToken,
+    });
+
+    return response as Subject[];
   }
 
-  public static async getSubject(id: number): Promise<Subject> {
-    return (await ApiCommunicator.getSubject(id.toString())) as Subject;
+  public static async getById(
+    id: number,
+    accessToken: string
+  ): Promise<Subject> {
+    const response = await ApiCommunicator.commonFetch({
+      url: process.env.NEXT_PUBLIC_RAILS_API_URL + `/subjects/${id}`,
+      method: 'GET',
+      accessToken,
+    });
+
+    return response as Subject;
   }
 
-  public static async getSubjects(): Promise<Subject[]> {
-    return (await ApiCommunicator.getSubjects()) as Subject[];
-  }
+  public static async getAll(accessToken: string): Promise<Subject[]> {
+    const response = await ApiCommunicator.commonFetch({
+      url: process.env.NEXT_PUBLIC_RAILS_API_URL + `/subjects`,
+      method: 'GET',
+      accessToken,
+    });
 
-  public static async getAll(): Promise<Subject[]> {
-    return (await (await ApiCommunicator.getSubjects()).json()) as Subject[];
+    return response as Subject[];
   }
 }

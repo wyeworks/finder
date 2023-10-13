@@ -7,7 +7,8 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Logger } from '@/services/Logger';
 import { Subject } from '@/types/Subject';
 import { parseSubjectToOption } from '@/utils/Formatter';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
+import { SubjectService } from '@/services/SubjectService';
+import { useSession } from 'next-auth/react';
 
 type FormStep1Props = {
   nextPage: () => void;
@@ -20,11 +21,11 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
     key: '',
     label: '',
   });
+  const { data: session } = useSession();
 
   const getSubjects = async () => {
     try {
-      // return await ApiCommunicator.clientSideSubjectsByUser();
-      return await ApiCommunicator.clientSideGetSubjects();
+      return await SubjectService.getAll(session?.user.accessToken!);
     } catch (error) {
       Logger.error('Error trying to get subjects:', error);
       return null;

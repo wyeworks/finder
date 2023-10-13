@@ -25,7 +25,10 @@ export default async function Group({ params }: Props) {
     session = await getServerSession(authOptions);
     user = await ApiCommunicator.getUser(session!.user.id!);
     group = await GroupService.getGroup(params.id);
-    subject = await SubjectService.getSubject(group.subject_id);
+    subject = await SubjectService.getById(
+      group.subject_id,
+      session?.user.accessToken!
+    );
   } catch (error) {
     return (
       <div className='flex h-screen flex-col items-center justify-center text-2xl'>

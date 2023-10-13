@@ -15,7 +15,7 @@ export class ApiCommunicator {
   }
 
   // eslint-disable-next-line complexity
-  private static async commonFetch({
+  static async commonFetch({
     url,
     method,
     data,
@@ -23,6 +23,7 @@ export class ApiCommunicator {
     withCredentials = false,
     handleNotOk = true,
     asJSON = true,
+    accessToken,
   }: {
     url: string;
     method: string;
@@ -32,6 +33,7 @@ export class ApiCommunicator {
     // eslint-disable-next-line no-unused-vars
     handleNotOk?: boolean;
     asJSON?: boolean;
+    accessToken?: string;
   }): Promise<any> {
     Logger.debug('START: Common fetch');
 
@@ -49,6 +51,13 @@ export class ApiCommunicator {
       headers = {
         ...headers,
         Authorization: session.user.accessToken,
+      };
+    }
+
+    if (accessToken && !mustBeAuthenticated) {
+      headers = {
+        ...headers,
+        Authorization: accessToken,
       };
     }
 
@@ -125,20 +134,6 @@ export class ApiCommunicator {
     });
   }
 
-  static async clientSideSubjectsByUser() {
-    return await this.commonFetch({
-      url: '/api/subjects/byUser',
-      method: 'GET',
-    });
-  }
-
-  static async clientSideGetSubjects() {
-    return await this.commonFetch({
-      url: '/api/subjects',
-      method: 'GET',
-    });
-  }
-
   static async clientSideCreateGroup(data: any): Promise<any> {
     return await this.commonFetch({
       url: '/api/createGroup',
@@ -183,15 +178,6 @@ export class ApiCommunicator {
       url: this.apiUrl() + '/groups',
       method: 'POST',
       data,
-      mustBeAuthenticated: true,
-      asJSON: false,
-    });
-  }
-
-  static async getSubjectsByUser(id: string): Promise<any> {
-    return await this.commonFetch({
-      url: this.apiUrl() + '/users/' + id + '/subjects',
-      method: 'GET',
       mustBeAuthenticated: true,
       asJSON: false,
     });
@@ -243,21 +229,6 @@ export class ApiCommunicator {
       url: this.apiUrl() + `/users/${id}`,
       method: 'GET',
       mustBeAuthenticated: true,
-    });
-  }
-
-  static async getSubject(id: string): Promise<any> {
-    return await this.commonFetch({
-      url: this.apiUrl() + `/subjects/${id}`,
-      method: 'GET',
-    });
-  }
-
-  static async getSubjects(): Promise<any> {
-    return await this.commonFetch({
-      url: this.apiUrl() + `/subjects`,
-      method: 'GET',
-      asJSON: false,
     });
   }
 
