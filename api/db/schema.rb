@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_30_135651) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_13_181457) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "attendances", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "session_id", null: false
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id"], name: "index_attendances_on_session_id"
+    t.index ["user_id"], name: "index_attendances_on_user_id"
+  end
 
   create_table "careers", force: :cascade do |t|
     t.string "name", null: false
@@ -68,6 +78,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_30_135651) do
     t.index ["user_id"], name: "index_requests_on_user_id"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "location"
+    t.string "meeting_link"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.bigint "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_sessions_on_group_id"
+  end
+
   create_table "subjects", force: :cascade do |t|
     t.string "name", null: false
     t.string "code", null: false
@@ -97,19 +120,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_30_135651) do
     t.datetime "birth_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "bio"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.json "social_networks"
-    t.text "bio"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "attendances", "sessions"
+  add_foreign_key "attendances", "users"
   add_foreign_key "groups", "subjects"
   add_foreign_key "members", "groups"
   add_foreign_key "members", "users"
   add_foreign_key "requests", "groups"
   add_foreign_key "requests", "users"
+  add_foreign_key "sessions", "groups"
 end
