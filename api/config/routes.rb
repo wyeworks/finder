@@ -26,4 +26,5 @@ Rails.application.routes.draw do
       get :subjects
     end
   end
+  resources :sessions, only: [:create, :show, :update, :destroy]
 end
