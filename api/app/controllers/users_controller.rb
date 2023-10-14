@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user
-  before_action :authenticate_user!, :handle_user_groups, only: :destroy
+  before_action :handle_user_groups, only: :destroy
 
   def show
     render json: UserSerializer.new(@user).serializable_hash[:data][:attributes]

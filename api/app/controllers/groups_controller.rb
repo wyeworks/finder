@@ -2,7 +2,6 @@ class GroupsController < ApplicationController
   include GroupAdminConcern
 
   before_action :set_group, only: %i[show update destroy members]
-  before_action :authenticate_user!, except: %i[index show]
   before_action :authorize_group_admin!, only: %i[update destroy]
 
   def index
