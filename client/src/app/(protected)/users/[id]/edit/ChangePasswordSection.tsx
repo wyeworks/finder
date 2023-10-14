@@ -59,7 +59,7 @@ export function ChangePasswordSection({ user }: { user: User }) {
 
     try {
       const response = await UserService.modifyPassword(
-        user.id,
+        user,
         currentPassword,
         newPassword
       );

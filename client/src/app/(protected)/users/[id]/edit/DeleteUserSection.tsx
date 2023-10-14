@@ -27,7 +27,7 @@ export function DeleteUserSection({ user }: { user: User }) {
     setOpen(false);
 
     try {
-      await UserService.deleteUser(user.id);
+      await UserService.deleteUser(user);
 
       setIsAlertVisible(true);
       setAlertMessage('Perfil eliminado');
@@ -35,7 +35,7 @@ export function DeleteUserSection({ user }: { user: User }) {
 
       setTimeout(() => {
         signOut().catch((error) => Logger.error(error));
-      }, 2000);
+      }, 1000);
     } catch (error: any) {
       Logger.error(error);
       setIsAlertVisible(true);

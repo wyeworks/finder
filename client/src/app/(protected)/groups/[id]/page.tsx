@@ -7,7 +7,7 @@ import GroupDisclosure from './GroupDisclosure';
 import EmptyBoxImage from '@/assets/images/empty_box.png';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
+import { UserService } from '@/services/UserService';
 
 type Props = {
   params: {
@@ -23,7 +23,7 @@ export default async function Group({ params }: Props) {
 
   try {
     session = await getServerSession(authOptions);
-    user = await ApiCommunicator.getUser(session!.user.id!);
+    user = await UserService.getUser(session!);
     group = await GroupService.getGroup(params.id);
     subject = await SubjectService.getById(
       group.subject_id,

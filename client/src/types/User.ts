@@ -10,4 +10,5 @@ export type User = {
   birth_date?: string;
   career_ids?: Number[];
   subject_ids?: Number[];
+  accessToken: string;
 };

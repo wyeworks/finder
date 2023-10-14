@@ -1,11 +1,10 @@
 import UserBanner from '@/app/(protected)/users/[id]/UserBanner';
 import GroupsLayout from '@/app/(protected)/users/[id]/GroupsLayout';
 import { Logger } from '@/services/Logger';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
 import SubjectsLayout from '@/app/(protected)/users/[id]/SubjectLayout';
-import { CareerService } from '@/services/CareerService';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
+import { UserService } from '@/services/UserService';
 
 type Props = {
   params: {
@@ -15,9 +14,9 @@ type Props = {
 
 export default async function Page({ params }: Props) {
   Logger.debug('Initializing User page with params:', params);
-  const user = await ApiCommunicator.getUser(params.id);
-  const careers = await CareerService.getByUser(user);
   const session = await getServerSession(authOptions);
+  const user = await UserService.getUser(session!);
+  const careers = await UserService.getCareers(user);
 
   return (
     <div className='bg-white md:bg-whiteCustom'>

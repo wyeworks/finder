@@ -11,6 +11,7 @@ const user: User = {
   id: '1',
   name: 'Test',
   email: 'test@email.com',
+  accessToken: '',
 };
 
 //We want to mock the function useSession from next-auth/react

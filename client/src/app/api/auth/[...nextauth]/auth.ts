@@ -1,7 +1,7 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { Logger } from '@/services/Logger';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
+import { UserService } from '@/services/UserService';
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -17,11 +17,9 @@ export const authOptions: NextAuthOptions = {
       authorize: async (credentials) => {
         Logger.debug('Authorizing users with credentials: ' + credentials);
         const { email, password } = credentials!;
-        const res = await ApiCommunicator.login({
-          user: {
-            email,
-            password,
-          },
+        const res = await UserService.login({
+          email,
+          password,
         });
 
         const user = await res.json();

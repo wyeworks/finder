@@ -5,13 +5,14 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { SubjectService } from '@/services/SubjectService';
 import { ChangePasswordSection } from '@/app/(protected)/users/[id]/edit/ChangePasswordSection';
 import { DeleteUserSection } from '@/app/(protected)/users/[id]/edit/DeleteUserSection';
+import { UserService } from '@/services/UserService';
 
 export default async function ConfigProfile() {
   const session = await getServerSession(authOptions);
-  const user = await ApiCommunicator.getUser(session!.user.id!);
+  const user = await UserService.getUser(session!);
   const subjects = await SubjectService.getAll(session!.user.accessToken!);
   const careers = await ApiCommunicator.getCareers();
-  const careersByUser = await ApiCommunicator.getCareersByUser(user.id);
+  const careersByUser = await UserService.getCareers(user);
   const subjectsByUser = await SubjectService.getByUser(
     user,
     session!.user.accessToken!

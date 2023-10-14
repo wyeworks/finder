@@ -28,6 +28,7 @@ describe('GroupInfo', () => {
     id: '1',
     name: 'Test',
     email: 'test@email.com',
+    accessToken: '',
   };
 
   it('renders without crashing', () => {
