@@ -39,7 +39,10 @@ export default function Form() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value.trimEnd().trimStart(),
+    }));
     setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
   };
 
