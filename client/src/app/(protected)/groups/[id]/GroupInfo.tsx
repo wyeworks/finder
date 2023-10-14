@@ -108,9 +108,9 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
       <div className='col-span-1'></div>
       <div className='text-center sm:col-span-3 sm:text-left '>
         <div className='flex'>
-          <div className='flex w-full items-center justify-center sm:justify-start md:w-[85%]'>
+          <div className='block w-full items-center justify-center sm:justify-start md:flex md:w-[85%]'>
             <h1 className='mb-3 text-4xl'>{name}</h1>
-            <span className='text-md mb-2 ml-2 rounded-full bg-primaryBlue px-2.5 py-0.5 font-medium text-white'>
+            <span className='mb-2 ml-2 rounded-full bg-primaryBlue px-2.5 py-0.5 text-xl font-medium text-white'>
               <strong>#{id}</strong>
             </span>
           </div>
