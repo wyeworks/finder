@@ -17,6 +17,7 @@ import { signOut } from 'next-auth/react';
 import defaultUser from '@/assets/images/default_user.png';
 import Link from 'next/link';
 import FinderLogoIcon from '@/assets/Icons/FinderLogoIcon';
+import { Logger } from '@/services/Logger';
 
 const userNavigation = (user: User) => [
   {
@@ -25,12 +26,12 @@ const userNavigation = (user: User) => [
   },
   {
     name: strings.header.navOptions.editProfile,
-    href: `/users/${user.id}/edit`,
+    href: `/users/me`,
   },
   {
     name: strings.header.navOptions.endSession,
     href: '#',
-    onClick: () => signOut().catch((e) => console.log(e)),
+    onClick: () => signOut().catch(Logger.error),
   },
 ];
 
@@ -52,14 +53,14 @@ const userNavigationMobile = (user: User) => [
   },
   {
     name: strings.header.navOptions.editProfile,
-    href: `/users/${user.id}/edit`,
+    href: `/users/me`,
     icon: <EditIcon className='mr-3 h-4 w-4' />,
   },
   {
     name: strings.header.navOptions.endSession,
     href: '#',
     icon: <LogOutIcon className='mr-2 h-5 w-5' />,
-    onClick: () => signOut().catch((e) => console.log(e)),
+    onClick: () => signOut().catch(Logger.error),
   },
 ];
 

@@ -32,7 +32,7 @@ jest.mock('next-auth/react', () => ({
 //We want to also mock ApiCommunicator.clientSideEditUser(id)
 // eslint-disable-next-line no-unused-vars
 const ApiCommunicator =
-  require('../../../../../services/ApiCommunicator').ApiCommunicator;
+  require('../../../../services/ApiCommunicator').ApiCommunicator;
 jest.mock('../../../services/ApiCommunicator', () => ({
   ApiCommunicator: {
     clientSideEditUser: jest.fn().mockReturnValue({ ok: true }),

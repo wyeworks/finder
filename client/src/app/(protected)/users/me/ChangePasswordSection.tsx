@@ -1,6 +1,6 @@
 'use client';
 
-import { ConfigProfileSection } from '@/app/(protected)/users/[id]/edit/ConfigProfileSection';
+import { ConfigProfileSection } from '@/app/(protected)/users/me/ConfigProfileSection';
 import Input from '@/components/common/Input';
 import React, { useEffect, useState } from 'react';
 import { alertTypes } from '@/components/common/Alert';

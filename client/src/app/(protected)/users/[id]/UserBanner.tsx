@@ -21,9 +21,9 @@ type UserBannerProps = {
   isLoggedUser: boolean;
 };
 
-function EditButton(props: { user: User }) {
+function EditButton() {
   return (
-    <Link data-testid={'editButton'} href={`/users/${props.user.id}/edit`}>
+    <Link data-testid={'editButton'} href={`/users/me`}>
       <button className='flex w-fit items-center rounded-md bg-[#2B2D54] p-2 lg:self-end'>
         <EditIcon className={'m-2 h-5 w-5 fill-white'} />
         <p className={'mr-2 text-lg font-medium text-white'}>Editar perfil</p>
@@ -194,7 +194,7 @@ export default function UserBanner({
           </div>
         </div>
         <div className='m-10 mt-20 flex justify-center lg:mr-20 lg:mt-10'>
-          {isLoggedUser && <EditButton user={user} />}
+          {isLoggedUser && <EditButton />}
         </div>
       </div>
     </div>
