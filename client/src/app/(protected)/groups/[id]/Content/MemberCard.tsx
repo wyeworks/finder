@@ -1,3 +1,5 @@
+'use client';
+
 import EllipsisVerticalIcon from '@/assets/Icons/EllipsisVerticalIcon';
 import Image from 'next/image';
 import defaultUser from '@/assets/images/default_user.png';
@@ -6,9 +8,10 @@ import { Member } from '@/types/Member';
 import Button from '@/components/common/Button';
 import UserPlusIcon from '@/assets/Icons/UserPlusIcon';
 import TrashIcon from '@/assets/Icons/TrashIcon';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Logger } from '@/services/Logger';
 import { BackendError } from '@/types/BackendError';
+import { GroupService } from '@/services/GroupService';
+import { useSession } from 'next-auth/react';
 
 type MemberCardProp = {
   member: Member;
@@ -39,16 +42,25 @@ export default function MemberCard({
     id = '',
   } = member;
 
+  const { data: session } = useSession();
+
   async function handleJoin(status: 'accepted' | 'rejected') {
     let reason = '';
     if (status === 'rejected') reason = 'admin rejected user';
     try {
-      const response = await ApiCommunicator.clientSideHandleRequestGroup({
-        groupId: group_id,
-        requestId: id,
-        status: status,
-        reason: reason,
-      });
+      const response = await GroupService.handleRequestGroup(
+        {
+          groupId: group_id,
+          requestId: id,
+          status: status,
+          reason: reason,
+        },
+        session?.user.accessToken!,
+        {
+          handleNotOk: false,
+          asJSON: false,
+        }
+      );
       if (!response.ok) {
         const error = (await response.json()) as BackendError;
         if (onError) onError(error.errors.group ?? ['Error inesperado']);
