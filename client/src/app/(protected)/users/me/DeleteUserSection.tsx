@@ -1,10 +1,10 @@
 'use client';
 
-import { ConfigProfileSection } from '@/app/(protected)/users/[id]/edit/ConfigProfileSection';
+import { ConfigProfileSection } from '@/app/(protected)/users/me/ConfigProfileSection';
 import { TrashCanIcon } from '@/assets/Icons/TrashCanIcon';
 import React, { useState } from 'react';
 import { User } from '@/types/User';
-import DelayedConfirmDialog from '@/app/(protected)/users/[id]/edit/DelayedConfirmDialog';
+import DelayedConfirmDialog from '@/app/(protected)/users/me/DelayedConfirmDialog';
 import { Logger } from '@/services/Logger';
 import { UserService } from '@/services/UserService';
 import { signOut } from 'next-auth/react';

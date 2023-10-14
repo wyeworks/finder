@@ -3,8 +3,8 @@ import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { SubjectService } from '@/services/SubjectService';
-import { ChangePasswordSection } from '@/app/(protected)/users/[id]/edit/ChangePasswordSection';
-import { DeleteUserSection } from '@/app/(protected)/users/[id]/edit/DeleteUserSection';
+import { ChangePasswordSection } from '@/app/(protected)/users/me/ChangePasswordSection';
+import { DeleteUserSection } from '@/app/(protected)/users/me/DeleteUserSection';
 import { UserService } from '@/services/UserService';
 
 export default async function ConfigProfile() {

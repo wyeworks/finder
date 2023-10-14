@@ -17,7 +17,7 @@ import { Subject } from '@/types/Subject';
 import { Career } from '@/types/Career';
 import { SocialNetworks } from '@/types/SocialNetworks';
 import { useSession } from 'next-auth/react';
-import { ConfigProfileSection } from '@/app/(protected)/users/[id]/edit/ConfigProfileSection';
+import { ConfigProfileSection } from '@/app/(protected)/users/me/ConfigProfileSection';
 import { mustBePhoneNumer, mustBeURLWithUsername } from '@/utils/Pattern';
 import { UserService } from '@/services/UserService';
 
