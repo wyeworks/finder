@@ -25,7 +25,7 @@ export const FiltersContent: React.FC<FiltersContentProps> = ({ subjects }) => {
         />
       </div>
       <div>
-        <h4 className='mt-4 px-4 font-bold'>Preferencia Horaria</h4>
+        <h4 className='mt-4 px-4 font-bold'>Preferencia horaria</h4>
         {['Morning', 'Afternoon', 'Night'].map((time) => {
           if (isTimeOfDay(time)) {
             return (
