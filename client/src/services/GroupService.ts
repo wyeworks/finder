@@ -7,13 +7,39 @@ import { Logger } from '@/services/Logger';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Member } from '@/types/Member';
 
+export type ApiOptions = {
+  asJSON?: boolean;
+  handleNotOk?: boolean;
+};
+
 export class GroupService {
-  public static async getGroup(id: string): Promise<StudyGroup> {
-    return (await ApiCommunicator.getGroup(id)) as StudyGroup;
+  public static async getById(
+    id: string,
+    accessToken: string,
+    options?: ApiOptions
+  ): Promise<StudyGroup> {
+    const response = await ApiCommunicator.commonFetch({
+      url: process.env.NEXT_PUBLIC_RAILS_API_URL + `/groups/${id}`,
+      method: 'GET',
+      accessToken,
+      ...options,
+    });
+
+    return response as StudyGroup;
   }
 
-  public static async getGroups(): Promise<StudyGroup[]> {
-    return (await ApiCommunicator.getGroups()) as StudyGroup[];
+  public static async getAll(
+    accessToken: string,
+    options?: ApiOptions
+  ): Promise<StudyGroup[]> {
+    const response = await ApiCommunicator.commonFetch({
+      url: process.env.NEXT_PUBLIC_RAILS_API_URL + `/groups`,
+      method: 'GET',
+      accessToken,
+      ...options,
+    });
+
+    return response as StudyGroup[];
   }
 
   public static async getActiveGroups(user: User): Promise<StudyGroup[]> {
@@ -50,28 +76,108 @@ export class GroupService {
     return Promise.resolve(grupos);
   }
 
-  public static async clientSideSubmitRequest(id: string): Promise<any> {
-    return await ApiCommunicator.clientSideSubmitRequestGroup(id);
-  }
-
-  public static async clientSideGetRequestState(
-    groupId: string,
-    userId: string
+  public static async submitRequest(
+    id: string,
+    accessToken: string,
+    options?: ApiOptions
   ): Promise<any> {
-    return await ApiCommunicator.clientSideGetRequestStateGroup(
-      groupId,
-      userId
-    );
+    const response = await ApiCommunicator.commonFetch({
+      url: process.env.NEXT_PUBLIC_RAILS_API_URL + `/groups/${id}/requests`,
+      method: 'POST',
+      accessToken,
+      ...options,
+    });
+
+    return response;
   }
 
-  public static async getMembersGroup(groupId: string): Promise<Member[]> {
+  public static async getRequestState(
+    groupId: string,
+    userId: string,
+    accessToken: string,
+    options?: ApiOptions
+  ): Promise<any> {
+    const response = await ApiCommunicator.commonFetch({
+      url:
+        process.env.NEXT_PUBLIC_RAILS_API_URL +
+        `/groups/${groupId}/requests/users/${userId}`,
+      method: 'GET',
+      accessToken,
+      ...options,
+    });
+
+    return response;
+  }
+
+  public static async getGroupMembers(
+    groupId: string,
+    accessToken: string,
+    options?: ApiOptions
+  ): Promise<Member[]> {
     try {
-      const response = await ApiCommunicator.clientSideMembersGroup(groupId);
+      const response = await ApiCommunicator.commonFetch({
+        url:
+          process.env.NEXT_PUBLIC_RAILS_API_URL +
+          '/groups/' +
+          groupId +
+          '/members',
+        method: 'GET',
+        accessToken,
+        ...options,
+      });
+
       const data = await response.json();
       return data;
     } catch (error) {
       Logger.error('Error trying to get members: ' + error);
       return [];
     }
+  }
+
+  public static async createGroup(
+    data: any,
+    accessToken: string,
+    options?: ApiOptions
+  ): Promise<any> {
+    return await ApiCommunicator.commonFetch({
+      url: process.env.NEXT_PUBLIC_RAILS_API_URL + '/groups',
+      method: 'POST',
+      data,
+      accessToken,
+      ...options,
+    });
+  }
+
+  public static async handleRequestGroup(
+    data: any,
+    accessToken: string,
+    options?: ApiOptions
+  ): Promise<any> {
+    return await ApiCommunicator.commonFetch({
+      url:
+        process.env.NEXT_PUBLIC_RAILS_API_URL +
+        '/groups/' +
+        data.groupId +
+        '/requests/' +
+        data.requestId,
+      method: 'PATCH',
+      data,
+      accessToken,
+      ...options,
+    });
+  }
+
+  public static async getRequestJoinGroup(
+    id: string,
+    accessToken: string,
+    options?: ApiOptions
+  ): Promise<any> {
+    return await ApiCommunicator.commonFetch({
+      url:
+        process.env.NEXT_PUBLIC_RAILS_API_URL + '/groups/' + id + '/requests',
+      method: 'GET',
+      accessToken,
+      ...options,
+    });
   }
 }
