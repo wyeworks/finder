@@ -74,13 +74,13 @@ export default function Header({ user }: HeaderProps) {
       <Disclosure as='nav' className='bg-primaryBlue'>
         {({ open }) => (
           <>
-            <div className='w-full'>
+            <div className='w-full py-1'>
               <div className='flex h-16 items-center justify-between'>
                 <div className='flex items-center'>
                   <div className='flex-shrink-0'>
                     <Link
                       href='/home'
-                      className='mx-2 flex cursor-pointer items-center'
+                      className='ml-4 flex cursor-pointer items-center'
                       data-testid='finder-logo'
                     >
                       <FinderLogoIcon fill='white' height={50} width={41.666} />

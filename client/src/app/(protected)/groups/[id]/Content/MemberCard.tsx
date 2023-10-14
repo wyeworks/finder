@@ -97,16 +97,18 @@ export default function MemberCard({
           <Button
             text='Aceptar'
             type='button'
-            Icon={<UserPlusIcon className='mr-1 h-5 w-5' />}
+            Icon={
+              <UserPlusIcon className='mr-2 h-5 w-5 shrink-0 text-green-600' />
+            }
             classNameWrapper='h-4'
-            className='h-8 items-center !bg-[#BCEDFF] !font-light !text-black hover:!bg-blue-300 sm:m-3'
+            className='h-8 items-center border-[1.5px]  border-green-600 !bg-transparent !font-medium !text-green-600 hover:!bg-gray-200 sm:m-3'
             onClick={() => handleJoin('accepted')}
           />
           <Button
             text='Rechazar'
             type='button'
-            Icon={<TrashIcon className='h-6 w-6' />}
-            className=' h-8 items-center !bg-gray-300 !font-light !text-black hover:!bg-gray-400 sm:m-3'
+            Icon={<TrashIcon className='mr-1 h-5 w-5 shrink-0 text-red-600' />}
+            className=' h-8 items-center border-[1.5px]  border-red-600 !bg-transparent !font-medium !text-red-600 hover:!bg-gray-200 sm:m-3'
             onClick={() => handleJoin('rejected')}
           />
         </div>
