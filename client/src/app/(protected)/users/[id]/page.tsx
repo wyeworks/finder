@@ -15,7 +15,7 @@ type Props = {
 export default async function Page({ params }: Props) {
   Logger.debug('Initializing User page with params:', params);
   const session = await getServerSession(authOptions);
-  const user = await UserService.getUser(session!);
+  const user = await UserService.getUser(session!.user);
   const careers = await UserService.getCareers(user);
 
   return (

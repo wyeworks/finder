@@ -16,18 +16,41 @@ type Props = {
 };
 
 export default async function Group({ params }: Props) {
-  let group;
-  let subject;
-  let session;
-  let user;
-
   try {
-    session = await getServerSession(authOptions);
-    user = await UserService.getUser(session!);
-    group = await GroupService.getGroup(params.id);
-    subject = await SubjectService.getById(
+    const group = await GroupService.getGroup(params.id);
+    const session = await getServerSession(authOptions);
+    const subject = await SubjectService.getById(
       group.subject_id,
       session?.user.accessToken!
+    );
+    const user = await UserService.getUser(session!.user);
+
+    return (
+      <div className='flex h-full w-full flex-col'>
+        <div className='h-40 sm:h-48'>
+          <Image
+            src='/default_group_banner.png'
+            alt='Banner'
+            width={1920}
+            height={1080}
+            className='h-full w-full object-cover'
+          />
+        </div>
+        <div className='mb-2 flex-shrink-0'>
+          <GroupInfo group={group} subject={subject} user={user} />
+        </div>
+        <div className='flex-shrink-0 flex-grow'>
+          {/* Displayed only on mobile */}
+          <div className='md:hidden'>
+            <GroupDisclosure group={group} />
+          </div>
+
+          {/* Displayed from medium screens and up */}
+          <div className='hidden md:block'>
+            <GroupTabs group={group} />
+          </div>
+        </div>
+      </div>
     );
   } catch (error) {
     return (
@@ -37,32 +60,4 @@ export default async function Group({ params }: Props) {
       </div>
     );
   }
-
-  return (
-    <div className='flex h-full w-full flex-col'>
-      <div className='h-40 sm:h-48'>
-        <Image
-          src='/default_group_banner.png'
-          alt='Banner'
-          width={1920}
-          height={1080}
-          className='h-full w-full object-cover'
-        />
-      </div>
-      <div className='mb-2 flex-shrink-0'>
-        <GroupInfo group={group} subject={subject} user={user} />
-      </div>
-      <div className='flex-shrink-0 flex-grow'>
-        {/* Displayed only on mobile */}
-        <div className='md:hidden'>
-          <GroupDisclosure group={group} />
-        </div>
-
-        {/* Displayed from medium screens and up */}
-        <div className='hidden md:block'>
-          <GroupTabs group={group} />
-        </div>
-      </div>
-    </div>
-  );
 }

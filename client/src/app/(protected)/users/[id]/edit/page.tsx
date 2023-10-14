@@ -9,7 +9,7 @@ import { UserService } from '@/services/UserService';
 
 export default async function ConfigProfile() {
   const session = await getServerSession(authOptions);
-  const user = await UserService.getUser(session!);
+  const user = await UserService.getUser(session!.user);
   const subjects = await SubjectService.getAll(session!.user.accessToken!);
   const careers = await ApiCommunicator.getCareers();
   const careersByUser = await UserService.getCareers(user);

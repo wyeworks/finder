@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Logger } from '@/services/Logger';
 import { mustHaveUpperCaseLowerCaseAndEightCharacters } from '@/utils/Pattern';
-import { UserService } from '@/services/UserService';
+import { AuthService } from '@/services/AuthService';
 
 type SignUpFormData = {
   name: string;
@@ -59,7 +59,7 @@ export default function Form() {
 
     try {
       Logger.debug('Sending signup request with data:', formData);
-      const response = await UserService.signUp(formData);
+      const response = await AuthService.signUp(formData);
       if (!response.ok) {
         const errorData = await response.json();
         const parsedError = errorData as BackendError;

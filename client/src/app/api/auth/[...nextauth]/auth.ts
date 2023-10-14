@@ -1,7 +1,7 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { Logger } from '@/services/Logger';
-import { UserService } from '@/services/UserService';
+import { AuthService } from '@/services/AuthService';
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -17,7 +17,7 @@ export const authOptions: NextAuthOptions = {
       authorize: async (credentials) => {
         Logger.debug('Authorizing users with credentials: ' + credentials);
         const { email, password } = credentials!;
-        const res = await UserService.login({
+        const res = await AuthService.login({
           email,
           password,
         });

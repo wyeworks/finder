@@ -1,64 +1,19 @@
 import { User } from '@/types/User';
+import { User as NextAuthUser } from 'next-auth';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Career } from '@/types/Career';
 import { Logger } from '@/services/Logger';
-import { Session } from 'next-auth';
 import { SocialNetworks } from '@/types/SocialNetworks';
 
 export class UserService {
-  ////////////// AUTHENTICATION ////////////////////////
-  public static async signUp(data: {
-    name: string;
-    email: string;
-    password: string;
-  }): Promise<Response> {
-    const dataToSend = {
-      user: {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      },
-    };
-    return await ApiCommunicator.commonFetch({
-      url: `${ApiCommunicator.api()}/users/signup`,
-      method: 'POST',
-      data: dataToSend,
-      asJSON: false,
-      handleNotOk: false,
-    });
-  }
-
-  public static async login(data: {
-    email: string;
-    password: string;
-  }): Promise<Response> {
-    const dataToSend = {
-      user: {
-        email: data.email,
-        password: data.password,
-      },
-    };
-
-    return await ApiCommunicator.commonFetch({
-      url: `${ApiCommunicator.api()}/users/login`,
-      method: 'POST',
-      data: dataToSend,
-      withCredentials: true,
-      asJSON: false,
-      handleNotOk: false,
-    });
-  }
-
-  ////////////////////////////////////////////////////////
-
-  public static async getUser(session: Session): Promise<User> {
+  public static async getUser(user: NextAuthUser): Promise<User> {
     let userInBD = await ApiCommunicator.commonFetch({
-      url: `${ApiCommunicator.api()}/users/${session.user.id}`,
+      url: `${ApiCommunicator.api()}/users/${user.id}`,
       method: 'GET',
       mustBeAuthenticated: true,
-      accessToken: session.user.accessToken,
+      accessToken: user.accessToken,
     });
-    userInBD.accessToken = session.user.accessToken;
+    userInBD.accessToken = user.accessToken;
     Logger.debug('User in BD', userInBD);
     return userInBD as User;
   }
@@ -67,7 +22,7 @@ export class UserService {
     user: User,
     currentPassword: string,
     newPassword: string
-  ): Promise<any> {
+  ): Promise<Response> {
     return await this.editUser(user, {
       password: newPassword,
     });
