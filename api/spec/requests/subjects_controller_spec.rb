@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SubjectsController, type: :request do
+  # General
   let(:user) { create(:user) }
   let(:headers) do
     post user_session_path, params: { user: { email: user.email, password: user.password } }
@@ -62,8 +63,8 @@ RSpec.describe SubjectsController, type: :request do
         expect(json_response['code']).to eq(subject.code)
         expect(json_response['credits']).to eq(subject.credits)
       end
-    end
-
+    end 
+    
     context 'when user is not authenticated' do
       before do
         get subjects_path(subject)
