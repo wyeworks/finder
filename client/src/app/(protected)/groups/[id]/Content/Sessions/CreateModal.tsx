@@ -27,7 +27,7 @@ export default function CreateModal() {
           type='number'
           id='startHour'
           name='startHour'
-          placeholder='17:00'
+          placeholder='hh:mm'
           required
           pattern='/^[0-9]{2}:[0-9]{2}$/'
           classNameInput='bg-backgroundInput'
@@ -41,7 +41,7 @@ export default function CreateModal() {
           id='endTime'
           name='endTime'
           placeholder='Date'
-          classNameInput='bg-backgroundInput text-grayText'
+          classNameInput='bg-backgroundInput'
           minNumber={new Date().toISOString().split('T')[0]}
         />
         -
@@ -49,7 +49,7 @@ export default function CreateModal() {
           type='number'
           id='endHour'
           name='endHour'
-          placeholder='19:00'
+          placeholder='hh:mm'
           required
           pattern='/^[0-9]{2}:[0-9]{2}$/'
           classNameInput='bg-backgroundInput'
@@ -79,7 +79,7 @@ export default function CreateModal() {
         type='text'
         id='meet-link'
         name='meet-link'
-        placeholder='meet.google.com/vwv-aaet-jvs'
+        placeholder='link de la reunion'
         required
         classNameInput='bg-backgroundInput'
       />
