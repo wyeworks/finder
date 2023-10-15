@@ -10,10 +10,7 @@ class SessionsController < ApplicationController
     @session = Session.new(session_params)
 
     if @session.save
-      group = Group.find(session_params[:group_id])
-      group.members.each do |member|
-        @session.attendances.create(user_id: member.user_id)
-      end
+      Rails.logger.info "Session was successfully created with params: '#{session_params}'"
       render json: SessionSerializer.new(@session).serializable_hash[:data][:attributes], status: :created
     else
       Rails.logger.info "Session has the following validation errors: #{@session.errors.full_messages}"
@@ -64,7 +61,7 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:user_id, :subject_id, :date, :start_time, :end_time)
+    params.require(:session).permit(:start_date, :end_date)
   end
 
 end
