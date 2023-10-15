@@ -4,7 +4,11 @@ class SessionSerializer
   attributes :id,
              :name,
              :description,
-             :start_date,
-             :end_date
+             :location,
+             :meeting_link,
+             :start_time,
+             :end_time,
+             :group_id,
+             :attendances
 
 end
