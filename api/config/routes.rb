@@ -6,11 +6,11 @@ Rails.application.routes.draw do
     sign_out: 'logout',
     registration: 'signup'
   },
-             controllers: {
-               sessions: 'users/sessions',
-               registrations: 'users/registrations',
-               confirmations: 'users/confirmations'
-             }
+  controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations',
+    confirmations: 'users/confirmations'
+  }
 
   resources :careers, only: :index
   resources :groups, except: [:new, :edit] do
