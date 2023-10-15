@@ -350,7 +350,7 @@ RSpec.describe 'Groups::Requests', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
     end
-    
+
     context 'when user with the specified ID does not exist' do
       let(:non_existent_user_id) { User.maximum(:id).to_i + 1 }
 
