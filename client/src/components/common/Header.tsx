@@ -11,7 +11,6 @@ import MenuIcon from '@/assets/Icons/MenuIcon';
 import ArrowDownIcon from '@/assets/Icons/ArrowDownIcon';
 import UserIcon from '@/assets/Icons/UserIcon';
 import EditIcon from '@/assets/Icons/EditIcon';
-import EditIcon from '@/assets/Icons/EditIcon';
 import LogOutIcon from '@/assets/Icons/LogOutIcon';
 import strings from '@/locales/strings.json';
 import { User } from '@/types/User';
