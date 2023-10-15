@@ -21,7 +21,7 @@ type MemberCardProp = {
   fetchData?: () => void;
   // eslint-disable-next-line no-unused-vars
   onError?: (error: string[]) => void;
-  imAdmin?: boolean;
+  isAdmin?: boolean;
 };
 
 function mapRole(backEndRole: string) {
@@ -34,7 +34,7 @@ export default function MemberCard({
   type,
   fetchData,
   onError,
-  imAdmin = false,
+  isAdmin = false,
 }: MemberCardProp) {
   const {
     name,
@@ -77,7 +77,7 @@ export default function MemberCard({
   }
 
   const showTagOptions = function (memberId: string) {
-    if (imAdmin && memberId !== session?.user.id) return true;
+    if (isAdmin && memberId !== session?.user.id) return true;
     return false;
   };
 
@@ -131,14 +131,10 @@ export default function MemberCard({
                         {role === 'participant' && (
                           <Menu.Item>
                             <button className='group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900'>
-                              Designar como administrador
-                            </button>
-                          </Menu.Item>
-                        )}
-                        {role === 'admin' && (
-                          <Menu.Item>
-                            <button className='group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900'>
-                              Designar como miembro
+                              Designar como{' '}
+                              {role === 'participant'
+                                ? 'administrador'
+                                : 'miembro'}
                             </button>
                           </Menu.Item>
                         )}
