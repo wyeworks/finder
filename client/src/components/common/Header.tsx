@@ -9,6 +9,7 @@ import MessageIcon from '@/assets/Icons/MessageIcon';
 import CrossIcon from '@/assets/Icons/CrossIcon';
 import MenuIcon from '@/assets/Icons/MenuIcon';
 import ArrowDownIcon from '@/assets/Icons/ArrowDownIcon';
+import UserIcon from '@/assets/Icons/UserIcon';
 import EditIcon from '@/assets/Icons/EditIcon';
 import LogOutIcon from '@/assets/Icons/LogOutIcon';
 import strings from '@/locales/strings.json';
@@ -49,7 +50,7 @@ const userNavigationMobile = (user: User) => [
   {
     name: strings.header.navOptions.viewProfile,
     href: `/users/${user.id}`,
-    icon: <EditIcon className='mr-3 h-4 w-4' />,
+    icon: <UserIcon className='mr-3 h-4 w-4' />,
   },
   {
     name: strings.header.navOptions.editProfile,

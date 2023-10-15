@@ -122,6 +122,7 @@ export default function Form() {
           onChange={handleChange}
           touched={touched.email}
           Icon={<EmailIcon className='h-5 w-5 text-gray-400' />}
+          autoComplete='off'
         />
         <Input
           type='password'
