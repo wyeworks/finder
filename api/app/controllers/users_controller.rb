@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user
+  before_action :validate_current_user, only: %i[show destroy careers subjects]
   before_action :handle_user_groups, only: :destroy
 
   def show
@@ -41,6 +42,16 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
+  end
+
+  def validate_current_user
+    return if current_user.id == @user.id
+
+    render json: {
+      errors: {
+        user: ['No estás autorizado para realizar esta acción']
+      }
+    }, status: :unauthorized
   end
 
   def handle_user_groups

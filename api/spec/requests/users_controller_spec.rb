@@ -29,6 +29,22 @@ RSpec.describe UsersController, type: :request do
         expect(DateTime.parse(json_response['birth_date'])).to eq(user.birth_date)
         expect(json_response['social_networks']).to eq(user.social_networks)
       end
+
+      context 'when trying to access another user data' do
+        let(:another_user) { create :user }
+        before do
+          get user_path(another_user), headers:
+        end
+
+        it 'returns http unauthorized' do
+          expect(response).to have_http_status(:unauthorized)
+        end
+
+        it 'returns a not authorized message' do
+          json_response = response.parsed_body
+          expect(json_response['errors']['user'][0]).to eq('No estás autorizado para realizar esta acción')
+        end
+      end
     end
 
     context 'when user is not authenticated' do
@@ -165,6 +181,22 @@ RSpec.describe UsersController, type: :request do
           expect(group.members.count).to eq(1)
         end
       end
+
+      context 'when trying to access another user data' do
+        let(:another_user) { create :user }
+        before do
+          get user_path(another_user), headers:
+        end
+
+        it 'returns http unauthorized' do
+          expect(response).to have_http_status(:unauthorized)
+        end
+
+        it 'returns a not authorized message' do
+          json_response = response.parsed_body
+          expect(json_response['errors']['user'][0]).to eq('No estás autorizado para realizar esta acción')
+        end
+      end
     end
 
     context 'when user is not authenticated' do
@@ -209,6 +241,22 @@ RSpec.describe UsersController, type: :request do
         expect(json_response[0]['years']).to be_a(Integer)
         expect(json_response[0]['credits']).to be_a(Integer)
       end
+
+      context 'when trying to access another user data' do
+        let(:another_user) { create :user }
+        before do
+          get user_path(another_user), headers:
+        end
+
+        it 'returns http unauthorized' do
+          expect(response).to have_http_status(:unauthorized)
+        end
+
+        it 'returns a not authorized message' do
+          json_response = response.parsed_body
+          expect(json_response['errors']['user'][0]).to eq('No estás autorizado para realizar esta acción')
+        end
+      end
     end
 
     context 'when user is not authenticated' do
@@ -242,6 +290,22 @@ RSpec.describe UsersController, type: :request do
         expect(json_response[0]['name']).to be_a(String)
         expect(json_response[0]['code']).to be_a(String)
         expect(json_response[0]['credits']).to be_a(Integer)
+      end
+
+      context 'when trying to access another user data' do
+        let(:another_user) { create :user }
+        before do
+          get user_path(another_user), headers:
+        end
+
+        it 'returns http unauthorized' do
+          expect(response).to have_http_status(:unauthorized)
+        end
+
+        it 'returns a not authorized message' do
+          json_response = response.parsed_body
+          expect(json_response['errors']['user'][0]).to eq('No estás autorizado para realizar esta acción')
+        end
       end
     end
 
