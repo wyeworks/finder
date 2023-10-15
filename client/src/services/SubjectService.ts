@@ -7,6 +7,8 @@ export class SubjectService {
     user: User,
     accessToken: string
   ): Promise<Subject[]> {
+    console.log({ u: user.id });
+
     const response = await ApiCommunicator.commonFetch({
       url:
         process.env.NEXT_PUBLIC_RAILS_API_URL +

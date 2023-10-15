@@ -23,7 +23,7 @@ type InputParams = {
   maxWidth?: boolean;
   classNameWrapper?: string;
   classNameInput?: string;
-  minNumber?: number;
+  minNumber?: string | number;
   max?: string | number;
   classNameLabel?: string;
   autoComplete?: string;
