@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user
-  before_action :validate_current_user, only: %i[show destroy careers subjects]
+  before_action :set_user, :validate_current_user
   before_action :handle_user_groups, only: :destroy
 
   def show

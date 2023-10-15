@@ -192,7 +192,7 @@ RSpec.describe 'Groups::Requests', type: :request do
       end
 
       context 'when request with the specified ID does not exist for the group' do
-        let(:non_existent_request_id) { Request.maximum(:id).to_i + 1 }
+        let(:non_existent_request_id) { -1 }
 
         before do
           patch "/groups/#{group.id}/requests/#{non_existent_request_id}", headers:
