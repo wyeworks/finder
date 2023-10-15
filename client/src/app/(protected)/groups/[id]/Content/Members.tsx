@@ -11,8 +11,10 @@ import OutIcon from '@/assets/Icons/OutIcon';
 import { usePathname } from 'next/navigation';
 import { Member } from '@/types/Member';
 import { GroupService } from '@/services/GroupService';
+import { useSession } from 'next-auth/react';
 
 export default function Members() {
+  const { data: session } = useSession();
   const pathname = usePathname();
   const groupId = pathname.split('/')[2];
   const [filterText, setFilterText] = useState('');
@@ -21,12 +23,16 @@ export default function Members() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const getMembers = await GroupService.getMembersGroup(groupId);
+        const getMembers = await GroupService.getGroupMembers(
+          groupId,
+          session?.user.accessToken!,
+          { asJSON: false }
+        );
         setMembers(getMembers);
       } catch (error) {}
     };
     fetchData();
-  }, [groupId]);
+  }, [groupId, session?.user.accessToken]);
 
   const handleFilterChange = (event: any) => {
     setFilterText(event.target.value);

@@ -59,7 +59,8 @@ export function ChangePasswordSection({ user }: { user: User }) {
 
     try {
       const response = await UserService.modifyPassword(
-        user,
+        user.id,
+        user.accessToken,
         currentPassword,
         newPassword
       );

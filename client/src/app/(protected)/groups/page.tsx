@@ -9,7 +9,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 export default async function Groups() {
   revalidatePath('/');
   const session = await getServerSession(authOptions);
-  const groups = await GroupService.getGroups();
+  const groups = await GroupService.getAll(session?.user.accessToken!);
   const subjects = await SubjectService.getAll(session?.user.accessToken!);
 
   return (

@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import { Subject } from '@/types/Subject';
 import { FiltersContent } from './FilterContent';

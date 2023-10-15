@@ -27,7 +27,7 @@ export function DeleteUserSection({ user }: { user: User }) {
     setOpen(false);
 
     try {
-      await UserService.deleteUser(user);
+      await UserService.deleteUser(user.id, user.accessToken);
 
       setIsAlertVisible(true);
       setAlertMessage('Perfil eliminado');

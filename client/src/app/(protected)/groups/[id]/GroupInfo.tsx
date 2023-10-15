@@ -9,6 +9,7 @@ import { User } from '@/types/User';
 import strings from '@/locales/strings.json';
 import { useEffect, useState } from 'react';
 import Alert from '@/components/common/Alert';
+import { useSession } from 'next-auth/react';
 
 type GroupInfoProps = {
   group: StudyGroup;
@@ -17,6 +18,7 @@ type GroupInfoProps = {
 };
 
 export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
+  const { data: session } = useSession();
   const { id, name, description, size, user_ids } = group;
   const [requestPending, setRequestPending] = useState<boolean>(false);
   const [finishedLoading, setFinishedLoading] = useState<boolean>(false);
@@ -25,17 +27,29 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
 
   const handleRequestGroup = async function () {
     if (id) {
-      await GroupService.clientSideSubmitRequest(id.toString());
+      await GroupService.submitRequest(
+        id.toString(),
+        session?.user.accessToken!,
+        {
+          handleNotOk: false,
+          asJSON: false,
+        }
+      );
       //beautify later
       let res = false;
       setFinishedLoading(false);
       if (user_ids && id) {
-        const response = await GroupService.clientSideGetRequestState(
+        const response = await GroupService.getRequestState(
           id.toString(),
-          user.id
+          user.id,
+          session?.user.accessToken!,
+          {
+            handleNotOk: false,
+            asJSON: false,
+          }
         );
         if (!response.ok) {
-          res = response.status === 404 ? false : true;
+          res = response.status !== 404;
         } else {
           const body = await response.json();
           res = body.status === 'pending';
@@ -61,12 +75,17 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
       let res = false;
       setFinishedLoading(false);
       if (user_ids && id) {
-        const response = await GroupService.clientSideGetRequestState(
+        const response = await GroupService.getRequestState(
           id.toString(),
-          user.id
+          user.id,
+          session?.user.accessToken!,
+          {
+            handleNotOk: false,
+            asJSON: false,
+          }
         );
         if (!response.ok) {
-          res = response.status === 404 ? false : true;
+          res = response.status !== 404;
         } else {
           const body = await response.json();
           res = body.status === 'pending';
@@ -76,7 +95,7 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
       setFinishedLoading(true);
     };
     isRequestPending();
-  }, [id, user.id, user_ids]);
+  }, [id, session?.user.accessToken, user.id, user_ids]);
 
   const buttonJoin = () => {
     return (
@@ -108,9 +127,9 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
       <div className='col-span-1'></div>
       <div className='text-center sm:col-span-3 sm:text-left '>
         <div className='flex'>
-          <div className='flex w-full items-center justify-center sm:justify-start md:w-[85%]'>
+          <div className='block w-full items-center justify-center sm:justify-start md:flex md:w-[85%]'>
             <h1 className='mb-3 text-4xl'>{name}</h1>
-            <span className='text-md mb-2 ml-2 rounded-full bg-primaryBlue px-2.5 py-0.5 font-medium text-white'>
+            <span className='mb-2 ml-2 rounded-full bg-primaryBlue px-2.5 py-0.5 text-xl font-medium text-white'>
               <strong>#{id}</strong>
             </span>
           </div>

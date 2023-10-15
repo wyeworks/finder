@@ -1,52 +1,58 @@
 import { User } from '@/types/User';
-import { User as NextAuthUser } from 'next-auth';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Career } from '@/types/Career';
 import { Logger } from '@/services/Logger';
 import { SocialNetworks } from '@/types/SocialNetworks';
 
 export class UserService {
-  public static async getUser(user: NextAuthUser): Promise<User> {
+  public static async getUser(id: string, accessToken: string): Promise<User> {
     let userInBD = await ApiCommunicator.commonFetch({
-      url: `${ApiCommunicator.api()}/users/${user.id}`,
+      url: `${ApiCommunicator.api()}/users/${id}`,
       method: 'GET',
-      mustBeAuthenticated: true,
-      accessToken: user.accessToken,
+      accessToken: accessToken,
     });
-    userInBD.accessToken = user.accessToken;
+    userInBD.accessToken = accessToken;
     Logger.debug('User in BD', userInBD);
     return userInBD as User;
   }
 
   public static async modifyPassword(
-    user: User,
+    id: string,
+    accessToken: string,
     currentPassword: string,
     newPassword: string
   ): Promise<Response> {
-    return await this.editUser(user, {
+    return await this.editUser(id, accessToken, {
       password: newPassword,
     });
   }
 
-  public static async deleteUser(user: User): Promise<void> {
+  public static async deleteUser(
+    id: string,
+    accessToken: string
+  ): Promise<void> {
     return await ApiCommunicator.commonFetch({
-      url: `${ApiCommunicator.api()}/users/${user.id}`,
+      url: `${ApiCommunicator.api()}/users/${id}`,
       method: 'DELETE',
       asJSON: false,
-      accessToken: user.accessToken,
+      accessToken: accessToken,
     });
   }
 
-  public static async getCareers(user: User): Promise<Career[]> {
+  public static async getCareers(
+    id: string,
+    accessToken: string
+  ): Promise<Career[]> {
     return (await ApiCommunicator.commonFetch({
-      url: `${ApiCommunicator.api()}/users/${user.id}/careers`,
-      accessToken: user.accessToken,
+      url: `${ApiCommunicator.api()}/users/${id}/careers`,
+      accessToken: accessToken,
       method: 'GET',
     })) as Career[];
   }
 
   public static async editUser(
-    user: User,
+    id: string,
+    accessToken: string,
     data:
       | {
           name: string;
@@ -68,7 +74,7 @@ export class UserService {
       url: `${ApiCommunicator.api()}/users/signup`,
       method: 'PATCH',
       data: dataToSend,
-      accessToken: user.accessToken,
+      accessToken: accessToken,
       asJSON: false,
       handleNotOk: false,
     });

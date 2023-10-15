@@ -1,3 +1,5 @@
+'use client';
+
 import EllipsisVerticalIcon from '@/assets/Icons/EllipsisVerticalIcon';
 import Image from 'next/image';
 import defaultUser from '@/assets/images/default_user.png';
@@ -6,9 +8,10 @@ import { Member } from '@/types/Member';
 import Button from '@/components/common/Button';
 import UserPlusIcon from '@/assets/Icons/UserPlusIcon';
 import TrashIcon from '@/assets/Icons/TrashIcon';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Logger } from '@/services/Logger';
 import { BackendError } from '@/types/BackendError';
+import { GroupService } from '@/services/GroupService';
+import { useSession } from 'next-auth/react';
 
 type MemberCardProp = {
   member: Member;
@@ -39,16 +42,25 @@ export default function MemberCard({
     id = '',
   } = member;
 
+  const { data: session } = useSession();
+
   async function handleJoin(status: 'accepted' | 'rejected') {
     let reason = '';
     if (status === 'rejected') reason = 'admin rejected user';
     try {
-      const response = await ApiCommunicator.clientSideHandleRequestGroup({
-        groupId: group_id,
-        requestId: id,
-        status: status,
-        reason: reason,
-      });
+      const response = await GroupService.handleRequestGroup(
+        {
+          groupId: group_id,
+          requestId: id,
+          status: status,
+          reason: reason,
+        },
+        session?.user.accessToken!,
+        {
+          handleNotOk: false,
+          asJSON: false,
+        }
+      );
       if (!response.ok) {
         const error = (await response.json()) as BackendError;
         if (onError) onError(error.errors.group ?? ['Error inesperado']);
@@ -97,16 +109,18 @@ export default function MemberCard({
           <Button
             text='Aceptar'
             type='button'
-            Icon={<UserPlusIcon className='mr-1 h-5 w-5' />}
+            Icon={
+              <UserPlusIcon className='mr-2 h-5 w-5 shrink-0 text-green-600' />
+            }
             classNameWrapper='h-4'
-            className='h-8 items-center !bg-[#BCEDFF] !font-light !text-black hover:!bg-blue-300 sm:m-3'
+            className='h-8 items-center border-[1.5px]  border-green-600 !bg-transparent !font-medium !text-green-600 hover:!bg-gray-200 sm:m-3'
             onClick={() => handleJoin('accepted')}
           />
           <Button
             text='Rechazar'
             type='button'
-            Icon={<TrashIcon className='h-6 w-6' />}
-            className=' h-8 items-center !bg-gray-300 !font-light !text-black hover:!bg-gray-400 sm:m-3'
+            Icon={<TrashIcon className='mr-1 h-5 w-5 shrink-0 text-red-600' />}
+            className=' h-8 items-center border-[1.5px]  border-red-600 !bg-transparent !font-medium !text-red-600 hover:!bg-gray-200 sm:m-3'
             onClick={() => handleJoin('rejected')}
           />
         </div>

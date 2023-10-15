@@ -1,18 +1,21 @@
 import FormPersonalInfo from './FormPersonalInfo';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { SubjectService } from '@/services/SubjectService';
 import { ChangePasswordSection } from '@/app/(protected)/users/me/ChangePasswordSection';
 import { DeleteUserSection } from '@/app/(protected)/users/me/DeleteUserSection';
 import { UserService } from '@/services/UserService';
+import { CareerService } from '@/services/CareerService';
 
 export default async function ConfigProfile() {
   const session = await getServerSession(authOptions);
-  const user = await UserService.getUser(session!.user);
+  const user = await UserService.getUser(
+    session!.user.id!,
+    session!.user.accessToken!
+  );
   const subjects = await SubjectService.getAll(session!.user.accessToken!);
-  const careers = await ApiCommunicator.getCareers();
-  const careersByUser = await UserService.getCareers(user);
+  const careers = await CareerService.getCareers(session!.user.accessToken!);
+  const careersByUser = await UserService.getCareers(user.id, user.accessToken);
   const subjectsByUser = await SubjectService.getByUser(
     user,
     session!.user.accessToken!

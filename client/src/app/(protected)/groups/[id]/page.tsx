@@ -17,13 +17,19 @@ type Props = {
 
 export default async function Group({ params }: Props) {
   try {
-    const group = await GroupService.getGroup(params.id);
     const session = await getServerSession(authOptions);
+    const group = await GroupService.getById(
+      params.id,
+      session!.user.accessToken!
+    );
     const subject = await SubjectService.getById(
       group.subject_id,
       session?.user.accessToken!
     );
-    const user = await UserService.getUser(session!.user);
+    const user = await UserService.getUser(
+      session!.user.id!,
+      session!.user.accessToken!
+    );
 
     return (
       <div className='flex h-full w-full flex-col'>
