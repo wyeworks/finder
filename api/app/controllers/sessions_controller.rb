@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :set_session
+  before_action :set_session, only: %i[show update destroy]
   before_action :authenticate_user!
 
   def show
@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
   def create
     @session = Session.new(session_params)
 
-    if @session.save
+    if @session.save!
       Rails.logger.info "Session was successfully created with params: '#{session_params}'"
       render json: SessionSerializer.new(@session).serializable_hash[:data][:attributes], status: :created
     else
@@ -58,6 +58,10 @@ class SessionsController < ApplicationController
 
   def set_session
     @session = Session.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    Rails.logger.error "Session with id '#{params[:id]}' not found"
+    render json: { message: "No se pudo encontrar la sesion con el ID ##{params[:id]}" }, status: :not_found
+
   end
 
   def session_params
