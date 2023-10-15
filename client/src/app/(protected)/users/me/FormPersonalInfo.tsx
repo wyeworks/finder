@@ -185,12 +185,7 @@ export default function FormPersonalInfo({
         career_ids: formData.career_ids,
         subject_ids: formData.subject_ids,
       };
-      const response = await UserService.editUser(
-        user.id,
-        user.accessToken,
-        updatedProps
-      );
-      if (!response.ok) throw new Error('Error al actualizar el perfil');
+      await UserService.editUser(user.id, user.accessToken, updatedProps);
       setAlertVisible(true);
       setAlertMessage(strings.common.success.changeSuccess);
       setAlertType('success');

@@ -9,13 +9,13 @@ import FormStep4 from './Forms/FormStep4';
 import Step5 from './Step5';
 import { Logger } from '@/services/Logger';
 import ErrorCreateGroup from './ErrorCreateGroup';
-import { BackendError } from '@/types/BackendError';
 import strings from '@/locales/strings.json';
 import { TimeOfDay, TimePreference } from '@/types/StudyGroup';
 import CrossIcon from '@/assets/Icons/CrossIcon';
 import FinderLogoIcon from '@/assets/Icons/FinderLogoIcon';
 import { useSession } from 'next-auth/react';
 import { GroupService } from '@/services/GroupService';
+import { NotOkError } from '@/types/NotOkError';
 
 export type CreateGroupData = {
   name: string;
@@ -62,24 +62,24 @@ export default function CreateGroup() {
 
   async function handleSubmit() {
     try {
-      const response = await GroupService.createGroup(
+      const createdGroupId = await GroupService.createGroup(
         {
           name: createGroupData.name,
           description: createGroupData.description,
-          size: createGroupData.size,
           subject_id: createGroupData.subjectId,
+          size: createGroupData.size,
           time_preferences: createGroupData.timePreference,
         },
-        session?.user.accessToken!,
-        {
-          handleNotOk: false,
-          asJSON: false,
-        }
+        session?.user.accessToken!
       );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        const parsedError = errorData as BackendError;
+      setCreateGroupData((prevState) => {
+        return { ...prevState, groupId: createdGroupId };
+      });
+      nextPage();
+    } catch (error) {
+      if (error instanceof NotOkError) {
+        const parsedError = error.backendError;
         const errorMessages = [];
 
         if (parsedError.errors.name) {
@@ -103,12 +103,7 @@ export default function CreateGroup() {
         nextPage();
         return;
       }
-      const responseBody = await response.json();
-      setCreateGroupData((prevState) => {
-        return { ...prevState, groupId: responseBody.id };
-      });
-      nextPage();
-    } catch (error) {
+
       Logger.debug('Error trying to create groups' + { error });
       setError(true);
       nextPage();

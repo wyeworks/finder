@@ -22,14 +22,11 @@ export default function Members() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const getMembers = await GroupService.getGroupMembers(
-          groupId,
-          session?.user.accessToken!,
-          { asJSON: false }
-        );
-        setMembers(getMembers);
-      } catch (error) {}
+      const getMembers = await GroupService.getGroupMembers(
+        groupId,
+        session?.user.accessToken!
+      );
+      setMembers(getMembers);
     };
     fetchData();
   }, [groupId, session?.user.accessToken]);

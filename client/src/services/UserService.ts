@@ -3,17 +3,20 @@ import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Career } from '@/types/Career';
 import { Logger } from '@/services/Logger';
 import { SocialNetworks } from '@/types/SocialNetworks';
+import { Subject } from '@/types/Subject';
 
 export class UserService {
   public static async getUser(id: string, accessToken: string): Promise<User> {
-    let userInBD = await ApiCommunicator.commonFetch({
-      url: `${ApiCommunicator.api()}/users/${id}`,
-      method: 'GET',
-      accessToken: accessToken,
-    });
+    let userInBD = (await (
+      await ApiCommunicator.commonFetch({
+        url: `/users/${id}`,
+        method: 'GET',
+        accessToken: accessToken,
+      })
+    ).json()) as User;
     userInBD.accessToken = accessToken;
     Logger.debug('User in BD', userInBD);
-    return userInBD as User;
+    return userInBD;
   }
 
   public static async modifyPassword(
@@ -21,33 +24,50 @@ export class UserService {
     accessToken: string,
     currentPassword: string,
     newPassword: string
-  ): Promise<Response> {
-    return await this.editUser(id, accessToken, {
+  ): Promise<string> {
+    const response = await this.editUser(id, accessToken, {
       password: newPassword,
     });
+    const body = await response.json();
+    return body.message;
   }
 
   public static async deleteUser(
     id: string,
     accessToken: string
   ): Promise<void> {
-    return await ApiCommunicator.commonFetch({
-      url: `${ApiCommunicator.api()}/users/${id}`,
+    await ApiCommunicator.commonFetch({
+      url: `/users/${id}`,
       method: 'DELETE',
-      asJSON: false,
       accessToken: accessToken,
     });
+    return;
   }
 
   public static async getCareers(
     id: string,
     accessToken: string
   ): Promise<Career[]> {
-    return (await ApiCommunicator.commonFetch({
-      url: `${ApiCommunicator.api()}/users/${id}/careers`,
+    const response = await ApiCommunicator.commonFetch({
+      url: `/users/${id}/careers`,
       accessToken: accessToken,
       method: 'GET',
-    })) as Career[];
+    });
+    const body = await response.json();
+    return body as Career[];
+  }
+
+  public static async getSubjects(
+    id: string,
+    accessToken: string
+  ): Promise<Subject[]> {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/users/' + id + '/subjects',
+      method: 'GET',
+      accessToken,
+    });
+
+    return await response.json();
   }
 
   public static async editUser(
@@ -71,12 +91,10 @@ export class UserService {
     };
 
     return await ApiCommunicator.commonFetch({
-      url: `${ApiCommunicator.api()}/users/signup`,
+      url: `/users/signup`,
       method: 'PATCH',
       data: dataToSend,
       accessToken: accessToken,
-      asJSON: false,
-      handleNotOk: false,
     });
   }
 }

@@ -9,9 +9,9 @@ import Button from '@/components/common/Button';
 import UserPlusIcon from '@/assets/Icons/UserPlusIcon';
 import TrashIcon from '@/assets/Icons/TrashIcon';
 import { Logger } from '@/services/Logger';
-import { BackendError } from '@/types/BackendError';
 import { GroupService } from '@/services/GroupService';
 import { useSession } from 'next-auth/react';
+import { NotOkError } from '@/types/NotOkError';
 
 type MemberCardProp = {
   member: Member;
@@ -48,26 +48,23 @@ export default function MemberCard({
     let reason = '';
     if (status === 'rejected') reason = 'admin rejected user';
     try {
-      const response = await GroupService.handleRequestGroup(
+      await GroupService.handleRequestGroup(
         {
           groupId: group_id,
           requestId: id,
           status: status,
           reason: reason,
         },
-        session?.user.accessToken!,
-        {
-          handleNotOk: false,
-          asJSON: false,
-        }
+        session?.user.accessToken!
       );
-      if (!response.ok) {
-        const error = (await response.json()) as BackendError;
-        if (onError) onError(error.errors.group ?? ['Error inesperado']);
-        return;
-      }
       if (fetchData) fetchData();
     } catch (error) {
+      if (error instanceof NotOkError) {
+        if (onError)
+          onError(error.backendError.errors.group ?? ['Error inesperado']);
+        return;
+      }
+
       Logger.debug('Error trying accepted or rejected user' + { error });
     }
   }
