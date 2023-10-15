@@ -5,7 +5,7 @@ class Session < ApplicationRecord
   belongs_to :group
 
   # Validations
-  validates :name, :description, :location, :start_time, :end_time, presence: true
+  validates :name, :start_time, :end_time, presence: true
   validate :end_time_after_start_time
 
   # After
@@ -23,7 +23,7 @@ class Session < ApplicationRecord
 
   def create_attendances_for_group_members
     group.users.each do |user|
-      Attendance.create!(user:, session: self, status: :pending)
+      Attendance.create!(user:, session: self)
     end
   end
 end
