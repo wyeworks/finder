@@ -49,7 +49,7 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
           }
         );
         if (!response.ok) {
-          res = response.status === 404 ? false : true;
+          res = response.status !== 404;
         } else {
           const body = await response.json();
           res = body.status === 'pending';
@@ -85,7 +85,7 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
           }
         );
         if (!response.ok) {
-          res = response.status === 404 ? false : true;
+          res = response.status !== 404;
         } else {
           const body = await response.json();
           res = body.status === 'pending';
@@ -95,7 +95,7 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
       setFinishedLoading(true);
     };
     isRequestPending();
-  }, [id, user.id, user_ids]);
+  }, [id, session?.user.accessToken, user.id, user_ids]);
 
   const buttonJoin = () => {
     return (

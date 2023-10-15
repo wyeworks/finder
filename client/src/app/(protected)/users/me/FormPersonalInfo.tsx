@@ -12,7 +12,6 @@ import {
   returnSocialNetworkIcon,
 } from '@/utils/Formatter';
 import { useEffect, useState } from 'react';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
 import DynamicAutoCompletes from '@/components/common/DynamicAutoCompletes';
 import { Subject } from '@/types/Subject';
 import { Career } from '@/types/Career';
@@ -20,6 +19,7 @@ import { SocialNetworks } from '@/types/SocialNetworks';
 import { useSession } from 'next-auth/react';
 import { ConfigProfileSection } from '@/app/(protected)/users/me/ConfigProfileSection';
 import { mustBePhoneNumer, mustBeURLWithUsername } from '@/utils/Pattern';
+import { UserService } from '@/services/UserService';
 
 type PersonalInfoFormData = {
   name: string;
@@ -177,7 +177,20 @@ export default function FormPersonalInfo({
     }
 
     try {
-      await ApiCommunicator.clientSideEditUser(formData);
+      const updatedProps = {
+        name: formData.name,
+        bio: formData.biography,
+        birth_date: formData.birthdate,
+        social_networks: formData.social_networks,
+        career_ids: formData.career_ids,
+        subject_ids: formData.subject_ids,
+      };
+      const response = await UserService.editUser(
+        user.id,
+        user.accessToken,
+        updatedProps
+      );
+      if (!response.ok) throw new Error('Error al actualizar el perfil');
       setAlertVisible(true);
       setAlertMessage(strings.common.success.changeSuccess);
       setAlertType('success');
@@ -186,12 +199,7 @@ export default function FormPersonalInfo({
       await onSessionUpdate({
         info: {
           ...session!.user,
-          name: formData.name,
-          bio: formData.biography,
-          birth_date: formData.birthdate,
-          social_networks: formData.social_networks,
-          career_ids: formData.career_ids,
-          subject_ids: formData.subject_ids,
+          ...updatedProps,
         },
       });
 

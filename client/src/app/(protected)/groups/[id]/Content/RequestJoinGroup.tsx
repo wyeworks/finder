@@ -56,7 +56,7 @@ export default function RequestJoinGroup() {
     } catch (error) {
       Logger.error('Error trying to get request to join group: ' + { error });
     }
-  }, [groupId]);
+  }, [groupId, session?.user.accessToken]);
 
   useEffect(() => {
     fetchData();

@@ -4,14 +4,8 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { Logger } from '@/services/Logger';
 
 export class ApiCommunicator {
-  static apiUrl() {
-    const RAILS_API_URL = process.env.RAILS_API_URL;
-
-    if (!RAILS_API_URL) {
-      throw new Error('RAILS_API_URL is not defined');
-    }
-
-    return RAILS_API_URL;
+  static api() {
+    return process.env.NEXT_PUBLIC_RAILS_API_URL;
   }
 
   // eslint-disable-next-line complexity
@@ -104,98 +98,5 @@ export class ApiCommunicator {
 
     Logger.debug('END: Returning response for common fetch');
     return asJSON && handleNotOk ? await response.json() : response;
-  }
-
-  static async clientSideEditUser(data: any): Promise<any> {
-    return await this.commonFetch({
-      url: '/api/signup',
-      method: 'PATCH',
-      data,
-      handleNotOk: false,
-      asJSON: false,
-    });
-  }
-
-  static async clientSideDeleteUser(id: string): Promise<any> {
-    return await this.commonFetch({
-      url: '/api/users/' + id,
-      method: 'DELETE',
-      asJSON: false,
-    });
-  }
-
-  static async clientSideSignUp(data: any): Promise<any> {
-    return await this.commonFetch({
-      url: '/api/signup',
-      method: 'POST',
-      data,
-      handleNotOk: false,
-      asJSON: false,
-    });
-  }
-
-  static async getCareers(): Promise<any> {
-    return await this.commonFetch({
-      url: this.apiUrl() + '/careers',
-      mustBeAuthenticated: true,
-      method: 'GET',
-    });
-  }
-
-  static async signUp(data: any): Promise<any> {
-    return await this.commonFetch({
-      url: this.apiUrl() + '/users/signup',
-      method: 'POST',
-      data,
-      asJSON: false,
-      handleNotOk: false,
-    });
-  }
-
-  static async editUser(data: any): Promise<any> {
-    return await this.commonFetch({
-      url: this.apiUrl() + '/users/signup',
-      method: 'PATCH',
-      data,
-      mustBeAuthenticated: true,
-      asJSON: false,
-      handleNotOk: false,
-    });
-  }
-
-  static async login(data: any): Promise<any> {
-    Logger.debug('Logging in');
-    return await this.commonFetch({
-      url: this.apiUrl() + '/users/login',
-      method: 'POST',
-      data,
-      withCredentials: true,
-      asJSON: false,
-      handleNotOk: false,
-    });
-  }
-
-  static async getUser(id: string): Promise<any> {
-    return await this.commonFetch({
-      url: this.apiUrl() + `/users/${id}`,
-      method: 'GET',
-      mustBeAuthenticated: true,
-    });
-  }
-
-  static async getCareersByUser(id: string): Promise<any> {
-    return await this.commonFetch({
-      url: this.apiUrl() + `/users/${id}/careers`,
-      method: 'GET',
-    });
-  }
-
-  static async deleteUser(id: string): Promise<any> {
-    return await this.commonFetch({
-      url: this.apiUrl() + '/users/' + id,
-      method: 'DELETE',
-      mustBeAuthenticated: true,
-      asJSON: false,
-    });
   }
 }

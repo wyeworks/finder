@@ -4,7 +4,7 @@ import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { CreateGroupData } from '../page';
-import LayoutForms from './layout';
+import LayoutForms from './LayoutForms';
 
 type FormStep3Props = {
   nextPage: () => void;
@@ -55,7 +55,7 @@ export default function FormStep3({
       backPage={back}
     >
       <div className='flex flex-col gap-2 pb-2'>
-        <span className='text-primaryBlue pt-4 text-2xl font-bold'>
+        <span className='pt-4 text-2xl font-bold text-primaryBlue'>
           {strings.createGroup.step3.description1}
         </span>
         <span className='max-w-[30rem] text-sm text-grayText '>

@@ -32,7 +32,7 @@ export default function Members() {
       } catch (error) {}
     };
     fetchData();
-  }, [groupId]);
+  }, [groupId, session?.user.accessToken]);
 
   const handleFilterChange = (event: any) => {
     setFilterText(event.target.value);

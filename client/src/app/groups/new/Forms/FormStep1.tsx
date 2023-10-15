@@ -23,16 +23,16 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
   });
   const { data: session } = useSession();
 
-  const getSubjects = async () => {
-    try {
-      return await SubjectService.getAll(session?.user.accessToken!);
-    } catch (error) {
-      Logger.error('Error trying to get subjects:', error);
-      return null;
-    }
-  };
-
   useEffect(() => {
+    const getSubjects = async () => {
+      try {
+        return await SubjectService.getAll(session?.user.accessToken!);
+      } catch (error) {
+        Logger.error('Error trying to get subjects:', error);
+        return null;
+      }
+    };
+
     const fetchData = async () => {
       const subjects = await getSubjects();
       if (subjects) {
@@ -40,7 +40,7 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
       }
     };
     fetchData();
-  }, []);
+  }, [session?.user.accessToken]);
 
   function handleButton() {
     setValue((prevState: any) => {

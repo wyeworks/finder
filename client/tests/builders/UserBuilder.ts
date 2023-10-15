@@ -8,11 +8,13 @@ export class UserBuilder {
   private readonly profileImage?: string;
   private readonly bio?: string;
   private readonly socialNetworks?: SocialNetworksBuilder;
+  private readonly accessToken: string;
 
   constructor(
     id: string,
     name: string,
     email: string,
+    accessToken: string,
     profileImage?: string,
     bio?: string,
     socialNetworks?: SocialNetworksBuilder
@@ -23,6 +25,7 @@ export class UserBuilder {
     this.profileImage = profileImage;
     this.bio = bio;
     this.socialNetworks = socialNetworks;
+    this.accessToken = accessToken;
   }
 
   static aUser() {
@@ -30,6 +33,7 @@ export class UserBuilder {
       '1',
       'Juan Perez',
       'juan.peres@fing.com.uy',
+      '123456789',
       'https://www.gravatar.com/av',
       undefined,
       undefined
@@ -41,6 +45,7 @@ export class UserBuilder {
       id,
       this.name,
       this.email,
+      this.accessToken,
       this.profileImage,
       this.bio,
       this.socialNetworks
@@ -52,6 +57,7 @@ export class UserBuilder {
       this.id,
       name,
       this.email,
+      this.accessToken,
       this.profileImage,
       this.bio,
       this.socialNetworks
@@ -63,6 +69,7 @@ export class UserBuilder {
       this.id,
       this.name,
       email,
+      this.accessToken,
       this.profileImage,
       this.bio,
       this.socialNetworks
@@ -74,6 +81,7 @@ export class UserBuilder {
       this.id,
       this.name,
       this.email,
+      this.accessToken,
       profileImage,
       this.bio,
       this.socialNetworks
@@ -85,6 +93,7 @@ export class UserBuilder {
       this.id,
       this.name,
       this.email,
+      this.accessToken,
       this.profileImage,
       bio,
       this.socialNetworks
@@ -96,9 +105,22 @@ export class UserBuilder {
       this.id,
       this.name,
       this.email,
+      this.accessToken,
       this.profileImage,
       this.bio,
       socialNetworks
+    );
+  }
+
+  withAccessToken(accessToken: string): UserBuilder {
+    return new UserBuilder(
+      this.id,
+      this.name,
+      this.email,
+      accessToken,
+      this.profileImage,
+      this.bio,
+      this.socialNetworks
     );
   }
 
@@ -110,6 +132,7 @@ export class UserBuilder {
       profileImage: this.profileImage,
       bio: this.bio,
       social_networks: this.socialNetworks?.build(),
+      accessToken: this.accessToken,
     };
   }
 }

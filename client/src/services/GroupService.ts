@@ -81,14 +81,12 @@ export class GroupService {
     accessToken: string,
     options?: ApiOptions
   ): Promise<any> {
-    const response = await ApiCommunicator.commonFetch({
+    return await ApiCommunicator.commonFetch({
       url: process.env.NEXT_PUBLIC_RAILS_API_URL + `/groups/${id}/requests`,
       method: 'POST',
       accessToken,
       ...options,
     });
-
-    return response;
   }
 
   public static async getRequestState(
@@ -97,7 +95,7 @@ export class GroupService {
     accessToken: string,
     options?: ApiOptions
   ): Promise<any> {
-    const response = await ApiCommunicator.commonFetch({
+    return await ApiCommunicator.commonFetch({
       url:
         process.env.NEXT_PUBLIC_RAILS_API_URL +
         `/groups/${groupId}/requests/users/${userId}`,
@@ -105,8 +103,6 @@ export class GroupService {
       accessToken,
       ...options,
     });
-
-    return response;
   }
 
   public static async getGroupMembers(
@@ -126,8 +122,7 @@ export class GroupService {
         ...options,
       });
 
-      const data = await response.json();
-      return data;
+      return await response.json();
     } catch (error) {
       Logger.error('Error trying to get members: ' + error);
       return [];
