@@ -190,6 +190,18 @@ RSpec.describe 'Groups::Requests', type: :request do
           expect(request.reason).to eq('Not a fit for the group')
         end
       end
+
+      context 'when request with the specified ID does not exist for the group' do
+        let(:non_existent_request_id) { -1 }
+
+        before do
+          patch "/groups/#{group.id}/requests/#{non_existent_request_id}", headers:
+        end
+
+        it 'returns a not found status' do
+          expect(response).to have_http_status(:not_found)
+        end
+      end
     end
 
     context 'when user is not authenticated' do
@@ -208,6 +220,7 @@ RSpec.describe 'Groups::Requests', type: :request do
     end
   end
 
+  # Show group request
   describe 'GET /groups/:group_id/requests' do
     let(:user) { create(:user) }
     let(:group) { create(:group) }
@@ -273,8 +286,21 @@ RSpec.describe 'Groups::Requests', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
     end
+
+    context 'when group with the specified ID does not exist' do
+      let(:non_existent_group_id) { Group.maximum(:id).to_i + 1 }
+
+      before do
+        get "/groups/#{non_existent_group_id}/requests", headers:
+      end
+
+      it 'returns a not found status' do
+        expect(response).to have_http_status(:not_found)
+      end
+    end
   end
 
+  # Show user request for group
   describe 'GET /groups/:group_id/requests/users/:user_id' do
     let(:user) { create(:user) }
     let(:group) { create(:group) }
@@ -322,6 +348,18 @@ RSpec.describe 'Groups::Requests', type: :request do
 
       it 'returns http unauthorized' do
         expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when user with the specified ID does not exist' do
+      let(:non_existent_user_id) { User.maximum(:id).to_i + 1 }
+
+      before do
+        get "/groups/#{group.id}/requests/users/#{non_existent_user_id}", headers:
+      end
+
+      it 'returns a not found status' do
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

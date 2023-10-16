@@ -1,5 +1,7 @@
 module Users
   class ConfirmationsController < Devise::ConfirmationsController
+    skip_before_action :authenticate_user!
+
     # GET /users/confirmation?confirmation_token=
     def show
       resource = resource_class.confirm_by_token(params[:confirmation_token])
