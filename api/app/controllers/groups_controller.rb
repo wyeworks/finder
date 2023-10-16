@@ -15,7 +15,8 @@ class GroupsController < ApplicationController
   end
 
   def show
-    render json: GroupSerializer.new(@group).serializable_hash[:data][:attributes]
+    render json: GroupSerializer.new(@group,
+                                     { params: { current_user: } }).serializable_hash[:data][:attributes]
   end
 
   def create
