@@ -30,8 +30,8 @@ RSpec.describe SessionsController, type: :request do
           expect(json_response['description']).to eq(session.description)
           expect(json_response['location']).to eq(session.location)
           expect(json_response['meeting_link']).to eq(session.meeting_link)
-          expect(DateTime.parse(json_response['start_time'])).to eq(session.start_time)
-          expect(DateTime.parse(json_response['end_time'])).to eq(session.end_time)
+          expect(DateTime.parse(json_response['start_time']).utc.to_s).to eq(session.start_time.utc.to_s)
+          expect(DateTime.parse(json_response['end_time']).utc.to_s).to eq(session.end_time.utc.to_s)
           expect(json_response['group_id']).to eq(session.group.id)
           expect(json_response['attendances']).to eq(session.attendances)
         end
