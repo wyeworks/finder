@@ -1,7 +1,6 @@
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 
 export class AuthService {
-  ////////////// AUTHENTICATION ////////////////////////
   public static async signUp(data: {
     name: string;
     email: string;
@@ -15,11 +14,9 @@ export class AuthService {
       },
     };
     return await ApiCommunicator.commonFetch({
-      url: `${ApiCommunicator.api()}/users/signup`,
+      url: '/users/signup',
       method: 'POST',
       data: dataToSend,
-      asJSON: false,
-      handleNotOk: false,
     });
   }
 
@@ -35,14 +32,10 @@ export class AuthService {
     };
 
     return await ApiCommunicator.commonFetch({
-      url: `${ApiCommunicator.api()}/users/login`,
+      url: '/users/login',
       method: 'POST',
       data: dataToSend,
       withCredentials: true,
-      asJSON: false,
-      handleNotOk: false,
     });
   }
-
-  ////////////////////////////////////////////////////////
 }

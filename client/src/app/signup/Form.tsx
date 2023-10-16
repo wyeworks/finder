@@ -6,12 +6,12 @@ import Alert from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import strings from '@/locales/strings.json';
-import { BackendError } from '@/types/BackendError';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Logger } from '@/services/Logger';
 import { mustHaveUpperCaseLowerCaseAndEightCharacters } from '@/utils/Pattern';
 import { AuthService } from '@/services/AuthService';
+import { NotOkError } from '@/types/NotOkError';
 
 type SignUpFormData = {
   name: string;
@@ -62,10 +62,11 @@ export default function Form() {
 
     try {
       Logger.debug('Sending signup request with data:', formData);
-      const response = await AuthService.signUp(formData);
-      if (!response.ok) {
-        const errorData = await response.json();
-        const parsedError = errorData as BackendError;
+      await AuthService.signUp(formData);
+      router.push('/confirmation');
+    } catch (error) {
+      if (error instanceof NotOkError) {
+        const parsedError = error.backendError;
         const errorMessages = [];
 
         if (parsedError.errors.email) {
@@ -80,8 +81,6 @@ export default function Form() {
         return;
       }
 
-      router.push('/confirmation');
-    } catch (error) {
       setAlertMessage(strings.common.error.unexpectedError);
       setIsVisible(true);
     }

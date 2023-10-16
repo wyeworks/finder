@@ -3,10 +3,11 @@ import { Career } from '@/types/Career';
 
 export class CareerService {
   static async getCareers(accessToken: string): Promise<Career[]> {
-    return await ApiCommunicator.commonFetch({
-      url: ApiCommunicator.api() + '/careers',
+    const response = await ApiCommunicator.commonFetch({
+      url: '/careers',
       accessToken,
       method: 'GET',
     });
+    return await response.json();
   }
 }

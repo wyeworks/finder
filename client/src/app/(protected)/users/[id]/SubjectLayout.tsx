@@ -1,10 +1,8 @@
 import { Subject } from '@/types/Subject';
 import React, { Suspense } from 'react';
-import { SubjectService } from '@/services/SubjectService';
 import { User } from '@/types/User';
 import Loading from '@/components/common/Loading';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
+import { UserService } from '@/services/UserService';
 
 type SubjectsLayoutProps = {
   user: User;
@@ -21,11 +19,7 @@ function SubjectItem({ subject }: { subject: Subject }) {
 }
 
 async function SubjectList({ user }: { user: User }) {
-  const session = await getServerSession(authOptions);
-  const subjects = await SubjectService.getByUser(
-    user,
-    session?.user.accessToken!
-  );
+  const subjects = await UserService.getSubjects(user.id, user.accessToken);
 
   return (
     <div className='h-min'>

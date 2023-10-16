@@ -23,24 +23,20 @@ export default function Members() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const getMembers = await GroupService.getGroupMembers(
-          groupId,
-          session?.user.accessToken!,
-          { asJSON: false }
-        );
-        // look if i am an admin
-        setIsAdmin(
-          getMembers.findIndex(
-            (member) =>
-              member.role === 'admin' && member.id === session?.user.id
-          ) !== -1
-        );
-        setMembers(getMembers);
-      } catch (error) {}
+      const getMembers = await GroupService.getGroupMembers(
+        groupId,
+        session?.user.accessToken!
+      );
+      // look if I am an admin
+      setIsAdmin(
+        getMembers.findIndex(
+          (member) => member.role === 'admin' && member.id === session?.user.id
+        ) !== -1
+      );
+      setMembers(getMembers);
     };
     fetchData();
-  }, [groupId, session?.user.accessToken]);
+  }, [groupId, session?.user.accessToken, session?.user.id]);
 
   const handleFilterChange = (event: any) => {
     setFilterText(event.target.value);

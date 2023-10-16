@@ -10,6 +10,7 @@ import strings from '@/locales/strings.json';
 import { useEffect, useState } from 'react';
 import Alert from '@/components/common/Alert';
 import { useSession } from 'next-auth/react';
+import { NotOkError } from '@/types/NotOkError';
 
 type GroupInfoProps = {
   group: StudyGroup;
@@ -27,36 +28,33 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
 
   const handleRequestGroup = async function () {
     if (id) {
-      await GroupService.submitRequest(
-        id.toString(),
-        session?.user.accessToken!,
-        {
-          handleNotOk: false,
-          asJSON: false,
-        }
-      );
-      //beautify later
-      let res = false;
-      setFinishedLoading(false);
-      if (user_ids && id) {
-        const response = await GroupService.getRequestState(
+      try {
+        await GroupService.submitRequest(
           id.toString(),
-          user.id,
-          session?.user.accessToken!,
-          {
-            handleNotOk: false,
-            asJSON: false,
-          }
+          session?.user.accessToken!
         );
-        if (!response.ok) {
-          res = response.status !== 404;
-        } else {
+        //beautify later
+        let res = false;
+        setFinishedLoading(false);
+        if (user_ids && id) {
+          const response = await GroupService.getRequestState(
+            id.toString(),
+            user.id,
+            session?.user.accessToken!
+          );
+
           const body = await response.json();
           res = body.status === 'pending';
         }
+        setRequestPending(res);
+        setFinishedLoading(true);
+      } catch (error) {
+        if (error instanceof NotOkError) {
+          setRequestPending(error.status !== 404);
+        }
+      } finally {
+        setFinishedLoading(true);
       }
-      setRequestPending(res);
-      setFinishedLoading(true);
     }
   };
 
@@ -75,20 +73,19 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
       let res = false;
       setFinishedLoading(false);
       if (user_ids && id) {
-        const response = await GroupService.getRequestState(
-          id.toString(),
-          user.id,
-          session?.user.accessToken!,
-          {
-            handleNotOk: false,
-            asJSON: false,
-          }
-        );
-        if (!response.ok) {
-          res = response.status !== 404;
-        } else {
+        try {
+          const response = await GroupService.getRequestState(
+            id.toString(),
+            user.id,
+            session?.user.accessToken!
+          );
+
           const body = await response.json();
           res = body.status === 'pending';
+        } catch (error) {
+          if (error instanceof NotOkError) {
+            res = error.status !== 404;
+          }
         }
       }
       setRequestPending(res);

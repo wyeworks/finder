@@ -7,8 +7,8 @@ import { alertTypes } from '@/components/common/Alert';
 import { UserService } from '@/services/UserService';
 import { User } from '@/types/User';
 import strings from '@/locales/strings.json';
-import { BackendError } from '@/types/BackendError';
 import { mustHaveUpperCaseLowerCaseAndEightCharacters } from '@/utils/Pattern';
+import { NotOkError } from '@/types/NotOkError';
 
 export function ChangePasswordSection({ user }: { user: User }) {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -58,15 +58,23 @@ export function ChangePasswordSection({ user }: { user: User }) {
     }
 
     try {
-      const response = await UserService.modifyPassword(
+      const successMessage = await UserService.modifyPassword(
         user.id,
         user.accessToken,
         currentPassword,
         newPassword
       );
-      if (!response.ok) {
-        const errorData = await response.json();
-        const parsedError = errorData as BackendError;
+      setIsAlertVisible(true);
+      setAlertMessage('Contraseña modificada con éxito');
+      setAlertTitle(successMessage);
+      setAlertType('success');
+
+      setTimeout(() => {
+        setIsAlertVisible(false);
+      }, 7000);
+    } catch (error: any) {
+      if (error instanceof NotOkError) {
+        const parsedError = error.backendError;
         const errorMessages = [];
 
         if (parsedError.errors.password) {
@@ -79,16 +87,7 @@ export function ChangePasswordSection({ user }: { user: User }) {
         setAlertTitle(parsedError.message);
         return;
       }
-      const successData = await response.json();
-      setIsAlertVisible(true);
-      setAlertMessage('Contraseña modificada con éxito');
-      setAlertTitle(successData.message);
-      setAlertType('success');
 
-      setTimeout(() => {
-        setIsAlertVisible(false);
-      }, 7000);
-    } catch (error: any) {
       setIsAlertVisible(true);
       setAlertMessage(error.message);
       setAlertTitle(strings.common.error.defaultError);
