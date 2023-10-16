@@ -6,6 +6,21 @@ class UsersController < ApplicationController
     render json: UserSerializer.new(@user).serializable_hash[:data][:attributes]
   end
 
+  def update
+    if @user.update(update_params)
+      Rails.logger.info "User was successfully updated with params: '#{update_params}'"
+
+      render json: UserSerializer.new(@user).serializable_hash[:data][:attributes], status: :ok
+    else
+      Rails.logger.info "User has the following validation errors: #{@user.errors.full_messages}"
+
+      render json: {
+        message: 'El usuario no pudo ser actualizado correctamente',
+        errors: @user.errors.messages
+      }, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     if @user.destroy
       Rails.logger.info 'User was successfully deleted'
@@ -51,6 +66,19 @@ class UsersController < ApplicationController
         user: ['No estás autorizado para realizar esta acción']
       }
     }, status: :unauthorized
+  end
+
+  def update_params
+    params.require(:user)
+          .permit(
+            :password,
+            :name,
+            :bio,
+            :birth_date,
+            social_networks: {},
+            career_ids: [],
+            subject_ids: []
+          )
   end
 
   def handle_user_groups

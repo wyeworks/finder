@@ -58,6 +58,88 @@ RSpec.describe UsersController, type: :request do
     end
   end
 
+  # Update
+  describe 'PATCH /users/:id' do
+    let!(:career) { create :career }
+    let!(:subject) { create :subject }
+
+    let(:user) { create :user }
+    let(:update_params) do
+      {
+        name:,
+        bio:,
+        birth_date:,
+        social_networks:,
+        career_ids:,
+        subject_ids:
+      }
+    end
+
+    before do
+      patch user_path(user.id), params: { user: update_params }, headers:
+    end
+
+    context 'with valid parameters' do
+      let(:name) { 'New Name' }
+      let(:bio) { 'New Bio' }
+      let(:birth_date) { DateTime.parse('2000-01-01') }
+      let(:social_networks) do
+        {
+          facebook: 'updated_facebook_link',
+          instagram: 'updated_instagram_link'
+        }
+      end
+      let(:career_ids) { [career.id] }
+      let(:subject_ids) { [subject.id] }
+
+      it 'successfully updates the user' do
+        expect(response).to have_http_status(:ok)
+
+        user.reload
+
+        expect(user.name).to eq(name)
+        expect(user.bio).to eq(bio)
+        expect(user.birth_date).to eq(birth_date)
+        expect(user.social_networks).to eq(social_networks.with_indifferent_access)
+        expect(user.career_ids).to eq(career_ids)
+        expect(user.subject_ids).to eq(subject_ids)
+      end
+
+      it "returns JSON containing the user's new data" do
+        json_response = response.parsed_body
+
+        expect(json_response['id']).to be_a(Integer)
+        expect(json_response['email']).to eq(user.email)
+        expect(json_response['name']).to eq(name)
+        expect(json_response['bio']).to eq(bio)
+        expect(DateTime.parse(json_response['birth_date'])).to eq(birth_date)
+        expect(json_response['social_networks']).to eq(social_networks.with_indifferent_access)
+        expect(json_response['career_ids']).to eq(career_ids)
+        expect(json_response['subject_ids']).to eq(subject_ids)
+      end
+    end
+
+    context 'with invalid parameters' do
+      let(:name) { '' }
+      let(:bio) { 'New Bio' }
+      let(:birth_date) { DateTime.parse('2000-01-01') }
+      let(:social_networks) { {} }
+      let(:career_ids) { [] }
+      let(:subject_ids) { [] }
+
+      it 'returns an error status' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns JSON containing error messages' do
+        json_response = response.parsed_body
+
+        expect(json_response['message']).to include('El usuario no pudo ser actualizado correctamente')
+        expect(json_response['errors']['name'][0]).to include('El nombre no puede ser vacío')
+      end
+    end
+  end
+
   # Destroy
   describe 'DELETE /users/:id' do
     let(:user) { create :user }

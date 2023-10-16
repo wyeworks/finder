@@ -61,7 +61,7 @@ export class UserService {
     accessToken: string
   ): Promise<Subject[]> {
     const response = await ApiCommunicator.commonFetch({
-      url: '/users/' + id + '/subjects',
+      url: `/users/${id}/subjects`,
       method: 'GET',
       accessToken,
     });
@@ -90,7 +90,7 @@ export class UserService {
     };
 
     return await ApiCommunicator.commonFetch({
-      url: `/users/signup`,
+      url: `/users/${id}`,
       method: 'PATCH',
       data: dataToSend,
       accessToken: accessToken,
