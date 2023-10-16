@@ -4,6 +4,8 @@ module Users
   class RegistrationsController < Devise::RegistrationsController
     include RegistrationsJsonResponse
 
+    skip_before_action :authenticate_user!
+
     def create
       build_resource(sign_up_params)
 

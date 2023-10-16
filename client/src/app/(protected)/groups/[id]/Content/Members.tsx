@@ -19,6 +19,7 @@ export default function Members() {
   const groupId = pathname.split('/')[2];
   const [filterText, setFilterText] = useState('');
   const [members, setMembers] = useState<Member[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,10 +27,16 @@ export default function Members() {
         groupId,
         session?.user.accessToken!
       );
+      // look if I am an admin
+      setIsAdmin(
+        getMembers.findIndex(
+          (member) => member.role === 'admin' && member.id === session?.user.id
+        ) !== -1
+      );
       setMembers(getMembers);
     };
     fetchData();
-  }, [groupId, session?.user.accessToken]);
+  }, [groupId, session?.user.accessToken, session?.user.id]);
 
   const handleFilterChange = (event: any) => {
     setFilterText(event.target.value);
@@ -71,7 +78,7 @@ export default function Members() {
         )}
         {filteredUsers.map((user: any, index: number) => (
           <div key={index}>
-            <MemberCard member={user} type='Tags' />
+            <MemberCard member={user} type='Tags' isAdmin={isAdmin} />
           </div>
         ))}
       </div>
