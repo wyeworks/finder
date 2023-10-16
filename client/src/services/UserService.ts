@@ -7,13 +7,12 @@ import { Subject } from '@/types/Subject';
 
 export class UserService {
   public static async getUser(id: string, accessToken: string): Promise<User> {
-    let userInBD = (await (
-      await ApiCommunicator.commonFetch({
-        url: `/users/${id}`,
-        method: 'GET',
-        accessToken: accessToken,
-      })
-    ).json()) as User;
+    const response = await ApiCommunicator.commonFetch({
+      url: `/users/${id}`,
+      method: 'GET',
+      accessToken: accessToken,
+    });
+    let userInBD: User = await response.json();
     userInBD.accessToken = accessToken;
     Logger.debug('User in BD', userInBD);
     return userInBD;

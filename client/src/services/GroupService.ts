@@ -12,23 +12,21 @@ export class GroupService {
     id: string,
     accessToken: string
   ): Promise<StudyGroup> {
-    return await (
-      await ApiCommunicator.commonFetch({
-        url: `/groups/${id}`,
-        method: 'GET',
-        accessToken,
-      })
-    ).json();
+    const response = await ApiCommunicator.commonFetch({
+      url: `/groups/${id}`,
+      method: 'GET',
+      accessToken,
+    });
+    return await response.json();
   }
 
   public static async getAll(accessToken: string): Promise<StudyGroup[]> {
-    return await (
-      await ApiCommunicator.commonFetch({
-        url: '/groups',
-        method: 'GET',
-        accessToken,
-      })
-    ).json();
+    const response = await ApiCommunicator.commonFetch({
+      url: '/groups',
+      method: 'GET',
+      accessToken,
+    });
+    return await response.json();
   }
 
   public static async getActiveGroups(user: User): Promise<StudyGroup[]> {
