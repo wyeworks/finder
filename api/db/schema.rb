@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_13_181457) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_16_202700) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "attendances", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.bigint "session_id", null: false
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "member_id"
+    t.index ["member_id"], name: "index_attendances_on_member_id"
     t.index ["session_id"], name: "index_attendances_on_session_id"
-    t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
   create_table "careers", force: :cascade do |t|
@@ -88,6 +88,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_181457) do
     t.bigint "group_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "creator_id"
+    t.index ["creator_id"], name: "index_sessions_on_creator_id"
     t.index ["group_id"], name: "index_sessions_on_group_id"
   end
 
@@ -130,12 +132,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_181457) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "attendances", "members"
   add_foreign_key "attendances", "sessions"
-  add_foreign_key "attendances", "users"
   add_foreign_key "groups", "subjects"
   add_foreign_key "members", "groups"
   add_foreign_key "members", "users"
   add_foreign_key "requests", "groups"
   add_foreign_key "requests", "users"
   add_foreign_key "sessions", "groups"
+  add_foreign_key "sessions", "members", column: "creator_id"
 end
