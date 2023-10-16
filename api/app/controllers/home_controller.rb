@@ -1,3 +1,5 @@
 class HomeController < ApplicationController
-  def index; end
+  def index
+    render json: { message: 'Still alive' }
+  end
 end

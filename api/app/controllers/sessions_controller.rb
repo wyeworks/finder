@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    render json: SessionSerializer.new(@session).serializable_hash[:data][:attributes]
+    render json: SessionSerializer.new(@session).serializable_hash[:data][:attributes], status: :ok
   end
 
   def create
@@ -61,7 +61,6 @@ class SessionsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     Rails.logger.error "Session with id '#{params[:id]}' not found"
     render json: { message: "No se pudo encontrar la sesion con el ID ##{params[:id]}" }, status: :not_found
-
   end
 
   def session_params
