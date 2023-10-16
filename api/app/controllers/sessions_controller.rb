@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
   def create
     @session = Session.new(session_params)
 
-    if @session.save!
+    if @session.save
       Rails.logger.info "Session was successfully created with params: '#{session_params}'"
       render json: SessionSerializer.new(@session).serializable_hash[:data][:attributes], status: :created
     else

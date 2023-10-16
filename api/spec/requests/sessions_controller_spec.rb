@@ -114,10 +114,31 @@ RSpec.describe SessionsController, type: :request do
           expect(json_response['description']).to eq(description)
           expect(json_response['location']).to eq(location)
           expect(json_response['meeting_link']).to eq(meeting_link)
-          expect(DateTime.parse(json_response['start_time'])).to eq(start_time)
-          expect(DateTime.parse(json_response['end_time'])).to eq(end_time)
+          expect(DateTime.parse(json_response['start_time']).utc.to_s).to eq(start_time.utc.to_s)
+          expect(DateTime.parse(json_response['end_time']).utc.to_s).to eq(end_time.utc.to_s)
           expect(json_response['group_id']).to eq(group_id)
+        end
+      end
+      context 'with invalid parameters' do
+        let(:name) { '' }
+        let(:description) { '' }
+        let(:location) { '' }
+        let(:meeting_link) { '' }
+        let(:start_time) { 'Invalid date' }
+        let(:end_time) { 'Invalid data' }
+        let(:group_id) { -1 }
 
+        it 'returns an error status' do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'returns JSON containing error messages' do
+          json_response = response.parsed_body
+
+          expect(json_response['message']).to eq('La sesión no pudo ser creada correctamente')
+          expect(json_response['errors']['name'][0]).to include('El nombre de la sesión no puede ser vacío')
+          expect(json_response['errors']['start_time'][0]).to include('El inicio de la sesión ser una fecha válida')
+          expect(json_response['errors']['end_time'][0]).to include('El fin de la sesión ser una fecha válida')
         end
       end
     end
@@ -127,7 +148,7 @@ RSpec.describe SessionsController, type: :request do
       let(:session_params) do
         {
           name: 'Valid session name',
-          description: 'Valid session description',
+          description: 'Valid session description'
         }
       end
 
@@ -143,8 +164,6 @@ RSpec.describe SessionsController, type: :request do
         json_response = response.parsed_body
         expect(json_response).to include('Tienes que registrarte o iniciar sesión antes de continuar')
       end
-
     end
-
   end
 end
