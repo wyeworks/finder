@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :attendance do
-    user
+    member
     session
     status { 'pending' }
   end

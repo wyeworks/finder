@@ -1,7 +1,7 @@
 class Session < ApplicationRecord
   # Associations
   has_many :attendances, dependent: :destroy
-  has_many :attendees, through: :attendances, source: :user
+  has_many :attendees, through: :attendances, source: :member
   belongs_to :group
 
   # Validations
@@ -22,8 +22,8 @@ class Session < ApplicationRecord
   end
 
   def create_attendances_for_group_members
-    group.users.each do |user|
-      Attendance.create!(user:, session: self)
+    group.members.each do |member|
+      Attendance.create!(member:, session: self)
     end
   end
 end
