@@ -26,15 +26,29 @@ export default function CreateModal({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+    if (name === 'startTime') {
+      setFormData((prevState: CreateSessionData) => ({
+        ...prevState,
+        ['endTime']: '',
+      }));
+    }
     setFormData((prevState: CreateSessionData) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
+  const validateHour = (value: any) => {
+    const pattern = /^[0-2][0-9]:[0-5][0-9]$/;
+    if (value !== '' && !pattern.test(value)) {
+      return 'Debe ser hh:mm';
+    }
+    return 'No puede ser vacio';
+  };
+
   return (
     <form
-      className='m-2 grid grid-cols-[20px,auto] grid-rows-[50px,50px,50px,50px,auto,50px] gap-x-3 gap-y-[10px]'
+      className='m-2 grid grid-cols-[20px,auto] grid-rows-[50px,50px,50px,50px,auto,50px,70px] gap-x-3 gap-y-[10px]'
       noValidate
       onSubmit={handleSubmit}
     >
@@ -68,9 +82,9 @@ export default function CreateModal({
           touched={touched.startTime}
           validateText='El campo no puede estar vacio'
         />
-        -
+        <span className='mt-1'>-</span>
         <Input
-          type='number'
+          type='text'
           id='startHour'
           name='startHour'
           placeholder='hh:mm'
@@ -80,7 +94,8 @@ export default function CreateModal({
           value={formData.startHour}
           onChange={handleChange}
           touched={touched.startHour}
-          validateText='El campo no puede estar vacio'
+          validateText={validateHour(formData.startHour)}
+          pattern='[0-2][0-9]:[0-5][0-9]'
         />
       </div>
       <div />
@@ -90,27 +105,30 @@ export default function CreateModal({
           id='endTime'
           name='endTime'
           placeholder='Date'
-          classNameInput='bg-backgroundInput'
-          minNumber={new Date().toISOString().split('T')[0]}
+          classNameInput='bg-backgroundInput disabled:bg-gray-200'
+          minNumber={formData.startTime}
           value={formData.endTime}
           onChange={handleChange}
           required
           touched={touched.endTime}
           validateText='El campo no puede estar vacio'
+          disabled={formData.startTime === ''}
         />
         -
         <Input
-          type='number'
+          type='text'
           id='endHour'
           name='endHour'
           placeholder='hh:mm'
           required
-          classNameInput='bg-backgroundInput'
+          classNameInput='bg-backgroundInput disabled:bg-gray-200'
           classNameWrapper='mb-4'
           value={formData.endHour}
           onChange={handleChange}
           touched={touched.endHour}
-          validateText='El campo no puede estar vacio'
+          validateText={validateHour(formData.endHour)}
+          pattern='[0-2][0-9]:[0-5][0-9]'
+          disabled={formData.startTime === ''}
         />
       </div>
       <LocationIcon className='mr-2 mt-1 h-5 w-5' />
@@ -152,7 +170,7 @@ export default function CreateModal({
         touched={touched.meetLink}
         validateText='El campo no puede estar vacio'
       />
-      <div className='mt-4 flex justify-center'>
+      <div className='col-span-2 mt-4 flex justify-center'>
         <Button
           text='Guardar'
           classNameWrapper='p-4'

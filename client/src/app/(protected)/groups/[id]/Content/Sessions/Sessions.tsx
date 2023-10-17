@@ -22,9 +22,9 @@ enum typeTabs {
 
 export type CreateSessionData = {
   tittle: string;
-  startTime: any;
+  startTime: string;
   startHour: string;
-  endTime: any;
+  endTime: string;
   endHour: string;
   location: string;
   description: string;
@@ -72,8 +72,6 @@ export default function Sessions({ group }: SessionsProps) {
     });
 
     if (!isCurrentFormValid) {
-      console.log('no validate');
-
       return;
     }
     setOpenModal(false);
@@ -87,7 +85,16 @@ export default function Sessions({ group }: SessionsProps) {
       description: '',
       meetLink: '',
     });
-    console.log('SUBMIT');
+    setTouchedData({
+      tittle: false,
+      startTime: false,
+      startHour: false,
+      endTime: false,
+      endHour: false,
+      location: false,
+      description: false,
+      meetLink: false,
+    });
   };
 
   return (

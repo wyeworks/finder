@@ -27,6 +27,7 @@ type InputParams = {
   max?: string | number;
   classNameLabel?: string;
   autoComplete?: string;
+  disabled?: boolean;
 };
 
 export default function Input({
@@ -50,6 +51,7 @@ export default function Input({
   max,
   classNameLabel = '',
   autoComplete = type,
+  disabled = false,
 }: InputParams) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -113,6 +115,7 @@ export default function Input({
           } ${classNameInput}`}
           min={minNumber}
           max={max}
+          disabled={disabled}
         />
         {touched && (
           <p className='invisible text-sm text-red-600 peer-invalid:visible'>
