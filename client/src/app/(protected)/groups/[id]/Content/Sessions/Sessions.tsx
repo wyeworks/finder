@@ -20,9 +20,75 @@ enum typeTabs {
   NEXT = 'nextSessions',
 }
 
+export type CreateSessionData = {
+  tittle: string;
+  startTime: any;
+  startHour: string;
+  endTime: any;
+  endHour: string;
+  location: string;
+  description: string;
+  meetLink: string;
+};
+
 export default function Sessions({ group }: SessionsProps) {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [tab, setTab] = useState<typeTabs>(typeTabs.NEXT);
+  const [formData, setFormData] = useState<CreateSessionData>({
+    tittle: '',
+    startTime: '',
+    startHour: '',
+    endTime: '',
+    endHour: '',
+    location: '',
+    description: '',
+    meetLink: '',
+  });
+  const [touchedData, setTouchedData] = useState({
+    tittle: false,
+    startTime: false,
+    startHour: false,
+    endTime: false,
+    endHour: false,
+    location: false,
+    description: false,
+    meetLink: false,
+  });
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const isCurrentFormValid = event.currentTarget.checkValidity();
+
+    setTouchedData({
+      tittle: true,
+      startTime: true,
+      startHour: true,
+      endTime: true,
+      endHour: true,
+      location: true,
+      description: true,
+      meetLink: true,
+    });
+
+    if (!isCurrentFormValid) {
+      console.log('no validate');
+
+      return;
+    }
+    setOpenModal(false);
+    setFormData({
+      tittle: '',
+      startTime: '',
+      startHour: '',
+      endTime: '',
+      endHour: '',
+      location: '',
+      description: '',
+      meetLink: '',
+    });
+    console.log('SUBMIT');
+  };
 
   return (
     <>
@@ -52,22 +118,28 @@ export default function Sessions({ group }: SessionsProps) {
               Icon={<PlusIcon className='h-5 w-5' />}
               classNameWrapper='sm:p-4'
               spaceBetween={8}
-              className=' h-8 items-center  bg-primaryBlue hover:bg-hoverPrimaryBlue '
+              className=' h-8 items-center  bg-primaryBlue hover:bg-hoverPrimaryBlue'
               onClick={() => setOpenModal(true)}
             />
           </div>
         </div>
-        <div className='mb-5 border border-solid border-gray-200 p-5'>
+        <div className='mb-5 border border-solid border-gray-200 bg-white p-5'>
           {tab === typeTabs.HISTORY && <History />}
           {tab === typeTabs.NEXT && <NextSessions />}
         </div>
         <TimePreferences group={group} />
       </div>
       <CustomModal
-        tittleButton='Guardar'
         isOpen={openModal}
         setIsOpen={setOpenModal}
-        content={<CreateModal />}
+        content={
+          <CreateModal
+            formData={formData}
+            setFormData={setFormData}
+            handleSubmit={handleSubmit}
+            touched={touchedData}
+          />
+        }
         xClose={true}
       />
     </>

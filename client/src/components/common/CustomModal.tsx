@@ -2,7 +2,6 @@
 
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, ReactNode } from 'react';
-import Button from '@/components/common/Button';
 import CrossIcon from '@/assets/Icons/CrossIcon';
 
 type ModalProps = {
@@ -11,7 +10,6 @@ type ModalProps = {
   footer?: ReactNode;
   isOpen: boolean;
   setIsOpen: any; // add type
-  tittleButton?: string;
   handleClose?: any; // add type
   xClose?: boolean;
 };
@@ -22,7 +20,6 @@ export default function CustomModal({
   footer,
   isOpen,
   setIsOpen,
-  tittleButton = 'Cerrar',
   handleClose,
   xClose,
 }: ModalProps) {
@@ -77,17 +74,8 @@ export default function CustomModal({
                     </Dialog.Title>
                   )}
                   <div className='mt-2'>{content}</div>
-
                   <div className='mt-4 flex justify-center'>
                     {footer && footer}
-                    {!footer && (
-                      <Button
-                        text={tittleButton}
-                        classNameWrapper='p-4'
-                        className='h-fit w-1/3 bg-primaryBlue hover:bg-hoverPrimaryBlue'
-                        onClick={closeModal}
-                      />
-                    )}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
