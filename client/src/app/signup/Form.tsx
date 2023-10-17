@@ -27,7 +27,7 @@ export default function Form() {
   });
   const [touched, setTouched] = useState({
     name: false,
-    email: true,
+    email: false,
     password: false,
   });
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -40,12 +40,23 @@ export default function Form() {
       ...prevState,
       [name]: value.trimEnd().trimStart(),
     }));
-    setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+    if (name !== 'email') {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+    }
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name } = e.target;
-    setTouched((prevTouched) => ({ ...prevTouched, [name]: false }));
+    if (name === 'email') {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+    }
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    if (name === 'email') {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: false }));
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -53,7 +64,7 @@ export default function Form() {
 
     setTouched({
       name: true,
-      email: false,
+      email: true,
       password: true,
     });
 
@@ -111,6 +122,7 @@ export default function Form() {
           required
           value={formData.name}
           onChange={handleChange}
+          onFocus={handleFocus}
           touched={touched.name}
           Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
         />
@@ -125,7 +137,8 @@ export default function Form() {
           value={formData.email}
           onChange={handleChange}
           onBlur={handleBlur}
-          touched={!touched.email}
+          onFocus={handleFocus}
+          touched={touched.email}
           Icon={<EmailIcon className='h-5 w-5 text-gray-400' />}
         />
         <Input
@@ -140,6 +153,7 @@ export default function Form() {
           required
           value={formData.password}
           onChange={handleChange}
+          onFocus={handleFocus}
           touched={touched.password}
           autoComplete='new-password'
         />
