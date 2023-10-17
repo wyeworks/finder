@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import Button from '@/components/common/Button';
 import Link from 'next/link';
+import { Logger } from '@/services/Logger';
 
 export default function Error({
   error,
@@ -13,7 +14,7 @@ export default function Error({
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    console.error(error);
+    Logger.error(error);
   }, [error]);
 
   return (

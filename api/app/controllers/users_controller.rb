@@ -1,9 +1,24 @@
 class UsersController < ApplicationController
-  before_action :set_user
-  before_action :authenticate_user!, :handle_user_groups, only: :destroy
+  before_action :set_user, :validate_current_user
+  before_action :handle_user_groups, only: :destroy
 
   def show
     render json: UserSerializer.new(@user).serializable_hash[:data][:attributes]
+  end
+
+  def update
+    if @user.update(update_params)
+      Rails.logger.info "User was successfully updated with params: '#{update_params}'"
+
+      render json: UserSerializer.new(@user).serializable_hash[:data][:attributes], status: :ok
+    else
+      Rails.logger.info "User has the following validation errors: #{@user.errors.full_messages}"
+
+      render json: {
+        message: 'El usuario no pudo ser actualizado correctamente',
+        errors: @user.errors.messages
+      }, status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -41,6 +56,29 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
+  end
+
+  def validate_current_user
+    return if current_user.id == @user.id
+
+    render json: {
+      errors: {
+        user: ['No estás autorizado para realizar esta acción']
+      }
+    }, status: :unauthorized
+  end
+
+  def update_params
+    params.require(:user)
+          .permit(
+            :password,
+            :name,
+            :bio,
+            :birth_date,
+            social_networks: {},
+            career_ids: [],
+            subject_ids: []
+          )
   end
 
   def handle_user_groups

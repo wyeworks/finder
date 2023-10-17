@@ -8,11 +8,11 @@ import { Member } from '@/types/Member';
 import strings from '@/locales/strings.json';
 import { usePathname } from 'next/navigation';
 import { removeAccents } from '@/utils/Formatter';
-import { BackendError } from '@/types/BackendError';
 import { Logger } from '@/services/Logger';
 import Alert, { alertTypes } from '@/components/common/Alert';
 import { GroupService } from '@/services/GroupService';
 import { useSession } from 'next-auth/react';
+import { NotOkError } from '@/types/NotOkError';
 
 export default function RequestJoinGroup() {
   const { data: session } = useSession();
@@ -35,28 +35,23 @@ export default function RequestJoinGroup() {
   const fetchData = useCallback(async () => {
     setIsAlertVisible(false);
     try {
-      const request: any = await GroupService.getRequestJoinGroup(
+      const members = await GroupService.getRequestJoinGroup(
         groupId,
-        session?.user.accessToken!,
-        {
-          asJSON: false,
-          handleNotOk: false,
-        }
+        session?.user.accessToken!
       );
-      const data = await request.json();
-      if (!request.ok) {
-        const parsedError = data as BackendError;
-        if (parsedError.errors.group) setForbiddenData(false);
+      setForbiddenData(true);
+      setIsLoadingData(false);
+      setRequestMembers(members);
+    } catch (error) {
+      if (error instanceof NotOkError) {
+        if (error.backendError.errors.group) setForbiddenData(false);
         setIsLoadingData(false);
         return;
       }
-      setForbiddenData(true);
-      setIsLoadingData(false);
-      setRequestMembers(data);
-    } catch (error) {
+
       Logger.error('Error trying to get request to join group: ' + { error });
     }
-  }, [groupId]);
+  }, [groupId, session?.user.accessToken]);
 
   useEffect(() => {
     fetchData();

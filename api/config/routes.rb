@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     end
   end
   resources :subjects, only: [:index, :show]
-  resources :users, only: [:show, :destroy] do
+  resources :users, only: [:show, :update, :destroy] do
     member do
       get :careers
       get :subjects

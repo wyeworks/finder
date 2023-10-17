@@ -1,7 +1,7 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { Logger } from '@/services/Logger';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
+import { AuthService } from '@/services/AuthService';
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -17,25 +17,27 @@ export const authOptions: NextAuthOptions = {
       authorize: async (credentials) => {
         Logger.debug('Authorizing users with credentials: ' + credentials);
         const { email, password } = credentials!;
-        const res = await ApiCommunicator.login({
-          user: {
+        try {
+          const res = await AuthService.login({
             email,
             password,
-          },
-        });
+          });
 
-        const user = await res.json();
+          const user = await res.json();
 
-        //if users or users.users is null or undefinded, then the login failed
-        if (!res.ok || !user || !user.user) {
-          Logger.warn('User not authorized');
+          if (!user || !user.user) {
+            Logger.warn('User not authorized');
+            return null;
+          }
+
+          Logger.debug('User authorized: ', user.user);
+          Logger.debug('User', user);
+          user.user.accessToken = res.headers.get('Authorization');
+          return user.user;
+        } catch (error) {
+          Logger.error('Error trying to authorize user: ' + error);
           return null;
         }
-
-        Logger.debug('User authorized: ', user.user);
-        Logger.debug('User', user);
-        user.user.accessToken = res.headers.get('Authorization');
-        return user.user;
       },
     }),
   ],

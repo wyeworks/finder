@@ -6,15 +6,12 @@ import Alert from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import strings from '@/locales/strings.json';
-import { BackendError } from '@/types/BackendError';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Logger } from '@/services/Logger';
-import {
-  mustBeMailAdress,
-  mustHaveUpperCaseLowerCaseAndEightCharacters,
-} from '@/utils/Pattern';
+import { mustHaveUpperCaseLowerCaseAndEightCharacters } from '@/utils/Pattern';
+import { AuthService } from '@/services/AuthService';
+import { NotOkError } from '@/types/NotOkError';
 
 type SignUpFormData = {
   name: string;
@@ -39,7 +36,10 @@ export default function Form() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value.trimEnd().trimStart(),
+    }));
     setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
   };
 
@@ -62,10 +62,11 @@ export default function Form() {
 
     try {
       Logger.debug('Sending signup request with data:', formData);
-      const response = await ApiCommunicator.clientSideSignUp(formData);
-      if (!response.ok) {
-        const errorData = await response.json();
-        const parsedError = errorData as BackendError;
+      await AuthService.signUp(formData);
+      router.push('/confirmation');
+    } catch (error) {
+      if (error instanceof NotOkError) {
+        const parsedError = error.backendError;
         const errorMessages = [];
 
         if (parsedError.errors.email) {
@@ -80,8 +81,6 @@ export default function Form() {
         return;
       }
 
-      router.push('/confirmation');
-    } catch (error) {
       setAlertMessage(strings.common.error.unexpectedError);
       setIsVisible(true);
     }
@@ -114,7 +113,6 @@ export default function Form() {
           type='email'
           id='email'
           name='email'
-          pattern={mustBeMailAdress()}
           label={strings.form.emailInput.label}
           placeholder={strings.form.emailInput.placeholder}
           validateText={strings.form.emailInput.validateText}

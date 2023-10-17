@@ -1,15 +1,15 @@
 import LeftArrowIcon from '@/assets/Icons/LeftArrowIcon';
 
 type LayoutFormsProps = {
-  children: React.ReactNode;
   className?: string;
   backPage: () => void;
+  children: React.ReactNode;
 };
 
 export default function LayoutForms({
-  children,
   className = '',
   backPage,
+  children,
 }: LayoutFormsProps) {
   return (
     <div className={className}>

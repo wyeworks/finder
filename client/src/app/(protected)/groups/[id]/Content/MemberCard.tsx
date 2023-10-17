@@ -1,6 +1,7 @@
 'use client';
 
 import EllipsisVerticalIcon from '@/assets/Icons/EllipsisVerticalIcon';
+import { Fragment } from 'react';
 import Image from 'next/image';
 import defaultUser from '@/assets/images/default_user.png';
 import Tag from '@/components/common/Tag';
@@ -9,9 +10,10 @@ import Button from '@/components/common/Button';
 import UserPlusIcon from '@/assets/Icons/UserPlusIcon';
 import TrashIcon from '@/assets/Icons/TrashIcon';
 import { Logger } from '@/services/Logger';
-import { BackendError } from '@/types/BackendError';
 import { GroupService } from '@/services/GroupService';
 import { useSession } from 'next-auth/react';
+import { NotOkError } from '@/types/NotOkError';
+import { Menu, Transition } from '@headlessui/react';
 
 type MemberCardProp = {
   member: Member;
@@ -19,6 +21,7 @@ type MemberCardProp = {
   fetchData?: () => void;
   // eslint-disable-next-line no-unused-vars
   onError?: (error: string[]) => void;
+  isAdmin?: boolean;
 };
 
 function mapRole(backEndRole: string) {
@@ -31,6 +34,7 @@ export default function MemberCard({
   type,
   fetchData,
   onError,
+  isAdmin = false,
 }: MemberCardProp) {
   const {
     name,
@@ -48,29 +52,31 @@ export default function MemberCard({
     let reason = '';
     if (status === 'rejected') reason = 'admin rejected user';
     try {
-      const response = await GroupService.handleRequestGroup(
+      await GroupService.handleRequestGroup(
         {
           groupId: group_id,
           requestId: id,
           status: status,
           reason: reason,
         },
-        session?.user.accessToken!,
-        {
-          handleNotOk: false,
-          asJSON: false,
-        }
+        session?.user.accessToken!
       );
-      if (!response.ok) {
-        const error = (await response.json()) as BackendError;
-        if (onError) onError(error.errors.group ?? ['Error inesperado']);
-        return;
-      }
       if (fetchData) fetchData();
     } catch (error) {
+      if (error instanceof NotOkError) {
+        if (onError)
+          onError(error.backendError.errors.group ?? ['Error inesperado']);
+        return;
+      }
+
       Logger.debug('Error trying accepted or rejected user' + { error });
     }
   }
+
+  const showTagOptions = function (memberId: string) {
+    if (isAdmin && memberId !== session?.user.id) return true;
+    return false;
+  };
 
   return (
     <div
@@ -100,7 +106,48 @@ export default function MemberCard({
             <Tag type={mapRole(role)} />
           </div>
           <div>
-            <EllipsisVerticalIcon className='h-6 w-6' />
+            {showTagOptions(id) && (
+              <Menu as='div' className='z-10'>
+                <div>
+                  <Menu.Button className='relative z-0 flex max-w-xs rounded-full bg-transparent text-sm'>
+                    <EllipsisVerticalIcon className='h-6 w-6' />
+                  </Menu.Button>
+                </div>
+                <Transition
+                  as={Fragment}
+                  enter='transition ease-out duration-100'
+                  enterFrom='transform opacity-0 scale-95'
+                  enterTo='transform opacity-100 scale-100'
+                  leave='transition ease-in duration-75'
+                  leaveFrom='transform opacity-100 scale-100'
+                  leaveTo='transform opacity-0 scale-95'
+                >
+                  <div className='absolute z-20'>
+                    <div className='z-20 float-left'>
+                      <Menu.Items className='fixed right-0 z-20 mt-2 block w-56 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none lg:right-auto'>
+                        {role === 'participant' && (
+                          <Menu.Item>
+                            <button className='group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900'>
+                              Designar como{' '}
+                              {role === 'participant'
+                                ? 'administrador'
+                                : 'miembro'}
+                            </button>
+                          </Menu.Item>
+                        )}
+                        <Menu.Item>
+                          <button
+                            className={`group flex w-full items-center rounded-md px-2 py-2 text-sm text-[#DC3545]`}
+                          >
+                            Eliminar del grupo
+                          </button>
+                        </Menu.Item>
+                      </Menu.Items>
+                    </div>
+                  </div>
+                </Transition>
+              </Menu>
+            )}
           </div>
         </div>
       )}

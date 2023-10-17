@@ -24,19 +24,17 @@ export function removeAccents(str: string) {
 }
 
 export function parseSubjectToOption(subjects: Subject[]): Option[] {
-  const options: Option[] = subjects.map((subject) => ({
+  return subjects.map((subject) => ({
     label: subject.name + ' (' + subject.code + ')',
     key: subject.id.toString(),
   }));
-  return options;
 }
 
 export function parseCareerToOption(careers: Career[]): Option[] {
-  const options: Option[] = careers.map((career) => ({
+  return careers.map((career) => ({
     label: career.name,
     key: career.id.toString(),
   }));
-  return options;
 }
 
 export function returnSocialNetworkIcon(value: string) {

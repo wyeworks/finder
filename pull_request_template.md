@@ -1,5 +1,5 @@
 ## What && Why
-<add explanation here>
+add explanation here
 
 ## How
 - [ ] Step 1

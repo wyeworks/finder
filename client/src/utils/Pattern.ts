@@ -4,6 +4,8 @@ export function mustHaveUpperCaseLowerCaseAndEightCharacters() {
 }
 
 // used for pattern matching in email input
+//Lo saco porque no es un regex valido y el type email ya funciona lo bastante bien en input
+//no es perfecto pero no hay ningun regex que lo sea para mail
 export function mustBeMailAdress() {
   return '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$';
 }
