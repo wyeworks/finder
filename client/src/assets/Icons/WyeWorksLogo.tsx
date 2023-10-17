@@ -6,6 +6,7 @@ export default function WyeWorksLogo() {
       viewBox='0 0 117 22'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
+      data-testid='WyeWorksLogo'
     >
       <path
         d='M0 0.439667H3.62809L5.11587 13.3309L6.96907 0.465711H9.86632L11.7978 13.2788L13.2856 0.439667H16.8615L14.1469 21.5344H10.4667L8.43075 8.1744L6.47314 21.5344H2.74065L0 0.439667Z'

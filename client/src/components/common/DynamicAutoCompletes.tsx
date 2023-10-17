@@ -114,8 +114,8 @@ export default function DynamicAutoCompletes({
             Icon={<AddIcon className='h-6 w-6 text-sky-500' />}
             className='border border-gray-300 bg-white hover:bg-gray-200'
             onClick={() => {
-              const newInputId = { dropDownIds } + counterId.toString();
-              const newButtonId = { buttonIds } + counterId.toString();
+              const newInputId = dropDownIds + counterId.toString();
+              const newButtonId = buttonIds + counterId.toString();
               setDropDowns((prevState) => [
                 ...prevState,
                 {
