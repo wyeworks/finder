@@ -27,7 +27,7 @@ export default function Form() {
   });
   const [touched, setTouched] = useState({
     name: false,
-    email: false,
+    email: true,
     password: false,
   });
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -41,6 +41,11 @@ export default function Form() {
       [name]: value.trimEnd().trimStart(),
     }));
     setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    setTouched((prevTouched) => ({ ...prevTouched, [name]: false }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -119,7 +124,8 @@ export default function Form() {
           required
           value={formData.email}
           onChange={handleChange}
-          touched={touched.email}
+          onBlur={handleBlur}
+          touched={!touched.email}
           Icon={<EmailIcon className='h-5 w-5 text-gray-400' />}
         />
         <Input
