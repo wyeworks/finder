@@ -6,6 +6,7 @@ import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
 import { CreateSessionData } from './Sessions';
 import Button from '@/components/common/Button';
+import strings from '@/locales/strings.json';
 
 type CreateSessionModalProps = {
   formData: CreateSessionData;
@@ -33,16 +34,16 @@ export default function CreateSessionForm({
     }
     setFormData((prevState: CreateSessionData) => ({
       ...prevState,
-      [name]: value,
+      [name]: value.trimEnd().trimStart(),
     }));
   };
 
   const validateHour = (value: any) => {
     const pattern = /^[0-2][0-9]:[0-5][0-9]$/;
     if (value !== '' && !pattern.test(value)) {
-      return 'Debe ser hh:mm';
+      return strings.createSession.form.validateText.hourFormat;
     }
-    return 'No puede ser vacio';
+    return strings.createSession.form.validateText.default;
   };
 
   return (
@@ -56,14 +57,14 @@ export default function CreateSessionForm({
           name='tittle'
           type='text'
           className='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
-          placeholder='Añade un titulo'
+          placeholder={strings.createSession.form.placeholders.tittle}
           value={formData.tittle}
           onChange={handleChange}
           required
         />
         {touched.tittle && (
           <p className='invisible text-sm text-red-600 peer-invalid:visible'>
-            No puede ser vacio
+            {strings.createSession.form.validateText.tittle}
           </p>
         )}
       </div>
@@ -79,14 +80,14 @@ export default function CreateSessionForm({
           onChange={handleChange}
           required
           touched={touched.startTime}
-          validateText='El campo no puede estar vacio'
+          validateText={strings.createSession.form.validateText.default}
         />
         <span className='mt-1'>-</span>
         <Input
           type='text'
           id='startHour'
           name='startHour'
-          placeholder='hh:mm'
+          placeholder={strings.createSession.form.placeholders.hoursFormat}
           required
           classNameInput='bg-backgroundInput'
           classNameWrapper='mb-4'
@@ -103,14 +104,13 @@ export default function CreateSessionForm({
           type='date'
           id='endTime'
           name='endTime'
-          placeholder='Date'
           classNameInput='bg-backgroundInput disabled:bg-gray-200'
           minNumber={formData.startTime}
           value={formData.endTime}
           onChange={handleChange}
           required
           touched={touched.endTime}
-          validateText='El campo no puede estar vacio'
+          validateText={strings.createSession.form.validateText.default}
           disabled={formData.startTime === ''}
         />
         -
@@ -118,7 +118,7 @@ export default function CreateSessionForm({
           type='text'
           id='endHour'
           name='endHour'
-          placeholder='hh:mm'
+          placeholder={strings.createSession.form.placeholders.hoursFormat}
           required
           classNameInput='bg-backgroundInput disabled:bg-gray-200'
           classNameWrapper='mb-4'
@@ -135,43 +135,43 @@ export default function CreateSessionForm({
         type='text'
         id='location'
         name='location'
-        placeholder='Ingrese la ubicacion aquí'
+        placeholder={strings.createSession.form.placeholders.location}
         required
         classNameInput='bg-backgroundInput'
         value={formData.location}
         onChange={handleChange}
         touched={touched.location}
-        validateText='El campo no puede estar vacio'
+        validateText={strings.createSession.form.validateText.default}
       />
       <BarsIcon className='mr-2 h-5 w-5' />
       <TextArea
         id='description'
         name='description'
-        placeholder='Ingrese la descripcion de la session'
+        placeholder={strings.createSession.form.placeholders.description}
         className='pt-3'
         classNameWrapper='mb-3'
         required
         value={formData.description}
         onChange={handleChange}
         touched={touched.description}
-        validateText='El campo no puede estar vacio'
+        validateText={strings.createSession.form.validateText.default}
       />
       <LinkIcon className='mr-2 h-5 w-5' />
       <Input
         type='text'
         id='meetLink'
         name='meetLink'
-        placeholder='link de la reunion'
+        placeholder={strings.createSession.form.placeholders.meetLink}
         required
         classNameInput='bg-backgroundInput'
         value={formData.meetLink}
         onChange={handleChange}
         touched={touched.meetLink}
-        validateText='El campo no puede estar vacio'
+        validateText={strings.createSession.form.validateText.default}
       />
       <div className='col-span-2 mt-4 flex justify-center'>
         <Button
-          text='Guardar'
+          text={strings.createSession.form.submitText}
           classNameWrapper='p-4'
           className='h-fit w-1/3 bg-primaryBlue hover:bg-hoverPrimaryBlue'
           type='submit'
