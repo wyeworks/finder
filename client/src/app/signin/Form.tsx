@@ -44,7 +44,7 @@ export default function Form() {
     event.preventDefault();
 
     setTouched({
-      email: true,
+      email: false,
       password: true,
     });
 

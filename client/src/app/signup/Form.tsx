@@ -53,7 +53,7 @@ export default function Form() {
 
     setTouched({
       name: true,
-      email: true,
+      email: false,
       password: true,
     });
 
