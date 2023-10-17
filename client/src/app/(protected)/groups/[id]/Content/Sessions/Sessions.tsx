@@ -4,7 +4,7 @@ import Button from '@/components/common/Button';
 import PlusIcon from '@/assets/Icons/PlusIcon';
 import CustomModal from '@/components/common/CustomModal';
 import { useState } from 'react';
-import CreateModal from './CreateModal';
+import CreateSessionForm from './CreateSessionForm';
 import NextSessions from './NextSessions';
 import History from './History';
 
@@ -140,7 +140,7 @@ export default function Sessions({ group }: SessionsProps) {
         isOpen={openModal}
         setIsOpen={setOpenModal}
         content={
-          <CreateModal
+          <CreateSessionForm
             formData={formData}
             setFormData={setFormData}
             handleSubmit={handleSubmit}

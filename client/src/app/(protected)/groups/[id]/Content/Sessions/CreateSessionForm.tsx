@@ -15,8 +15,7 @@ type CreateSessionModalProps = {
   touched: any;
 };
 
-// change name
-export default function CreateModal({
+export default function CreateSessionForm({
   formData,
   setFormData,
   handleSubmit,
