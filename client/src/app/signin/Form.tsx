@@ -67,7 +67,7 @@ export default function Form() {
         throw new Error('Server responded with an error status');
       }
 
-      router.push('/home');
+      router.push('/groups');
     } catch (error) {
       setAlertMessage(strings.common.error.logInInvalid);
       setIsVisible(true);
