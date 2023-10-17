@@ -34,6 +34,9 @@ const config: Config = {
         primaryBlue: { DEFAULT: '#242760', 100: '#7479db' },
         leaveRed: '#DC3545',
       },
+      accentColor: {
+        primaryBlue: { DEFAULT: '#242760', 100: '#7479db' },
+      },
     },
   },
   plugins: [],
