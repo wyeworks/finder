@@ -1,7 +1,5 @@
-'use client';
-
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, ReactNode } from 'react';
+import { Dispatch, Fragment, ReactNode, SetStateAction } from 'react';
 import CrossIcon from '@/assets/Icons/CrossIcon';
 
 type ModalProps = {
@@ -9,8 +7,8 @@ type ModalProps = {
   content: ReactNode;
   footer?: ReactNode;
   isOpen: boolean;
-  setIsOpen: any; // add type
-  handleClose?: any; // add type
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  handleClose?: () => void;
   xClose?: boolean;
 };
 
