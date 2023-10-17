@@ -48,9 +48,10 @@ export default function CreateSessionForm({
 
   return (
     <form
-      className='m-2 grid grid-cols-[20px,auto] grid-rows-[50px,50px,50px,50px,auto,50px,70px] gap-x-3 gap-y-[10px]'
+      className='m-2 grid grid-cols-[20px,auto] grid-rows-[50px,50px,50px,50px,auto,50px,70px] gap-x-3 gap-y-8 sm:gap-y-[10px] '
       noValidate
       onSubmit={handleSubmit}
+      data-testid='create-sesion'
     >
       <div className='col-span-2'>
         <input
@@ -69,12 +70,13 @@ export default function CreateSessionForm({
         )}
       </div>
       <ClockIcon className='mr-2 mt-1 h-5 w-5' />
-      <div className='flex justify-center gap-3 align-baseline'>
+      <div className='flex items-baseline justify-center gap-3'>
         <Input
           type='date'
           id='startTime'
           name='startTime'
-          classNameInput='bg-backgroundInput col-span-2 h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
+          // classNameInput='bg-backgroundInput col-span-2 h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
+          classNameInput='bg-backgroundInput disabled:bg-gray-200'
           minNumber={new Date().toISOString().split('T')[0]}
           value={formData.startTime}
           onChange={handleChange}
