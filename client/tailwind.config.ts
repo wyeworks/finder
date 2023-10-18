@@ -38,6 +38,7 @@ const config: Config = {
         grayText: '#71717A',
         primaryBlue: { DEFAULT: '#242760', 100: '#7479db' },
         darkBlue: '#2B2D54',
+        leaveRed: '#DC3545',
       },
     },
   },
