@@ -260,4 +260,19 @@ RSpec.describe SessionsController, type: :request do
       end
     end
   end
+
+  # Destroy
+  describe 'DELETE /sessions/:id' do
+    let(:session) { create :session }
+
+    before do
+      delete session_path(session.id), headers:
+    end
+
+    it 'deletes the session' do
+      expect(response).to have_http_status(:no_content)
+      expect(Session.count).to eq(0)
+    end
+
+  end
 end
