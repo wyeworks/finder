@@ -29,7 +29,7 @@ class SessionsController < ApplicationController
 
       render json: SessionSerializer.new(@session).serializable_hash[:data][:attributes], status: :ok
     else
-      Rails.logger.info "Session has the following validation errors: #{session.errors.full_messages}"
+      Rails.logger.info "Session has the following validation errors: #{@session.errors.full_messages}"
 
       render json: {
         message: 'La sesión no pudo ser actualizada correctamente',
