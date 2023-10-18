@@ -27,10 +27,11 @@ type InputParams = {
   maxWidth?: boolean;
   classNameWrapper?: string;
   classNameInput?: string;
-  minNumber?: number;
+  minNumber?: string | number;
   max?: string | number;
   classNameLabel?: string;
   autoComplete?: string;
+  disabled?: boolean;
 };
 
 export default function Input({
@@ -54,6 +55,7 @@ export default function Input({
   max,
   classNameLabel = '',
   autoComplete = type,
+  disabled = false,
   onBlur,
   onFocus,
 }: InputParams) {
@@ -119,6 +121,7 @@ export default function Input({
           } ${classNameInput}`}
           min={minNumber}
           max={max}
+          disabled={disabled}
           onBlur={onBlur}
           onFocus={onFocus}
         />
