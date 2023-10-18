@@ -85,7 +85,7 @@ export default function Header({ user }: HeaderProps) {
                       data-testid='finder-logo'
                     >
                       <FinderLogoIcon fill='white' height={50} width={41.666} />
-                      <p className='ml-2 text-4xl text-white'>
+                      <p className='ml-2 font-poppins text-4xl text-white'>
                         <strong>finder</strong>
                       </p>
                     </Link>
@@ -115,7 +115,7 @@ export default function Header({ user }: HeaderProps) {
                       <div>
                         <Menu.Button className='relative flex max-w-xs items-center rounded-full bg-transparent text-sm'>
                           <p className='mr-3 hidden text-left text-lg sm:block'>
-                            <strong className='block font-medium text-whiteTextHeader'>
+                            <strong className='block font-poppins font-semibold text-whiteTextHeader'>
                               {user.name}
                             </strong>
                           </p>
@@ -147,7 +147,7 @@ export default function Header({ user }: HeaderProps) {
                             <Menu.Item key={item.name}>
                               <Link
                                 href={item.href}
-                                className='block px-4 py-2 text-sm text-gray-700 active:bg-gray-100'
+                                className='block px-4 py-2 font-poppins text-sm text-gray-700 active:bg-gray-100'
                                 onClick={item.onClick}
                               >
                                 {item.name}
