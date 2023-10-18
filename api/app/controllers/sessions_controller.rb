@@ -1,6 +1,5 @@
 class SessionsController < ApplicationController
   before_action :set_session, only: %i[show update destroy]
-  before_action :authenticate_user!
 
   def show
     render json: SessionSerializer.new(@session).serializable_hash[:data][:attributes], status: :ok
