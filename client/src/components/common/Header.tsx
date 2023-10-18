@@ -79,7 +79,7 @@ export default function Header({ user }: HeaderProps) {
                 <div className='flex items-center'>
                   <div className='flex-shrink-0'>
                     <Link
-                      href='/home'
+                      href='/groups'
                       className='ml-4 flex cursor-pointer items-center'
                       data-testid='finder-logo'
                     >

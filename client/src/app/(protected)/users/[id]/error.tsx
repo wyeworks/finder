@@ -20,7 +20,7 @@ export default function Error({
   return (
     <div className='flex items-center justify-center'>
       <h2>Ha ocurrido un error inesperado!</h2>
-      <Link href={'/home'}>
+      <Link href={'/groups'}>
         <Button text={'Inicio'} />
       </Link>
       <Button text={'Reintentar'} onClick={reset} />
