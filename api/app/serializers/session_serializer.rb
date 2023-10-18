@@ -10,5 +10,4 @@ class SessionSerializer
              :end_time,
              :group_id,
              :attendances
-
 end

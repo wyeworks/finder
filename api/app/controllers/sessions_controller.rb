@@ -65,5 +65,4 @@ class SessionsController < ApplicationController
   def session_params
     params.require(:session).permit(:name, :description, :location, :meeting_link, :start_time, :end_time, :group_id)
   end
-
 end
