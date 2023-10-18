@@ -239,16 +239,15 @@ RSpec.describe SessionsController, type: :request do
     end
 
     context 'when the user is not authenticated' do
+      before do
+        patch session_path(session.id), params: { session: session_params }, headers:
+      end
       let(:headers) { {} }
       let(:session_params) do
         {
           name: 'Valid session name',
           description: 'Valid session description'
         }
-      end
-
-      before do
-        patch sessions_path, params: { session: session_params }, headers:
       end
 
       it 'returns http unauthorized' do
