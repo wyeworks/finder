@@ -78,8 +78,6 @@ RSpec.describe SessionsController, type: :request do
     end
 
     context 'when de user is authenticated' do
-      let(:headers) { { 'Authorization' => response.headers['Authorization'] } }
-
       before do
         post sessions_path, params: { session: session_params }, headers:
       end
