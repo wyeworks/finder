@@ -65,7 +65,7 @@ export default function Input({
           {label && (
             <label
               htmlFor={id}
-              className={`flex-1 font-poppins text-sm font-medium leading-6 text-gray-400 ${classNameLabel}`}
+              className={`flex-1 font-poppins text-sm font-medium leading-6 text-blackTextColor ${classNameLabel}`}
             >
               {label}
             </label>
