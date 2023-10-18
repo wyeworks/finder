@@ -14,7 +14,7 @@ RSpec.describe SessionsController, type: :request do
     let(:session_id) { session.id }
 
     before do
-      get session_path(session), headers:
+      get session_path(session_id), headers:
     end
 
     context 'when the user is authenticated' do
@@ -81,14 +81,6 @@ RSpec.describe SessionsController, type: :request do
       let(:headers) { { 'Authorization' => response.headers['Authorization'] } }
 
       before do
-        post user_session_path,
-             params: {
-               user: {
-                 email: user.email,
-                 password: user.password
-               }
-             }
-
         post sessions_path, params: { session: session_params }, headers:
       end
 
@@ -186,13 +178,7 @@ RSpec.describe SessionsController, type: :request do
       let(:headers) { { 'Authorization' => response.headers['Authorization'] } }
 
       before do
-        post user_session_path,
-             params: {
-               user: {
-                 email: user.email,
-                 password: user.password
-               }
-             }
+        patch session_path(session), params: { session: session_params }, headers:
       end
 
       context 'with valid parameters' do
@@ -265,7 +251,7 @@ RSpec.describe SessionsController, type: :request do
       end
 
       before do
-        post sessions_path, params: { session: session_params }, headers:
+        patch sessions_path, params: { session: session_params }, headers:
       end
 
       it 'returns http unauthorized' do
