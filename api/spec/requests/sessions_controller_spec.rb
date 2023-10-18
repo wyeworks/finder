@@ -173,13 +173,12 @@ RSpec.describe SessionsController, type: :request do
     end
 
     context 'when the user is authenticated' do
-      let(:headers) { { 'Authorization' => response.headers['Authorization'] } }
-
       before do
-        patch session_path(session), params: { session: session_params }, headers:
+        patch session_path(session.id), params: { session: session_params }, headers:
       end
 
       context 'with valid parameters' do
+        let(:group) { create :group }
         let(:name) { 'Valid session name' }
         let(:description) { 'Valid session description' }
         let(:location) { 'Valid session location' }
@@ -197,8 +196,8 @@ RSpec.describe SessionsController, type: :request do
           expect(session.description).to eq(description)
           expect(session.location).to eq(location)
           expect(session.meeting_link).to eq(meeting_link)
-          expect(session.start_time).to eq(start_time)
-          expect(session.end_time).to eq(end_time)
+          expect(session.start_time.utc.to_s).to eq(start_time.utc.to_s)
+          expect(session.end_time.utc.to_s).to eq(end_time.utc.to_s)
           expect(session.group_id).to eq(group_id)
         end
 
@@ -262,5 +261,4 @@ RSpec.describe SessionsController, type: :request do
       end
     end
   end
-
 end
