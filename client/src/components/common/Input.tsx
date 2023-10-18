@@ -18,6 +18,10 @@ type InputParams = {
   // disabled temporary
   // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // eslint-disable-next-line no-unused-vars
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  // eslint-disable-next-line no-unused-vars
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   Icon?: React.ReactNode;
   pattern?: string;
   maxWidth?: boolean;
@@ -52,6 +56,8 @@ export default function Input({
   classNameLabel = '',
   autoComplete = type,
   disabled = false,
+  onBlur,
+  onFocus,
 }: InputParams) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -116,6 +122,8 @@ export default function Input({
           min={minNumber}
           max={max}
           disabled={disabled}
+          onBlur={onBlur}
+          onFocus={onFocus}
         />
         {touched && (
           <p className='invisible text-sm text-red-600 peer-invalid:visible'>

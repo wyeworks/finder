@@ -64,7 +64,7 @@ export default function View({ groups, subjects }: ViewProps) {
               <GroupCard
                 key={group.id}
                 group={group}
-                className='w-full max-w-[444px]'
+                className='h-full w-full max-w-[444px]'
               />
             ))}
           </ul>

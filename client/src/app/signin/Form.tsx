@@ -32,7 +32,22 @@ export default function Form() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
-    setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    if (name === 'email') {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+    }
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    if (name !== 'email') {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+    } else {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: false }));
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -95,6 +110,8 @@ export default function Form() {
           value={formData.email}
           onChange={handleChange}
           touched={touched.email}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
           Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
         />
         <Input
@@ -106,6 +123,7 @@ export default function Form() {
           required
           value={formData.password}
           onChange={handleChange}
+          onFocus={handleFocus}
           touched={touched.password}
         />
         <Button
