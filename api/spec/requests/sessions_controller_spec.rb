@@ -273,6 +273,5 @@ RSpec.describe SessionsController, type: :request do
       expect(response).to have_http_status(:no_content)
       expect(Session.count).to eq(0)
     end
-
   end
 end
