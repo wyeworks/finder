@@ -23,7 +23,12 @@ const config: Config = {
         'change-password-form': '70px 70px 70px 80px',
       },
       backgroundColor: {
-        primaryBlue: { DEFAULT: '#242760', 100: '#7479db' },
+        primaryBlue: {
+          DEFAULT: '#242760',
+          100: '#7479db',
+          200: '#3D405B',
+          300: '#373C6C',
+        },
         darkBlue: '#2B2D54',
         hoverPrimaryBlue: '#075985',
         whiteCustom: '#FAFAFA',
@@ -38,6 +43,7 @@ const config: Config = {
         grayText: '#71717A',
         primaryBlue: { DEFAULT: '#242760', 100: '#7479db' },
         darkBlue: '#2B2D54',
+        lightBlue: { DEFAULT: '#3EC1F3', 100: '#6FD7FF' },
         leaveRed: '#DC3545',
       },
     },

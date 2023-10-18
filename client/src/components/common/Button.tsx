@@ -26,9 +26,9 @@ export default function Button({
       <button
         id={id}
         type={type}
-        className={`flex w-full justify-center rounded-md bg-blue-600 px-3 py-3 text-sm font-semibold leading-6
-             text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-200
-             disabled:bg-blue-400 ${className}`}
+        className={`flex w-full justify-center rounded-md bg-primaryBlue px-3 py-3 font-poppins text-sm font-semibold  leading-6
+             text-white shadow-sm hover:bg-primaryBlue-300 focus:outline-none focus:ring focus:ring-blue-200
+             disabled:bg-primaryBlue-200 ${className}`}
         onClick={onClick}
         disabled={disabled}
       >
