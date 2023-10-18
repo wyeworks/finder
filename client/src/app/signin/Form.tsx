@@ -26,6 +26,7 @@ export default function Form() {
     password: false,
   });
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const router = useRouter();
 
@@ -38,6 +39,8 @@ export default function Form() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    setIsDisabled(true);
+
     setTouched({
       email: true,
       password: true,
@@ -48,8 +51,13 @@ export default function Form() {
     if (!isCurrentFormValid) {
       setAlertMessage(strings.common.error.completeFields);
       setIsVisible(true);
+      setIsDisabled(false);
       return;
     }
+
+    //Clean previous Alert Messages
+    setAlertMessage('');
+    setIsVisible(false);
 
     try {
       Logger.debug(
@@ -71,6 +79,7 @@ export default function Form() {
     } catch (error) {
       setAlertMessage(strings.common.error.logInInvalid);
       setIsVisible(true);
+      setIsDisabled(false);
     }
   };
 
@@ -112,6 +121,7 @@ export default function Form() {
           type='submit'
           text={strings.form.logInButton.text}
           className='mt-5'
+          disabled={isDisabled}
         />
         <Alert
           isVisible={isVisible}

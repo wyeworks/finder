@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        'poppins': ['Poppins', 'sans-serif']
+        poppins: ['Poppins', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -24,17 +24,20 @@ const config: Config = {
       },
       backgroundColor: {
         primaryBlue: { DEFAULT: '#242760', 100: '#7479db' },
+        darkBlue: '#2B2D54',
         hoverPrimaryBlue: '#075985',
         whiteCustom: '#FAFAFA',
         backgroundInput: '#fcfcfc',
         error: '#DC3545',
       },
       textColor: {
+        blackTextColor: '#212B36',
         whiteTextHeader: '#FAFAFA',
         iconTextHeader: '#A0A0A0',
         inputTextColor: '#a0a0a0',
         grayText: '#71717A',
         primaryBlue: { DEFAULT: '#242760', 100: '#7479db' },
+        darkBlue: '#2B2D54',
         leaveRed: '#DC3545',
       },
     },
