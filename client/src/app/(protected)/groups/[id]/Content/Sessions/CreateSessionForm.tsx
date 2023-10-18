@@ -70,7 +70,7 @@ export default function CreateSessionForm({
           </p>
         )}
       </div>
-      <ClockIcon className='mr-2 mt-1 h-5 w-5' />
+      <ClockIcon className='mr-2 mt-2 h-5 w-5' />
       <div className='flex items-baseline justify-center gap-3'>
         <Input
           type='date'
@@ -132,7 +132,7 @@ export default function CreateSessionForm({
           disabled={formData.startTime === ''}
         />
       </div>
-      <LocationIcon className='mr-2 mt-1 h-5 w-5' />
+      <LocationIcon className='mr-2 mt-2 h-5 w-5' />
       <Input
         type='text'
         id='location'
@@ -145,7 +145,7 @@ export default function CreateSessionForm({
         touched={touched.location}
         validateText={strings.createSession.form.validateText.default}
       />
-      <BarsIcon className='mr-2 h-5 w-5' />
+      <BarsIcon className='mr-2 mt-1 h-5 w-5' />
       <TextArea
         id='description'
         name='description'
@@ -158,7 +158,7 @@ export default function CreateSessionForm({
         touched={touched.description}
         validateText={strings.createSession.form.validateText.default}
       />
-      <LinkIcon className='mr-2 h-5 w-5' />
+      <LinkIcon className='mr-2 mt-2 h-5 w-5' />
       <Input
         type='text'
         id='meetLink'
