@@ -79,12 +79,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_202700) do
   end
 
   create_table "sessions", force: :cascade do |t|
-    t.string "name", null: false
+    t.string "name"
     t.text "description"
     t.string "location"
-    t.string "meeting_link", null: false
-    t.datetime "start_time", null: false
-    t.datetime "end_time", null: false
+    t.string "meeting_link"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.bigint "group_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
