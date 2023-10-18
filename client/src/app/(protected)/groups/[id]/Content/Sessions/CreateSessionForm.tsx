@@ -7,10 +7,11 @@ import TextArea from '@/components/common/TextArea';
 import { CreateSessionData } from './Sessions';
 import Button from '@/components/common/Button';
 import strings from '@/locales/strings.json';
+import { Dispatch, SetStateAction } from 'react';
 
 type CreateSessionModalProps = {
   formData: CreateSessionData;
-  setFormData: any; // change this ttype
+  setFormData: Dispatch<SetStateAction<CreateSessionData>>;
   // eslint-disable-next-line no-unused-vars
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
   touched: any;
