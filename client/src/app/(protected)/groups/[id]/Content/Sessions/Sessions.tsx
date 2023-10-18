@@ -21,7 +21,7 @@ enum typeTabs {
 }
 
 export type CreateSessionData = {
-  tittle: string;
+  title: string;
   startTime: string;
   startHour: string;
   endTime: string;
@@ -35,7 +35,7 @@ export default function Sessions({ group }: SessionsProps) {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [tab, setTab] = useState<typeTabs>(typeTabs.NEXT);
   const [formData, setFormData] = useState<CreateSessionData>({
-    tittle: '',
+    title: '',
     startTime: '',
     startHour: '',
     endTime: '',
@@ -45,7 +45,7 @@ export default function Sessions({ group }: SessionsProps) {
     meetLink: '',
   });
   const [touchedData, setTouchedData] = useState({
-    tittle: false,
+    title: false,
     startTime: false,
     startHour: false,
     endTime: false,
@@ -61,7 +61,7 @@ export default function Sessions({ group }: SessionsProps) {
     const isCurrentFormValid = event.currentTarget.checkValidity();
 
     setTouchedData({
-      tittle: true,
+      title: true,
       startTime: true,
       startHour: true,
       endTime: true,
@@ -76,7 +76,7 @@ export default function Sessions({ group }: SessionsProps) {
     }
     setOpenModal(false);
     setFormData({
-      tittle: '',
+      title: '',
       startTime: '',
       startHour: '',
       endTime: '',
@@ -86,7 +86,7 @@ export default function Sessions({ group }: SessionsProps) {
       meetLink: '',
     });
     setTouchedData({
-      tittle: false,
+      title: false,
       startTime: false,
       startHour: false,
       endTime: false,
@@ -121,7 +121,7 @@ export default function Sessions({ group }: SessionsProps) {
           </div>
           <div className='flex justify-end sm:w-[50%]'>
             <Button
-              text='Crear Sessión'
+              text='Crear Sesión'
               Icon={<PlusIcon className='h-5 w-5' />}
               classNameWrapper='sm:p-4'
               spaceBetween={8}
@@ -147,7 +147,7 @@ export default function Sessions({ group }: SessionsProps) {
             touched={touchedData}
           />
         }
-        xClose={true}
+        showXButton={true}
       />
     </>
   );

@@ -1,3 +1,3 @@
 export default function NextSessions() {
-  return <>Proximas sesiones</>;
+  return <>Próximas sesiones</>;
 }

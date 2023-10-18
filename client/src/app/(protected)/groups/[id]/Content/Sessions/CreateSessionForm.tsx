@@ -55,17 +55,17 @@ export default function CreateSessionForm({
     >
       <div className='col-span-2'>
         <input
-          name='tittle'
+          name='title'
           type='text'
           className='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
-          placeholder={strings.createSession.form.placeholders.tittle}
-          value={formData.tittle}
+          placeholder={strings.createSession.form.placeholders.title}
+          value={formData.title}
           onChange={handleChange}
           required
         />
-        {touched.tittle && (
+        {touched.title && (
           <p className='invisible text-sm text-red-600 peer-invalid:visible'>
-            {strings.createSession.form.validateText.tittle}
+            {strings.createSession.form.validateText.title}
           </p>
         )}
       </div>
@@ -75,7 +75,6 @@ export default function CreateSessionForm({
           type='date'
           id='startTime'
           name='startTime'
-          // classNameInput='bg-backgroundInput col-span-2 h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
           classNameInput='bg-backgroundInput disabled:bg-gray-200'
           minNumber={new Date().toISOString().split('T')[0]}
           value={formData.startTime}

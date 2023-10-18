@@ -195,17 +195,17 @@
   "createSession": {
     "form": {
       "validateText": {
-        "default": "No puede ser vacio",
-        "tittle": "La sesion debe tener titulo",
-        "hourFormat": "formato valido: hh:mm"
+        "default": "No puede ser vacío",
+        "title": "La sesion debe tener título",
+        "hourFormat": "formato válido: hh:mm"
       },
       "submitText": "Guardar",
       "placeholders": {
-        "meetLink": "Link de la reunion",
-        "description": "Ingrese la descripcion de la session",
-        "location": "Ingrese la ubicacion aquí",
+        "meetLink": "Link de la reunión",
+        "description": "Ingrese la descripción de la sesión",
+        "location": "Ingrese la ubicación aquí",
         "hoursFormat": "hh:mm",
-        "tittle": "Añade un titulo"
+        "title": "Añadí un titulo"
       }
     }
   }

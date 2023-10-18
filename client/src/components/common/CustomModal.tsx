@@ -3,23 +3,23 @@ import { Dispatch, Fragment, ReactNode, SetStateAction } from 'react';
 import CrossIcon from '@/assets/Icons/CrossIcon';
 
 type ModalProps = {
-  tittle?: string;
+  title?: string;
   content: ReactNode;
   footer?: ReactNode;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   handleClose?: () => void;
-  xClose?: boolean;
+  showXButton?: boolean;
 };
 
 export default function CustomModal({
-  tittle,
+  title,
   content,
   footer,
   isOpen,
   setIsOpen,
   handleClose,
-  xClose,
+  showXButton,
 }: ModalProps) {
   function closeModal() {
     if (handleClose) handleClose();
@@ -54,7 +54,7 @@ export default function CustomModal({
                 leaveTo='opacity-0 scale-95'
               >
                 <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2xl bg-white px-6 py-2 text-left align-middle shadow-xl transition-all'>
-                  {xClose && (
+                  {showXButton && (
                     <button
                       onClick={() => setIsOpen(false)}
                       className='absolute right-4 top-4'
@@ -63,12 +63,12 @@ export default function CustomModal({
                     </button>
                   )}
 
-                  {tittle && (
+                  {title && (
                     <Dialog.Title
                       as='h3'
                       className='text-lg font-medium leading-6 text-gray-900'
                     >
-                      {tittle}
+                      {title}
                     </Dialog.Title>
                   )}
                   <div className='mt-2'>{content}</div>
