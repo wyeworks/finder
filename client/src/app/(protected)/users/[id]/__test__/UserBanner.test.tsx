@@ -4,7 +4,7 @@ import UserBanner from '@/app/(protected)/users/[id]/UserBanner';
 import {
   SocialNetworksBuilder,
   UserBuilder,
-} from '../../../../../tests/builders/UserBuilder';
+} from '../../../../../../tests/builders/UserBuilder';
 import React from 'react';
 
 describe('UserBanner Component', () => {
