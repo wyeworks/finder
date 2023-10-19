@@ -25,6 +25,16 @@ export const FiltersContent: React.FC<FiltersContentProps> = ({ subjects }) => {
           placeholder=''
         />
       </div>
+      <div className='px-4 pt-4'>
+        <label className='font-bold'>
+          <input
+            type='checkbox'
+            name='my_groups'
+            className='mr-2 accent-primaryBlue'
+          />
+          Mis grupos
+        </label>
+      </div>
       <div>
         <h4 className='mt-4 px-4 font-bold'>Preferencia horaria</h4>
         {['Morning', 'Afternoon', 'Night'].map((time) => {
@@ -46,16 +56,7 @@ export const FiltersContent: React.FC<FiltersContentProps> = ({ subjects }) => {
           return null;
         })}
       </div>
-      <div className='px-4 pt-4'>
-        <label>
-          <input
-            type='checkbox'
-            name='my_groups'
-            className='mr-2 accent-primaryBlue'
-          />
-          Mis grupos
-        </label>
-      </div>
+
       <div className='flex justify-center pt-3'>
         <Link
           href='/groups/new'
