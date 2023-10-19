@@ -2,7 +2,7 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@/__mocks__/next/router';
 import strings from '@/locales/strings.json';
-import FormPersonalInfo from './FormPersonalInfo';
+import FormPersonalInfo from '../FormPersonalInfo';
 import { User } from '@/types/User';
 
 global.fetch = jest.fn();

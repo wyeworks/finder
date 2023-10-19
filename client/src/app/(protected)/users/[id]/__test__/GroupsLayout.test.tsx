@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { Groups } from '@/app/(protected)/users/[id]/GroupsLayout';
-import { StudyGroupBuilder } from '../../../../../tests/builders/StudyGroupBuilder';
+import { StudyGroupBuilder } from '../../../../../../tests/builders/StudyGroupBuilder';
 import { Subject } from '@/types/Subject';
 
 global.fetch = jest.fn();
