@@ -1,8 +1,9 @@
 class GroupsController < ApplicationController
   include GroupAdminConcern
 
-  before_action :set_group, only: %i[show update destroy members]
+  before_action :set_group, only: %i[show update destroy members remove_member]
   before_action :authorize_group_admin!, only: %i[update destroy]
+  before_action :set_member, only: :remove_member
 
   def index
     groups = Group.all.map do |group|
@@ -73,6 +74,28 @@ class GroupsController < ApplicationController
     render json: serialized_members
   end
 
+  def remove_member
+    unless current_user.id == @member.user_id || @group.members.find_by(user: current_user, role: 'admin')
+      render json: {
+        errors: {
+          member: ['No autorizado']
+        }
+      }, status: :unauthorized
+      return
+    end
+
+    if @member.destroy
+      head :no_content
+    else
+      Rails.logger.info "Member has the following validation errors: #{@member.errors.full_messages}"
+
+      render json: {
+        message: 'El miembro no pudo ser eliminado correctamente',
+        errors: @group.errors.messages
+      }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_group
@@ -83,6 +106,20 @@ class GroupsController < ApplicationController
     render json: {
       errors: {
         group: ["No se pudo encontrar el grupo con el ID ##{params[:id]}"]
+      }
+    }, status: :not_found
+  end
+
+  def set_member
+    @member = @group.members.find_by(user_id: params[:user_id])
+
+    return if @member
+
+    Rails.logger.info "Couldn't find User with ID ##{params[:user_id]}"
+
+    render json: {
+      errors: {
+        member: ["No se pudo encontrar el usuario con el ID ##{params[:user_id]}"]
       }
     }, status: :not_found
   end

@@ -32,3 +32,6 @@ Rails/HasAndBelongsToMany:
 
 Lint/RedundantDirGlobSort:
   Enabled: false
+
+Metrics/ClassLength:
+  Max: 120
