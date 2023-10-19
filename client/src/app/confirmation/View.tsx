@@ -24,8 +24,10 @@ export default function View() {
             alt='Confirmar email'
             className='mx-auto max-w-xs sm:max-w-md'
           />
-          <h1 className='mt-4 font-bold'>{strings.confirmation.headerText}</h1>
-          <p className='mt-2'>{strings.confirmation.infoText}</p>
+          <h1 className='mt-4 font-poppins font-bold'>
+            {strings.confirmation.headerText}
+          </h1>
+          <p className='mt-2 font-poppins'>{strings.confirmation.infoText}</p>
         </div>
 
         <Link href={'/signin'}>
