@@ -33,7 +33,7 @@ export default function CreateSessionForm({
     if (name === 'startTime') {
       setFormData((prevState: CreateSessionData) => ({
         ...prevState,
-        ['endTime']: '',
+        ['endTime']: value,
       }));
     }
     setFormData((prevState: CreateSessionData) => ({
@@ -88,7 +88,6 @@ export default function CreateSessionForm({
           validateText={strings.createSession.form.validateText.default}
           data-testid='startTime'
         />
-        <span className='mt-1'>-</span>
         <Input
           type='text'
           id='startHour'
@@ -121,7 +120,6 @@ export default function CreateSessionForm({
           disabled={formData.startTime === ''}
           data-testid='endTime'
         />
-        -
         <Input
           type='text'
           id='endHour'
@@ -145,7 +143,6 @@ export default function CreateSessionForm({
         id='location'
         name='location'
         placeholder={strings.createSession.form.placeholders.location}
-        required
         classNameInput='bg-backgroundInput'
         value={formData.location}
         onChange={handleChange}
@@ -159,7 +156,6 @@ export default function CreateSessionForm({
         placeholder={strings.createSession.form.placeholders.description}
         className='pt-3'
         classNameWrapper='mb-3'
-        required
         value={formData.description}
         onChange={handleChange}
         touched={touched.description}
@@ -171,7 +167,6 @@ export default function CreateSessionForm({
         id='meetLink'
         name='meetLink'
         placeholder={strings.createSession.form.placeholders.meetLink}
-        required
         classNameInput='bg-backgroundInput'
         value={formData.meetLink}
         onChange={handleChange}
