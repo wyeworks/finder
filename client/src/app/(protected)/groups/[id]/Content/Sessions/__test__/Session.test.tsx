@@ -4,6 +4,10 @@ import Sessions from '../Sessions';
 import { SessionProvider } from 'next-auth/react';
 import userEvent from '@testing-library/user-event';
 
+jest.mock('next/navigation', () => ({
+  usePathname: jest.fn().mockReturnValue('groups/1'),
+}));
+
 const renderSessions = () => {
   render(
     <SessionProvider
