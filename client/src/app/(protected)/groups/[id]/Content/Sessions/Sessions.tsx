@@ -119,23 +119,6 @@ export default function Sessions({ group }: SessionsProps) {
       return;
     }
 
-    // the hour is 3 hours more
-    const [yearStart, monthStart, dayStart] = formData.startTime
-      .split('-')
-      .map(Number);
-    const [hourStart, minStart] = formData.startHour.split(':').map(Number);
-    const startDate = new Date(
-      yearStart,
-      monthStart,
-      dayStart,
-      hourStart,
-      minStart
-    );
-
-    const [yearEnd, monthEnd, dayEnd] = formData.endTime.split('-').map(Number);
-    const [hourEnd, minEnd] = formData.endHour.split(':').map(Number);
-    const endDate = new Date(yearEnd, monthEnd, dayEnd, hourEnd, minEnd);
-
     try {
       await SessionService.createSession(
         {
@@ -143,8 +126,8 @@ export default function Sessions({ group }: SessionsProps) {
           description: formData.description,
           location: formData.location,
           meeting_link: formData.meetLink,
-          start_time: startDate,
-          end_time: endDate,
+          start_time: formData.startTime + '-' + formData.startHour,
+          end_time: formData.endTime + '-' + formData.endHour,
           group_id: Number(groupId),
         },
         session?.user.accessToken!
