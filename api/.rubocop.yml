@@ -15,6 +15,9 @@ Style/FrozenStringLiteralComment:
 Style/Documentation:
   Enabled: false
 
+Style/Lambda:
+  EnforcedStyle: literal
+
 Metrics/AbcSize:
   Enabled: false
 

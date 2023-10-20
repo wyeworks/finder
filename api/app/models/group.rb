@@ -29,6 +29,14 @@ class Group < ApplicationRecord
   validates :size, numericality: { only_integer: true }
   validate :validate_time_preferences
 
+  # Scopes
+  scope :search_by_params, ->(name:, subject_id:) do
+    groups = where('name ILIKE ?', "%#{name}%")
+    groups = groups.where('cast(subject_id as text) = ?', subject_id.to_s) if subject_id
+
+    groups
+  end
+
   def admin?(user)
     members.exists?(user:, role: 'admin')
   end
