@@ -1,4 +1,5 @@
 import { ApiCommunicator } from '@/services/ApiCommunicator';
+import { Logger } from './Logger';
 
 type CreateSessionData = {
   name: string;
@@ -23,5 +24,23 @@ export class SessionService {
     });
     const body = await response.json();
     return body.id;
+  }
+
+  public static async getSessions(
+    groupId: string,
+    accessToken: string
+  ): Promise<any[]> {
+    try {
+      const response = await ApiCommunicator.commonFetch({
+        url: '/sessions/' + groupId,
+        method: 'GET',
+        accessToken,
+      });
+
+      return await response.json();
+    } catch (error) {
+      Logger.error('Error trying to get sessions: ' + error);
+      return [];
+    }
   }
 }
