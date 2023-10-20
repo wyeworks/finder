@@ -5,8 +5,8 @@ type CreateSessionData = {
   description: string;
   location: string;
   meeting_link: string;
-  start_time: Date;
-  end_time: Date;
+  start_time: string;
+  end_time: string;
   group_id: number;
 };
 
