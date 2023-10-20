@@ -198,9 +198,8 @@ export default function FormPersonalInfo({
         },
       });
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      //refresh
+      window.location.reload();
     } catch (error) {
       setAlertMessage(strings.common.error.unexpectedError);
       setAlertVisible(true);

@@ -24,7 +24,7 @@ export default async function ConfigProfile() {
     <>
       <div className='flex w-full justify-center bg-primaryBlue md:flex'>
         <p className='flex w-[98%] items-center border-t-2 border-gray-500 py-5 text-2xl text-white'>
-          <strong className='pl-6 md:ml-12'>Editar perfil</strong>
+          <strong className='pl-6 font-poppins md:ml-12'>Editar perfil</strong>
         </p>
       </div>
       <div className='flex min-h-[500px] justify-center py-5'>

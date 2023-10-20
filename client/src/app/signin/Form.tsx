@@ -138,7 +138,7 @@ export default function Form() {
         <Button
           type='submit'
           text={strings.form.logInButton.text}
-          className='mt-5'
+          className='mt-5 hover:bg-primaryBlue-300 focus:outline-none focus:ring focus:ring-blue-200'
           disabled={isDisabled}
         />
         <Alert
