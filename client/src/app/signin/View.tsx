@@ -13,10 +13,10 @@ export default function View() {
           <FinderLogoIcon fill='#242760' height={50} width={41.666} />
           finder
         </h2>
-        <h2 className='mt-4 text-center text-2xl font-normal leading-9 tracking-tight text-gray-900 sm:mt-10'>
+        <h2 className='mt-4 text-center font-poppins text-2xl font-medium leading-9 tracking-tight text-gray-900 sm:mt-10'>
           Iniciar sesión
         </h2>
-        <p className='mt-1 text-center text-sm tracking-tight text-gray-400'>
+        <p className='mt-1 text-center font-poppins text-sm font-light tracking-tight text-gray-400'>
           Ingresa a tu cuenta para contactarte con tus compañeros
         </p>
       </div>
@@ -24,11 +24,11 @@ export default function View() {
         <Form />
       </div>
       <div>
-        <p className='mt-5 text-center text-sm text-gray-500'>
+        <p className='mt-5 text-center font-poppins text-sm text-gray-500'>
           ¿No tenés cuenta?
           <Link
             href='/signup'
-            className='font-semibold leading-6 text-blue-600 hover:text-blue-500'
+            className='font-poppins font-semibold leading-6 text-lightBlue hover:text-lightBlue-100'
           >
             {' '}
             Crear cuenta
