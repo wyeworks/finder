@@ -55,7 +55,7 @@ es:
               blank: "El inicio de la sesión debe ser una fecha válida"
             end_time:
               required: "La hora de finalización de la sesión es requerida"
-              blank: "El fin de la sesión ser una fecha válida"
+              blank: "El fin de la sesión debe ser una fecha válida"
             group_id:
               required: "La sesión debe estar asociada a un grupo"
         subject:
