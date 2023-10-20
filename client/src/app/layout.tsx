@@ -17,6 +17,12 @@ export default async function RootLayout({
 }) {
   return (
     <html lang='en'>
+      <head>
+        <link
+          href='https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap'
+          rel='stylesheet'
+        />
+      </head>
       <body className={`${inter.className} flex min-h-screen flex-col`}>
         <main className='grid flex-1 bg-gray-50'>{children}</main>
         <Footer />

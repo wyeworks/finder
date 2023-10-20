@@ -30,7 +30,7 @@ export default function Alert({
         )}`}
         role={type}
       >
-        {withTitle && <p className='font-bold'>{title}</p>}
+        {withTitle && <p className='font-poppins font-bold'>{title}</p>}
         <p>{message}</p>
       </div>
     );
