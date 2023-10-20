@@ -27,6 +27,7 @@ const defaultProps = {
     description: true,
     meetLink: true,
   },
+  alertProps: { show: false },
 };
 
 describe('CreateSessionForm Component', () => {

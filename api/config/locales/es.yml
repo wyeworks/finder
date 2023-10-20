@@ -52,7 +52,7 @@ es:
               blank: "El link de la sesión no puede ser vacío"
             start_time:
               required: "La hora de inicio de la sesión es requerida"
-              blank: "El inicio de la sesión ser una fecha válida"
+              blank: "El inicio de la sesión debe ser una fecha válida"
             end_time:
               required: "La hora de finalización de la sesión es requerida"
               blank: "El fin de la sesión ser una fecha válida"
