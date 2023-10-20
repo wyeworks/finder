@@ -27,7 +27,7 @@ describe('Session Component', () => {
     renderSessions();
 
     const historialButton = screen.getByText('Historial');
-    const crearSesionButton = screen.getByText('Crear Sesión');
+    const crearSesionButton = screen.getByText('Crear sesión');
     const proximasSesionesButton = screen.getByText('Próximas sesiones');
 
     expect(historialButton).toBeInTheDocument();

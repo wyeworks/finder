@@ -186,7 +186,7 @@ export default function Sessions({ group }: SessionsProps) {
             <Button
               text='Próximas sesiones'
               classNameWrapper='sm:p-4'
-              className={`h-8 items-center border border-gray-300 bg-white text-lg !text-primaryBlue hover:bg-gray-200  ${
+              className={`h-8 items-center border border-gray-300 bg-white text-lg !text-primaryBlue hover:bg-gray-300   ${
                 tab === typeTabs.NEXT && '!bg-gray-200'
               }`}
               onClick={() => setTab(typeTabs.NEXT)}
@@ -194,7 +194,7 @@ export default function Sessions({ group }: SessionsProps) {
             <Button
               text='Historial'
               classNameWrapper='sm:p-4'
-              className={`h-8 items-center border border-gray-300 bg-white text-lg !text-primaryBlue hover:bg-gray-200   ${
+              className={`h-8 items-center border border-gray-300 bg-white text-lg !text-primaryBlue hover:bg-gray-300   ${
                 tab === typeTabs.HISTORY && '!bg-gray-200'
               }`}
               onClick={() => setTab(typeTabs.HISTORY)}
@@ -202,7 +202,7 @@ export default function Sessions({ group }: SessionsProps) {
           </div>
           <div className='flex justify-end sm:w-[50%]'>
             <Button
-              text='Crear Sesión'
+              text='Crear sesión'
               Icon={<PlusIcon className='h-5 w-5' />}
               classNameWrapper='sm:p-4'
               spaceBetween={8}
