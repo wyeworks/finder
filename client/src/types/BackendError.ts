@@ -13,5 +13,9 @@ export type BackendError = {
     group?: string[];
     role?: string[];
     user?: string[];
+    meeting_link?: string[];
+    start_time?: string[];
+    end_time?: string[];
+    group_id?: string[];
   };
 };
