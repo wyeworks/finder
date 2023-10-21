@@ -177,7 +177,7 @@ RSpec.describe UsersController, type: :request do
 
       it 'returns JSON containing error message for invalid current password' do
         json_response = response.parsed_body
-        expect(json_response['errors']['current_password'][0]).to eq('La validación falló y el record no es válido')
+        expect(json_response['errors']['current_password'][0]).to eq('La contraseña actual es incorrecta.')
       end
     end
   end
