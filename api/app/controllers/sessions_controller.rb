@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   before_action :set_session, only: %i[show update destroy]
-  # before_action :authorize_group_member!, only: %i[show create]
-  # before_action :authorize_creator_or_group_admin!, only: %i[update destroy]
+  before_action :authorize_group_member!, only: %i[show create]
+  before_action :authorize_creator_or_group_admin!, only: %i[update destroy]
 
   def show
     render json: SessionSerializer.new(@session).serializable_hash[:data][:attributes], status: :ok
@@ -69,8 +69,9 @@ class SessionsController < ApplicationController
   end
 
   def authorize_group_member!
-    group = @session.group
-    member = group.members.find_by(user: current_user)
+    group = @session ? @session.group : Group.find(session_params[:group_id])
+
+    member = Member.find_by(user: current_user, group:)
 
     return if member
 
@@ -78,9 +79,10 @@ class SessionsController < ApplicationController
   end
 
   def authorize_creator_or_group_admin!
-    @session.group.members.find_by(user: current_user)
+    is_admin = @session.group.admin?(current_user)
+    is_creator = @session.creator == current_user
 
-    return if @session.group.admin?(current_user) || @session.creator == current_user
+    return if is_admin || is_creator
 
     render json: { message: 'No estás autorizado para realizar esta acción' }, status: :unauthorized
   end
