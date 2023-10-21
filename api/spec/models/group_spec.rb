@@ -81,6 +81,33 @@ RSpec.describe Group, type: :model do
         end
       end
     end
+
+    describe 'sort_by_time_preferences' do
+      let(:subject) { described_class.sort_by_time_preferences(time_preferences:) }
+
+      let!(:group_one) do
+        create :group, time_preferences: { 'Monday' => 'Night', 'Tuesday' => 'Afternoon', 'Wednesday' => 'Night' }
+      end
+      let!(:group_two) { create :group, time_preferences: { 'Monday' => 'Morning' } }
+      let!(:group_three) { create :group, time_preferences: { 'Monday' => 'Night' } }
+
+      context 'when no time_preferences are passed' do
+        let(:time_preferences) { nil }
+
+        it 'returns all groups in the same previous order' do
+          expect(subject).to match_array([group_one, group_two, group_three])
+        end
+      end
+
+      context 'when time_preferences are passed' do
+        let(:time_preferences) { 'night,afternoon' }
+
+        it 'returns the sorted collection of groups based on the time preferences' do
+          expect(subject.first).to eq(group_one)
+          expect(subject.last).to eq(group_three)
+        end
+      end
+    end
   end
 
   describe '#admin?' do
