@@ -20,8 +20,8 @@ export default function View() {
           Ingresa a tu cuenta para contactarte con tus compañeros
         </p>
       </div>
-      <div id='login-body'>
-        <Form/>
+      <div id='login-body justify-center'>
+        <Form />
       </div>
       <div>
         <p className='mt-5 text-center font-poppins text-sm text-gray-500'>
