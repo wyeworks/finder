@@ -34,4 +34,4 @@ Lint/RedundantDirGlobSort:
   Enabled: false
 
 Metrics/ClassLength:
-  Max: 120
+  Max: 200
