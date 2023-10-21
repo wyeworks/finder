@@ -8,8 +8,9 @@ RSpec.describe UsersController, type: :request do
   end
 
   # Show
+  # Show
   describe 'GET /users/:id' do
-    let(:user) { create :user, :with_social_networks }
+    let(:user) { create :user, :with_social_networks, :with_careers, :with_subjects }
 
     before do
       get user_path(user), headers:
@@ -28,6 +29,22 @@ RSpec.describe UsersController, type: :request do
         expect(json_response['name']).to eq(user.name)
         expect(DateTime.parse(json_response['birth_date'])).to eq(user.birth_date)
         expect(json_response['social_networks']).to eq(user.social_networks)
+      end
+
+      it "returns JSON containing user's careers data" do
+        json_response = response.parsed_body['careers']
+
+        expect(json_response[0]['id']).to be_a(Integer)
+        expect(json_response[0]['name']).to be_a(String)
+        expect(json_response[0]['code']).to be_a(String)
+      end
+
+      # Subjects
+      it "returns JSON containing user's subjects data" do
+        json_response = response.parsed_body['subjects']
+
+        expect(json_response[0]['id']).to be_a(Integer)
+        expect(json_response[0]['name']).to be_a(String)
       end
 
       context 'when trying to access another user data' do
@@ -294,52 +311,6 @@ RSpec.describe UsersController, type: :request do
         json_response = response.parsed_body
 
         expect(json_response).to include('Tienes que registrarte o iniciar sesión antes de continuar')
-      end
-    end
-  end
-
-  # Careers
-  describe 'GET /users/:id' do
-    let(:user) { create :user, :with_careers, :with_subjects }
-
-    before do
-      get user_path(user), headers:
-    end
-
-    context 'when user is authenticated' do
-      it 'returns a successful response' do
-        expect(response).to be_successful
-      end
-
-      it "returns JSON containing user's careers data" do
-        json_response = response.parsed_body['careers']
-
-        expect(json_response[0]['id']).to be_a(Integer)
-        expect(json_response[0]['name']).to be_a(String)
-        expect(json_response[0]['code']).to be_a(String)
-      end
-      # Subjects
-      it "returns JSON containing user's subjects data" do
-        json_response = response.parsed_body['subjects']
-
-        expect(json_response[0]['id']).to be_a(Integer)
-        expect(json_response[0]['name']).to be_a(String)
-      end
-    end
-
-    context 'when trying to access another user data' do
-      let(:another_user) { create :user }
-      before do
-        get user_path(another_user), headers:
-      end
-
-      it 'returns http unauthorized' do
-        expect(response).to have_http_status(:unauthorized)
-      end
-
-      it 'returns a not authorized message' do
-        json_response = response.parsed_body
-        expect(json_response['errors']['user'][0]).to eq('No estás autorizado para realizar esta acción')
       end
     end
   end
