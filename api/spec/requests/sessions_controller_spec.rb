@@ -274,13 +274,53 @@ RSpec.describe SessionsController, type: :request do
   describe 'DELETE /sessions/:id' do
     let(:session) { create :session }
 
-    before do
-      delete session_path(session.id), headers:
+    context 'when the user is authenticated' do
+      context 'when session cannot be destroyed due to validation errors' do
+        before do
+          allow_any_instance_of(Session).to receive(:destroy).and_return(false)
+          delete session_path(session.id), headers:
+        end
+
+        it 'returns an unprocessable entity status' do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'returns JSON containing error messages' do
+          json_response = response.parsed_body
+          expect(json_response['message']).to eq('La sesión no pudo ser borrada correctamente')
+        end
+      end
+
+      context 'when the user is not the creator or group admin' do
+        let(:other_user) { create :user }
+        let(:other_headers) do
+          post user_session_path, params: { user: { email: other_user.email, password: other_user.password } }
+          { 'Authorization' => response.headers['Authorization'] }
+        end
+
+        before do
+          delete session_path(session.id), headers: other_headers
+        end
+
+        it 'returns unauthorized status' do
+          expect(response).to have_http_status(:unauthorized)
+        end
+
+        it 'returns JSON containing unauthorized message' do
+          json_response = response.parsed_body
+          expect(json_response['message']).to eq('No estás autorizado para realizar esta acción')
+        end
+      end
     end
 
-    it 'deletes the session' do
-      expect(response).to have_http_status(:no_content)
-      expect(Session.count).to eq(0)
+    context 'when the user is not authenticated' do
+      before do
+        delete session_path(session.id)
+      end
+
+      it 'returns http unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
 end
