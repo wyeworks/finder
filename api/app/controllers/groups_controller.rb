@@ -4,6 +4,7 @@ class GroupsController < ApplicationController
   before_action :set_group, only: %i[show update destroy members remove_member]
   before_action :authorize_group_admin!, only: %i[update destroy]
   before_action :set_member, only: :remove_member
+  before_action :handle_group_consistency, only: :remove_member
 
   def index
     groups = Group.all.map do |group|
@@ -122,6 +123,28 @@ class GroupsController < ApplicationController
         member: ["No se pudo encontrar el usuario con el ID ##{params[:user_id]}"]
       }
     }, status: :not_found
+  end
+
+  def handle_group_consistency
+    group = @member.group
+
+    if group.admin?(@member) && (group.admins.count == 1)
+      if group.members.count == 1
+        group.destroy
+        Rails.logger.info "Group ##{group.id} was successfully deleted"
+      else
+        group.promote_oldest_member!
+        Rails.logger.info "Oldest member has been promoted as admin for group ##{group.id}"
+      end
+    end
+  rescue ActiveRecord::RecordInvalid
+    Rails.logger.info "Couldn't promote oldest member for the group"
+
+    render json: {
+      errors: {
+        group: ['No se pudo promover al participante más antiguo del grupo']
+      }
+    }, status: :unprocessable_entity
   end
 
   def group_params
