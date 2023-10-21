@@ -3,6 +3,7 @@ es:
     errors:
       messages:
         invalid: "La validación falló y el record no es válido"
+        record_invalid: "La validación falló: %{errors}"
       models:
         career:
           attributes:
