@@ -217,7 +217,7 @@ export default function Sessions({ group }: SessionsProps) {
             />
           </div>
         </div>
-        <div className='mb-5 border border-solid border-gray-200 bg-white p-5'>
+        <div className='mb-5'>
           {tab === typeTabs.HISTORY && <History />}
           {tab === typeTabs.NEXT && <NextSessions />}
         </div>

@@ -2,7 +2,7 @@ interface Props {
   className: string;
 }
 
-export default function LocationIcon(props: Props) {
+export default function LocationIcon({ className }: Props) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -10,7 +10,7 @@ export default function LocationIcon(props: Props) {
       height='30'
       viewBox='0 0 29 30'
       fill='none'
-      className={props.className}
+      className={className}
     >
       <path
         d='M18.0726 13.1682C18.0726 15.1835 16.4543 16.8172 14.458 16.8172C12.4618 16.8172 10.8435 15.1835 10.8435 13.1682C10.8435 11.153 12.4618 9.51931 14.458 9.51931C16.4543 9.51931 18.0726 11.153 18.0726 13.1682Z'
