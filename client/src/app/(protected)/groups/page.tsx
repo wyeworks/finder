@@ -1,25 +1,54 @@
-import React from 'react';
+'use client';
+
+import React, { useCallback, useEffect, useState } from 'react';
 import { GroupService } from '@/services/GroupService';
 import { SubjectService } from '@/services/SubjectService';
+import Image from 'next/image';
 import View from './View';
-import { revalidatePath } from 'next/cache';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
+import { useSession } from 'next-auth/react';
+import { StudyGroup } from '@/types/StudyGroup';
+import { Subject } from '@/types/Subject';
 
-export default async function Groups() {
-  revalidatePath('/');
-  const session = await getServerSession(authOptions);
-  const groups = await GroupService.getAll(session?.user.accessToken!);
-  const subjects = await SubjectService.getAll(session?.user.accessToken!);
+export default function Groups() {
+  const { data: session } = useSession();
+
+  const [groups, setGroups] = useState<StudyGroup[]>([]);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const fetchData = useCallback(async () => {
+    setIsLoading(true);
+    const groupsFetch = await GroupService.getAll(session?.user.accessToken!);
+    const subjectsFetch = await SubjectService.getAll(
+      session?.user.accessToken!
+    );
+    setGroups(groupsFetch);
+    setSubjects(subjectsFetch);
+    setIsLoading(false);
+  }, [session?.user.accessToken]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex h-full flex-col'>
       <div className='p-5 text-[#2B2D54] lg:border-b-2 lg:bg-primaryBlue lg:text-white'>
-        <h1 className='text-center text-4xl font-extrabold'>
-          Resultados de la búsqueda
-        </h1>
+        <h1 className='text-center text-4xl font-extrabold'>Grupos</h1>
       </div>
-      <View groups={groups} subjects={subjects} />
+      {!isLoading && <View groups={groups} subjects={subjects} />}
+      {isLoading && (
+        <div className='flex h-full flex-col items-center justify-center'>
+          <Image
+            src='/loading_groups.png'
+            alt='Banner'
+            width={100}
+            height={100}
+            className='animate-bounce object-cover'
+          />
+          <p className='mt-4'>Cargando grupos...</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -138,7 +138,7 @@ export default function CreateGroup() {
               {actualStep !== 5 && !error && (
                 <button
                   className='flex items-center gap-3 pl-3 text-start'
-                  onClick={() => router.push('/home')}
+                  onClick={() => router.push('/groups')}
                 >
                   <CrossIcon className='h-4 w-4' /> Cancelar
                 </button>
@@ -146,7 +146,7 @@ export default function CreateGroup() {
             </div>
             <h1
               className='flex min-w-[150px] cursor-pointer items-center justify-center gap-3 text-center text-3xl font-bold text-primaryBlue'
-              onClick={() => router.push('/home')}
+              onClick={() => router.push('/groups')}
             >
               <FinderLogoIcon fill='#242760' height={50} width={41.666} />
               finder

@@ -31,6 +31,7 @@ export default function Form() {
     password: false,
   });
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const router = useRouter();
 
@@ -40,11 +41,29 @@ export default function Form() {
       ...prevState,
       [name]: value.trimEnd().trimStart(),
     }));
-    setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+    if (name !== 'email') {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    if (name === 'email') {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+    }
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    if (name === 'email') {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: false }));
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    setIsDisabled(true);
 
     setTouched({
       name: true,
@@ -57,8 +76,13 @@ export default function Form() {
     if (!isCurrentFormValid) {
       setAlertMessage(strings.common.error.completeFields);
       setIsVisible(true);
+      setIsDisabled(false);
       return;
     }
+
+    //Clean previous Alert Messages
+    setAlertMessage('');
+    setIsVisible(false);
 
     try {
       Logger.debug('Sending signup request with data:', formData);
@@ -78,11 +102,13 @@ export default function Form() {
 
         setAlertMessage(errorMessages.join('\n'));
         setIsVisible(true);
+        setIsDisabled(false);
         return;
       }
 
       setAlertMessage(strings.common.error.unexpectedError);
       setIsVisible(true);
+      setIsDisabled(false);
     }
   };
 
@@ -106,6 +132,7 @@ export default function Form() {
           required
           value={formData.name}
           onChange={handleChange}
+          onFocus={handleFocus}
           touched={touched.name}
           Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
         />
@@ -119,8 +146,11 @@ export default function Form() {
           required
           value={formData.email}
           onChange={handleChange}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
           touched={touched.email}
           Icon={<EmailIcon className='h-5 w-5 text-gray-400' />}
+          autoComplete='off'
         />
         <Input
           type='password'
@@ -134,6 +164,7 @@ export default function Form() {
           required
           value={formData.password}
           onChange={handleChange}
+          onFocus={handleFocus}
           touched={touched.password}
           autoComplete='new-password'
         />
@@ -141,6 +172,7 @@ export default function Form() {
           type='submit'
           text={strings.form.createAccountButton.text}
           className='mt-5'
+          disabled={isDisabled}
         />
         <Alert
           isVisible={isVisible}

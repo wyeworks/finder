@@ -191,5 +191,22 @@
       "requestButtonText": "Unirse al grupo",
       "reachedSizeLimit": "El grupo ya está lleno"
     }
+  },
+  "createSession": {
+    "form": {
+      "validateText": {
+        "default": "No puede ser vacío",
+        "title": "La sesion debe tener título",
+        "hourFormat": "formato válido: hh:mm"
+      },
+      "submitText": "Guardar",
+      "placeholders": {
+        "meetLink": "Link de la reunión",
+        "description": "Ingrese la descripción de la sesión",
+        "location": "Ingrese la ubicación aquí",
+        "hoursFormat": "hh:mm",
+        "title": "Añadí un titulo"
+      }
+    }
   }
 }

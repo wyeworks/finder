@@ -26,17 +26,35 @@ export default function Form() {
     password: false,
   });
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
-    setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    if (name === 'email') {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+    }
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    if (name !== 'email') {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+    } else {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: false }));
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    setIsDisabled(true);
 
     setTouched({
       email: true,
@@ -48,8 +66,13 @@ export default function Form() {
     if (!isCurrentFormValid) {
       setAlertMessage(strings.common.error.completeFields);
       setIsVisible(true);
+      setIsDisabled(false);
       return;
     }
+
+    //Clean previous Alert Messages
+    setAlertMessage('');
+    setIsVisible(false);
 
     try {
       Logger.debug(
@@ -67,10 +90,11 @@ export default function Form() {
         throw new Error('Server responded with an error status');
       }
 
-      router.push('/home');
+      router.push('/groups');
     } catch (error) {
       setAlertMessage(strings.common.error.logInInvalid);
       setIsVisible(true);
+      setIsDisabled(false);
     }
   };
 
@@ -95,6 +119,8 @@ export default function Form() {
           value={formData.email}
           onChange={handleChange}
           touched={touched.email}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
           Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
         />
         <Input
@@ -106,12 +132,14 @@ export default function Form() {
           required
           value={formData.password}
           onChange={handleChange}
+          onFocus={handleFocus}
           touched={touched.password}
         />
         <Button
           type='submit'
           text={strings.form.logInButton.text}
           className='mt-5'
+          disabled={isDisabled}
         />
         <Alert
           isVisible={isVisible}

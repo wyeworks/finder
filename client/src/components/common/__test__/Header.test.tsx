@@ -17,7 +17,7 @@ const mockedRouter: AppRouterInstance = {
 };
 
 describe('Header component', () => {
-  it('redirects to /home when logo is clicked', async () => {
+  it('redirects to /groups when logo is clicked', async () => {
     render(
       <AppRouterContext.Provider value={mockedRouter}>
         <Header
@@ -32,6 +32,6 @@ describe('Header component', () => {
     );
     const linkElement = screen.getByTestId('finder-logo');
     await userEvent.click(linkElement);
-    expect(linkElement).toHaveAttribute('href', '/home');
+    expect(linkElement).toHaveAttribute('href', '/groups');
   });
 });

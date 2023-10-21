@@ -13,7 +13,7 @@ export default function TimePreferences({ group }: TimePreferencesProps) {
   return (
     <>
       {group.time_preferences && (
-        <table className='min-w-full border-collapse'>
+        <table className='min-w-full border-collapse bg-white'>
           <thead>
             <tr>
               <th className='border px-4 py-2'>Día</th>

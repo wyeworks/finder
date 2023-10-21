@@ -12,7 +12,7 @@ export function GroupCard({ group, className = '' }: GroupCardProps) {
     <Link href={'/groups/' + group.id}>
       <div
         data-testid={`groupCard-${group.name}`}
-        className={`flex-col overflow-hidden rounded-2xl shadow-lg ${className}`}
+        className={`flex-col overflow-hidden rounded-2xl bg-white shadow-lg ${className}`}
       >
         <Image
           data-testid={`groupBanner-${group.banner ?? 'default'}`}
@@ -37,7 +37,7 @@ export function GroupCard({ group, className = '' }: GroupCardProps) {
           </h1>
           <p
             data-testid={`groupDescription-${group.description}`}
-            className='text-base font-light text-[#A0A0A0]'
+            className='line-clamp-2 text-base font-light text-[#A0A0A0]'
           >
             {group.description}
           </p>
