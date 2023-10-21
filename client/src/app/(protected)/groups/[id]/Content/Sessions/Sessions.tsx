@@ -97,9 +97,6 @@ export default function Sessions({ group }: SessionsProps) {
     if (parsedError.errors.group_id) {
       errorMessages.push(parsedError.errors.group_id);
     }
-    if (errorMessages.length === 0) {
-      errorMessages.push(strings.common.error.unexpectedError);
-    }
     return errorMessages;
   }
 
@@ -178,6 +175,12 @@ export default function Sessions({ group }: SessionsProps) {
         return;
       }
       Logger.debug('Error trying to create session' + { error });
+      setAlertProps({
+        show: true,
+        message: strings.common.error.unexpectedError,
+        title: 'Error',
+        alertType: 'error',
+      });
     }
   };
 
