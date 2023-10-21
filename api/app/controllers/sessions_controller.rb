@@ -9,8 +9,7 @@ class SessionsController < ApplicationController
 
   def create
     member = Member.find_by(user: current_user, group_id: session_params[:group_id])
-    @session = Session.new(session_params)
-    @session.creator = member
+    @session = Session.new(session_params.merge(creator: member))
 
     if @session.save
       Rails.logger.info "Session was successfully created with params: '#{session_params}'"
