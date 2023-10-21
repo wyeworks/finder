@@ -11,23 +11,17 @@ describe('UserBanner Component', () => {
   const usuarioTipico = UserBuilder.aUser().build();
 
   it('should render without crashing', () => {
-    render(
-      <UserBanner user={usuarioTipico} careers={[]} isLoggedUser={false} />
-    );
+    render(<UserBanner user={usuarioTipico} isLoggedUser={false} />);
   });
 
   it('should show the users name', () => {
-    render(
-      <UserBanner user={usuarioTipico} careers={[]} isLoggedUser={false} />
-    );
+    render(<UserBanner user={usuarioTipico} isLoggedUser={false} />);
 
     expect(document.querySelector('h1')).toHaveTextContent(usuarioTipico.name);
   });
 
   it('should show the users profile picture if it exists', () => {
-    render(
-      <UserBanner user={usuarioTipico} careers={[]} isLoggedUser={false} />
-    );
+    render(<UserBanner user={usuarioTipico} isLoggedUser={false} />);
 
     const profileImage = screen.getByTestId('profileImage');
 
@@ -39,9 +33,7 @@ describe('UserBanner Component', () => {
       .withProfileImage(undefined)
       .build();
 
-    render(
-      <UserBanner user={usuarioSinFoto} careers={[]} isLoggedUser={false} />
-    );
+    render(<UserBanner user={usuarioSinFoto} isLoggedUser={false} />);
 
     const profileImage = screen.getByTestId('defaultProfileImage');
 
@@ -51,9 +43,7 @@ describe('UserBanner Component', () => {
   it('should show the users bio if it exists', () => {
     const usuarioConBio = UserBuilder.aUser().withBio('Bio de prueba').build();
 
-    render(
-      <UserBanner user={usuarioConBio} careers={[]} isLoggedUser={false} />
-    );
+    render(<UserBanner user={usuarioConBio} isLoggedUser={false} />);
 
     expect(screen.getByText('Bio de prueba')).toBeInTheDocument();
   });
@@ -61,9 +51,7 @@ describe('UserBanner Component', () => {
   it('should not show a bio if the user does not have one', () => {
     const usuarioSinBio = UserBuilder.aUser().withBio(undefined).build();
 
-    render(
-      <UserBanner user={usuarioSinBio} careers={[]} isLoggedUser={false} />
-    );
+    render(<UserBanner user={usuarioSinBio} isLoggedUser={false} />);
 
     expect(screen.queryByTestId('BioField')).not.toBeInTheDocument();
   });
@@ -77,13 +65,7 @@ describe('UserBanner Component', () => {
           )
           .build();
 
-        render(
-          <UserBanner
-            user={usuarioConInstagram}
-            careers={[]}
-            isLoggedUser={false}
-          />
-        );
+        render(<UserBanner user={usuarioConInstagram} isLoggedUser={false} />);
 
         expect(screen.getByTestId('InstagramButton')).toBeInTheDocument();
       });
@@ -95,13 +77,7 @@ describe('UserBanner Component', () => {
           )
           .build();
 
-        render(
-          <UserBanner
-            user={usuarioConTwitter}
-            careers={[]}
-            isLoggedUser={false}
-          />
-        );
+        render(<UserBanner user={usuarioConTwitter} isLoggedUser={false} />);
 
         expect(screen.getByTestId('TwitterButton')).toBeInTheDocument();
       });
@@ -113,13 +89,7 @@ describe('UserBanner Component', () => {
           )
           .build();
 
-        render(
-          <UserBanner
-            user={usuarioConLinkedIn}
-            careers={[]}
-            isLoggedUser={false}
-          />
-        );
+        render(<UserBanner user={usuarioConLinkedIn} isLoggedUser={false} />);
 
         expect(screen.getByTestId('LinkedInButton')).toBeInTheDocument();
       });
@@ -131,13 +101,7 @@ describe('UserBanner Component', () => {
           )
           .build();
 
-        render(
-          <UserBanner
-            user={usuarioConDiscord}
-            isLoggedUser={false}
-            careers={[]}
-          />
-        );
+        render(<UserBanner user={usuarioConDiscord} isLoggedUser={false} />);
 
         expect(screen.getByTestId('DiscordButton')).toBeInTheDocument();
       });
@@ -154,11 +118,7 @@ describe('UserBanner Component', () => {
           .build();
 
         render(
-          <UserBanner
-            user={usuarioConTodasLasRedes}
-            isLoggedUser={false}
-            careers={[]}
-          />
+          <UserBanner user={usuarioConTodasLasRedes} isLoggedUser={false} />
         );
 
         expect(screen.getByTestId('InstagramButton')).toBeInTheDocument();
@@ -173,9 +133,7 @@ describe('UserBanner Component', () => {
         .withSocialNetworks(undefined)
         .build();
 
-      render(
-        <UserBanner user={usuarioSinRedes} careers={[]} isLoggedUser={false} />
-      );
+      render(<UserBanner user={usuarioSinRedes} isLoggedUser={false} />);
 
       expect(
         screen.queryByTestId('socialNetworksLayout')
@@ -186,9 +144,7 @@ describe('UserBanner Component', () => {
   it('should show a button to edit the profile if the users is the owner of the profile', () => {
     const usuarioLogueado = UserBuilder.aUser().build();
 
-    render(
-      <UserBanner user={usuarioLogueado} careers={[]} isLoggedUser={true} />
-    );
+    render(<UserBanner user={usuarioLogueado} isLoggedUser={true} />);
 
     expect(screen.getByTestId('editButton')).toBeInTheDocument();
   });
@@ -196,7 +152,7 @@ describe('UserBanner Component', () => {
   it('should not show a button to edit the profile if the users is not the owner of the profile', () => {
     const usuario = UserBuilder.aUser().build();
 
-    render(<UserBanner user={usuario} isLoggedUser={false} careers={[]} />);
+    render(<UserBanner user={usuario} isLoggedUser={false} />);
 
     expect(screen.queryByTestId('editButton')).not.toBeInTheDocument();
   });

@@ -30,6 +30,7 @@ class UserSerializer
     user.subjects.map do |subject|
       {
         id: subject.id,
+        code: subject.code,
         name: subject.name
       }
     end

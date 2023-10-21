@@ -19,13 +19,11 @@ export default async function Page({ params }: Props) {
     session!.user.id!,
     session!.user.accessToken!
   );
-  const careers = await UserService.getCareers(user.id, user.accessToken);
 
   return (
     <div className='bg-white md:bg-whiteCustom'>
       <UserBanner
         user={user}
-        careers={careers}
         isLoggedUser={session?.user?.email === user.email}
       />
       <div className='flex flex-col items-start justify-center lg:flex-row lg:pt-20'>
