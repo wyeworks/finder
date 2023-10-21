@@ -1,3 +1,5 @@
+'use client';
+
 import { StudyGroup } from '@/types/StudyGroup';
 import TimePreferences from './TimePreferences';
 import Button from '@/components/common/Button';
@@ -7,6 +9,13 @@ import { useState } from 'react';
 import CreateSessionForm from './CreateSessionForm';
 import NextSessions from './NextSessions';
 import History from './History';
+import { SessionService } from '@/services/SessionsService';
+import { useSession } from 'next-auth/react';
+import { NotOkError } from '@/types/NotOkError';
+import { Logger } from '@/services/Logger';
+import { usePathname } from 'next/navigation';
+import { BackendError } from '@/types/BackendError';
+import strings from '@/locales/strings.json';
 
 type SessionsProps = {
   group: StudyGroup;
@@ -31,7 +40,17 @@ export type CreateSessionData = {
   meetLink: string;
 };
 
+export type CreateSessionAlertProps = {
+  show: boolean;
+  message?: string;
+  title?: string;
+  alertType?: 'error' | 'success';
+};
+
 export default function Sessions({ group }: SessionsProps) {
+  const pathname = usePathname();
+  const groupId = pathname.split('/')[2];
+  const { data: session } = useSession();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [tab, setTab] = useState<typeTabs>(typeTabs.NEXT);
   const [formData, setFormData] = useState<CreateSessionData>({
@@ -54,6 +73,32 @@ export default function Sessions({ group }: SessionsProps) {
     description: false,
     meetLink: false,
   });
+  const [alertProps, setAlertProps] = useState<CreateSessionAlertProps>({
+    show: false,
+  });
+
+  function addErrors(parsedError: BackendError) {
+    const errorMessages = [];
+    if (parsedError.errors.name) {
+      errorMessages.push(parsedError.errors.name);
+    }
+    if (parsedError.errors.description) {
+      errorMessages.push(parsedError.errors.description);
+    }
+    if (parsedError.errors.meeting_link) {
+      errorMessages.push(parsedError.errors.meeting_link);
+    }
+    if (parsedError.errors.start_time) {
+      errorMessages.push(parsedError.errors.start_time);
+    }
+    if (parsedError.errors.end_time) {
+      errorMessages.push(parsedError.errors.end_time);
+    }
+    if (parsedError.errors.group_id) {
+      errorMessages.push(parsedError.errors.group_id);
+    }
+    return errorMessages;
+  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -74,27 +119,69 @@ export default function Sessions({ group }: SessionsProps) {
     if (!isCurrentFormValid) {
       return;
     }
-    setOpenModal(false);
-    setFormData({
-      title: '',
-      startTime: '',
-      startHour: '',
-      endTime: '',
-      endHour: '',
-      location: '',
-      description: '',
-      meetLink: '',
-    });
-    setTouchedData({
-      title: false,
-      startTime: false,
-      startHour: false,
-      endTime: false,
-      endHour: false,
-      location: false,
-      description: false,
-      meetLink: false,
-    });
+
+    try {
+      await SessionService.createSession(
+        {
+          name: formData.title,
+          description: formData.description,
+          location: formData.location,
+          meeting_link: formData.meetLink,
+          start_time: formData.startTime + '-' + formData.startHour,
+          end_time: formData.endTime + '-' + formData.endHour,
+          group_id: Number(groupId),
+        },
+        session?.user.accessToken!
+      );
+
+      setAlertProps({
+        show: true,
+        message: 'Sesión creada con éxito!',
+        alertType: 'success',
+      });
+      setTimeout(() => {
+        setAlertProps({ show: false });
+      }, 5000);
+
+      setFormData({
+        title: '',
+        startTime: '',
+        startHour: '',
+        endTime: '',
+        endHour: '',
+        location: '',
+        description: '',
+        meetLink: '',
+      });
+      setTouchedData({
+        title: false,
+        startTime: false,
+        startHour: false,
+        endTime: false,
+        endHour: false,
+        location: false,
+        description: false,
+        meetLink: false,
+      });
+    } catch (error) {
+      if (error instanceof NotOkError) {
+        const errorMessages = addErrors(error.backendError);
+        setAlertProps({
+          show: true,
+          message: errorMessages.join('\n'),
+          title: 'Error',
+          alertType: 'error',
+        });
+        return;
+      }
+      Logger.debug('Error trying to create session' + { error });
+      setAlertProps({
+        show: true,
+        message: strings.common.error.unexpectedError,
+        title: 'Error',
+        alertType: 'error',
+      });
+    }
   };
 
   return (
@@ -105,7 +192,7 @@ export default function Sessions({ group }: SessionsProps) {
             <Button
               text='Próximas sesiones'
               classNameWrapper='sm:p-4'
-              className={`h-8 items-center border border-gray-300 bg-white text-lg !text-primaryBlue hover:bg-gray-200  ${
+              className={`h-8 items-center border border-gray-300 bg-white text-lg !text-primaryBlue hover:bg-gray-300   ${
                 tab === typeTabs.NEXT && '!bg-gray-200'
               }`}
               onClick={() => setTab(typeTabs.NEXT)}
@@ -113,7 +200,7 @@ export default function Sessions({ group }: SessionsProps) {
             <Button
               text='Historial'
               classNameWrapper='sm:p-4'
-              className={`h-8 items-center border border-gray-300 bg-white text-lg !text-primaryBlue hover:bg-gray-200   ${
+              className={`h-8 items-center border border-gray-300 bg-white text-lg !text-primaryBlue hover:bg-gray-300   ${
                 tab === typeTabs.HISTORY && '!bg-gray-200'
               }`}
               onClick={() => setTab(typeTabs.HISTORY)}
@@ -121,7 +208,7 @@ export default function Sessions({ group }: SessionsProps) {
           </div>
           <div className='flex justify-end sm:w-[50%]'>
             <Button
-              text='Crear Sesión'
+              text='Crear sesión'
               Icon={<PlusIcon className='h-5 w-5' />}
               classNameWrapper='sm:p-4'
               spaceBetween={8}
@@ -145,6 +232,7 @@ export default function Sessions({ group }: SessionsProps) {
             setFormData={setFormData}
             handleSubmit={handleSubmit}
             touched={touchedData}
+            alertProps={alertProps}
           />
         }
         showXButton={true}

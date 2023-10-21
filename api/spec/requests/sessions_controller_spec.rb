@@ -240,8 +240,10 @@ RSpec.describe SessionsController, type: :request do
 
           expect(json_response['message']).to eq('La sesión no pudo ser actualizada correctamente')
           expect(json_response['errors']['name'][0]).to include('El nombre de la sesión no puede ser vacío')
-          expect(json_response['errors']['start_time'][0]).to include('El inicio de la sesión ser una fecha válida')
-          expect(json_response['errors']['end_time'][0]).to include('El fin de la sesión ser una fecha válida')
+          expect(json_response['errors']['start_time'][0]).to include(
+            'El inicio de la sesión debe ser una fecha válida'
+          )
+          expect(json_response['errors']['end_time'][0]).to include('El fin de la sesión debe ser una fecha válida')
         end
       end
     end
