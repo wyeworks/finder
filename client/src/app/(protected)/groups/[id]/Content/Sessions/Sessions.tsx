@@ -214,7 +214,6 @@ export default function Sessions({ group }: SessionsProps) {
         <div className='mb-5'>
           {tab === typeTabs.HISTORY && <History />}
           {tab === typeTabs.NEXT && <NextSessions />}
-          {/* {tab === typeTabs.NEXT && <NextSessions groupId={groupId} session={session} />} */}
         </div>
         <TimePreferences group={group} />
       </div>
