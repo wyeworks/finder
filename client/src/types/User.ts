@@ -1,4 +1,6 @@
 import { SocialNetworks } from '@/types/SocialNetworks';
+import { Career } from '@/types/Career';
+import { Subject } from '@/types/Subject';
 
 export type User = {
   id: string;
@@ -8,7 +10,7 @@ export type User = {
   bio?: string;
   social_networks?: SocialNetworks;
   birth_date?: string;
-  career_ids?: Number[];
-  subject_ids?: Number[];
+  careers?: Career[];
+  subjects?: Subject[];
   accessToken: string;
 };

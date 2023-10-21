@@ -2,7 +2,6 @@ import { Subject } from '@/types/Subject';
 import React, { Suspense } from 'react';
 import { User } from '@/types/User';
 import Loading from '@/components/common/Loading';
-import { UserService } from '@/services/UserService';
 
 type SubjectsLayoutProps = {
   user: User;
@@ -19,11 +18,9 @@ function SubjectItem({ subject }: { subject: Subject }) {
 }
 
 async function SubjectList({ user }: { user: User }) {
-  const subjects = await UserService.getSubjects(user.id, user.accessToken);
-
   return (
     <div className='h-min'>
-      {subjects.map((subject) => (
+      {user.subjects!.map((subject) => (
         <SubjectItem key={subject.code} subject={subject} />
       ))}
     </div>
