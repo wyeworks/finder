@@ -68,7 +68,7 @@ RSpec.describe SessionsController, type: :request do
   # Create
   describe 'POST /sessions' do
     let!(:group) { create :group }
-    let!(:member) { create(:member, user: user, group: group) }
+    let!(:member) { create(:member, user:, group:) }
 
     let(:session_params) do
       {

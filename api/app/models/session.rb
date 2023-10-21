@@ -6,7 +6,7 @@ class Session < ApplicationRecord
   belongs_to :group
 
   # Validations
-  validates :name, :start_time, :end_time, :creator, presence: true
+  validates :name, :start_time, :end_time, presence: true
   validate :end_time_after_start_time
 
   # After
