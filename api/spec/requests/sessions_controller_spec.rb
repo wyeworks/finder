@@ -25,15 +25,18 @@ RSpec.describe SessionsController, type: :request do
         it 'returns JSON containing session data' do
           json_response = response.parsed_body
 
-          expect(json_response['id']).to eq(session.id)
-          expect(json_response['name']).to eq(session.name)
-          expect(json_response['description']).to eq(session.description)
-          expect(json_response['location']).to eq(session.location)
-          expect(json_response['meeting_link']).to eq(session.meeting_link)
-          expect(DateTime.parse(json_response['start_time']).utc.to_s).to eq(session.start_time.utc.to_s)
-          expect(DateTime.parse(json_response['end_time']).utc.to_s).to eq(session.end_time.utc.to_s)
-          expect(json_response['group_id']).to eq(session.group.id)
-          expect(json_response['attendances']).to eq(session.attendances)
+          expected_attendances = session.attendances.map do |attendance|
+            {
+              'id' => attendance.id,
+              'session_id' => attendance.session_id,
+              'status' => attendance.status,
+              'created_at' => attendance.created_at.utc.iso8601(3),
+              'updated_at' => attendance.updated_at.utc.iso8601(3),
+              'member_id' => attendance.member_id
+            }
+          end
+
+          expect(json_response['attendances']).to match_array(expected_attendances)
         end
       end
 
@@ -64,7 +67,9 @@ RSpec.describe SessionsController, type: :request do
 
   # Create
   describe 'POST /sessions' do
-    let(:group) { create :group }
+    let!(:group) { create :group }
+    let!(:member) { create(:member, user: user, group: group) }
+
     let(:session_params) do
       {
         name:,

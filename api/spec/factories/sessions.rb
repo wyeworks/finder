@@ -6,12 +6,13 @@ FactoryBot.define do
     description { 'Description' }
     location { 'Location' }
     meeting_link { 'https://zoom.us/meeting_link' }
-    group
+    group { create(:group, :with_members) }
+    creator { group.members.first }
 
     trait :with_attendances do
       after(:create) do |session|
         session.group.members.each do |member|
-          create(:attendance, user: member.user, session:, status: 'pending')
+          create(:attendance, member:, session:, status: 'pending')
         end
       end
     end

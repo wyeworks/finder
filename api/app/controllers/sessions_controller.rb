@@ -1,12 +1,16 @@
 class SessionsController < ApplicationController
   before_action :set_session, only: %i[show update destroy]
+  # before_action :authorize_group_member!, only: %i[show create]
+  # before_action :authorize_creator_or_group_admin!, only: %i[update destroy]
 
   def show
     render json: SessionSerializer.new(@session).serializable_hash[:data][:attributes], status: :ok
   end
 
   def create
+    member = Member.find_by(user: current_user, group_id: session_params[:group_id])
     @session = Session.new(session_params)
+    @session.creator = member
 
     if @session.save
       Rails.logger.info "Session was successfully created with params: '#{session_params}'"
@@ -21,8 +25,6 @@ class SessionsController < ApplicationController
     end
   end
 
-  # Aca se habia hablando de que solo se pueden updatear ciertas cosas de la sesion
-  # Podriamos agregar las validaciones
   def update
     if @session.update(session_params)
       Rails.logger.info "Session was successfully updated with params: '#{session_params}'"
@@ -64,5 +66,22 @@ class SessionsController < ApplicationController
 
   def session_params
     params.require(:session).permit(:name, :description, :location, :meeting_link, :start_time, :end_time, :group_id)
+  end
+
+  def authorize_group_member!
+    group = @session.group
+    member = group.members.find_by(user: current_user)
+
+    return if member
+
+    render json: { message: 'No estás autorizado para realizar esta acción' }, status: :unauthorized
+  end
+
+  def authorize_creator_or_group_admin!
+    @session.group.members.find_by(user: current_user)
+
+    return if @session.group.admin?(current_user) || @session.creator == current_user
+
+    render json: { message: 'No estás autorizado para realizar esta acción' }, status: :unauthorized
   end
 end
