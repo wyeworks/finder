@@ -51,7 +51,7 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
 
   return (
     <div className='grid grid-rows-3 justify-center gap-5'>
-      <div className='pt-4 text-2xl font-bold text-primaryBlue'>
+      <div className='pt-4 font-poppins text-2xl font-bold text-primaryBlue'>
         {strings.createGroup.step1.description}
       </div>
       <SearchDropdown
@@ -68,7 +68,7 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
       <Button
         text={strings.form.nextButton.text}
         type='button'
-        className='rounded-2xl bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-slate-500 '
+        className='rounded-2xl'
         classNameWrapper='w-1/3'
         onClick={handleButton}
         disabled={

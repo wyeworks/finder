@@ -23,10 +23,10 @@ export default function ErrorCreateGroup({
   return (
     <div className='grid grid-rows-[100px,70px,80px] justify-center gap-3 sm:grid-rows-[100px,70px,80px]'>
       <div className='flex flex-col'>
-        <span className='pt-4 text-2xl font-bold text-primaryBlue'>
+        <span className='pt-4 font-poppins text-2xl font-bold text-primaryBlue'>
           Ha ocurrio un error...
         </span>
-        <span className='max-w-lg text-sm text-grayText'>
+        <span className='max-w-lg pt-2 text-sm text-grayText'>
           El grupo &apos;{groupName}&apos; no se pudo crear con éxito, por favor
           intente de nuevo en otro momento.
         </span>
