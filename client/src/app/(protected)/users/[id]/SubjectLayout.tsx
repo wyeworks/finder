@@ -18,13 +18,16 @@ function SubjectItem({ subject }: { subject: Subject }) {
 }
 
 async function SubjectList({ user }: { user: User }) {
-  return (
-    <div className='h-min'>
-      {user.subjects!.map((subject) => (
-        <SubjectItem key={subject.code} subject={subject} />
-      ))}
-    </div>
-  );
+  if (user.subjects!.length == 0)
+    return <p className={'m-10 text-center'}>No hay materias en curso</p>;
+  else
+    return (
+      <div className='h-min'>
+        {user.subjects!.map((subject) => (
+          <SubjectItem key={subject.code} subject={subject} />
+        ))}
+      </div>
+    );
 }
 
 export default async function SubjectsLayout({ user }: SubjectsLayoutProps) {
