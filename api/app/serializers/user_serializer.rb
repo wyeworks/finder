@@ -11,7 +11,9 @@ class UserSerializer
     user.groups.map do |group|
       {
         id: group.id,
-        name: group.name
+        name: group.name,
+        description: group.description,
+        subject: group.subject.name
       }
     end
   end
