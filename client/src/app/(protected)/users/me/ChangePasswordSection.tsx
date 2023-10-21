@@ -68,7 +68,8 @@ export function ChangePasswordSection({ user }: { user: User }) {
       setAlertMessage('Contraseña modificada con éxito');
       setAlertTitle(successMessage);
       setAlertType('success');
-
+      setCurrentPassword('');
+      setNewPassword('');
       setTimeout(() => {
         setIsAlertVisible(false);
       }, 7000);
