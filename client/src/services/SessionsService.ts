@@ -29,7 +29,7 @@ export class SessionService {
   public static async getSessions(
     groupId: string,
     accessToken: string
-  ): Promise<any[]> {
+  ): Promise<any[] | null> {
     try {
       const response = await ApiCommunicator.commonFetch({
         url: '/sessions/' + groupId,
@@ -39,8 +39,8 @@ export class SessionService {
 
       return await response.json();
     } catch (error) {
-      Logger.error('Error trying to get sessions: ' + error);
-      return [];
+      Logger.debug('Error trying to get sessions: ' + error);
+      return null;
     }
   }
 }
