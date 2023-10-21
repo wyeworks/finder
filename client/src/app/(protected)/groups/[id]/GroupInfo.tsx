@@ -1,7 +1,7 @@
 'use client';
 
 import { StudyGroup } from '@/types/StudyGroup';
-import GroupSizeIcon from '@/assets/Icons/GroupSizeIcon';
+import GroupSizeIconSolid from '@/assets/Icons/GroupSizeIconSolid';
 import { Subject } from '@/types/Subject';
 import Button from '@/components/common/Button';
 import { GroupService } from '@/services/GroupService';
@@ -125,9 +125,9 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
       <div className='text-center sm:col-span-3 sm:text-left '>
         <div className='flex'>
           <div className='block w-full items-center justify-center sm:justify-start md:flex md:w-[85%]'>
-            <h1 className='mb-3 text-4xl'>{name}</h1>
-            <span className='mb-2 ml-2 rounded-full bg-primaryBlue px-2.5 py-0.5 text-xl font-medium text-white'>
-              <strong>#{id}</strong>
+            <h1 className='font-regular mb-3 font-poppins text-4xl'>{name}</h1>
+            <span className='mb-2 ml-2 rounded-full bg-primaryBlue px-2.5 py-0.5 text-xl text-white'>
+              <h1 className='font-poppins font-medium'>#{id}</h1>
             </span>
           </div>
 
@@ -138,12 +138,16 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
           )}
         </div>
 
-        <p className='mb-3 text-xl font-bold'>{subject.name}</p>
-        <p className='mb-3'>{description}</p>
+        <p className='mb-3 font-poppins text-xl font-semibold'>
+          {subject.name}
+        </p>
+        <p className='font-regular mb-3'>{description}</p>
         <div className='mb-3 flex flex-col items-center justify-center sm:flex-row sm:justify-start'>
           <div className='mr-2 flex items-center sm:mb-0'>
-            <GroupSizeIcon className='mr-1 h-5 w-5' />
-            <span>{size} integrantes máximo</span>
+            <GroupSizeIconSolid className='mr-2 h-5 w-5' />
+            <span>
+              {user_ids ? user_ids.length + ' /' : 'máximo'} {size} integrantes
+            </span>
           </div>
         </div>
         {!inGroup && finishedLoading && (
