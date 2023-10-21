@@ -21,7 +21,7 @@ export default function View() {
         </p>
       </div>
       <div id='login-body'>
-        <Form />
+        <Form/>
       </div>
       <div>
         <p className='mt-5 text-center font-poppins text-sm text-gray-500'>
