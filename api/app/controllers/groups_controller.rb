@@ -95,7 +95,7 @@ class GroupsController < ApplicationController
   end
 
   def search_params
-    params.permit(:name, :subject_id, :time_preference, :my_groups)
+    params.permit(:name, :subject_id, :my_groups, :time_preferences)
   end
 
   def search_result
@@ -104,6 +104,6 @@ class GroupsController < ApplicationController
     groups.search_by_params(
       name: search_params[:name],
       subject_id: search_params[:subject_id]
-    )
+    ).sort_by_time_preferences(time_preferences: search_params[:time_preferences])
   end
 end
