@@ -15,6 +15,7 @@ import { NotOkError } from '@/types/NotOkError';
 import { Logger } from '@/services/Logger';
 import { usePathname } from 'next/navigation';
 import { BackendError } from '@/types/BackendError';
+import strings from '@/locales/strings.json';
 
 type SessionsProps = {
   group: StudyGroup;
@@ -96,6 +97,9 @@ export default function Sessions({ group }: SessionsProps) {
     if (parsedError.errors.group_id) {
       errorMessages.push(parsedError.errors.group_id);
     }
+    if (errorMessages.length === 0) {
+      errorMessages.push(strings.common.error.unexpectedError);
+    }
     return errorMessages;
   }
 
@@ -164,8 +168,7 @@ export default function Sessions({ group }: SessionsProps) {
       });
     } catch (error) {
       if (error instanceof NotOkError) {
-        const parsedError = error.backendError;
-        const errorMessages = addErrors(parsedError);
+        const errorMessages = addErrors(error.backendError);
         setAlertProps({
           show: true,
           message: errorMessages.join('\n'),
