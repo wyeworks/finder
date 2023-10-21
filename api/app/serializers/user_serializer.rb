@@ -1,11 +1,11 @@
 class UserSerializer
   include JSONAPI::Serializer
 
+  attributes :id, :email, :name, :bio, :social_networks
+
   attribute :birth_date do |object|
     object.birth_date&.strftime('%Y-%m-%d')
   end
-
-  attributes :id, :email, :name, :bio, :social_networks
 
   attribute :groups do |user|
     user.groups.map do |group|
