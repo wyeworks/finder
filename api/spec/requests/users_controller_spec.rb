@@ -138,6 +138,48 @@ RSpec.describe UsersController, type: :request do
         expect(json_response['errors']['name'][0]).to include('El nombre no puede ser vacío')
       end
     end
+    context 'with password change' do
+      let(:new_password) { 'ComplexPassword123!' }
+      let(:update_params) do
+        {
+          current_password: user.password,
+          password: new_password,
+          password_confirmation: new_password
+        }
+      end
+
+      it 'changes the user password successfully' do
+        user.reload
+        expect(user.valid_password?(new_password)).to be true
+      end
+    end
+
+    context 'with invalid current password' do
+      let(:new_password) { 'ComplexPassword123!' }
+      let(:invalid_current_password) { 'invalidpassword' }
+      let(:update_params) do
+        {
+          current_password: invalid_current_password,
+          password: new_password,
+          password_confirmation: new_password
+        }
+      end
+
+      it 'returns an error status' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'does not change the user password' do
+        user.reload
+        expect(user.valid_password?(user.password)).to be true
+        expect(user.valid_password?(new_password)).to be false
+      end
+
+      it 'returns JSON containing error message for invalid current password' do
+        json_response = response.parsed_body
+        expect(json_response['errors']['current_password'][0]).to eq('La validación falló y el record no es válido')
+      end
+    end
   end
 
   # Destroy
