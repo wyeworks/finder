@@ -275,6 +275,17 @@ RSpec.describe SessionsController, type: :request do
     let(:creator_member) { create(:member, user:, group:) }
     let(:session) { create :session, group:, creator: creator_member }
 
+    context 'when the session is deleted' do
+      before do
+        delete session_path(session.id), headers:
+      end
+
+      it 'deletes the session' do
+        expect(response).to have_http_status(:no_content)
+        expect(Session.count).to eq(0)
+      end
+    end
+
     context 'when the user is authenticated' do
       context 'when session cannot be destroyed due to validation errors' do
         before do
