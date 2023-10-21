@@ -54,25 +54,25 @@ export default function Form() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setIsDisabled(true);
-
     setTouched({
       email: true,
       password: true,
     });
 
-    const isCurrentFormValid = event.currentTarget.checkValidity();
-
-    if (!isCurrentFormValid) {
-      setAlertMessage(strings.common.error.completeFields);
-      setIsVisible(true);
-      setIsDisabled(false);
-      return;
-    }
-
     //Clean previous Alert Messages
     setAlertMessage('');
     setIsVisible(false);
+
+    const isCurrentFormValid = event.currentTarget.checkValidity();
+
+    if (!isCurrentFormValid) {
+      // setAlertMessage(strings.common.error.completeFields);
+      // setIsVisible(true);
+      // setIsDisabled(false);
+      return;
+    }
+
+    setIsDisabled(true);
 
     try {
       Logger.debug(
