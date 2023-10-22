@@ -25,8 +25,7 @@ export function ChangePasswordSection({ user }: { user: User }) {
 
   useEffect(() => {
     // commented for the moment, because current password is not implemented in back yet
-    // if (currentPassword === '' || newPassword === '') {
-    if (newPassword === '') {
+    if (currentPassword === '' || newPassword === '') {
       setIsActualizarDisabled(true);
     } else {
       setIsActualizarDisabled(false);
@@ -58,6 +57,7 @@ export function ChangePasswordSection({ user }: { user: User }) {
     }
 
     try {
+      setIsActualizarDisabled(true);
       const successMessage = await UserService.modifyPassword(
         user.id,
         user.accessToken,
@@ -68,6 +68,13 @@ export function ChangePasswordSection({ user }: { user: User }) {
       setAlertMessage('Contraseña modificada con éxito');
       setAlertTitle(successMessage);
       setAlertType('success');
+      setCurrentPassword('');
+      setNewPassword('');
+      setTouched({
+        currentPassword: false,
+        newPassword: false,
+      });
+      setIsActualizarDisabled(false);
 
       setTimeout(() => {
         setIsAlertVisible(false);
@@ -79,6 +86,10 @@ export function ChangePasswordSection({ user }: { user: User }) {
 
         if (parsedError.errors.password) {
           errorMessages.push(parsedError.errors.password);
+        }
+
+        if (parsedError.errors.current_password) {
+          errorMessages.push(parsedError.errors.current_password);
         }
 
         setAlertMessage(errorMessages.join('\n'));
@@ -107,16 +118,14 @@ export function ChangePasswordSection({ user }: { user: User }) {
       alertType={alertType}
       alertTitle={alertTitle}
     >
-      {/* hidden for the moment, because current password is not implemented in back yet  */}
-      <div className='hidden'>
+      <div>
         <Input
           type='password'
           id='current-password'
           name='current-password'
           label={strings.form.cambiarPassword.oldPasswordLabel}
           placeholder={strings.form.cambiarPassword.oldPasswordPlaceholder}
-          // commented for the moment, because current password is not implemented in back yet
-          // required
+          required
           value={currentPassword}
           onChange={handleCurrentPasswordChange}
           touched={touched.newPassword}

@@ -17,5 +17,6 @@ export type BackendError = {
     start_time?: string[];
     end_time?: string[];
     group_id?: string[];
+    current_password?: string[];
   };
 };
