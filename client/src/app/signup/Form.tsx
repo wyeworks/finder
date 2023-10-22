@@ -76,9 +76,6 @@ export default function Form() {
     const isCurrentFormValid = event.currentTarget.checkValidity();
 
     if (!isCurrentFormValid) {
-      // setAlertMessage(strings.common.error.completeFields);
-      // setIsVisible(true);
-      // setIsDisabled(false);
       return;
     }
 
