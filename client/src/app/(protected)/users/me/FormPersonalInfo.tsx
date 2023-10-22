@@ -1,6 +1,7 @@
 'use client';
 import UserIcon from '@/assets/Icons/UserIcon';
 import { alertTypes } from '@/components/common/Alert';
+import { useRouter } from 'next/navigation';
 import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
@@ -46,6 +47,7 @@ export default function FormPersonalInfo({
   subjectsByUser = [],
 }: FormPersonalInfoProps) {
   const { data: session, update: onSessionUpdate } = useSession();
+  const router = useRouter();
 
   const currentDate = new Date();
 
@@ -198,8 +200,7 @@ export default function FormPersonalInfo({
         },
       });
 
-      //refresh
-      window.location.reload();
+      router.refresh();
     } catch (error) {
       setAlertMessage(strings.common.error.unexpectedError);
       setAlertVisible(true);
