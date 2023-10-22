@@ -12,6 +12,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Member } from '@/types/Member';
 import { GroupService } from '@/services/GroupService';
 import { useSession } from 'next-auth/react';
+import Alert from '@/components/common/Alert';
 
 export default function Members() {
   const { data: session } = useSession();
@@ -22,6 +23,8 @@ export default function Members() {
   const [members, setMembers] = useState<Member[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [member, setMember] = useState<Member>();
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,15 +56,14 @@ export default function Members() {
   );
 
   const exitGroup = async () => {
+    setAlertMessage('');
+    setIsVisible(false);
     try {
-      await GroupService.exitGroup(
-        member?.id!,
-        groupId,
-        session?.user.accessToken!
-      );
+      await GroupService.exitGroup(member?.id!, session?.user.accessToken!);
       router.push('/groups');
     } catch (error) {
-      alert(error);
+      setAlertMessage(strings.common.error.unexpectedError);
+      setIsVisible(true);
     }
   };
 
@@ -100,15 +102,23 @@ export default function Members() {
         ))}
       </div>
       {member && (
-        <Button
-          type='button'
-          text={'Salir del grupo'}
-          id='leave-group-button'
-          classNameWrapper='mt-4 w-fit sm:ml-[40%] ml-[33%]'
-          className='justify-self-center !border !border-solid !border-gray-200 !bg-gray-50 !text-leaveRed hover:!bg-gray-100'
-          Icon={<OutIcon className='mr-2 h-6 w-6 text-leaveRed' />}
-          onClick={exitGroup}
-        />
+        <>
+          <Button
+            type='button'
+            text={'Salir del grupo'}
+            id='leave-group-button'
+            classNameWrapper='mt-4 w-fit sm:ml-[40%] ml-[33%]'
+            className='justify-self-center !border !border-solid !border-gray-200 !bg-gray-50 !text-leaveRed hover:!bg-gray-100'
+            Icon={<OutIcon className='mr-2 h-6 w-6 text-leaveRed' />}
+            onClick={exitGroup}
+          />
+          <Alert
+            isVisible={isVisible}
+            message={alertMessage}
+            title={strings.common.error.exitGroup}
+            alertType='error'
+          />
+        </>
       )}
     </div>
   );

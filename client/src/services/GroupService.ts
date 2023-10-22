@@ -156,13 +156,9 @@ export class GroupService {
     ).json();
   }
 
-  public static async exitGroup(
-    userId: string,
-    groupId: string,
-    accessToken: string
-  ) {
+  public static async exitGroup(memberId: string, accessToken: string) {
     await ApiCommunicator.commonFetch({
-      url: `/groups/${groupId}/members/${userId}`,
+      url: `/members/${memberId}`,
       method: 'DELETE',
       accessToken,
     });
