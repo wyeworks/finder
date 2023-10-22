@@ -46,8 +46,20 @@ describe('GroupsLayout Component', () => {
     render(
       <Groups
         groups={[
-          { group: grupoBasesDeDatos, subject: sampleSubject },
-          { group: grupoPIS, subject: sampleSubject },
+          {
+            id: grupoPIS.id!,
+            description: grupoPIS.description!,
+            name: grupoPIS.name,
+            subject: sampleSubject.name,
+            banner: grupoPIS.banner,
+          },
+          {
+            id: grupoBasesDeDatos.id!,
+            description: grupoBasesDeDatos.description!,
+            name: grupoBasesDeDatos.name,
+            subject: sampleSubject.name,
+            banner: grupoBasesDeDatos.banner,
+          },
         ]}
       />
     );
@@ -64,7 +76,17 @@ describe('GroupsLayout Component', () => {
         .build();
 
       render(
-        <Groups groups={[{ group: grupoConNombre, subject: sampleSubject }]} />
+        <Groups
+          groups={[
+            {
+              id: grupoConNombre.id!,
+              description: grupoConNombre.description!,
+              name: grupoConNombre.name,
+              subject: sampleSubject.name,
+              banner: grupoConNombre.banner,
+            },
+          ]}
+        />
       );
 
       expect(screen.getByTestId('groupName-Bases de datos')).toHaveTextContent(
@@ -79,7 +101,15 @@ describe('GroupsLayout Component', () => {
 
       render(
         <Groups
-          groups={[{ group: grupoConDescripcion, subject: sampleSubject }]}
+          groups={[
+            {
+              id: grupoConDescripcion.id!,
+              description: grupoConDescripcion.description!,
+              name: grupoConDescripcion.name,
+              subject: sampleSubject.name,
+              banner: grupoConDescripcion.banner,
+            },
+          ]}
         />
       );
 
@@ -94,7 +124,17 @@ describe('GroupsLayout Component', () => {
         .build();
 
       render(
-        <Groups groups={[{ group: grupoWithBanner, subject: sampleSubject }]} />
+        <Groups
+          groups={[
+            {
+              id: grupoWithBanner.id!,
+              description: grupoWithBanner.description!,
+              name: grupoWithBanner.name,
+              subject: sampleSubject.name,
+              banner: grupoWithBanner.banner,
+            },
+          ]}
+        />
       );
 
       expect(
@@ -108,12 +148,22 @@ describe('GroupsLayout Component', () => {
         .build();
 
       render(
-        <Groups groups={[{ group: grupoConSubject, subject: sampleSubject }]} />
+        <Groups
+          groups={[
+            {
+              id: grupoConSubject.id!,
+              description: grupoConSubject.description!,
+              name: grupoConSubject.name,
+              subject: sampleSubject.name,
+              banner: grupoConSubject.banner,
+            },
+          ]}
+        />
       );
 
-      expect(screen.getByTestId('groupSubject-1')).toHaveTextContent(
-        sampleSubject.name
-      );
+      expect(
+        screen.getByTestId('groupSubject-Bases de datos')
+      ).toHaveTextContent(sampleSubject.name);
     });
   });
 });
