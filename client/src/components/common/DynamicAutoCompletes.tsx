@@ -179,7 +179,7 @@ function OptionsAdded({
             <div className='w-[20%] md:w-[10%]'>
               <Button
                 Icon={<TrashIcon className='h-6 w-6 text-red-500' />}
-                className='border border-gray-300 bg-white hover:bg-gray-200'
+                className='border border-gray-300 bg-white hover:!bg-backgroundInput'
                 onClick={() => {
                   onOptionDelete(dropDown.button_id);
                 }}
