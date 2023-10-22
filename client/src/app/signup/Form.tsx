@@ -39,7 +39,7 @@ export default function Form() {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value.trimEnd().trimStart(),
+      [name]: value,
     }));
     if (name !== 'email') {
       setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
@@ -47,7 +47,11 @@ export default function Form() {
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    const { name } = e.target;
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value.trim(),
+    }));
     if (name === 'email') {
       setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
     }
@@ -133,8 +137,10 @@ export default function Form() {
           value={formData.name}
           onChange={handleChange}
           onFocus={handleFocus}
+          onBlur={handleBlur}
           touched={touched.name}
           Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
+          maxLength={40}
         />
         <Input
           type='email'
