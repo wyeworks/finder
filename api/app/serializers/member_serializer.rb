@@ -3,7 +3,7 @@ class MemberSerializer
 
   attribute :member_id, &:id
 
-  attribute :user_id do |member|
+  attribute :id do |member|
     member.user.id
   end
 

@@ -419,7 +419,7 @@ RSpec.describe GroupsController, type: :request do
       json_response = response.parsed_body
       expect(json_response.size).to eq(3)
       expect(json_response[0]['member_id']).to be_a(Integer)
-      expect(json_response[0]['user_id']).to be_a(Integer)
+      expect(json_response[0]['id']).to be_a(Integer)
       expect(json_response[0]['email']).to be_a(String)
     end
   end
