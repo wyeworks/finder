@@ -34,7 +34,7 @@ export default function Members() {
       );
       // check if I am a member
       const currentMember = getMembers.find(
-        (member) => member.user_id == session?.user.id
+        (member) => member.id == session?.user.id
       );
       currentMember && setMember(currentMember);
       // look if I am an admin
@@ -59,7 +59,10 @@ export default function Members() {
     setAlertMessage('');
     setIsVisible(false);
     try {
-      await GroupService.exitGroup(member?.id!, session?.user.accessToken!);
+      await GroupService.exitGroup(
+        member?.member_id!,
+        session?.user.accessToken!
+      );
       router.push('/groups');
     } catch (error) {
       setAlertMessage(strings.common.error.unexpectedError);
