@@ -197,7 +197,8 @@
       "validateText": {
         "default": "No puede ser vacío",
         "title": "La sesion debe tener título",
-        "hourFormat": "formato válido: hh:mm"
+        "hourFormat": "formato válido: hh:mm",
+        "meetLink": "Debe ser un link valido"
       },
       "submitText": "Guardar",
       "placeholders": {

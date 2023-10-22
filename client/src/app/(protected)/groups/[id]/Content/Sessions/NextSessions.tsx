@@ -1,3 +1,3 @@
 export default function NextSessions() {
-  return <>Próximas sesiones</>;
+  return <div data-testid='next-session'>Vista Próximas sesiones</div>;
 }

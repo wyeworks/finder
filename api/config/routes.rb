@@ -21,11 +21,6 @@ Rails.application.routes.draw do
   end
   resources :members, only: :destroy
   resources :subjects, only: [:index, :show]
-  resources :users, only: [:show, :update, :destroy] do
-    member do
-      get :careers
-      get :subjects
-    end
-  end
+  resources :users, only: [:show, :update, :destroy]
   resources :sessions, only: [:create, :show, :update, :destroy]
 end

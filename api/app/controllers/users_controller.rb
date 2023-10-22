@@ -7,17 +7,18 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update(update_params)
+    if update_params[:password].present?
+      if @user.update_with_password(update_params)
+        Rails.logger.info "User was successfully updated with params: '#{update_params}'"
+        render json: UserSerializer.new(@user).serializable_hash[:data][:attributes], status: :ok
+      else
+        handle_errors
+      end
+    elsif @user.update(update_params.except(:current_password, :password))
       Rails.logger.info "User was successfully updated with params: '#{update_params}'"
-
       render json: UserSerializer.new(@user).serializable_hash[:data][:attributes], status: :ok
     else
-      Rails.logger.info "User has the following validation errors: #{@user.errors.full_messages}"
-
-      render json: {
-        message: 'El usuario no pudo ser actualizado correctamente',
-        errors: @user.errors.messages
-      }, status: :unprocessable_entity
+      handle_errors
     end
   end
 
@@ -71,6 +72,7 @@ class UsersController < ApplicationController
   def update_params
     params.require(:user)
           .permit(
+            :current_password,
             :password,
             :name,
             :bio,
@@ -79,6 +81,15 @@ class UsersController < ApplicationController
             career_ids: [],
             subject_ids: []
           )
+  end
+
+  def handle_errors
+    Rails.logger.info "User has the following validation errors: #{@user.errors.full_messages}"
+
+    render json: {
+      message: 'El usuario no pudo ser actualizado correctamente',
+      errors: @user.errors.messages
+    }, status: :unprocessable_entity
   end
 
   def handle_user_groups

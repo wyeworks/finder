@@ -60,8 +60,8 @@ export default function FormPersonalInfo({
     birthdate: birthdate,
     biography: user?.bio ?? '',
     social_networks: generateSocialNetworks(user),
-    career_ids: user?.career_ids ?? [],
-    subject_ids: user?.subject_ids ?? [],
+    career_ids: user?.careers?.map((c) => c.id) ?? [],
+    subject_ids: user?.subjects?.map((s) => s.id) ?? [],
   });
 
   const [touched, setTouched] = useState({
@@ -100,9 +100,9 @@ export default function FormPersonalInfo({
     const changedCareerOrSubjects = () => {
       return (
         JSON.stringify(formData.career_ids) !==
-          JSON.stringify(user.career_ids ?? []) ||
+          JSON.stringify(user.careers?.map((c) => c.id) ?? []) ||
         JSON.stringify(formData.subject_ids) !==
-          JSON.stringify(user.subject_ids ?? [])
+          JSON.stringify(user.subjects?.map((s) => s.id) ?? [])
       );
     };
     const changesWereMade = () => {

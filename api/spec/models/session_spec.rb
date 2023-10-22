@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Session, type: :model do
   describe 'associations' do
     it { should belong_to(:group) }
+    it { should belong_to(:creator).class_name('Member') }
     it { should have_many(:attendances).dependent(:destroy) }
   end
 

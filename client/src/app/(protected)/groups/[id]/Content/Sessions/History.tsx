@@ -1,3 +1,3 @@
 export default function History() {
-  return <>Historial de sesiones</>;
+  return <div data-testid='session-history'>Historial de sesiones</div>;
 }

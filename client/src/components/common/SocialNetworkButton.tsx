@@ -13,11 +13,16 @@ type SocialNetworkButtonProps = {
   link: string;
 };
 
+function validateUrl(url: string) {
+  if (url.startsWith('https://')) return url;
+  else return `https://${url}`;
+}
+
 function SocialNetworkButton(props: SocialNetworkButtonProps) {
   return (
     <a
       data-testid={`${props.name}Button`}
-      href={props.link}
+      href={validateUrl(props.link)}
       className='m-2 h-6 w-6'
     >
       <div className={'flex items-center justify-center'}>{props.icon}</div>
