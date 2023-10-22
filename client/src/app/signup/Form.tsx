@@ -39,7 +39,7 @@ export default function Form() {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value.trimEnd().trimStart(),
+      [name]: value,
     }));
     if (name !== 'email') {
       setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
@@ -85,6 +85,7 @@ export default function Form() {
     setIsVisible(false);
 
     try {
+      formData.name.trimEnd().trimStart();
       Logger.debug('Sending signup request with data:', formData);
       await AuthService.signUp(formData);
       router.push('/confirmation');
