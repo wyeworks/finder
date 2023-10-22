@@ -177,6 +177,7 @@ export default function FormPersonalInfo({
     }
 
     try {
+      setDisabledSubmittButton(true);
       const updatedProps = {
         name: formData.name,
         bio: formData.biography,
