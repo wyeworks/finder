@@ -50,7 +50,7 @@ export default function Form() {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value.trimEnd().trimStart(),
+      [name]: value.trim(),
     }));
     if (name === 'email') {
       setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
