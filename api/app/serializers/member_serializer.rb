@@ -4,6 +4,10 @@ class MemberSerializer
   attribute :member_id, &:id
 
   attribute :id do |member|
+    member.id
+  end
+
+  attribute :user_id do |member|
     member.user.id
   end
 

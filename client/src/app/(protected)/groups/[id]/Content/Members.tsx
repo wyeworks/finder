@@ -21,6 +21,7 @@ export default function Members() {
   const [filterText, setFilterText] = useState('');
   const [members, setMembers] = useState<Member[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [member, setMember] = useState<Member>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,12 +29,14 @@ export default function Members() {
         groupId,
         session?.user.accessToken!
       );
-      // look if I am an admin
-      setIsAdmin(
-        getMembers.findIndex(
-          (member) => member.role === 'admin' && member.id === session?.user.id
-        ) !== -1
+      // check if I am a member
+      const currentMember = getMembers.find(
+        (member) => member.user_id == session?.user.id
       );
+      currentMember && setMember(currentMember);
+      // look if I am an admin
+      setIsAdmin(!!(currentMember && currentMember.role === 'admin'));
+      setMember(currentMember);
       setMembers(getMembers);
     };
     fetchData();
@@ -48,6 +51,19 @@ export default function Members() {
       removeAccents(filterText.toLowerCase())
     )
   );
+
+  const exitGroup = async () => {
+    try {
+      await GroupService.exitGroup(
+        member?.id!,
+        groupId,
+        session?.user.accessToken!
+      );
+      router.push('/groups');
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   if (members.length === 0) {
     return <></>;
@@ -83,22 +99,17 @@ export default function Members() {
           </div>
         ))}
       </div>
-      <Button
-        type='button'
-        text={'Salir del grupo'}
-        id='leave-group-button'
-        classNameWrapper='mt-4 w-fit sm:ml-[40%] ml-[33%]'
-        className='justify-self-center !border !border-solid !border-gray-200 !bg-gray-50 !text-leaveRed hover:!bg-gray-100'
-        Icon={<OutIcon className='mr-2 h-6 w-6 text-leaveRed' />}
-        onClick={async () => {
-          await GroupService.exitGroup(
-            session?.user.id!,
-            groupId,
-            session?.user.accessToken!
-          );
-          router.push('/groups');
-        }}
-      />
+      {member && (
+        <Button
+          type='button'
+          text={'Salir del grupo'}
+          id='leave-group-button'
+          classNameWrapper='mt-4 w-fit sm:ml-[40%] ml-[33%]'
+          className='justify-self-center !border !border-solid !border-gray-200 !bg-gray-50 !text-leaveRed hover:!bg-gray-100'
+          Icon={<OutIcon className='mr-2 h-6 w-6 text-leaveRed' />}
+          onClick={exitGroup}
+        />
+      )}
     </div>
   );
 }
