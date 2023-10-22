@@ -1,7 +1,9 @@
 class MemberSerializer
   include JSONAPI::Serializer
 
-  attribute :id do |member|
+  attribute :member_id, &:id
+
+  attribute :user_id do |member|
     member.user.id
   end
 
