@@ -14,6 +14,7 @@ type TextAreaParams = {
   classNameWrapper?: string;
   maxWidth?: boolean;
   resize?: boolean;
+  maxLength?: number;
 };
 
 export default function TextArea({
@@ -31,6 +32,7 @@ export default function TextArea({
   classNameWrapper = '',
   maxWidth = true,
   resize = false,
+  maxLength,
 }: TextAreaParams) {
   return (
     <div className={`${maxWidth && 'max-w-sm'} justify-center`}>
@@ -61,6 +63,7 @@ export default function TextArea({
           value={value}
           onChange={onChange}
           style={{ resize: resize ? undefined : 'none' }}
+          maxLength={maxLength}
         />
         {touched && (
           <p className='invisible text-sm text-red-600 peer-invalid:visible'>

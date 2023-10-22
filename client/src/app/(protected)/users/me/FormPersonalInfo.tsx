@@ -236,6 +236,7 @@ export default function FormPersonalInfo({
         touched={touched.name}
         Icon={<UserIcon className='h-5 w-5' />}
         classNameInput='bg-backgroundInput'
+        maxLength={40}
       />
       <Input
         type='date'
@@ -270,6 +271,7 @@ export default function FormPersonalInfo({
         value={formData.biography}
         onChange={HandleChangeTextArea}
         maxWidth={false}
+        maxLength={200}
       />
       {/* Careers and subject sections */}
       <DynamicAutoCompletes

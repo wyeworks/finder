@@ -71,6 +71,7 @@ export default function FormStep3({
           id='description'
           name='description'
           placeholder={`Escribí la descripción de ${groupName} aquí`}
+          maxLength={200}
           maxWidth={false}
           className='pt-3'
           classNameWrapper='mt-3'
