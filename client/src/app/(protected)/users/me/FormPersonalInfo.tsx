@@ -187,7 +187,6 @@ export default function FormPersonalInfo({
         subject_ids: formData.subject_ids,
       };
       await UserService.editUser(user.id, user.accessToken, updatedProps);
-      setDisabledSubmittButton(false);
       setAlertVisible(true);
       setAlertMessage(strings.common.success.changeSuccess);
       setAlertType('success');
