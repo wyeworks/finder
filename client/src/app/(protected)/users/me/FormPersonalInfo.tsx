@@ -62,8 +62,8 @@ export default function FormPersonalInfo({
     birthdate: birthdate,
     biography: user?.bio ?? '',
     social_networks: generateSocialNetworks(user),
-    career_ids: user?.career_ids ?? [],
-    subject_ids: user?.subject_ids ?? [],
+    career_ids: user?.careers?.map((c) => c.id) ?? [],
+    subject_ids: user?.subjects?.map((s) => s.id) ?? [],
   });
 
   const [touched, setTouched] = useState({
@@ -102,9 +102,9 @@ export default function FormPersonalInfo({
     const changedCareerOrSubjects = () => {
       return (
         JSON.stringify(formData.career_ids) !==
-          JSON.stringify(user.career_ids ?? []) ||
+          JSON.stringify(user.careers?.map((c) => c.id) ?? []) ||
         JSON.stringify(formData.subject_ids) !==
-          JSON.stringify(user.subject_ids ?? [])
+          JSON.stringify(user.subjects?.map((s) => s.id) ?? [])
       );
     };
     const changesWereMade = () => {
@@ -179,6 +179,7 @@ export default function FormPersonalInfo({
     }
 
     try {
+      setDisabledSubmittButton(true);
       const updatedProps = {
         name: formData.name,
         bio: formData.biography,
@@ -236,6 +237,7 @@ export default function FormPersonalInfo({
         touched={touched.name}
         Icon={<UserIcon className='h-5 w-5' />}
         classNameInput='bg-backgroundInput'
+        maxLength={40}
       />
       <Input
         type='date'
@@ -270,6 +272,7 @@ export default function FormPersonalInfo({
         value={formData.biography}
         onChange={HandleChangeTextArea}
         maxWidth={false}
+        maxLength={200}
       />
       {/* Careers and subject sections */}
       <DynamicAutoCompletes

@@ -67,6 +67,7 @@ export default function FormStep2({
               return { ...prevState, name: e.target.value };
             })
           }
+          maxLength={40}
         />
         <Button
           text={strings.form.nextButton.text}

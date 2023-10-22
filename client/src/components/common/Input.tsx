@@ -32,6 +32,7 @@ type InputParams = {
   classNameLabel?: string;
   autoComplete?: string;
   disabled?: boolean;
+  maxLength?: number;
 };
 
 export default function Input({
@@ -58,6 +59,7 @@ export default function Input({
   disabled = false,
   onBlur,
   onFocus,
+  maxLength,
 }: InputParams) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -124,6 +126,7 @@ export default function Input({
           disabled={disabled}
           onBlur={onBlur}
           onFocus={onFocus}
+          maxLength={maxLength}
         />
         {touched && (
           <p className='invisible text-sm text-red-600 peer-invalid:visible'>

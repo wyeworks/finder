@@ -15,11 +15,7 @@ export default async function ConfigProfile() {
   );
   const subjects = await SubjectService.getAll(session!.user.accessToken!);
   const careers = await CareerService.getCareers(session!.user.accessToken!);
-  const careersByUser = await UserService.getCareers(user.id, user.accessToken);
-  const subjectsByUser = await UserService.getSubjects(
-    user.id,
-    user.accessToken
-  );
+
   return (
     <>
       <div className='flex w-full justify-center bg-primaryBlue md:flex'>
@@ -35,8 +31,8 @@ export default async function ConfigProfile() {
                 user={user}
                 subjects={subjects}
                 careers={careers}
-                careersByUser={careersByUser}
-                subjectsByUser={subjectsByUser}
+                careersByUser={user.careers}
+                subjectsByUser={user.subjects}
               />
               <div className='h-6' />
               <ChangePasswordSection user={user} />

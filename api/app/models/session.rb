@@ -2,6 +2,7 @@ class Session < ApplicationRecord
   # Associations
   has_many :attendances, dependent: :destroy
   has_many :attendees, through: :attendances, source: :member
+  belongs_to :creator, class_name: 'Member'
   belongs_to :group
 
   # Validations

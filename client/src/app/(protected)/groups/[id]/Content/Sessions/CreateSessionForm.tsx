@@ -4,10 +4,11 @@ import LinkIcon from '@/assets/Icons/LinkIcon';
 import LocationIcon from '@/assets/Icons/LocationIcon';
 import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
-import { CreateSessionData } from './Sessions';
+import { CreateSessionAlertProps, CreateSessionData } from './Sessions';
 import Button from '@/components/common/Button';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction } from 'react';
+import Alert from '@/components/common/Alert';
 
 type CreateSessionModalProps = {
   formData: CreateSessionData;
@@ -15,6 +16,7 @@ type CreateSessionModalProps = {
   // eslint-disable-next-line no-unused-vars
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
   touched: any;
+  alertProps: CreateSessionAlertProps;
 };
 
 export default function CreateSessionForm({
@@ -22,6 +24,7 @@ export default function CreateSessionForm({
   setFormData,
   handleSubmit,
   touched,
+  alertProps,
 }: CreateSessionModalProps) {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -30,7 +33,7 @@ export default function CreateSessionForm({
     if (name === 'startTime') {
       setFormData((prevState: CreateSessionData) => ({
         ...prevState,
-        ['endTime']: '',
+        ['endTime']: value,
       }));
     }
     setFormData((prevState: CreateSessionData) => ({
@@ -49,7 +52,7 @@ export default function CreateSessionForm({
 
   return (
     <form
-      className='m-2 grid grid-cols-[20px,auto] grid-rows-[50px,50px,50px,50px,auto,50px,70px] gap-x-3 gap-y-8 sm:gap-y-[10px] '
+      className='m-2 grid grid-cols-[20px,auto] grid-rows-[50px,50px,50px,50px,auto,50px,125px] gap-x-3 gap-y-8 sm:gap-y-[10px] '
       noValidate
       onSubmit={handleSubmit}
       data-testid='create-sesion'
@@ -83,8 +86,8 @@ export default function CreateSessionForm({
           required
           touched={touched.startTime}
           validateText={strings.createSession.form.validateText.default}
+          data-testid='startTime'
         />
-        <span className='mt-1'>-</span>
         <Input
           type='text'
           id='startHour'
@@ -98,6 +101,7 @@ export default function CreateSessionForm({
           touched={touched.startHour}
           validateText={validateHour(formData.startHour)}
           pattern='[0-2][0-9]:[0-5][0-9]'
+          data-testid='startHour'
         />
       </div>
       <div />
@@ -114,8 +118,8 @@ export default function CreateSessionForm({
           touched={touched.endTime}
           validateText={strings.createSession.form.validateText.default}
           disabled={formData.startTime === ''}
+          data-testid='endTime'
         />
-        -
         <Input
           type='text'
           id='endHour'
@@ -130,6 +134,7 @@ export default function CreateSessionForm({
           validateText={validateHour(formData.endHour)}
           pattern='[0-2][0-9]:[0-5][0-9]'
           disabled={formData.startTime === ''}
+          data-testid='endHour'
         />
       </div>
       <LocationIcon className='mr-2 mt-2 h-5 w-5' />
@@ -138,7 +143,6 @@ export default function CreateSessionForm({
         id='location'
         name='location'
         placeholder={strings.createSession.form.placeholders.location}
-        required
         classNameInput='bg-backgroundInput'
         value={formData.location}
         onChange={handleChange}
@@ -152,7 +156,6 @@ export default function CreateSessionForm({
         placeholder={strings.createSession.form.placeholders.description}
         className='pt-3'
         classNameWrapper='mb-3'
-        required
         value={formData.description}
         onChange={handleChange}
         touched={touched.description}
@@ -164,20 +167,28 @@ export default function CreateSessionForm({
         id='meetLink'
         name='meetLink'
         placeholder={strings.createSession.form.placeholders.meetLink}
-        required
         classNameInput='bg-backgroundInput'
         value={formData.meetLink}
         onChange={handleChange}
         touched={touched.meetLink}
-        validateText={strings.createSession.form.validateText.default}
+        validateText={strings.createSession.form.validateText.meetLink}
+        pattern='.*\..*'
       />
-      <div className='col-span-2 mt-4 flex justify-center'>
-        <Button
-          text={strings.createSession.form.submitText}
-          classNameWrapper='p-4'
-          className='h-fit w-1/3 bg-primaryBlue hover:bg-hoverPrimaryBlue'
-          type='submit'
+      <div className='col-span-2 flex flex-col justify-center gap-1'>
+        <Alert
+          isVisible={alertProps.show}
+          message={alertProps.message}
+          title={alertProps.title}
+          alertType={alertProps.alertType}
+          withTitle={Boolean(alertProps.title)}
         />
+        <div className='col-span-2 flex justify-center'>
+          <Button
+            text={strings.createSession.form.submitText}
+            className='h-fit w-1/3 bg-primaryBlue hover:bg-hoverPrimaryBlue'
+            type='submit'
+          />
+        </div>
       </div>
     </form>
   );

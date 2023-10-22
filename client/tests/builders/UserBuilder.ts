@@ -1,5 +1,5 @@
 import { SocialNetworks } from '@/types/SocialNetworks';
-import { User } from '@/types/User';
+import { GroupDetails, User } from '@/types/User';
 
 export class UserBuilder {
   private readonly id: string;
@@ -9,6 +9,7 @@ export class UserBuilder {
   private readonly bio?: string;
   private readonly socialNetworks?: SocialNetworksBuilder;
   private readonly accessToken: string;
+  private readonly groups?: GroupDetails[];
 
   constructor(
     id: string,
@@ -17,7 +18,8 @@ export class UserBuilder {
     accessToken: string,
     profileImage?: string,
     bio?: string,
-    socialNetworks?: SocialNetworksBuilder
+    socialNetworks?: SocialNetworksBuilder,
+    groups?: GroupDetails[]
   ) {
     this.id = id;
     this.name = name;
@@ -26,6 +28,7 @@ export class UserBuilder {
     this.bio = bio;
     this.socialNetworks = socialNetworks;
     this.accessToken = accessToken;
+    this.groups = groups;
   }
 
   static aUser() {
@@ -35,6 +38,7 @@ export class UserBuilder {
       'juan.peres@fing.com.uy',
       '123456789',
       'https://www.gravatar.com/av',
+      undefined,
       undefined,
       undefined
     );
@@ -48,7 +52,8 @@ export class UserBuilder {
       this.accessToken,
       this.profileImage,
       this.bio,
-      this.socialNetworks
+      this.socialNetworks,
+      this.groups
     );
   }
 
@@ -60,7 +65,8 @@ export class UserBuilder {
       this.accessToken,
       this.profileImage,
       this.bio,
-      this.socialNetworks
+      this.socialNetworks,
+      this.groups
     );
   }
 
@@ -72,7 +78,8 @@ export class UserBuilder {
       this.accessToken,
       this.profileImage,
       this.bio,
-      this.socialNetworks
+      this.socialNetworks,
+      this.groups
     );
   }
 
@@ -84,7 +91,8 @@ export class UserBuilder {
       this.accessToken,
       profileImage,
       this.bio,
-      this.socialNetworks
+      this.socialNetworks,
+      this.groups
     );
   }
 
@@ -96,7 +104,8 @@ export class UserBuilder {
       this.accessToken,
       this.profileImage,
       bio,
-      this.socialNetworks
+      this.socialNetworks,
+      this.groups
     );
   }
 
@@ -108,7 +117,8 @@ export class UserBuilder {
       this.accessToken,
       this.profileImage,
       this.bio,
-      socialNetworks
+      socialNetworks,
+      this.groups
     );
   }
 
@@ -120,7 +130,8 @@ export class UserBuilder {
       accessToken,
       this.profileImage,
       this.bio,
-      this.socialNetworks
+      this.socialNetworks,
+      this.groups
     );
   }
 
@@ -133,6 +144,7 @@ export class UserBuilder {
       bio: this.bio,
       social_networks: this.socialNetworks?.build(),
       accessToken: this.accessToken,
+      groups: this.groups,
     };
   }
 }

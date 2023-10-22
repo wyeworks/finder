@@ -25,6 +25,7 @@ export class UserService {
     newPassword: string
   ): Promise<string> {
     const response = await this.editUser(id, accessToken, {
+      current_password: currentPassword,
       password: newPassword,
     });
     const body = await response.json();
@@ -82,6 +83,7 @@ export class UserService {
           subject_ids: Number[];
         }
       | {
+          current_password: string;
           password: string;
         }
   ): Promise<Response> {
