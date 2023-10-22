@@ -47,7 +47,11 @@ export default function Form() {
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    const { name } = e.target;
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value.trimEnd().trimStart(),
+    }));
     if (name === 'email') {
       setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
     }
@@ -61,11 +65,6 @@ export default function Form() {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      name: prevState.name.trimEnd().trimStart(),
-    }));
-
     event.preventDefault();
 
     setIsDisabled(true);
@@ -138,6 +137,7 @@ export default function Form() {
           value={formData.name}
           onChange={handleChange}
           onFocus={handleFocus}
+          onBlur={handleBlur}
           touched={touched.name}
           Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
           maxLength={40}
