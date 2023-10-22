@@ -43,7 +43,7 @@
       "label": "Contraseña",
       "placeholder": "Ingresa tu contraseña",
       "validateText": "Ingresa una contraseña válida",
-      "passwordInfo": "Asegúrate de que tu contraseña tenga al menos 8 caracteres y contenga: \n- Una letra mayúscula \n- Una letra minúscula \n- Un número \n- Un caracter especial \n\n Evita usar contraseñas con patrones simples como \"Abcd-12345\", con tu nombre y/o fecha de cumpleaños."
+      "passwordInfo": "Asegúrate de que tu contraseña tenga al menos 8 caracteres y contenga: \n- Una letra mayúscula \n- Una letra minúscula \n- Un número \n- Al menos un caracter especial (#?!@$%^&*._-) \n\n Evita usar contraseñas con patrones simples como \"Abcd-12345\", con tu nombre y/o fecha de cumpleaños."
     },
     "createAccountButton": {
       "text": "Crear cuenta"
