@@ -39,7 +39,7 @@ export default function Form() {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value.trimEnd().trimStart(),
+      [name]: value,
     }));
     if (name !== 'email') {
       setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
@@ -61,6 +61,11 @@ export default function Form() {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      name: prevState.name.trimEnd().trimStart(),
+    }));
+
     event.preventDefault();
 
     setIsDisabled(true);
