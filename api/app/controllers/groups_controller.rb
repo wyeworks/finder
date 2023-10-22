@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   before_action :authorize_group_admin!, only: %i[update destroy]
 
   def index
-    groups = Group.all.map do |group|
+    groups = search_result.map do |group|
       GroupSerializer.new(group).serializable_hash[:data][:attributes]
     end
 
@@ -92,5 +92,18 @@ class GroupsController < ApplicationController
 
   def group_params
     params.require(:group).permit(:name, :description, :size, :subject_id, time_preferences: {})
+  end
+
+  def search_params
+    params.permit(:name, :subject_id, :my_groups, :time_preferences)
+  end
+
+  def search_result
+    groups = search_params[:my_groups] == 'true' ? current_user.groups : Group
+
+    groups.search_by_params(
+      name: search_params[:name],
+      subject_id: search_params[:subject_id]
+    ).sort_by_time_preferences(time_preferences: search_params[:time_preferences])
   end
 end

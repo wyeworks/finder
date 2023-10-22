@@ -43,6 +43,59 @@ RSpec.describe GroupsController, type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
     end
+
+    context 'when passing search and filter params' do
+      let!(:group_one) do
+        create :group,
+               name: 'Foo',
+               subject: subject_two,
+               time_preferences: { 'Monday' => 'Night', 'Tuesday' => 'Afternoon', 'Wednesday' => 'Night' }
+      end
+      let!(:group_two) do
+        create :group,
+               name: 'Bar',
+               subject: subject_one,
+               time_preferences: { 'Monday' => 'Morning' }
+      end
+      let!(:group_three) do
+        create :group,
+               name: 'Baz',
+               subject: subject_one,
+               time_preferences: { 'Monday' => 'Night' }
+      end
+
+      let(:subject_one) { create :subject }
+      let(:subject_two) { create :subject }
+
+      before do
+        create(:member, user:, group: group_three)
+
+        get groups_path(groups),
+            params: {
+              name: 'ba',
+              subject_id: subject_one.id.to_s,
+              my_groups: 'true',
+              time_preferences: 'night,afternoon'
+            },
+            headers:
+      end
+
+      it 'returns a successful response' do
+        expect(response).to be_successful
+      end
+
+      it 'returns JSON containing data from the groups that match the search params' do
+        json_response = response.parsed_body
+
+        expect(json_response[0]['id']).to be_a(Integer)
+        expect(json_response[0]['name']).to eq(group_three.name)
+        expect(json_response[0]['description']).to eq(group_three.description)
+        expect(json_response[0]['size']).to eq(group_three.size)
+        expect(json_response[0]['time_preferences']).to eq(group_three.time_preferences)
+        expect(json_response[0]['subject_id']).to eq(group_three.subject_id)
+        expect(json_response[0]['subject_name']).to eq(group_three.subject.name)
+      end
+    end
   end
 
   # Show

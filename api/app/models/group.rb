@@ -29,6 +29,41 @@ class Group < ApplicationRecord
   validates :size, numericality: { only_integer: true }
   validate :validate_time_preferences
 
+  # Scopes
+  scope :search_by_params, ->(name:, subject_id:) do
+    groups = where('name ILIKE ?', "%#{name}%")
+    groups = groups.where('cast(subject_id as text) = ?', subject_id.to_s) if subject_id
+
+    groups
+  end
+
+  scope :sort_by_time_preferences, ->(time_preferences:) do
+    return unless time_preferences
+
+    time_preferences = time_preferences
+                       .split(',')
+                       .map(&:capitalize)
+                       .reject { |tp| TIME_PREFERENCES.exclude?(tp) }
+
+    groups_set = []
+
+    each do |group|
+      count = 0
+      time_preferences.each do |time_preference|
+        count += group.time_preferences.values.count(time_preference)
+      end
+      groups_set << { id: group.id, amount: count }
+    end
+
+    group_ids = groups_set
+                .sort_by { |gr| gr[:amount] }
+                .reject { |gr| gr[:amount].zero? }
+                .reverse
+                .pluck(:id)
+
+    find(group_ids)
+  end
+
   def admin?(user)
     members.exists?(user:, role: 'admin')
   end
