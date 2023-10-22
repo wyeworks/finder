@@ -8,13 +8,14 @@ import strings from '@/locales/strings.json';
 import { removeAccents } from '@/utils/Formatter';
 import Button from '@/components/common/Button';
 import OutIcon from '@/assets/Icons/OutIcon';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Member } from '@/types/Member';
 import { GroupService } from '@/services/GroupService';
 import { useSession } from 'next-auth/react';
 
 export default function Members() {
   const { data: session } = useSession();
+  const router = useRouter();
   const pathname = usePathname();
   const groupId = pathname.split('/')[2];
   const [filterText, setFilterText] = useState('');
@@ -89,6 +90,14 @@ export default function Members() {
         classNameWrapper='mt-4 w-fit sm:ml-[40%] ml-[33%]'
         className='justify-self-center !border !border-solid !border-gray-200 !bg-gray-50 !text-leaveRed hover:!bg-gray-100'
         Icon={<OutIcon className='mr-2 h-6 w-6 text-leaveRed' />}
+        onClick={async () => {
+          await GroupService.exitGroup(
+            session?.user.id!,
+            groupId,
+            session?.user.accessToken!
+          );
+          router.push('/groups');
+        }}
       />
     </div>
   );
