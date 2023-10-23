@@ -30,7 +30,7 @@ export function ConfigProfileSection({
 }) {
   return (
     <div className='mt-3 sm:w-full'>
-      <p className='mb-4 pl-7 pr-7 text-2xl text-black md:px-0'>
+      <p className='mb-4 pl-7 pr-7 font-poppins text-2xl font-medium text-black md:px-0'>
         {sectionTitle}
       </p>
       <form
@@ -39,15 +39,17 @@ export function ConfigProfileSection({
         noValidate
       >
         {children}
-        <div className='mt-3 flex justify-end gap-3'>
+        <div className='mt-3 flex justify-center gap-3'>
           <Button
             type='submit'
             id={`confirm-button-${sectionTitle}`}
             text={confirmButtonText}
             disabled={isConfirmButtonDisabled}
             //If there is an icon then add some padding to the left
-            className={`hover:bg-hoverPrimaryBlue disabled:bg-slate-500 ${
-              destructiveAction ? 'bg-error' : 'bg-primaryBlue'
+            className={`hover:bg-hoverPrimaryBlue ${
+              destructiveAction
+                ? '!bg-error hover:!bg-error-100 '
+                : 'bg-primaryBlue'
             }`}
             spaceBetween={confirmIcon ? 10 : 0}
             Icon={confirmIcon}

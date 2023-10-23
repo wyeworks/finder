@@ -67,26 +67,23 @@ export default function Form() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setIsDisabled(true);
-
     setTouched({
       name: true,
       email: true,
       password: true,
     });
 
-    const isCurrentFormValid = event.currentTarget.checkValidity();
-
-    if (!isCurrentFormValid) {
-      setAlertMessage(strings.common.error.completeFields);
-      setIsVisible(true);
-      setIsDisabled(false);
-      return;
-    }
-
     //Clean previous Alert Messages
     setAlertMessage('');
     setIsVisible(false);
+
+    const isCurrentFormValid = event.currentTarget.checkValidity();
+
+    if (!isCurrentFormValid) {
+      return;
+    }
+
+    setIsDisabled(true);
 
     try {
       Logger.debug('Sending signup request with data:', formData);
@@ -118,11 +115,11 @@ export default function Form() {
 
   return (
     <div
-      className='mt-3 sm:mx-auto sm:mt-10 sm:w-full sm:max-w-sm'
+      className='mt-3 flex justify-center sm:mx-auto sm:mt-10 sm:w-full sm:max-w-sm'
       id='register-form'
     >
       <form
-        className='grid max-w-xs grid-rows-register-form gap-1 sm:pl-7'
+        className='grid w-full max-w-xs grid-rows-register-form gap-1'
         onSubmit={handleSubmit}
         noValidate
         autoComplete='off'

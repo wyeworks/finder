@@ -40,10 +40,10 @@ export default function FormStep2({
       backPage={back}
     >
       <div className='flex flex-col pb-2'>
-        <span className='pt-4 text-2xl font-bold text-primaryBlue'>
+        <span className='pt-4 font-poppins text-2xl font-bold text-primaryBlue'>
           {strings.createGroup.step2.description1}
         </span>
-        <span className='text-sm text-grayText'>
+        <span className='pt-2 text-sm text-grayText'>
           {strings.createGroup.step2.description2}
         </span>
       </div>

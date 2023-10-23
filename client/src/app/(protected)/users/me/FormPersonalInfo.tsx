@@ -1,6 +1,7 @@
 'use client';
 import UserIcon from '@/assets/Icons/UserIcon';
 import { alertTypes } from '@/components/common/Alert';
+import { useRouter } from 'next/navigation';
 import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
 import strings from '@/locales/strings.json';
@@ -46,6 +47,7 @@ export default function FormPersonalInfo({
   subjectsByUser = [],
 }: FormPersonalInfoProps) {
   const { data: session, update: onSessionUpdate } = useSession();
+  const router = useRouter();
 
   const currentDate = new Date();
 
@@ -199,9 +201,7 @@ export default function FormPersonalInfo({
         },
       });
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      router.refresh();
     } catch (error) {
       setAlertMessage(strings.common.error.unexpectedError);
       setAlertVisible(true);
@@ -235,8 +235,8 @@ export default function FormPersonalInfo({
         value={formData.name}
         onChange={handleChange}
         touched={touched.name}
-        Icon={<UserIcon className='h-5 w-5' />}
-        classNameInput='bg-backgroundInput'
+        Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
+        classNameInput='bg-backgroundInput max-w-sm'
         maxLength={40}
       />
       <Input
@@ -249,7 +249,7 @@ export default function FormPersonalInfo({
         }
         value={formData.birthdate}
         onChange={handleChange}
-        classNameInput='bg-backgroundInput'
+        classNameInput='bg-backgroundInput max-w-sm'
         max={
           new Date(
             currentDate.getFullYear() - 17,

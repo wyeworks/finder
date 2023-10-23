@@ -55,7 +55,7 @@ export default function FormStep3({
       backPage={back}
     >
       <div className='flex flex-col gap-2 pb-2'>
-        <span className='pt-4 text-2xl font-bold text-primaryBlue'>
+        <span className='pt-4 font-poppins text-2xl font-bold text-primaryBlue'>
           {strings.createGroup.step3.description1}
         </span>
         <span className='max-w-[30rem] text-sm text-grayText '>
@@ -80,26 +80,31 @@ export default function FormStep3({
           validateText={strings.form.descriptionGroupInput.validateText}
           onChange={handleChange}
         />
-        <Input
-          type='number'
-          id='size'
-          name='size'
-          placeholder={strings.form.sizeInput.placeholder}
-          classNameWrapper='pb-3 pt-3'
-          classNameInput='max-w-[100px]'
-          required
-          touched={touched.size}
-          validateText={
-            size > '1000'
-              ? strings.form.sizeInput.validateTextMax
-              : strings.form.sizeInput.validateTextMin
-          }
-          onChange={handleChange}
-          minNumber={2}
-          label={strings.form.sizeInput.label}
-          classNameLabel='font-normal text-grayText'
-          max={1000}
-        />
+        <div className='flex flex-col'>
+          <span className='max-w-[30rem] text-sm text-grayText '>
+            {strings.form.sizeInput.label}
+          </span>
+          <Input
+            type='number'
+            id='size'
+            name='size'
+            placeholder={strings.form.sizeInput.placeholder}
+            classNameWrapper='pb-3 pt-3'
+            classNameInput='max-w-[100px]'
+            required
+            touched={touched.size}
+            validateText={
+              size > '1000'
+                ? strings.form.sizeInput.validateTextMax
+                : strings.form.sizeInput.validateTextMin
+            }
+            onChange={handleChange}
+            minNumber={2}
+            label=''
+            classNameLabel='font-normal text-grayText'
+            max={1000}
+          />
+        </div>
         <Button
           text={strings.form.nextButton.text}
           type='submit'

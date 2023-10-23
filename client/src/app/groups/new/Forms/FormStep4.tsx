@@ -53,10 +53,10 @@ export default function FormStep4({
       backPage={back}
     >
       <div className='flex flex-col pb-2'>
-        <span className='pt-4 text-2xl font-bold text-primaryBlue'>
+        <span className='pt-4 font-poppins text-2xl font-bold text-primaryBlue'>
           {strings.createGroup.step4.description1}
         </span>
-        <span className='max-w-lg text-sm text-grayText'>
+        <span className='max-w-lg pt-2 text-sm text-grayText'>
           {strings.createGroup.step4.description2}
         </span>
       </div>

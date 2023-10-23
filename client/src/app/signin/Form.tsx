@@ -54,25 +54,22 @@ export default function Form() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setIsDisabled(true);
-
     setTouched({
       email: true,
       password: true,
     });
 
-    const isCurrentFormValid = event.currentTarget.checkValidity();
-
-    if (!isCurrentFormValid) {
-      setAlertMessage(strings.common.error.completeFields);
-      setIsVisible(true);
-      setIsDisabled(false);
-      return;
-    }
-
     //Clean previous Alert Messages
     setAlertMessage('');
     setIsVisible(false);
+
+    const isCurrentFormValid = event.currentTarget.checkValidity();
+
+    if (!isCurrentFormValid) {
+      return;
+    }
+
+    setIsDisabled(true);
 
     try {
       Logger.debug(
@@ -100,11 +97,11 @@ export default function Form() {
 
   return (
     <div
-      className='mt-3 sm:mx-auto sm:mt-10 sm:w-full sm:max-w-sm'
+      className='mt-3 flex justify-center sm:mx-auto sm:mt-10 sm:w-full sm:max-w-sm'
       id='login-form'
     >
       <form
-        className='grid w-full grid-rows-login-form gap-1 sm:max-w-xs sm:pl-7'
+        className='grid w-full grid-rows-login-form gap-1 sm:max-w-xs'
         onSubmit={handleSubmit}
         noValidate
       >
@@ -121,7 +118,7 @@ export default function Form() {
           touched={touched.email}
           onBlur={handleBlur}
           onFocus={handleFocus}
-          Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
+          Icon={<UserIcon className='h-5 w-5 text-grayText' />}
         />
         <Input
           type='password'
@@ -138,7 +135,7 @@ export default function Form() {
         <Button
           type='submit'
           text={strings.form.logInButton.text}
-          className='mt-5'
+          className='mt-5 hover:bg-primaryBlue-300 focus:outline-none focus:ring focus:ring-blue-200'
           disabled={isDisabled}
         />
         <Alert

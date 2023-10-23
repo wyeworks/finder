@@ -48,9 +48,9 @@ export default function AutoComplete({
   return (
     <div className='relative h-full'>
       <Combobox value={selectedOption} onChange={setSelectedOption} nullable>
-        <div className='relative h-full w-full cursor-default overflow-hidden rounded-lg border border-gray-300 text-left shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm'>
+        <div className='relative h-full w-full cursor-default overflow-hidden text-left shadow-sm sm:text-sm'>
           <Combobox.Input
-            className='relative h-full w-full border-none bg-backgroundInput py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0'
+            className='focus:ring-primaryBlue relative h-full w-full rounded-lg border border-gray-300 bg-backgroundInput py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-inset'
             displayValue={(option: Option) => option?.label}
             onChange={(event) => {
               setQuery(event.target.value);

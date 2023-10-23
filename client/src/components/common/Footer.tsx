@@ -5,7 +5,9 @@ export default function Footer() {
     <footer className='border-t-2 border-gray-200 bg-white p-2'>
       <div>
         <div className='mx-5 flex items-center justify-center'>
-          <span className='text-black'>Powered by</span>
+          <span className='font-poppins font-medium text-grayText'>
+            Powered by
+          </span>
           <a href='https://www.wyeworks.com/' className='mx-1' target='_blank'>
             <WyeWorksLogo />
           </a>
