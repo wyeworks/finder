@@ -118,7 +118,7 @@ export function ChangePasswordSection({ user }: { user: User }) {
       alertType={alertType}
       alertTitle={alertTitle}
     >
-      <div>
+      <div className='w-full'>
         <Input
           type='password'
           id='current-password'
@@ -129,10 +129,10 @@ export function ChangePasswordSection({ user }: { user: User }) {
           value={currentPassword}
           onChange={handleCurrentPasswordChange}
           touched={touched.newPassword}
-          classNameInput='bg-backgroundInput'
+          classNameInput='bg-backgroundInput w-full'
         />
       </div>
-      <div className='mt-4'>
+      <div className='mt-4 w-full'>
         <Input
           type='password'
           id='new-password'
@@ -143,7 +143,7 @@ export function ChangePasswordSection({ user }: { user: User }) {
           value={newPassword}
           onChange={handleNewPasswordChange}
           touched={touched.newPassword}
-          classNameInput='bg-backgroundInput'
+          classNameInput='bg-backgroundInput w-full'
           fieldInfo={strings.form.passwordInput.passwordInfo}
           validateText={strings.form.passwordInput.validateText}
         />

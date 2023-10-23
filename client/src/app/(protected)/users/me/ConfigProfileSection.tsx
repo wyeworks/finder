@@ -39,7 +39,7 @@ export function ConfigProfileSection({
         noValidate
       >
         {children}
-        <div className='mt-3 flex justify-end gap-3'>
+        <div className='mt-3 flex justify-center gap-3'>
           <Button
             type='submit'
             id={`confirm-button-${sectionTitle}`}
@@ -47,7 +47,9 @@ export function ConfigProfileSection({
             disabled={isConfirmButtonDisabled}
             //If there is an icon then add some padding to the left
             className={`hover:bg-hoverPrimaryBlue ${
-              destructiveAction ? 'bg-error' : 'bg-primaryBlue'
+              destructiveAction
+                ? '!bg-error hover:!bg-error-100 '
+                : 'bg-primaryBlue'
             }`}
             spaceBetween={confirmIcon ? 10 : 0}
             Icon={confirmIcon}

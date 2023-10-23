@@ -235,8 +235,8 @@ export default function FormPersonalInfo({
         value={formData.name}
         onChange={handleChange}
         touched={touched.name}
-        Icon={<UserIcon className='h-5 w-5' />}
-        classNameInput='bg-backgroundInput'
+        Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
+        classNameInput='bg-backgroundInput max-w-sm'
         maxLength={40}
       />
       <Input
@@ -249,7 +249,7 @@ export default function FormPersonalInfo({
         }
         value={formData.birthdate}
         onChange={handleChange}
-        classNameInput='bg-backgroundInput'
+        classNameInput='bg-backgroundInput max-w-sm'
         max={
           new Date(
             currentDate.getFullYear() - 17,

@@ -118,7 +118,7 @@ export default function Form() {
           touched={touched.email}
           onBlur={handleBlur}
           onFocus={handleFocus}
-          Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
+          Icon={<UserIcon className='h-5 w-5 text-grayText' />}
         />
         <Input
           type='password'

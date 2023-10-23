@@ -91,7 +91,7 @@ export default function Input({
   }
 
   return (
-    <div className={`${maxWidth && 'max-w-sm'} justify-center`}>
+    <div className={`${maxWidth && 'max-w'} justify-center`}>
       {renderLabelAndInfo()}
       <div className={`relative -mb-3 ${classNameWrapper}`}>
         {Icon && (

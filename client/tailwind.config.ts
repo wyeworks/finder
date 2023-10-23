@@ -37,7 +37,7 @@ const config: Config = {
         hoverPrimaryBlue: '#075985',
         whiteCustom: '#FAFAFA',
         backgroundInput: '#fcfcfc',
-        error: '#DC3545',
+        error: { DEFAULT: '#DC3545', 100: '#E84C5B' },
       },
       textColor: {
         blackTextColor: '#212B36',
