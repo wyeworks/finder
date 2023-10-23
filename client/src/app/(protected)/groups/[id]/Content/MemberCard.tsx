@@ -44,6 +44,7 @@ export default function MemberCard({
     user_email,
     user_name,
     id = '',
+    member_id = '',
   } = member;
 
   const { data: session } = useSession();
@@ -77,6 +78,20 @@ export default function MemberCard({
     if (isAdmin && memberId !== session?.user.id) return true;
     return false;
   };
+
+  async function handleRemoveFromGroup(memberId: string) {
+    try {
+      await GroupService.exitGroup(memberId, session?.user.accessToken!);
+      if (fetchData) fetchData();
+    } catch (error) {
+      if (error instanceof NotOkError) {
+        if (onError)
+          onError(error.backendError.errors.group ?? ['Error inesperado']);
+        return;
+      }
+      Logger.debug('Error trying accepted or removed user' + { error });
+    }
+  }
 
   return (
     <div
@@ -138,6 +153,7 @@ export default function MemberCard({
                         <Menu.Item>
                           <button
                             className={`group flex w-full items-center rounded-md px-2 py-2 text-sm text-[#DC3545]`}
+                            onClick={() => handleRemoveFromGroup(member_id)}
                           >
                             Eliminar del grupo
                           </button>

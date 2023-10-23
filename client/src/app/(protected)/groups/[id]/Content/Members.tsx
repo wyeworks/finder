@@ -3,7 +3,7 @@
 import Input from '@/components/common/Input';
 import MemberCard from './MemberCard';
 import FilterIcon from '@/assets/Icons/FilterIcon';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import strings from '@/locales/strings.json';
 import { removeAccents } from '@/utils/Formatter';
 import Button from '@/components/common/Button';
@@ -26,24 +26,25 @@ export default function Members() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const getMembers = await GroupService.getGroupMembers(
-        groupId,
-        session?.user.accessToken!
-      );
-      // check if I am a member
-      const currentMember = getMembers.find(
-        (member) => member.id == session?.user.id
-      );
-      currentMember && setMember(currentMember);
-      // look if I am an admin
-      setIsAdmin(!!(currentMember && currentMember.role === 'admin'));
-      setMember(currentMember);
-      setMembers(getMembers);
-    };
-    fetchData();
+  const fetchData = useCallback(async () => {
+    const getMembers = await GroupService.getGroupMembers(
+      groupId,
+      session?.user.accessToken!
+    );
+    // check if I am a member
+    const currentMember = getMembers.find(
+      (member) => member.id == session?.user.id
+    );
+    currentMember && setMember(currentMember);
+    // look if I am an admin
+    setIsAdmin(!!(currentMember && currentMember.role === 'admin'));
+    setMember(currentMember);
+    setMembers(getMembers);
   }, [groupId, session?.user.accessToken, session?.user.id]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const handleFilterChange = (event: any) => {
     setFilterText(event.target.value);
@@ -100,7 +101,12 @@ export default function Members() {
         )}
         {filteredUsers.map((user: any, index: number) => (
           <div key={index}>
-            <MemberCard member={user} type='Tags' isAdmin={isAdmin} />
+            <MemberCard
+              member={user}
+              type='Tags'
+              isAdmin={isAdmin}
+              fetchData={fetchData}
+            />
           </div>
         ))}
       </div>
