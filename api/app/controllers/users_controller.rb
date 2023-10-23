@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, :validate_current_user
+  before_action :set_user
+  before_action :validate_current_user, except: :show
   before_action :handle_user_groups, only: :destroy
 
   def show

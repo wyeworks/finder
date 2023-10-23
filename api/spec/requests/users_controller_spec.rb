@@ -8,7 +8,6 @@ RSpec.describe UsersController, type: :request do
   end
 
   # Show
-  # Show
   describe 'GET /users/:id' do
     let(:user) { create :user, :with_social_networks, :with_careers, :with_subjects }
 
@@ -45,22 +44,6 @@ RSpec.describe UsersController, type: :request do
 
         expect(json_response[0]['id']).to be_a(Integer)
         expect(json_response[0]['name']).to be_a(String)
-      end
-
-      context 'when trying to access another user data' do
-        let(:another_user) { create :user }
-        before do
-          get user_path(another_user), headers:
-        end
-
-        it 'returns http unauthorized' do
-          expect(response).to have_http_status(:unauthorized)
-        end
-
-        it 'returns a not authorized message' do
-          json_response = response.parsed_body
-          expect(json_response['errors']['user'][0]).to eq('No estás autorizado para realizar esta acción')
-        end
       end
     end
 
@@ -321,10 +304,11 @@ RSpec.describe UsersController, type: :request do
         end
       end
 
-      context 'when trying to access another user data' do
+      context 'when trying to delete another user' do
         let(:another_user) { create :user }
+
         before do
-          get user_path(another_user), headers:
+          delete user_path(another_user.id), headers:
         end
 
         it 'returns http unauthorized' do
