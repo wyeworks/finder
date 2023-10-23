@@ -14,6 +14,7 @@ import { GroupService } from '@/services/GroupService';
 import { useSession } from 'next-auth/react';
 import { NotOkError } from '@/types/NotOkError';
 import { Menu, Transition } from '@headlessui/react';
+import Link from 'next/link';
 
 type MemberCardProp = {
   member: Member;
@@ -98,23 +99,28 @@ export default function MemberCard({
       className='grid w-full max-w-[100%] grid-cols-[40px,160px,auto] items-center 
         border border-solid border-gray-200 p-2 hover:bg-gray-100 sm:max-w-none sm:grid-cols-[10%,55%,35%]'
     >
-      <div className='p-3'>
-        <Image
-          alt='Avatar'
-          src={defaultUser}
-          className='rounded-full bg-slate-400 shadow-sm'
-          width={30}
-          height={30}
-        />
-      </div>
-      <div className='mr-2 flex flex-col overflow-clip'>
-        <span className='overflow-hidden overflow-ellipsis whitespace-nowrap font-bold'>
-          {name ? name : user_name}
-        </span>
-        <span className='overflow-hidden overflow-ellipsis whitespace-nowrap'>
-          {email ? email : user_email}
-        </span>
-      </div>
+      <Link href={`/users/${id}`}>
+        <div className='p-3'>
+          <Image
+            alt='Avatar'
+            src={defaultUser}
+            className='rounded-full bg-slate-400 shadow-sm'
+            width={30}
+            height={30}
+          />
+        </div>
+      </Link>
+      <Link href={`/users/${id}`}>
+        <div className='mr-2 flex flex-col overflow-clip'>
+          <span className='overflow-hidden overflow-ellipsis whitespace-nowrap font-bold'>
+            {name ? name : user_name}
+          </span>
+          <span className='overflow-hidden overflow-ellipsis whitespace-nowrap'>
+            {email ? email : user_email}
+          </span>
+        </div>
+      </Link>
+
       {type === 'Tags' && (
         <div className='grid grid-cols-[auto,20px]'>
           <div className='justify-self-center'>
