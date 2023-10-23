@@ -14,6 +14,7 @@ import { GroupService } from '@/services/GroupService';
 import { useSession } from 'next-auth/react';
 import { NotOkError } from '@/types/NotOkError';
 import { Menu, Transition } from '@headlessui/react';
+import Link from 'next/link';
 
 type MemberCardProp = {
   member: Member;
@@ -44,6 +45,7 @@ export default function MemberCard({
     user_email,
     user_name,
     id = '',
+    member_id = '',
   } = member;
 
   const { data: session } = useSession();
@@ -78,28 +80,47 @@ export default function MemberCard({
     return false;
   };
 
+  async function handleRemoveFromGroup(memberId: string) {
+    try {
+      await GroupService.exitGroup(memberId, session?.user.accessToken!);
+      if (fetchData) fetchData();
+    } catch (error) {
+      if (error instanceof NotOkError) {
+        if (onError)
+          onError(error.backendError.errors.group ?? ['Error inesperado']);
+        return;
+      }
+      Logger.debug('Error trying accepted or removed user' + { error });
+    }
+  }
+
   return (
     <div
       className='grid w-full max-w-[100%] grid-cols-[40px,160px,auto] items-center 
         border border-solid border-gray-200 p-2 hover:bg-gray-100 sm:max-w-none sm:grid-cols-[10%,55%,35%]'
     >
-      <div className='p-3'>
-        <Image
-          alt='Avatar'
-          src={defaultUser}
-          className='rounded-full bg-slate-400 shadow-sm'
-          width={30}
-          height={30}
-        />
-      </div>
-      <div className='mr-2 flex flex-col overflow-clip'>
-        <span className='overflow-hidden overflow-ellipsis whitespace-nowrap font-bold'>
-          {name ? name : user_name}
-        </span>
-        <span className='overflow-hidden overflow-ellipsis whitespace-nowrap'>
-          {email ? email : user_email}
-        </span>
-      </div>
+      <Link href={`/users/${id}`}>
+        <div className='p-3'>
+          <Image
+            alt='Avatar'
+            src={defaultUser}
+            className='rounded-full bg-slate-400 shadow-sm'
+            width={30}
+            height={30}
+          />
+        </div>
+      </Link>
+      <Link href={`/users/${id}`}>
+        <div className='mr-2 flex flex-col overflow-clip'>
+          <span className='overflow-hidden overflow-ellipsis whitespace-nowrap font-bold'>
+            {name ? name : user_name}
+          </span>
+          <span className='overflow-hidden overflow-ellipsis whitespace-nowrap'>
+            {email ? email : user_email}
+          </span>
+        </div>
+      </Link>
+
       {type === 'Tags' && (
         <div className='grid grid-cols-[auto,20px]'>
           <div className='justify-self-center'>
@@ -138,6 +159,7 @@ export default function MemberCard({
                         <Menu.Item>
                           <button
                             className={`group flex w-full items-center rounded-md px-2 py-2 text-sm text-[#DC3545]`}
+                            onClick={() => handleRemoveFromGroup(member_id)}
                           >
                             Eliminar del grupo
                           </button>
