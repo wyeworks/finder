@@ -6,6 +6,7 @@ import { StudyGroup, TimePreference } from '@/types/StudyGroup';
 import { Logger } from '@/services/Logger';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Member } from '@/types/Member';
+import { SearchGroup } from '@/app/(protected)/groups/page';
 
 export class GroupService {
   public static async getById(
@@ -20,9 +21,22 @@ export class GroupService {
     return await response.json();
   }
 
-  public static async getAll(accessToken: string): Promise<StudyGroup[]> {
+  public static async getAll(
+    accessToken: string,
+    searchParams: SearchGroup | null
+  ): Promise<StudyGroup[]> {
+    let queryString = '';
+    if (searchParams) {
+      if (searchParams.name) queryString += `&name=${searchParams.name}`;
+      if (searchParams.subject)
+        queryString += `&subject_id=${searchParams.subject}`;
+      if (searchParams.timeOfDay)
+        queryString += `&time_preferences=${searchParams.timeOfDay.join(',')}`;
+      if (searchParams.isMyGroup)
+        queryString += `&my_groups=${searchParams.isMyGroup}`;
+    }
     const response = await ApiCommunicator.commonFetch({
-      url: '/groups',
+      url: `/groups${queryString.length > 0 ? '?' + queryString : ''}`,
       method: 'GET',
       accessToken,
     });

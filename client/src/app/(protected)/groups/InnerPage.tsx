@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GroupCard } from '@/components/common/GroupCard';
 import { StudyGroup } from '@/types/StudyGroup';
 import MobileFilters from './MobileFilters';
@@ -8,13 +6,22 @@ import { Subject } from '@/types/Subject';
 import Pagination from './Pagination';
 import FilterIcon from '@/assets/Icons/FilterIcon';
 import DesktopFilters from './DesktopFilters';
+import { SearchGroup } from '@/app/(protected)/groups/page';
 
 type ViewProps = {
   groups: StudyGroup[];
   subjects: Subject[];
+  // eslint-disable-next-line no-unused-vars
+  onSearchParametersChange: (searchGroup: SearchGroup) => void;
+  searchParameters: SearchGroup;
 };
 
-export default function View({ groups, subjects }: ViewProps) {
+export default function InnerPage({
+  groups,
+  subjects,
+  onSearchParametersChange,
+  searchParameters,
+}: ViewProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
   const [displayGroups, setDisplayGroups] = useState<StudyGroup[]>([]);
@@ -35,13 +42,19 @@ export default function View({ groups, subjects }: ViewProps) {
         <MobileFilters
           subjects={subjects}
           isOpen={isMobileFiltersOpen}
+          onSearchParametersChange={onSearchParametersChange}
+          searchParameters={searchParameters}
           onClose={() => setIsMobileFiltersOpen(false)}
         />
       </div>
 
       {/* Desktop Filter Bar */}
       <div className='hidden w-1/3 md:block'>
-        <DesktopFilters subjects={subjects} />
+        <DesktopFilters
+          subjects={subjects}
+          onSearchParametersChange={onSearchParametersChange}
+          searchParameters={searchParameters}
+        />
       </div>
 
       <div className='flex-grow'>

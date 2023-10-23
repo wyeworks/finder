@@ -4,10 +4,18 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { GroupService } from '@/services/GroupService';
 import { SubjectService } from '@/services/SubjectService';
 import Image from 'next/image';
-import View from './View';
+import InnerPage from './InnerPage';
 import { useSession } from 'next-auth/react';
 import { StudyGroup } from '@/types/StudyGroup';
 import { Subject } from '@/types/Subject';
+
+//We can search groups by name, subject, timeOfDay, and isMyGroup
+export interface SearchGroup {
+  name?: string;
+  subject?: number;
+  timeOfDay?: string[];
+  isMyGroup?: boolean;
+}
 
 export default function Groups() {
   const { data: session } = useSession();
@@ -15,17 +23,25 @@ export default function Groups() {
   const [groups, setGroups] = useState<StudyGroup[]>([]);
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [searchGroup, setSearchGroup] = useState<SearchGroup>({});
+
+  function handleSearchParamsChange(searchGroup: SearchGroup) {
+    setSearchGroup(searchGroup);
+  }
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
-    const groupsFetch = await GroupService.getAll(session?.user.accessToken!);
+    const groupsFetch = await GroupService.getAll(
+      session?.user.accessToken!,
+      searchGroup
+    );
     const subjectsFetch = await SubjectService.getAll(
       session?.user.accessToken!
     );
     setGroups(groupsFetch);
     setSubjects(subjectsFetch);
     setIsLoading(false);
-  }, [session?.user.accessToken]);
+  }, [searchGroup, session?.user.accessToken]);
 
   useEffect(() => {
     fetchData();
@@ -38,7 +54,14 @@ export default function Groups() {
           <h1 className='text-center text-4xl font-extrabold'>Grupos</h1>
         </p>
       </div>
-      {!isLoading && <View groups={groups} subjects={subjects} />}
+      {!isLoading && (
+        <InnerPage
+          groups={groups}
+          subjects={subjects}
+          onSearchParametersChange={handleSearchParamsChange}
+          searchParameters={searchGroup!}
+        />
+      )}
       {isLoading && (
         <div className='flex h-full flex-col items-center justify-center'>
           <Image
