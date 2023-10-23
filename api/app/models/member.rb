@@ -16,8 +16,9 @@ class Member < ApplicationRecord
   end
 
   private
+
   def destroy_associated_sessions
-    sessions_created_by_member = Session.where(creator_id: self.id)
+    sessions_created_by_member = Session.where(creator_id: id)
     sessions_created_by_member.destroy_all
   end
 end
