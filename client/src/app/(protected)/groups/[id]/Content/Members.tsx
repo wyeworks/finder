@@ -8,18 +8,23 @@ import strings from '@/locales/strings.json';
 import { removeAccents } from '@/utils/Formatter';
 import Button from '@/components/common/Button';
 import OutIcon from '@/assets/Icons/OutIcon';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Member } from '@/types/Member';
 import { GroupService } from '@/services/GroupService';
 import { useSession } from 'next-auth/react';
+import Alert from '@/components/common/Alert';
 
 export default function Members() {
   const { data: session } = useSession();
+  const router = useRouter();
   const pathname = usePathname();
   const groupId = pathname.split('/')[2];
   const [filterText, setFilterText] = useState('');
   const [members, setMembers] = useState<Member[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [member, setMember] = useState<Member>();
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,12 +32,14 @@ export default function Members() {
         groupId,
         session?.user.accessToken!
       );
-      // look if I am an admin
-      setIsAdmin(
-        getMembers.findIndex(
-          (member) => member.role === 'admin' && member.id === session?.user.id
-        ) !== -1
+      // check if I am a member
+      const currentMember = getMembers.find(
+        (member) => member.id == session?.user.id
       );
+      currentMember && setMember(currentMember);
+      // look if I am an admin
+      setIsAdmin(!!(currentMember && currentMember.role === 'admin'));
+      setMember(currentMember);
       setMembers(getMembers);
     };
     fetchData();
@@ -47,6 +54,21 @@ export default function Members() {
       removeAccents(filterText.toLowerCase())
     )
   );
+
+  const exitGroup = async () => {
+    setAlertMessage('');
+    setIsVisible(false);
+    try {
+      await GroupService.exitGroup(
+        member?.member_id!,
+        session?.user.accessToken!
+      );
+      router.push('/groups');
+    } catch (error) {
+      setAlertMessage(strings.common.error.unexpectedError);
+      setIsVisible(true);
+    }
+  };
 
   if (members.length === 0) {
     return <></>;
@@ -82,14 +104,25 @@ export default function Members() {
           </div>
         ))}
       </div>
-      <Button
-        type='button'
-        text={'Salir del grupo'}
-        id='leave-group-button'
-        classNameWrapper='mt-4 w-fit sm:ml-[40%] ml-[33%]'
-        className='justify-self-center !border !border-solid !border-gray-200 !bg-gray-50 !text-leaveRed hover:!bg-gray-100'
-        Icon={<OutIcon className='mr-2 h-6 w-6 text-leaveRed' />}
-      />
+      {member && (
+        <>
+          <Button
+            type='button'
+            text={'Salir del grupo'}
+            id='leave-group-button'
+            classNameWrapper='mt-4 w-fit sm:ml-[40%] ml-[33%]'
+            className='justify-self-center !border !border-solid !border-gray-200 !bg-gray-50 !text-leaveRed hover:!bg-gray-100'
+            Icon={<OutIcon className='mr-2 h-6 w-6 text-leaveRed' />}
+            onClick={exitGroup}
+          />
+          <Alert
+            isVisible={isVisible}
+            message={alertMessage}
+            title={strings.common.error.exitGroup}
+            alertType='error'
+          />
+        </>
+      )}
     </div>
   );
 }

@@ -155,4 +155,12 @@ export class GroupService {
       })
     ).json();
   }
+
+  public static async exitGroup(memberId: string, accessToken: string) {
+    await ApiCommunicator.commonFetch({
+      url: `/members/${memberId}`,
+      method: 'DELETE',
+      accessToken,
+    });
+  }
 }
