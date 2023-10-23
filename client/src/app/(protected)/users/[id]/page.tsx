@@ -13,12 +13,10 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
+  const { id } = params;
   Logger.debug('Initializing User page with params:', params);
   const session = await getServerSession(authOptions);
-  const user = await UserService.getUser(
-    session!.user.id!,
-    session!.user.accessToken!
-  );
+  const user = await UserService.getUser(id, session!.user.accessToken!);
 
   return (
     <div className='bg-white md:bg-whiteCustom'>
