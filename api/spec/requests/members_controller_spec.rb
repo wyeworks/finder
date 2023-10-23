@@ -82,6 +82,24 @@ RSpec.describe MembersController, type: :request do
           expect(json_response['message']).to eq('El miembro no pudo ser eliminado correctamente')
         end
       end
+
+      context 'when member does not exist' do
+        let(:non_existent_member_id) { -1 }
+
+        before do
+          delete "/members/#{non_existent_member_id}", headers: headersAdmin
+        end
+
+        it 'returns a not found status' do
+          expect(response).to have_http_status(:not_found)
+        end
+
+        it 'returns a JSON containing error messages' do
+          json_response = response.parsed_body
+          error_message = "No se pudo encontrar el miembro con el ID ##{non_existent_member_id}"
+          expect(json_response['errors']['member']).to include(error_message)
+        end
+      end
     end
   end
 end

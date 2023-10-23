@@ -27,12 +27,11 @@ class MembersController < ApplicationController
   private
 
   def set_member
-    @member = Member.find(params[:id])
+    @member = Member.find_by(id: params[:id])
 
     return if @member
 
     Rails.logger.info "Couldn't find Member with ID ##{params[:id]}"
-
     render json: {
       errors: {
         member: ["No se pudo encontrar el miembro con el ID ##{params[:id]}"]
