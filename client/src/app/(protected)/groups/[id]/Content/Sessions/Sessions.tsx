@@ -5,7 +5,7 @@ import TimePreferences from './TimePreferences';
 import Button from '@/components/common/Button';
 import PlusIcon from '@/assets/Icons/PlusIcon';
 import CustomModal from '@/components/common/CustomModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CreateSessionForm from './CreateSessionForm';
 import NextSessions from './NextSessions';
 import History from './History';
@@ -13,7 +13,6 @@ import { SessionService } from '@/services/SessionsService';
 import { useSession } from 'next-auth/react';
 import { NotOkError } from '@/types/NotOkError';
 import { Logger } from '@/services/Logger';
-import { usePathname } from 'next/navigation';
 import { BackendError } from '@/types/BackendError';
 import strings from '@/locales/strings.json';
 
@@ -48,9 +47,10 @@ export type CreateSessionAlertProps = {
 };
 
 export default function Sessions({ group }: SessionsProps) {
-  const pathname = usePathname();
-  const groupId = pathname.split('/')[2];
+  const { user_ids } = group;
+  const groupId = group.id;
   const { data: session } = useSession();
+  const [isMemberGroup, setIsMemberGroup] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [tab, setTab] = useState<typeTabs>(typeTabs.NEXT);
   const [formData, setFormData] = useState<CreateSessionData>({
@@ -77,24 +77,31 @@ export default function Sessions({ group }: SessionsProps) {
     show: false,
   });
 
+  useEffect(() => {
+    const isMember = user_ids?.some(
+      (userGroup) => session?.user.id && userGroup === Number(session?.user.id)
+    );
+    setIsMemberGroup(isMember ?? false);
+  }, [session?.user.id, user_ids]);
+
   function addErrors(parsedError: BackendError) {
     const errorMessages = [];
-    if (parsedError.errors.name) {
+    if (parsedError.errors?.name) {
       errorMessages.push(parsedError.errors.name);
     }
-    if (parsedError.errors.description) {
+    if (parsedError.errors?.description) {
       errorMessages.push(parsedError.errors.description);
     }
-    if (parsedError.errors.meeting_link) {
+    if (parsedError.errors?.meeting_link) {
       errorMessages.push(parsedError.errors.meeting_link);
     }
-    if (parsedError.errors.start_time) {
+    if (parsedError.errors?.start_time) {
       errorMessages.push(parsedError.errors.start_time);
     }
-    if (parsedError.errors.end_time) {
+    if (parsedError.errors?.end_time) {
       errorMessages.push(parsedError.errors.end_time);
     }
-    if (parsedError.errors.group_id) {
+    if (parsedError.errors?.group_id) {
       errorMessages.push(parsedError.errors.group_id);
     }
     return errorMessages;
@@ -166,10 +173,11 @@ export default function Sessions({ group }: SessionsProps) {
     } catch (error) {
       if (error instanceof NotOkError) {
         const errorMessages = addErrors(error.backendError);
+        const title = error.message ? error.message : 'Error';
         setAlertProps({
           show: true,
           message: errorMessages.join('\n'),
-          title: 'Error',
+          title: title,
           alertType: 'error',
         });
         return;
@@ -183,6 +191,14 @@ export default function Sessions({ group }: SessionsProps) {
       });
     }
   };
+
+  if (!isMemberGroup) {
+    return (
+      <div className='border border-solid p-10 text-center'>
+        Debes ser un miembro para ver las sesiones del grupo.
+      </div>
+    );
+  }
 
   return (
     <>

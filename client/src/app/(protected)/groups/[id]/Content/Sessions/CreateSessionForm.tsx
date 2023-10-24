@@ -30,6 +30,11 @@ export default function CreateSessionForm({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+
+    if (value.trim() === '' && value.length > 0) {
+      return;
+    }
+
     if (name === 'startTime') {
       setFormData((prevState: CreateSessionData) => ({
         ...prevState,
@@ -38,7 +43,7 @@ export default function CreateSessionForm({
     }
     setFormData((prevState: CreateSessionData) => ({
       ...prevState,
-      [name]: value.trimEnd().trimStart(),
+      [name]: value,
     }));
   };
 
@@ -85,7 +90,7 @@ export default function CreateSessionForm({
           onChange={handleChange}
           required
           touched={touched.startTime}
-          validateText={strings.createSession.form.validateText.default}
+          validateText={strings.createSession.form.validateText.date}
           data-testid='startTime'
         />
         <Input
@@ -116,7 +121,7 @@ export default function CreateSessionForm({
           onChange={handleChange}
           required
           touched={touched.endTime}
-          validateText={strings.createSession.form.validateText.default}
+          validateText={strings.createSession.form.validateText.date}
           disabled={formData.startTime === ''}
           data-testid='endTime'
         />
