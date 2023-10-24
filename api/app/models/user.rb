@@ -23,7 +23,7 @@ class User < ApplicationRecord
     return if password.blank? || password =~ PASSWORD_REGEX
 
     errors.add :password, 'No se cumplen los requerimientos de complejidad de la contraseña. ' \
-                          'Por favor utilizar: 1 mayúscula, 1 minúscula, 1 dígito y un carácter especial' \
+                          'Por favor utilizar: 1 mayúscula, 1 minúscula, 1 dígito y un carácter especial ' \
                           'y al menos 8 caracteres'
   end
 end
