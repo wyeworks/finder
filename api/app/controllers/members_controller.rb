@@ -47,7 +47,7 @@ class MembersController < ApplicationController
         group.destroy
         Rails.logger.info "Group ##{group.id} was successfully deleted"
       else
-        group.promote_oldest_member!
+        group.promote_oldest_member!(@member)
         Rails.logger.info "Oldest member has been promoted as admin for group ##{group.id}"
       end
     end
