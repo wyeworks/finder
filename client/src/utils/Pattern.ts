@@ -1,6 +1,6 @@
 // used for pattern matching in password input
 export function mustHaveUpperCaseLowerCaseAndEightCharacters() {
-  return '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.]).{8,}$';
+  return '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*._-]).{8,}$';
 }
 
 // used for pattern matching in email input
