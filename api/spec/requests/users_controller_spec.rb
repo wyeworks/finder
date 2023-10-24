@@ -28,22 +28,14 @@ RSpec.describe UsersController, type: :request do
         expect(json_response['name']).to eq(user.name)
         expect(DateTime.parse(json_response['birth_date'])).to eq(user.birth_date)
         expect(json_response['social_networks']).to eq(user.social_networks)
-      end
 
-      it "returns JSON containing user's careers data" do
-        json_response = response.parsed_body['careers']
+        expect(json_response['careers'][0]['id']).to eq(user.careers.first.id)
+        expect(json_response['careers'][0]['code']).to eq(user.careers.first.code)
+        expect(json_response['careers'][0]['name']).to eq(user.careers.first.name)
 
-        expect(json_response[0]['id']).to be_a(Integer)
-        expect(json_response[0]['name']).to be_a(String)
-        expect(json_response[0]['code']).to be_a(String)
-      end
-
-      # Subjects
-      it "returns JSON containing user's subjects data" do
-        json_response = response.parsed_body['subjects']
-
-        expect(json_response[0]['id']).to be_a(Integer)
-        expect(json_response[0]['name']).to be_a(String)
+        expect(json_response['subjects'][0]['id']).to eq(user.subjects.first.id)
+        expect(json_response['subjects'][0]['code']).to eq(user.subjects.first.code)
+        expect(json_response['subjects'][0]['name']).to eq(user.subjects.first.name)
       end
     end
 
@@ -114,6 +106,14 @@ RSpec.describe UsersController, type: :request do
         expect(json_response['bio']).to eq(bio)
         expect(DateTime.parse(json_response['birth_date'])).to eq(birth_date)
         expect(json_response['social_networks']).to eq(social_networks.with_indifferent_access)
+
+        expect(json_response['careers'][0]['id']).to eq(career.id)
+        expect(json_response['careers'][0]['code']).to eq(career.code)
+        expect(json_response['careers'][0]['name']).to eq(career.name)
+
+        expect(json_response['subjects'][0]['id']).to eq(subject.id)
+        expect(json_response['subjects'][0]['code']).to eq(subject.code)
+        expect(json_response['subjects'][0]['name']).to eq(subject.name)
       end
     end
 
@@ -136,6 +136,7 @@ RSpec.describe UsersController, type: :request do
         expect(json_response['errors']['name'][0]).to include('El nombre no puede ser vacío')
       end
     end
+
     context 'with password change' do
       let(:new_password) { 'ComplexPassword123!' }
       let(:update_params) do
