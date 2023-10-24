@@ -134,12 +134,9 @@ describe('Form Personal Info Component', () => {
       );
     });
 
-    // Wait for the succcess message to appear
-    await waitFor(async () => {
-      expect(
-        await screen.findByText(strings.common.success.changeSuccess)
-      ).toBeInTheDocument();
-    });
+    expect(
+      await screen.findByText(strings.common.success.changeSuccess)
+    ).toBeInTheDocument();
   });
 
   it('should show an error alert when the API call fails', async () => {
