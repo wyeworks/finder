@@ -64,8 +64,14 @@ class Group < ApplicationRecord
     find(group_ids)
   end
 
-  def admin?(user)
-    members.exists?(user:, role: 'admin')
+  def admin?(entity)
+    if entity.is_a?(User)
+      members.exists?(user: entity, role: 'admin')
+    elsif entity.is_a?(Member)
+      members.exists?(id: entity.id, role: 'admin')
+    else
+      false
+    end
   end
 
   def admins
@@ -76,8 +82,10 @@ class Group < ApplicationRecord
     members.where(role: 'participant')
   end
 
-  def promote_oldest_member!
-    participants.order(:created_at).first.promote!
+  def promote_oldest_member!(excluding_member = nil)
+    oldest_member_query = participants.order(:created_at)
+    oldest_member_query = oldest_member_query.where.not(id: excluding_member.id) if excluding_member
+    oldest_member_query.first&.promote!
   end
 
   private
