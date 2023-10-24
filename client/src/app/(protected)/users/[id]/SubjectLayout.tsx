@@ -1,6 +1,5 @@
 import { Subject } from '@/types/Subject';
 import React, { Suspense } from 'react';
-import { SubjectService } from '@/services/SubjectService';
 import { User } from '@/types/User';
 import Loading from '@/components/common/Loading';
 
@@ -19,14 +18,16 @@ function SubjectItem({ subject }: { subject: Subject }) {
 }
 
 async function SubjectList({ user }: { user: User }) {
-  const subjects = await SubjectService.getByUser(user);
-  return (
-    <div className='h-min'>
-      {subjects.map((subject) => (
-        <SubjectItem key={subject.code} subject={subject} />
-      ))}
-    </div>
-  );
+  if (user.subjects!.length == 0)
+    return <p className={'m-10 text-center'}>No hay materias en curso</p>;
+  else
+    return (
+      <div className='h-min'>
+        {user.subjects!.map((subject) => (
+          <SubjectItem key={subject.code} subject={subject} />
+        ))}
+      </div>
+    );
 }
 
 export default async function SubjectsLayout({ user }: SubjectsLayoutProps) {

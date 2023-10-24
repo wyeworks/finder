@@ -2,18 +2,45 @@
 // TODO: Habilitar el eslint cuando estos datos se consigan del back
 
 import { User } from '@/types/User';
-import { StudyGroup } from '@/types/StudyGroup';
+import { StudyGroup, TimePreference } from '@/types/StudyGroup';
 import { Logger } from '@/services/Logger';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Member } from '@/types/Member';
+import { SearchGroup } from '@/app/(protected)/groups/page';
 
 export class GroupService {
-  public static async getGroup(id: string): Promise<StudyGroup> {
-    return (await ApiCommunicator.getGroup(id)) as StudyGroup;
+  public static async getById(
+    id: string,
+    accessToken: string
+  ): Promise<StudyGroup> {
+    const response = await ApiCommunicator.commonFetch({
+      url: `/groups/${id}`,
+      method: 'GET',
+      accessToken,
+    });
+    return await response.json();
   }
 
-  public static async getGroups(): Promise<StudyGroup[]> {
-    return (await ApiCommunicator.getGroups()) as StudyGroup[];
+  public static async getAll(
+    accessToken: string,
+    searchParams: SearchGroup | null
+  ): Promise<StudyGroup[]> {
+    let queryString = '';
+    if (searchParams) {
+      if (searchParams.name) queryString += `&name=${searchParams.name}`;
+      if (searchParams.subject)
+        queryString += `&subject_id=${searchParams.subject}`;
+      if (searchParams.timeOfDay)
+        queryString += `&time_preferences=${searchParams.timeOfDay.join(',')}`;
+      if (searchParams.isMyGroup)
+        queryString += `&my_groups=${searchParams.isMyGroup}`;
+    }
+    const response = await ApiCommunicator.commonFetch({
+      url: `/groups${queryString.length > 0 ? '?' + queryString : ''}`,
+      method: 'GET',
+      accessToken,
+    });
+    return await response.json();
   }
 
   public static async getActiveGroups(user: User): Promise<StudyGroup[]> {
@@ -50,28 +77,104 @@ export class GroupService {
     return Promise.resolve(grupos);
   }
 
-  public static async clientSideSubmitRequest(id: string): Promise<any> {
-    return await ApiCommunicator.clientSideSubmitRequestGroup(id);
+  public static async submitRequest(
+    id: string,
+    accessToken: string
+  ): Promise<void> {
+    await ApiCommunicator.commonFetch({
+      url: `/groups/${id}/requests`,
+      method: 'POST',
+      accessToken,
+    });
   }
 
-  public static async clientSideGetRequestState(
+  public static async getRequestState(
     groupId: string,
-    userId: string
+    userId: string,
+    accessToken: string
   ): Promise<any> {
-    return await ApiCommunicator.clientSideGetRequestStateGroup(
-      groupId,
-      userId
-    );
+    return await ApiCommunicator.commonFetch({
+      url: `/groups/${groupId}/requests/users/${userId}`,
+      method: 'GET',
+      accessToken,
+    });
   }
 
-  public static async getMembersGroup(groupId: string): Promise<Member[]> {
+  public static async getGroupMembers(
+    groupId: string,
+    accessToken: string
+  ): Promise<Member[]> {
     try {
-      const response = await ApiCommunicator.clientSideMembersGroup(groupId);
-      const data = await response.json();
-      return data;
+      const response = await ApiCommunicator.commonFetch({
+        url: '/groups/' + groupId + '/members',
+        method: 'GET',
+        accessToken,
+      });
+
+      return await response.json();
     } catch (error) {
       Logger.error('Error trying to get members: ' + error);
       return [];
     }
+  }
+
+  public static async createGroup(
+    data: {
+      name: string;
+      description: string;
+      subject_id: string;
+      size: string;
+      time_preferences: TimePreference;
+    },
+    accessToken: string
+  ): Promise<string> {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/groups',
+      method: 'POST',
+      data,
+      accessToken,
+    });
+    const body = await response.json();
+
+    return body.id;
+  }
+
+  public static async handleRequestGroup(
+    data: {
+      groupId: string;
+      requestId: string;
+      status: string;
+      reason: string;
+    },
+    accessToken: string
+  ): Promise<void> {
+    await ApiCommunicator.commonFetch({
+      url: '/groups/' + data.groupId + '/requests/' + data.requestId,
+      method: 'PATCH',
+      data,
+      accessToken,
+    });
+    return;
+  }
+
+  public static async getRequestJoinGroup(
+    id: string,
+    accessToken: string
+  ): Promise<Member[]> {
+    return await (
+      await ApiCommunicator.commonFetch({
+        url: '/groups/' + id + '/requests',
+        method: 'GET',
+        accessToken,
+      })
+    ).json();
+  }
+
+  public static async exitGroup(memberId: string, accessToken: string) {
+    await ApiCommunicator.commonFetch({
+      url: `/members/${memberId}`,
+      method: 'DELETE',
+      accessToken,
+    });
   }
 }

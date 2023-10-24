@@ -17,13 +17,12 @@ import { Career } from '@/types/Career';
 
 type UserBannerProps = {
   user: User;
-  careers: Career[];
   isLoggedUser: boolean;
 };
 
-function EditButton(props: { user: User }) {
+function EditButton() {
   return (
-    <Link data-testid={'editButton'} href={`/users/${props.user.id}/edit`}>
+    <Link data-testid={'editButton'} href={`/users/me`}>
       <button className='flex w-fit items-center rounded-md bg-[#2B2D54] p-2 lg:self-end'>
         <EditIcon className={'m-2 h-5 w-5 fill-white'} />
         <p className={'mr-2 text-lg font-medium text-white'}>Editar perfil</p>
@@ -176,11 +175,7 @@ function SocialNetworks({ user }: { user: User }) {
   );
 }
 
-export default function UserBanner({
-  user,
-  careers,
-  isLoggedUser,
-}: UserBannerProps) {
+export default function UserBanner({ user, isLoggedUser }: UserBannerProps) {
   return (
     <div className='flex w-full flex-col border-b-2 border-gray-100 bg-transparent'>
       <div className='flex flex-col justify-center lg:mt-0 lg:flex-row lg:justify-between lg:pl-20'>
@@ -188,13 +183,13 @@ export default function UserBanner({
           <UserProfileImage profileImage={user.profileImage} />
           <div className={'flex flex-col lg:ml-10 lg:justify-start'}>
             <UserName user={user} />
-            <Careers careers={careers} />
+            {<Careers careers={user.careers!} />}
             {user.bio && <UserBio bio={user.bio} />}
             <SocialNetworks user={user} />
           </div>
         </div>
         <div className='m-10 mt-20 flex justify-center lg:mr-20 lg:mt-10'>
-          {isLoggedUser && <EditButton user={user} />}
+          {isLoggedUser && <EditButton />}
         </div>
       </div>
     </div>

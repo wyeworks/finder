@@ -9,6 +9,7 @@ import MessageIcon from '@/assets/Icons/MessageIcon';
 import CrossIcon from '@/assets/Icons/CrossIcon';
 import MenuIcon from '@/assets/Icons/MenuIcon';
 import ArrowDownIcon from '@/assets/Icons/ArrowDownIcon';
+import UserIcon from '@/assets/Icons/UserIcon';
 import EditIcon from '@/assets/Icons/EditIcon';
 import LogOutIcon from '@/assets/Icons/LogOutIcon';
 import strings from '@/locales/strings.json';
@@ -17,6 +18,7 @@ import { signOut } from 'next-auth/react';
 import defaultUser from '@/assets/images/default_user.png';
 import Link from 'next/link';
 import FinderLogoIcon from '@/assets/Icons/FinderLogoIcon';
+import { Logger } from '@/services/Logger';
 
 const userNavigation = (user: User) => [
   {
@@ -25,12 +27,12 @@ const userNavigation = (user: User) => [
   },
   {
     name: strings.header.navOptions.editProfile,
-    href: `/users/${user.id}/edit`,
+    href: `/users/me`,
   },
   {
     name: strings.header.navOptions.endSession,
     href: '#',
-    onClick: () => signOut().catch((e) => console.log(e)),
+    onClick: () => signOut().catch(Logger.error),
   },
 ];
 
@@ -48,18 +50,18 @@ const userNavigationMobile = (user: User) => [
   {
     name: strings.header.navOptions.viewProfile,
     href: `/users/${user.id}`,
-    icon: <EditIcon className='mr-3 h-4 w-4' />,
+    icon: <UserIcon className='mr-3 h-4 w-4' />,
   },
   {
     name: strings.header.navOptions.editProfile,
-    href: `/users/${user.id}/edit`,
+    href: `/users/me`,
     icon: <EditIcon className='mr-3 h-4 w-4' />,
   },
   {
     name: strings.header.navOptions.endSession,
     href: '#',
     icon: <LogOutIcon className='mr-2 h-5 w-5' />,
-    onClick: () => signOut().catch((e) => console.log(e)),
+    onClick: () => signOut().catch(Logger.error),
   },
 ];
 
@@ -73,17 +75,17 @@ export default function Header({ user }: HeaderProps) {
       <Disclosure as='nav' className='bg-primaryBlue'>
         {({ open }) => (
           <>
-            <div className='w-full'>
+            <div className='w-full py-1'>
               <div className='flex h-16 items-center justify-between'>
                 <div className='flex items-center'>
                   <div className='flex-shrink-0'>
                     <Link
-                      href='/home'
-                      className='mx-2 flex cursor-pointer items-center'
+                      href='/groups'
+                      className='ml-4 flex cursor-pointer items-center'
                       data-testid='finder-logo'
                     >
                       <FinderLogoIcon fill='white' height={50} width={41.666} />
-                      <p className='ml-2 text-4xl text-white'>
+                      <p className='ml-2 font-poppins text-4xl text-white'>
                         <strong>finder</strong>
                       </p>
                     </Link>
@@ -113,7 +115,7 @@ export default function Header({ user }: HeaderProps) {
                       <div>
                         <Menu.Button className='relative flex max-w-xs items-center rounded-full bg-transparent text-sm'>
                           <p className='mr-3 hidden text-left text-lg sm:block'>
-                            <strong className='block font-medium text-whiteTextHeader'>
+                            <strong className='block font-poppins font-semibold text-whiteTextHeader'>
                               {user.name}
                             </strong>
                           </p>
@@ -145,7 +147,7 @@ export default function Header({ user }: HeaderProps) {
                             <Menu.Item key={item.name}>
                               <Link
                                 href={item.href}
-                                className='block px-4 py-2 text-sm text-gray-700 active:bg-gray-100'
+                                className='block px-4 py-2 font-poppins text-sm text-gray-700 active:bg-gray-100'
                                 onClick={item.onClick}
                               >
                                 {item.name}

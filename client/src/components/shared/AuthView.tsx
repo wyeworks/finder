@@ -13,7 +13,7 @@ export default function AuthView({ children }: AuthFlowProps) {
       id='container'
     >
       <div
-        className='flex h-full max-w-5xl items-stretch overflow-y-auto rounded-lg bg-white shadow-lg sm:h-auto'
+        className='flex h-full max-w-5xl items-stretch overflow-y-auto rounded-lg bg-white shadow-lg sm:h-[750px]'
         id='flex-container'
       >
         {/* Left side (Image) - hidden on mobile */}

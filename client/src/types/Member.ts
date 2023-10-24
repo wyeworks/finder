@@ -10,4 +10,5 @@ export type Member = {
   user_id?: string;
   user_name?: string;
   user_email?: string;
+  member_id?: string;
 };

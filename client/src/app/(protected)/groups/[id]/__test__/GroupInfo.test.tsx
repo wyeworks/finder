@@ -4,8 +4,8 @@ import GroupInfo from '../GroupInfo';
 import { User } from '@/types/User';
 
 jest.mock('../../../../../services/GroupService', () => ({
-  clientSideSubmitRequest: jest.fn(),
-  clientSideGetRequestState: jest.fn().mockReturnValue({ ok: true }),
+  submitRequest: jest.fn(),
+  getRequestState: jest.fn().mockReturnValue({ ok: true }),
 }));
 
 describe('GroupInfo', () => {
@@ -28,6 +28,7 @@ describe('GroupInfo', () => {
     id: '1',
     name: 'Test',
     email: 'test@email.com',
+    accessToken: '',
   };
 
   it('renders without crashing', () => {

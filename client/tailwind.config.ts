@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+        sans: 'Inter var',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
@@ -20,22 +24,37 @@ const config: Config = {
         'change-password-form': '70px 70px 70px 80px',
       },
       backgroundColor: {
-        primaryBlue: { DEFAULT: '#242760', 100: '#7479db' },
+        primaryBlue: {
+          DEFAULT: '#242760',
+          100: '#7479db',
+          200: '#3D405B',
+          300: '#373C6C',
+          400: '#353860',
+          500: '#212B36',
+        },
+        darkBlue: '#2B2D54',
+        disabledGray: '#71717A',
         hoverPrimaryBlue: '#075985',
         whiteCustom: '#FAFAFA',
         backgroundInput: '#fcfcfc',
-        error: '#DC3545',
+        error: { DEFAULT: '#DC3545', 100: '#E84C5B' },
       },
       textColor: {
+        blackTextColor: '#212B36',
         whiteTextHeader: '#FAFAFA',
         iconTextHeader: '#A0A0A0',
         inputTextColor: '#a0a0a0',
         grayText: '#71717A',
         primaryBlue: { DEFAULT: '#242760', 100: '#7479db' },
+        darkBlue: '#2B2D54',
+        lightBlue: { DEFAULT: '#3EC1F3', 100: '#6FD7FF' },
         leaveRed: '#DC3545',
+      },
+      accentColor: {
+        primaryBlue: { DEFAULT: '#242760', 100: '#7479db' },
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/line-clamp')],
 };
 export default config;

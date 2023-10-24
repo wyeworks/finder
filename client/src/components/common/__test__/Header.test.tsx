@@ -17,14 +17,21 @@ const mockedRouter: AppRouterInstance = {
 };
 
 describe('Header component', () => {
-  it('redirects to /home when logo is clicked', async () => {
+  it('redirects to /groups when logo is clicked', async () => {
     render(
       <AppRouterContext.Provider value={mockedRouter}>
-        <Header user={{ name: 'John', email: 'test1@gmail.com', id: '1' }} />
+        <Header
+          user={{
+            name: 'John',
+            email: 'test1@gmail.com',
+            id: '1',
+            accessToken: '',
+          }}
+        />
       </AppRouterContext.Provider>
     );
     const linkElement = screen.getByTestId('finder-logo');
     await userEvent.click(linkElement);
-    expect(linkElement).toHaveAttribute('href', '/home');
+    expect(linkElement).toHaveAttribute('href', '/groups');
   });
 });

@@ -18,15 +18,21 @@ type InputParams = {
   // disabled temporary
   // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // eslint-disable-next-line no-unused-vars
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  // eslint-disable-next-line no-unused-vars
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   Icon?: React.ReactNode;
   pattern?: string;
   maxWidth?: boolean;
   classNameWrapper?: string;
   classNameInput?: string;
-  minNumber?: number;
+  minNumber?: string | number;
   max?: string | number;
   classNameLabel?: string;
   autoComplete?: string;
+  disabled?: boolean;
+  maxLength?: number;
 };
 
 export default function Input({
@@ -50,6 +56,10 @@ export default function Input({
   max,
   classNameLabel = '',
   autoComplete = type,
+  disabled = false,
+  onBlur,
+  onFocus,
+  maxLength,
 }: InputParams) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -65,7 +75,7 @@ export default function Input({
           {label && (
             <label
               htmlFor={id}
-              className={`flex-1 text-sm font-medium leading-6 text-gray-400 ${classNameLabel}`}
+              className={`flex-1 font-poppins text-sm font-medium leading-6 text-blackTextColor ${classNameLabel}`}
             >
               {label}
             </label>
@@ -81,7 +91,7 @@ export default function Input({
   }
 
   return (
-    <div className={`${maxWidth && 'max-w-sm'} justify-center`}>
+    <div className={`${maxWidth && 'max-w'} justify-center`}>
       {renderLabelAndInfo()}
       <div className={`relative -mb-3 ${classNameWrapper}`}>
         {Icon && (
@@ -108,11 +118,15 @@ export default function Input({
           required={required}
           value={value}
           onChange={onChange}
-          className={`peer block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 ${
+          className={`focus:ring-primaryBlue peer block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset sm:text-sm sm:leading-6 ${
             (Icon || type === 'password') && 'pl-10'
           } ${classNameInput}`}
           min={minNumber}
           max={max}
+          disabled={disabled}
+          onBlur={onBlur}
+          onFocus={onFocus}
+          maxLength={maxLength}
         />
         {touched && (
           <p className='invisible text-sm text-red-600 peer-invalid:visible'>

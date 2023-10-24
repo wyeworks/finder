@@ -14,6 +14,7 @@ type TextAreaParams = {
   classNameWrapper?: string;
   maxWidth?: boolean;
   resize?: boolean;
+  maxLength?: number;
 };
 
 export default function TextArea({
@@ -31,13 +32,14 @@ export default function TextArea({
   classNameWrapper = '',
   maxWidth = true,
   resize = false,
+  maxLength,
 }: TextAreaParams) {
   return (
     <div className={`${maxWidth && 'max-w-sm'} justify-center`}>
       {label && (
         <label
           htmlFor={id}
-          className='block text-sm font-medium leading-6 text-gray-900'
+          className='block font-poppins text-sm font-medium leading-6 text-gray-900'
         >
           {label}
         </label>
@@ -53,7 +55,7 @@ export default function TextArea({
           name={name}
           data-testid={id}
           rows={4}
-          className={`peer block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 ${
+          className={`focus:ring-primaryBlue peer block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset sm:text-sm sm:leading-6 ${
             Icon && 'pl-10'
           } ${className}`}
           placeholder={placeholder}
@@ -61,6 +63,7 @@ export default function TextArea({
           value={value}
           onChange={onChange}
           style={{ resize: resize ? undefined : 'none' }}
+          maxLength={maxLength}
         />
         {touched && (
           <p className='invisible text-sm text-red-600 peer-invalid:visible'>

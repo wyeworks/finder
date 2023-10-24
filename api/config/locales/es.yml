@@ -3,6 +3,7 @@ es:
     errors:
       messages:
         invalid: "La validación falló y el record no es válido"
+        record_invalid: "La validación falló: %{errors}"
       models:
         career:
           attributes:
@@ -39,6 +40,25 @@ es:
               required: "El usuario es requerido"
             reason:
               blank: "La razón es requerida para rechazar la solicitud"
+        session:
+          attributes:
+            name:
+              required: "El nombre de la sesión es requerido"
+              blank: "El nombre de la sesión no puede ser vacío"
+            description:
+              blank: "La descripción de la sesión no puede ser vacía"
+            location:
+              blank: "La ubicación de la sesión no puede ser vacía"
+            meeting_link:
+              blank: "El link de la sesión no puede ser vacío"
+            start_time:
+              required: "La hora de inicio de la sesión es requerida"
+              blank: "El inicio de la sesión debe ser una fecha válida"
+            end_time:
+              required: "La hora de finalización de la sesión es requerida"
+              blank: "El fin de la sesión debe ser una fecha válida"
+            group_id:
+              required: "La sesión debe estar asociada a un grupo"
         subject:
           attributes:
             code:
@@ -59,3 +79,6 @@ es:
             password:
               blank: "La contraseña no puede estar vacía"
               too_short: "La contraseña es demasiado corta. Debe tener al menos 8 caracteres"
+            current_password:
+              blank: "La contraseña actual no puede estar vacía."
+              invalid: "La contraseña actual es incorrecta."

@@ -1,3 +1,6 @@
+import ArrowLeftIcon from '@/assets/Icons/ArrowLeftIcon';
+import ArrowRightIcon from '@/assets/Icons/ArrowRightIcon';
+
 type PaginationProps = {
   currentPage: number;
   totalPages: number;
@@ -45,7 +48,7 @@ export default function Pagination({
         disabled={currentPage === 1}
         onClick={() => onChange(currentPage - 1)}
       >
-        &lt;
+        <ArrowLeftIcon className='h-4 w-4' />
       </button>
 
       {getDisplayedPages().map((page) => (
@@ -80,7 +83,7 @@ export default function Pagination({
         disabled={currentPage === totalPages}
         onClick={() => onChange(currentPage + 1)}
       >
-        &gt;
+        <ArrowRightIcon className='h-4 w-4' />
       </button>
     </div>
   );

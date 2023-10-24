@@ -18,19 +18,19 @@ export default function FormStep5({
 
   function handleButtonAction() {
     nextPage();
-    router.push('/home');
+    router.push('/groups');
   }
 
   return (
     <div className='grid grid-rows-[180px,70px,80px] justify-center gap-3 sm:grid-rows-[130px,70px,80px]'>
       <div className='flex flex-col pb-2'>
-        <span className='text-primaryBlue pt-4 text-2xl font-bold'>
+        <span className='pt-4 font-poppins text-2xl font-bold text-primaryBlue'>
           ¡Felicitaciones!
         </span>
-        <span className='text-primaryBlue text-2xl font-bold'>
+        <span className='font-poppins text-2xl font-bold text-primaryBlue'>
           Ahora solo faltan las personas
         </span>
-        <span className='max-w-lg text-sm text-grayText'>
+        <span className='max-w-lg pt-2 text-sm text-grayText'>
           El grupo &apos;{groupName}&apos; ya está pronto para recibir al resto
           de sus integrantes bajo la siguiente URL. Asegúrate de compartirla con
           ellos.

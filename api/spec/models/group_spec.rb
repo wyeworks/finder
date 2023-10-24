@@ -34,6 +34,82 @@ RSpec.describe Group, type: :model do
     end
   end
 
+  describe 'scopes' do
+    describe 'search_by_params' do
+      let(:subject) { described_class.search_by_params(name:, subject_id:) }
+
+      let(:subject_one) { create :subject }
+      let(:subject_two) { create :subject }
+
+      let(:group_one) { create :group, name: 'Foo', subject_id: subject_one.id }
+      let(:group_two) { create :group, name: 'Bar', subject_id: subject_one.id }
+      let(:group_three) { create :group, name: 'Baz', subject_id: subject_two.id }
+
+      context 'when name is passed as a parameter' do
+        let(:name) { 'Ba' }
+        let(:subject_id) { nil }
+
+        it 'returns groups that matches that name' do
+          expect(subject).to match_array([group_two, group_three])
+        end
+      end
+
+      context 'when subject_id is passed as a parameter' do
+        let(:name) { nil }
+        let(:subject_id) { subject_one.id }
+
+        it 'returns groups with that exact subject_id' do
+          expect(subject).to match_array([group_one, group_two])
+        end
+      end
+
+      context 'when both name and subject_id are passed as parameters' do
+        let(:name) { 'Ba' }
+        let(:subject_id) { subject_one.id }
+
+        it 'returns groups that match that criteria' do
+          expect(subject).to match_array([group_two])
+        end
+      end
+
+      context 'when no parameters are passed' do
+        let(:name) { nil }
+        let(:subject_id) { nil }
+
+        it 'returns all groups' do
+          expect(subject).to match_array([group_one, group_two, group_three])
+        end
+      end
+    end
+
+    describe 'sort_by_time_preferences' do
+      let(:subject) { described_class.sort_by_time_preferences(time_preferences:) }
+
+      let!(:group_one) do
+        create :group, time_preferences: { 'Monday' => 'Night', 'Tuesday' => 'Afternoon', 'Wednesday' => 'Night' }
+      end
+      let!(:group_two) { create :group, time_preferences: { 'Monday' => 'Morning' } }
+      let!(:group_three) { create :group, time_preferences: { 'Monday' => 'Night' } }
+
+      context 'when no time_preferences are passed' do
+        let(:time_preferences) { nil }
+
+        it 'returns all groups in the same previous order' do
+          expect(subject).to match_array([group_one, group_two, group_three])
+        end
+      end
+
+      context 'when time_preferences are passed' do
+        let(:time_preferences) { 'night,afternoon' }
+
+        it 'returns the sorted collection of groups based on the time preferences' do
+          expect(subject.first).to eq(group_one)
+          expect(subject.last).to eq(group_three)
+        end
+      end
+    end
+  end
+
   describe '#admin?' do
     let(:group) { create :group }
     let(:user) { create :user }

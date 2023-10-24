@@ -9,6 +9,7 @@ type DropdownProps = {
   options: Option[];
   required?: boolean;
   validateText?: string;
+  initialValue?: string;
   maxWidth?: boolean;
   setOptionValue?: React.Dispatch<React.SetStateAction<Option>>;
   placeholder: string;
@@ -24,13 +25,16 @@ export default function SearchDropdown({
   label,
   options,
   setOptionValue,
+  initialValue,
   placeholder,
   disableOption,
   onChange,
   disableText = '',
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedValue, setSelectedValue] = useState<string>('');
+  const [selectedValue, setSelectedValue] = useState<string>(
+    initialValue ?? ''
+  );
   const [filteredOptions, setFilteredOptions] = useState<Option[]>(options);
 
   useEffect(() => {
@@ -46,7 +50,7 @@ export default function SearchDropdown({
     setSelectedValue(value);
     if (setOptionValue) setOptionValue({ key, label: value });
     setIsOpen(false);
-    onChange?.(value);
+    onChange?.(key);
   };
 
   function handleChangeInput(value: string) {
@@ -56,7 +60,9 @@ export default function SearchDropdown({
         ...prevState,
         label: value,
       }));
-    onChange?.(value);
+    if (value === '') {
+      onChange?.('');
+    }
   }
 
   return (
@@ -80,7 +86,7 @@ export default function SearchDropdown({
               id={id}
               data-testid={id}
               placeholder={placeholder}
-              className='peer block w-full px-3 py-1.5 pr-8 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6' // Added pr-8 to add padding on the right
+              className='peer block w-full rounded-md px-3 py-1.5 pr-8 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6' // Added pr-8 to add padding on the right
             />
             <span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3'>
               <ArrowDownIcon

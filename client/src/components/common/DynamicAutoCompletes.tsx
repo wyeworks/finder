@@ -95,7 +95,7 @@ export default function DynamicAutoCompletes({
   }, [dropDowns]);
   return (
     <>
-      <label className='block text-sm font-medium leading-6 text-gray-900'>
+      <label className='block font-poppins text-sm font-medium leading-6 text-gray-900'>
         {title}
       </label>
       <div>
@@ -112,10 +112,10 @@ export default function DynamicAutoCompletes({
           <Button
             id={buttonIds + 'add'}
             Icon={<AddIcon className='h-6 w-6 text-sky-500' />}
-            className='border border-gray-300 bg-white hover:bg-gray-200'
+            className='border border-gray-300 bg-white hover:!bg-backgroundInput'
             onClick={() => {
-              const newInputId = { dropDownIds } + counterId.toString();
-              const newButtonId = { buttonIds } + counterId.toString();
+              const newInputId = dropDownIds + counterId.toString();
+              const newButtonId = buttonIds + counterId.toString();
               setDropDowns((prevState) => [
                 ...prevState,
                 {
@@ -178,8 +178,8 @@ function OptionsAdded({
             </div>
             <div className='w-[20%] md:w-[10%]'>
               <Button
-                Icon={<TrashIcon className='h-6 w-6 text-red-500' />}
-                className='border border-gray-300 bg-white hover:bg-gray-200'
+                Icon={<TrashIcon className='h-6 w-6 text-red-500 ' />}
+                className='border border-gray-300 bg-white hover:!bg-backgroundInput'
                 onClick={() => {
                   onOptionDelete(dropDown.button_id);
                 }}

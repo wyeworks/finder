@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import Button from '@/components/common/Button';
 import Link from 'next/link';
+import { Logger } from '@/services/Logger';
 
 export default function Error({
   error,
@@ -13,13 +14,13 @@ export default function Error({
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    console.error(error);
+    Logger.error(error);
   }, [error]);
 
   return (
     <div className='flex items-center justify-center'>
       <h2>Ha ocurrido un error inesperado!</h2>
-      <Link href={'/home'}>
+      <Link href={'/groups'}>
         <Button text={'Inicio'} />
       </Link>
       <Button text={'Reintentar'} onClick={reset} />

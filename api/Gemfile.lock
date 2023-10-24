@@ -88,6 +88,7 @@ GEM
       devise (~> 4.0)
       warden-jwt_auth (~> 0.8)
     diff-lcs (1.5.0)
+    docile (1.4.0)
     dry-auto_inject (1.0.1)
       dry-core (~> 1.0)
       zeitwerk (~> 2.6)
@@ -236,6 +237,12 @@ GEM
       ruby_http_client (~> 3.4)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
     thor (1.2.2)
     timeout (0.4.0)
     tzinfo (2.0.6)
@@ -273,6 +280,7 @@ DEPENDENCIES
   rubocop-rails
   sendgrid-ruby (~> 6.0)
   shoulda-matchers (~> 5.0)
+  simplecov (~> 0.22)
   tzinfo-data
 
 RUBY VERSION

@@ -3,7 +3,7 @@ import Input from '@/components/common/Input';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { CreateGroupData } from '../page';
-import LayoutForms from './layout';
+import LayoutForms from './LayoutForms';
 
 type FormStep2Props = {
   nextPage: () => void;
@@ -40,10 +40,10 @@ export default function FormStep2({
       backPage={back}
     >
       <div className='flex flex-col pb-2'>
-        <span className='text-primaryBlue pt-4 text-2xl font-bold'>
+        <span className='pt-4 font-poppins text-2xl font-bold text-primaryBlue'>
           {strings.createGroup.step2.description1}
         </span>
-        <span className='text-sm text-grayText'>
+        <span className='pt-2 text-sm text-grayText'>
           {strings.createGroup.step2.description2}
         </span>
       </div>
@@ -67,6 +67,7 @@ export default function FormStep2({
               return { ...prevState, name: e.target.value };
             })
           }
+          maxLength={40}
         />
         <Button
           text={strings.form.nextButton.text}

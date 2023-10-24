@@ -7,7 +7,8 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Logger } from '@/services/Logger';
 import { Subject } from '@/types/Subject';
 import { parseSubjectToOption } from '@/utils/Formatter';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
+import { SubjectService } from '@/services/SubjectService';
+import { useSession } from 'next-auth/react';
 
 type FormStep1Props = {
   nextPage: () => void;
@@ -20,18 +21,18 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
     key: '',
     label: '',
   });
-
-  const getSubjects = async () => {
-    try {
-      // return await ApiCommunicator.clientSideSubjectsByUser();
-      return await ApiCommunicator.clientSideGetSubjects();
-    } catch (error) {
-      Logger.error('Error trying to get subjects:', error);
-      return null;
-    }
-  };
+  const { data: session } = useSession();
 
   useEffect(() => {
+    const getSubjects = async () => {
+      try {
+        return await SubjectService.getAll(session?.user.accessToken!);
+      } catch (error) {
+        Logger.error('Error trying to get subjects:', error);
+        return null;
+      }
+    };
+
     const fetchData = async () => {
       const subjects = await getSubjects();
       if (subjects) {
@@ -39,7 +40,7 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
       }
     };
     fetchData();
-  }, []);
+  }, [session?.user.accessToken]);
 
   function handleButton() {
     setValue((prevState: any) => {
@@ -50,7 +51,7 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
 
   return (
     <div className='grid grid-rows-3 justify-center gap-5'>
-      <div className='pt-4 text-2xl font-bold text-primaryBlue'>
+      <div className='pt-4 font-poppins text-2xl font-bold text-primaryBlue'>
         {strings.createGroup.step1.description}
       </div>
       <SearchDropdown
@@ -67,7 +68,7 @@ export default function FormStep1({ nextPage, setValue }: FormStep1Props) {
       <Button
         text={strings.form.nextButton.text}
         type='button'
-        className='rounded-2xl bg-primaryBlue hover:bg-hoverPrimaryBlue disabled:bg-slate-500 '
+        className='rounded-2xl'
         classNameWrapper='w-1/3'
         onClick={handleButton}
         disabled={

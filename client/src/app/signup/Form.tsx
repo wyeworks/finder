@@ -6,15 +6,12 @@ import Alert from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import strings from '@/locales/strings.json';
-import { BackendError } from '@/types/BackendError';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Logger } from '@/services/Logger';
-import {
-  mustBeMailAdress,
-  mustHaveUpperCaseLowerCaseAndEightCharacters,
-} from '@/utils/Pattern';
+import { mustHaveUpperCaseLowerCaseAndEightCharacters } from '@/utils/Pattern';
+import { AuthService } from '@/services/AuthService';
+import { NotOkError } from '@/types/NotOkError';
 
 type SignUpFormData = {
   name: string;
@@ -34,13 +31,37 @@ export default function Form() {
     password: false,
   });
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-    setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    if (name !== 'email') {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value.trim(),
+    }));
+    if (name === 'email') {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
+    }
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    if (name === 'email') {
+      setTouched((prevTouched) => ({ ...prevTouched, [name]: false }));
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -52,20 +73,25 @@ export default function Form() {
       password: true,
     });
 
+    //Clean previous Alert Messages
+    setAlertMessage('');
+    setIsVisible(false);
+
     const isCurrentFormValid = event.currentTarget.checkValidity();
 
     if (!isCurrentFormValid) {
-      setAlertMessage(strings.common.error.completeFields);
-      setIsVisible(true);
       return;
     }
 
+    setIsDisabled(true);
+
     try {
       Logger.debug('Sending signup request with data:', formData);
-      const response = await ApiCommunicator.clientSideSignUp(formData);
-      if (!response.ok) {
-        const errorData = await response.json();
-        const parsedError = errorData as BackendError;
+      await AuthService.signUp(formData);
+      router.push('/confirmation');
+    } catch (error) {
+      if (error instanceof NotOkError) {
+        const parsedError = error.backendError;
         const errorMessages = [];
 
         if (parsedError.errors.email) {
@@ -77,23 +103,23 @@ export default function Form() {
 
         setAlertMessage(errorMessages.join('\n'));
         setIsVisible(true);
+        setIsDisabled(false);
         return;
       }
 
-      router.push('/confirmation');
-    } catch (error) {
       setAlertMessage(strings.common.error.unexpectedError);
       setIsVisible(true);
+      setIsDisabled(false);
     }
   };
 
   return (
     <div
-      className='mt-3 sm:mx-auto sm:mt-10 sm:w-full sm:max-w-sm'
+      className='mt-3 flex justify-center sm:mx-auto sm:mt-10 sm:w-full sm:max-w-sm'
       id='register-form'
     >
       <form
-        className='grid max-w-xs grid-rows-register-form gap-1 sm:pl-7'
+        className='grid w-full max-w-xs grid-rows-register-form gap-1'
         onSubmit={handleSubmit}
         noValidate
         autoComplete='off'
@@ -107,22 +133,27 @@ export default function Form() {
           required
           value={formData.name}
           onChange={handleChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           touched={touched.name}
           Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
+          maxLength={40}
         />
         <Input
           type='email'
           id='email'
           name='email'
-          pattern={mustBeMailAdress()}
           label={strings.form.emailInput.label}
           placeholder={strings.form.emailInput.placeholder}
           validateText={strings.form.emailInput.validateText}
           required
           value={formData.email}
           onChange={handleChange}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
           touched={touched.email}
           Icon={<EmailIcon className='h-5 w-5 text-gray-400' />}
+          autoComplete='off'
         />
         <Input
           type='password'
@@ -136,6 +167,7 @@ export default function Form() {
           required
           value={formData.password}
           onChange={handleChange}
+          onFocus={handleFocus}
           touched={touched.password}
           autoComplete='new-password'
         />
@@ -143,6 +175,7 @@ export default function Form() {
           type='submit'
           text={strings.form.createAccountButton.text}
           className='mt-5'
+          disabled={isDisabled}
         />
         <Alert
           isVisible={isVisible}

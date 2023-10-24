@@ -19,11 +19,8 @@ Rails.application.routes.draw do
       get 'users/:user_id', to: 'requests#show_for_user', on: :collection
     end
   end
+  resources :members, only: :destroy
   resources :subjects, only: [:index, :show]
-  resources :users, only: [:show, :destroy] do
-    member do
-      get :careers
-      get :subjects
-    end
-  end
+  resources :users, only: [:show, :update, :destroy]
+  resources :sessions, only: [:create, :show, :update, :destroy]
 end

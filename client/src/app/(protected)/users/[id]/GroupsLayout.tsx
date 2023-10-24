@@ -1,52 +1,54 @@
-import { StudyGroup } from '@/types/StudyGroup';
 import Image from 'next/image';
 import React, { Suspense } from 'react';
-import { GroupService } from '@/services/GroupService';
 import { User } from '@/types/User';
 import Loading from '@/components/common/Loading';
-import { Subject } from '@/types/Subject';
-import { SubjectService } from '@/services/SubjectService';
+import Link from 'next/link';
 
 type GroupCardProps = {
-  group: StudyGroup;
-  subject: Subject;
+  id: number;
+  name: string;
+  description: string;
+  subject: string;
+  banner?: string;
 };
 
-function GroupCard({ group, subject }: GroupCardProps) {
+function GroupCard({ id, name, description, subject, banner }: GroupCardProps) {
   return (
-    <div
-      data-testid={`groupCard-${group.name}`}
-      className='m-5 flex flex-col overflow-hidden rounded-2xl shadow-2xl lg:w-[444px]'
-    >
-      <Image
-        data-testid={`groupBanner-${group.banner ?? 'default'}`}
-        src={group.banner ? group.banner : '/default_group_banner.png'}
-        alt={group.name}
-        width={891}
-        height={306}
-        className='w-full'
-      />
-      <div className='bg-white p-5'>
-        <h1
-          data-testid={`groupSubject-${group.subject_id}`}
-          className='text-base font-bold text-[#242760]'
-        >
-          {subject.name}
-        </h1>
-        <h1
-          data-testid={`groupName-${group.name}`}
-          className='text-xl font-normal text-[#050838]'
-        >
-          {group.name}
-        </h1>
-        <p
-          data-testid={`groupDescription-${group.description}`}
-          className='text-base font-light text-[#A0A0A0]'
-        >
-          {group.description}
-        </p>
+    <Link href={`/groups/${id}`}>
+      <div
+        data-testid={`groupCard-${name}`}
+        className='m-5 flex flex-col overflow-hidden rounded-2xl shadow-2xl lg:w-[444px]'
+      >
+        <Image
+          data-testid={`groupBanner-${banner ?? 'default'}`}
+          src={banner ? banner : '/default_group_banner.png'}
+          alt={name}
+          width={891}
+          height={306}
+          className='w-full'
+        />
+        <div className='bg-white p-5'>
+          <h1
+            data-testid={`groupSubject-${subject}`}
+            className='text-base font-bold text-[#242760]'
+          >
+            {subject}
+          </h1>
+          <h1
+            data-testid={`groupName-${name}`}
+            className='text-xl font-normal text-[#050838]'
+          >
+            {name}
+          </h1>
+          <p
+            data-testid={`groupDescription-${description}`}
+            className='text-base font-light text-[#A0A0A0]'
+          >
+            {description}
+          </p>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -81,11 +83,7 @@ export function Groups({ groups }: { groups: GroupCardProps[] }) {
       {groups.length !== 0 ? (
         <SubscribedGroups>
           {groups.map((props) => (
-            <GroupCard
-              key={props.group.name}
-              group={props.group}
-              subject={props.subject}
-            />
+            <GroupCard key={props.name} {...props} />
           ))}
         </SubscribedGroups>
       ) : (
@@ -95,20 +93,6 @@ export function Groups({ groups }: { groups: GroupCardProps[] }) {
   );
 }
 
-async function GroupGrid({ user }: GroupsLayoutProps) {
-  const groups = await GroupService.getActiveGroups(user);
-  const subjects = groups.map((group) =>
-    SubjectService.getSubject(group.subject_id)
-  );
-  const subjectsResolved = await Promise.all(subjects);
-  const groupsWithSubjects = groups.map((group, index) => ({
-    group,
-    subject: subjectsResolved[index],
-  }));
-
-  return <Groups groups={groupsWithSubjects} />;
-}
-
 export default function GroupsLayout({ user }: GroupsLayoutProps) {
   return (
     <div className='overflow-hidden border-[#E7E7E7] bg-[#F3F4F6] lg:rounded-2xl lg:border-2 lg:bg-white'>
@@ -116,7 +100,7 @@ export default function GroupsLayout({ user }: GroupsLayoutProps) {
         <h1 className='text-4xl font-extrabold'>Grupos</h1>
       </div>
       <Suspense fallback={<Loading />}>
-        <GroupGrid user={user} />
+        <Groups groups={user.groups!} />
       </Suspense>
     </div>
   );

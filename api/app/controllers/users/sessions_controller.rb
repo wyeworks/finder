@@ -4,6 +4,8 @@ module Users
   class SessionsController < Devise::SessionsController
     respond_to :json
 
+    skip_before_action :authenticate_user!
+
     private
 
     def respond_with(current_user, _opts = {})

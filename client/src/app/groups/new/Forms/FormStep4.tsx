@@ -6,7 +6,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { CreateGroupData } from '../page';
 import { TimeOfDay } from '@/types/StudyGroup';
 import { translatePreference, translateSpanishDays } from '@/utils/Formatter';
-import LayoutForms from './layout';
+import LayoutForms from './LayoutForms';
 
 const preferences: Option[] = [
   {
@@ -53,10 +53,10 @@ export default function FormStep4({
       backPage={back}
     >
       <div className='flex flex-col pb-2'>
-        <span className='text-primaryBlue pt-4 text-2xl font-bold'>
+        <span className='pt-4 font-poppins text-2xl font-bold text-primaryBlue'>
           {strings.createGroup.step4.description1}
         </span>
-        <span className='max-w-lg text-sm text-grayText'>
+        <span className='max-w-lg pt-2 text-sm text-grayText'>
           {strings.createGroup.step4.description2}
         </span>
       </div>

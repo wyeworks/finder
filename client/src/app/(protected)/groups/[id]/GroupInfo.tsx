@@ -1,7 +1,7 @@
 'use client';
 
 import { StudyGroup } from '@/types/StudyGroup';
-import GroupSizeIcon from '@/assets/Icons/GroupSizeIcon';
+import GroupSizeIconSolid from '@/assets/Icons/GroupSizeIconSolid';
 import { Subject } from '@/types/Subject';
 import Button from '@/components/common/Button';
 import { GroupService } from '@/services/GroupService';
@@ -9,6 +9,8 @@ import { User } from '@/types/User';
 import strings from '@/locales/strings.json';
 import { useEffect, useState } from 'react';
 import Alert from '@/components/common/Alert';
+import { useSession } from 'next-auth/react';
+import { NotOkError } from '@/types/NotOkError';
 
 type GroupInfoProps = {
   group: StudyGroup;
@@ -17,6 +19,7 @@ type GroupInfoProps = {
 };
 
 export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
+  const { data: session } = useSession();
   const { id, name, description, size, user_ids } = group;
   const [requestPending, setRequestPending] = useState<boolean>(false);
   const [finishedLoading, setFinishedLoading] = useState<boolean>(false);
@@ -25,24 +28,33 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
 
   const handleRequestGroup = async function () {
     if (id) {
-      await GroupService.clientSideSubmitRequest(id.toString());
-      //beautify later
-      let res = false;
-      setFinishedLoading(false);
-      if (user_ids && id) {
-        const response = await GroupService.clientSideGetRequestState(
+      try {
+        await GroupService.submitRequest(
           id.toString(),
-          user.id
+          session?.user.accessToken!
         );
-        if (!response.ok) {
-          res = response.status === 404 ? false : true;
-        } else {
+        //beautify later
+        let res = false;
+        setFinishedLoading(false);
+        if (user_ids && id) {
+          const response = await GroupService.getRequestState(
+            id.toString(),
+            user.id,
+            session?.user.accessToken!
+          );
+
           const body = await response.json();
           res = body.status === 'pending';
         }
+        setRequestPending(res);
+        setFinishedLoading(true);
+      } catch (error) {
+        if (error instanceof NotOkError) {
+          setRequestPending(error.status !== 404);
+        }
+      } finally {
+        setFinishedLoading(true);
       }
-      setRequestPending(res);
-      setFinishedLoading(true);
     }
   };
 
@@ -61,22 +73,26 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
       let res = false;
       setFinishedLoading(false);
       if (user_ids && id) {
-        const response = await GroupService.clientSideGetRequestState(
-          id.toString(),
-          user.id
-        );
-        if (!response.ok) {
-          res = response.status === 404 ? false : true;
-        } else {
+        try {
+          const response = await GroupService.getRequestState(
+            id.toString(),
+            user.id,
+            session?.user.accessToken!
+          );
+
           const body = await response.json();
           res = body.status === 'pending';
+        } catch (error) {
+          if (error instanceof NotOkError) {
+            res = error.status !== 404;
+          }
         }
       }
       setRequestPending(res);
       setFinishedLoading(true);
     };
     isRequestPending();
-  }, [id, user.id, user_ids]);
+  }, [id, session?.user.accessToken, user.id, user_ids]);
 
   const buttonJoin = () => {
     return (
@@ -108,10 +124,10 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
       <div className='col-span-1'></div>
       <div className='text-center sm:col-span-3 sm:text-left '>
         <div className='flex'>
-          <div className='flex w-full items-center justify-center sm:justify-start md:w-[85%]'>
-            <h1 className='mb-3 text-4xl'>{name}</h1>
-            <span className='text-md mb-2 ml-2 rounded-full bg-primaryBlue px-2.5 py-0.5 font-medium text-white'>
-              <strong>#{id}</strong>
+          <div className='block w-full items-center justify-center sm:justify-start md:flex md:w-[85%]'>
+            <h1 className='font-regular mb-3 font-poppins text-4xl'>{name}</h1>
+            <span className='mb-2 ml-2 rounded-full bg-primaryBlue px-2.5 py-0.5 text-xl text-white'>
+              <h1 className='font-poppins font-medium'>#{id}</h1>
             </span>
           </div>
 
@@ -122,12 +138,16 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
           )}
         </div>
 
-        <p className='mb-3 text-xl font-bold'>{subject.name}</p>
-        <p className='mb-3'>{description}</p>
+        <p className='mb-3 font-poppins text-xl font-semibold'>
+          {subject.name}
+        </p>
+        <p className='font-regular mb-3'>{description}</p>
         <div className='mb-3 flex flex-col items-center justify-center sm:flex-row sm:justify-start'>
           <div className='mr-2 flex items-center sm:mb-0'>
-            <GroupSizeIcon className='mr-1 h-5 w-5' />
-            <span>{size} integrantes máximo</span>
+            <GroupSizeIconSolid className='mr-2 h-5 w-5' />
+            <span>
+              {user_ids ? user_ids.length + ' /' : 'máximo'} {size} integrantes
+            </span>
           </div>
         </div>
         {!inGroup && finishedLoading && (

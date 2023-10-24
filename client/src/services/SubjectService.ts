@@ -1,23 +1,27 @@
-import { User } from '@/types/User';
 import { Subject } from '@/types/Subject';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 
 export class SubjectService {
-  public static async getByUser(user: User): Promise<Subject[]> {
-    return (await (
-      await ApiCommunicator.getSubjectsByUser(user.id)
-    ).json()) as Subject[];
+  public static async getById(
+    id: number,
+    accessToken: string
+  ): Promise<Subject> {
+    const response = await ApiCommunicator.commonFetch({
+      url: `/subjects/${id}`,
+      method: 'GET',
+      accessToken,
+    });
+
+    return await response.json();
   }
 
-  public static async getSubject(id: number): Promise<Subject> {
-    return (await ApiCommunicator.getSubject(id.toString())) as Subject;
-  }
+  public static async getAll(accessToken: string): Promise<Subject[]> {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/subjects',
+      method: 'GET',
+      accessToken,
+    });
 
-  public static async getSubjects(): Promise<Subject[]> {
-    return (await ApiCommunicator.getSubjects()) as Subject[];
-  }
-
-  public static async getAll(): Promise<Subject[]> {
-    return (await (await ApiCommunicator.getSubjects()).json()) as Subject[];
+    return await response.json();
   }
 }
