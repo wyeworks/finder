@@ -153,7 +153,7 @@ function UserProfileImage({ profileImage }: { profileImage?: string }) {
 }
 
 function Careers({ careers }: { careers: Career[] }) {
-  if (careers.length === 0) return <></>;
+  if (!careers || careers.length === 0) return <></>;
   else
     return (
       <div className='flex h-min w-fit flex-col items-center justify-center lg:flex-row'>

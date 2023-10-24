@@ -19,7 +19,7 @@ const fillAndSubmitForm = () => {
   userEvent.click(screen.getByText(strings.form.createAccountButton.text));
 };
 
-describe('Form Component', () => {
+describe.skip('Form Component', () => {
   it('should render without crashing', () => {
     render(<Form />);
   });

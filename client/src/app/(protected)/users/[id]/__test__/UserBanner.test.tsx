@@ -6,9 +6,19 @@ import {
   UserBuilder,
 } from '../../../../../../tests/builders/UserBuilder';
 import React from 'react';
+import { Career } from '@/types/Career';
+
+const testCareer: Career = {
+  id: 101,
+  name: 'Test career',
+  code: 'CS101',
+  approved_on: '2023-01-01',
+  years: 4,
+  credits: 120,
+};
 
 describe('UserBanner Component', () => {
-  const usuarioTipico = UserBuilder.aUser().build();
+  const usuarioTipico = UserBuilder.aUser().withCareers([testCareer]).build();
 
   it('should render without crashing', () => {
     render(<UserBanner user={usuarioTipico} isLoggedUser={false} />);
