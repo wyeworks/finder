@@ -25,13 +25,51 @@ RSpec.describe MembersController, type: :request do
     end
 
     context "when user is the group's admin" do
-      before do
-        delete "/members/#{@admin_member.id}", headers: headersAdmin
+      context 'and there are other members' do
+        before do
+          delete "/members/#{@admin_member.id}", headers: headersAdmin
+        end
+
+        it 'deletes the member successfully' do
+          expect(response).to have_http_status(:no_content)
+          expect(Member.find_by(id: member.id)).to be_nil
+        end
       end
 
-      it 'deletes the member successfully' do
-        expect(response).to have_http_status(:no_content)
-        expect(Member.find_by(id: member.id)).to be_nil
+      context 'and group only has one member' do
+        before do
+          Member.find(@member.id).destroy
+          Member.find(@another_member.id).destroy
+
+          delete "/members/#{@admin_member.id}", headers: headersAdmin
+        end
+
+        it 'deletes himself and the group successfully' do
+          expect(response).to have_http_status(:no_content)
+          expect(Member.find_by(id: member.id)).to be_nil
+          expect(Member.count).to eq(0)
+          expect(Group.count).to eq(0)
+        end
+      end
+
+      context "and there's an invalid record when trying to promote a member" do
+        before do
+          expect_any_instance_of(Group).to receive(:promote_oldest_member!)
+            .and_raise(ActiveRecord::RecordInvalid)
+
+          delete "/members/#{@admin_member.id}", headers: headersAdmin
+        end
+
+        it 'returns an error status' do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'returns JSON containing error messages' do
+          json_response = response.parsed_body
+
+          expect(json_response['errors']['group'])
+            .to include('No se pudo promover al participante más antiguo del grupo')
+        end
       end
     end
 

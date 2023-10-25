@@ -321,6 +321,24 @@ RSpec.describe UsersController, type: :request do
           expect(json_response['errors']['user'][0]).to eq('No estás autorizado para realizar esta acción')
         end
       end
+
+      context 'when user destruction fails' do
+        before do
+          allow_any_instance_of(User).to receive(:destroy).and_return(false)
+
+          delete user_path(user.id), headers:
+        end
+
+        it 'returns an unprocessable entity status' do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'returns a JSON containing error messages' do
+          json_response = response.parsed_body
+
+          expect(json_response['message']).to eq('El usuario no pudo ser borrado correctamente')
+        end
+      end
     end
 
     context 'when user is not authenticated' do
