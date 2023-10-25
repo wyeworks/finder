@@ -64,7 +64,7 @@ export function FiltersContent({
   }
 
   return (
-    <div className='flex h-full flex-col'>
+    <div className='flex flex-col'>
       <div className='mt-4 px-4'>
         <h4 className='font-bold'>Materia</h4>
         <SearchDropdown

@@ -16,7 +16,7 @@ export default function DesktopFilters({
   searchParameters,
 }: DesktopFiltersProps) {
   return (
-    <div className='flex h-full flex-col shadow-md'>
+    <div className='flex h-full w-full flex-col shadow-md'>
       <div className='bg-gray-200'>
         <h4 className='px-4 py-2 font-bold'>Filtros</h4>
       </div>
