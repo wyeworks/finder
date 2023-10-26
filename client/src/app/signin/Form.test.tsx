@@ -16,7 +16,7 @@ describe('Form Component', () => {
   it('should show an alert when form is submitted with invalid data', async () => {
     render(<Form />);
 
-    act(() => {
+    await act(async () => {
       userEvent.click(screen.getByText(strings.form.logInButton.text));
     });
 
@@ -35,7 +35,7 @@ describe('Form Component', () => {
 
     render(<Form />);
 
-    act(() => {
+    await act(async () => {
       // Fill the form
       screen.getByLabelText(strings.form.emailInput.label).focus();
       userEvent.paste('john.doe@email.com');
@@ -63,7 +63,7 @@ describe('Form Component', () => {
     );
 
     render(<Form />);
-    act(() => {
+    await act(async () => {
       // Fill the form
       screen.getByLabelText(strings.form.emailInput.label).focus();
       userEvent.paste('john.doe@email.com');
