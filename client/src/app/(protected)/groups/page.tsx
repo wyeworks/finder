@@ -8,6 +8,9 @@ import InnerPage from './InnerPage';
 import { useSession } from 'next-auth/react';
 import { StudyGroup } from '@/types/StudyGroup';
 import { Subject } from '@/types/Subject';
+import Button from '@/components/common/Button';
+import PlusIcon from '@/assets/Icons/PlusIcon';
+import Link from 'next/link';
 
 //We can search groups by name, subject, timeOfDay, and isMyGroup
 export interface SearchGroup {
@@ -51,7 +54,16 @@ export default function Groups() {
     <div className='flex h-full flex-col'>
       <div className='flex w-full justify-center bg-primaryBlue md:flex'>
         <p className='flex w-[98%] items-center justify-center border-t-2 border-gray-500 py-5 text-2xl text-white'>
-          <h1 className='text-center text-4xl font-extrabold'>Grupos</h1>
+          <h1 className='grow text-center text-4xl font-extrabold'>Grupos</h1>
+          <Link href={'/groups/new'} className='absolute right-0'>
+            <Button
+              text='Crear grupo'
+              Icon={<PlusIcon className='h-5 w-5' />}
+              classNameWrapper='sm:p-4 w-max p-0 m-0'
+              spaceBetween={8}
+              className='rounded-m h-12 items-center border-2'
+            />
+          </Link>
         </p>
       </div>
       {!isLoading && (
