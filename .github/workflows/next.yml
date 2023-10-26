@@ -29,5 +29,3 @@ jobs:
       run: npm ci
     - name: Run Jest tests
       run: npm run test:ci
-    - name: Run Jest coverage
-      run: npm run coverage

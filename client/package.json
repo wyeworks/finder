@@ -12,7 +12,7 @@
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "test": "jest --watch",
     "coverage": "jest --coverage --watchAll",
-    "test:ci": "jest --ci"
+    "test:ci": "jest --ci --coverage"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
