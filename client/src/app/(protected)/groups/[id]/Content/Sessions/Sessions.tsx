@@ -194,8 +194,11 @@ export default function Sessions({ group }: SessionsProps) {
 
   if (!isMemberGroup) {
     return (
-      <div className='border border-solid p-10 text-center'>
-        Debes ser un miembro para ver las sesiones del grupo.
+      <div>
+        <div className='my-4 border border-solid bg-white p-10 text-center'>
+          Debes ser un miembro para ver las sesiones del grupo.
+        </div>
+        <TimePreferences group={group} />
       </div>
     );
   }
