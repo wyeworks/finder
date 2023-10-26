@@ -15,6 +15,9 @@ import { NotOkError } from '@/types/NotOkError';
 import { Logger } from '@/services/Logger';
 import { BackendError } from '@/types/BackendError';
 import strings from '@/locales/strings.json';
+import { Session } from '@/types/Session';
+import ViewSession from './ViewSession';
+import EyeIcon from '@/assets/Icons/EyeIcon';
 
 type SessionsProps = {
   group: StudyGroup;
@@ -75,6 +78,17 @@ export default function Sessions({ group }: SessionsProps) {
   });
   const [alertProps, setAlertProps] = useState<CreateSessionAlertProps>({
     show: false,
+  });
+  const [selectedSession, setSelectedSession] = useState<Session>({
+    id: 0,
+    name: '',
+    description: '',
+    location: '',
+    meeting_link: '',
+    start_time: '',
+    end_time: '',
+    group_id: 0,
+    attendances: [],
   });
 
   useEffect(() => {
@@ -192,6 +206,17 @@ export default function Sessions({ group }: SessionsProps) {
     }
   };
 
+  const viewSession = async () => {
+    const response = await SessionService.getSession(
+      '1',
+      session?.user.accessToken!
+    );
+    if (response) {
+      setOpenModal(true);
+      setSelectedSession(response);
+    }
+  };
+
   if (!isMemberGroup) {
     return (
       <div className='border border-solid p-10 text-center'>
@@ -231,6 +256,15 @@ export default function Sessions({ group }: SessionsProps) {
               className=' h-8 items-center  bg-primaryBlue hover:bg-hoverPrimaryBlue'
               onClick={() => setOpenModal(true)}
             />
+            {/* Remove when session list functional */}
+            <Button
+              text='Ver Sesion'
+              Icon={<EyeIcon className='h-5 w-5' />}
+              classNameWrapper='sm:p-4'
+              spaceBetween={8}
+              className=' h-8 items-center  bg-primaryBlue hover:bg-hoverPrimaryBlue'
+              onClick={() => viewSession()}
+            />
           </div>
         </div>
         <div className='mb-5'>
@@ -239,6 +273,12 @@ export default function Sessions({ group }: SessionsProps) {
         </div>
         <TimePreferences group={group} />
       </div>
+      <CustomModal
+        isOpen={openModal}
+        setIsOpen={setOpenModal}
+        content={<ViewSession session={selectedSession} />}
+        showXButton={true}
+      />
       <CustomModal
         isOpen={openModal}
         setIsOpen={setOpenModal}
