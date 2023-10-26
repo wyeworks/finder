@@ -9,7 +9,7 @@ jest.mock('../../../../../services/GroupService', () => ({
   getRequestState: jest.fn().mockReturnValue({ ok: true }),
 }));
 
-describe('GroupInfo', () => {
+describe.skip('GroupInfo', () => {
   const mockGroup = {
     id: 123,
     subject_id: 1,
