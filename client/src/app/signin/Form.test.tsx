@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'; // Importa userEvent
 import '@/__mocks__/next/router';
 import strings from '@/locales/strings.json';
@@ -15,7 +15,10 @@ describe('Form Component', () => {
 
   it('should show an alert when form is submitted with invalid data', async () => {
     render(<Form />);
-    userEvent.click(screen.getByText(strings.form.logInButton.text)); // Usa screen y userEvent
+
+    act(() => {
+      userEvent.click(screen.getByText(strings.form.logInButton.text));
+    });
 
     await waitFor(() => {
       expect(
@@ -32,14 +35,16 @@ describe('Form Component', () => {
 
     render(<Form />);
 
-    // Fill the form
-    screen.getByLabelText(strings.form.emailInput.label).focus();
-    userEvent.paste('john.doe@email.com');
-    screen.getByLabelText(strings.form.passwordInput.label).focus();
-    userEvent.paste('Password#123');
+    act(() => {
+      // Fill the form
+      screen.getByLabelText(strings.form.emailInput.label).focus();
+      userEvent.paste('john.doe@email.com');
+      screen.getByLabelText(strings.form.passwordInput.label).focus();
+      userEvent.paste('Password#123');
 
-    // Submit the form
-    userEvent.click(screen.getByText(strings.form.logInButton.text));
+      // Submit the form
+      userEvent.click(screen.getByText(strings.form.logInButton.text));
+    });
 
     // Wait for the signIn to be called
     await waitFor(() => {
@@ -58,15 +63,16 @@ describe('Form Component', () => {
     );
 
     render(<Form />);
+    act(() => {
+      // Fill the form
+      screen.getByLabelText(strings.form.emailInput.label).focus();
+      userEvent.paste('john.doe@email.com');
+      screen.getByLabelText(strings.form.passwordInput.label).focus();
+      userEvent.paste('Password#123');
 
-    // Fill the form
-    screen.getByLabelText(strings.form.emailInput.label).focus();
-    userEvent.paste('john.doe@email.com');
-    screen.getByLabelText(strings.form.passwordInput.label).focus();
-    userEvent.paste('Password#123');
-
-    // Submit the form
-    userEvent.click(screen.getByText(strings.form.logInButton.text));
+      // Submit the form
+      userEvent.click(screen.getByText(strings.form.logInButton.text));
+    });
 
     // Wait for the error message to appear
     await waitFor(() => {
