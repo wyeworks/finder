@@ -8,6 +8,7 @@ type ButtonParams = {
   disabled?: boolean;
   Icon?: React.ReactNode;
   spaceBetween?: number;
+  hideTextOnMobile?: boolean;
 };
 
 export default function Button({
@@ -20,6 +21,7 @@ export default function Button({
   disabled = false,
   Icon,
   spaceBetween = 0,
+  hideTextOnMobile = false,
 }: ButtonParams) {
   return (
     <div className={`${classNameWrapper}`}>
@@ -35,7 +37,7 @@ export default function Button({
       >
         {Icon && <>{Icon}</>}
         {spaceBetween > 0 && <div style={{ width: `${spaceBetween}px` }} />}
-        {text}
+        {hideTextOnMobile ? <p className={'hidden md:block'}>{text}</p> : text}
       </button>
     </div>
   );

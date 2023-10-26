@@ -3,7 +3,6 @@ import SearchDropdown from '@/components/common/SearchDropDown';
 import { TimeOfDay } from '@/types/StudyGroup';
 import { Subject } from '@/types/Subject';
 import { parseSubjectToOption, translatePreference } from '@/utils/Formatter';
-import Link from 'next/link';
 import { SearchGroup } from '@/app/(protected)/groups/page';
 
 type FiltersContentProps = {
@@ -133,15 +132,6 @@ export function FiltersContent({
           }
           return null;
         })}
-      </div>
-
-      <div className='flex justify-center pt-3'>
-        <Link
-          href='/groups/new'
-          className='rounded-md bg-primaryBlue p-3 text-white'
-        >
-          Crear grupo
-        </Link>
       </div>
     </div>
   );
