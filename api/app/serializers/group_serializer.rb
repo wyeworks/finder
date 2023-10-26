@@ -12,6 +12,8 @@ class GroupSerializer
 
   belongs_to :subject
 
+  has_many :sessions
+
   attribute :subject_name do |group|
     group.subject.name
   end
@@ -31,6 +33,12 @@ class GroupSerializer
       end
     else
       []  # Return an empty array if the user isn't an admin.
+    end
+  end
+
+  attribute :sessions do |group|
+    group.sessions.map do |session|
+      SessionSerializer.new(session).serializable_hash[:data][:attributes]
     end
   end
 end
