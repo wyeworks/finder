@@ -126,29 +126,28 @@ function GroupsFound({
         </button>
       </div>
 
-      {isLoading ||
-        (noGroupsFound && (
-          <div className='flex h-full w-full flex-col items-center justify-center'>
-            {isLoading && (
-              <>
-                <Image
-                  src='/loading_groups.png'
-                  alt='Banner'
-                  width={100}
-                  height={100}
-                  className='animate-bounce object-cover'
-                />
-                <p className='mt-4'>Cargando grupos...</p>
-              </>
-            )}
-            {noGroupsFound && (
-              <>
-                <Image src={EmptyBoxImage} alt='Caja vacia' />
-                <p className='mt-4'>No se encontraron grupos</p>
-              </>
-            )}
-          </div>
-        ))}
+      {(isLoading || noGroupsFound) && (
+        <div className='flex h-full w-full flex-col items-center justify-center'>
+          {isLoading && (
+            <>
+              <Image
+                src='/loading_groups.png'
+                alt='Banner'
+                width={100}
+                height={100}
+                className='animate-bounce object-cover'
+              />
+              <p className='mt-4'>Cargando grupos...</p>
+            </>
+          )}
+          {noGroupsFound && (
+            <>
+              <Image src={EmptyBoxImage} alt='Caja vacia' />
+              <p className='mt-4'>No se encontraron grupos</p>
+            </>
+          )}
+        </div>
+      )}
 
       {!isLoading && !noGroupsFound && (
         <div className='flex h-full w-full flex-col md:justify-between'>
