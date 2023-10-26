@@ -46,7 +46,12 @@ export default function InnerPage() {
   }, [searchGroup, session?.user.accessToken]);
 
   useEffect(() => {
-    fetchData();
+    //WE want to make the fetch after one second to avoid spamming the server
+    const timeout = setTimeout(() => {
+      fetchData();
+    }, 1000);
+
+    return () => clearTimeout(timeout);
   }, [fetchData]);
 
   useEffect(() => {
