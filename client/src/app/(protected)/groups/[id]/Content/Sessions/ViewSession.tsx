@@ -78,7 +78,7 @@ export default function CreateSessionForm({ session }: ViewSessionProps) {
             {session.attendances.map((attendance) => {
               return (
                 <div key={attendance.id} className='mb-2 flex'>
-                  <div className='relative h-8'>
+                  <div className='relative h-8 min-w-[30px]'>
                     <Image
                       alt='Avatar'
                       src={defaultUser}
