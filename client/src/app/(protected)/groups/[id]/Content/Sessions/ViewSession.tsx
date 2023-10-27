@@ -34,15 +34,15 @@ export default function CreateSessionForm({ session }: ViewSessionProps) {
         className='m-2 grid grid-cols-[20px,auto]  gap-x-3 gap-y-8 sm:gap-y-[10px]'
         data-testid='view-sesion'
       >
-        <div className='col-span-2 flex items-start'>
-          <h1 className='peer h-fit w-[90%] font-poppins text-xl text-primaryBlue'>
+        <div className='col-span-2 flex h-6'>
+          <h1 className='peer mt-0 h-fit w-[90%] font-poppins text-xl text-primaryBlue'>
             {session.name}
           </h1>
-          <button className='mt-1 flex'>
-            <EditIcon className='h-5 w-5 cursor-pointer text-primaryBlue hover:text-gray-700' />
+          <button className='h-full'>
+            <EditIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
           </button>
-          <button className='mx-2 mt-1 flex'>
-            <TrashIcon className='h-5 w-5 cursor-pointer text-primaryBlue hover:text-gray-700' />
+          <button className='mx-2 h-full'>
+            <TrashIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
           </button>
         </div>
         <ClockIcon className='mr-2 mt-2 h-5 w-5' />

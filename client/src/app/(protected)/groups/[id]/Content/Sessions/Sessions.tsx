@@ -248,8 +248,10 @@ export default function Sessions({ group }: SessionsProps) {
         touched={touchedData}
         alertProps={alertProps}
       />
-    ) : (
+    ) : viewSelected ? (
       <ViewSession session={selectedSession} />
+    ) : (
+      <></>
     );
   };
 
@@ -304,17 +306,11 @@ export default function Sessions({ group }: SessionsProps) {
         </div>
         <TimePreferences group={group} />
       </div>
-      {/* <CustomModal
-        isOpen={openModal}
-        setIsOpen={setOpenModal}
-        content={<ViewSession session={selectedSession} />}
-        showXButton={false}
-      /> */}
       <CustomModal
         isOpen={openModal}
         setIsOpen={setOpenModal}
         content={getModalContent()}
-        showXButton={createSelected ? true : viewSelected ? false : true}
+        showXButton={true}
       />
     </>
   );
