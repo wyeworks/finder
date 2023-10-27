@@ -218,7 +218,7 @@ export default function Sessions({ group }: SessionsProps) {
   const viewSession = async () => {
     //remove hardcoded id when session list functional
     const response = await SessionService.getSession(
-      '4',
+      '3',
       session?.user.accessToken!
     );
     if (response) {

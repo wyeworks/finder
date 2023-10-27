@@ -17,6 +17,7 @@ import CheckIcon from '@/assets/Icons/CheckIcon';
 import Button from '@/components/common/Button';
 import EditIcon from '@/assets/Icons/EditIcon';
 import TrashIcon from '@/assets/Icons/TrashIcon';
+import strings from '@/locales/strings.json';
 
 type ViewSessionProps = {
   session: Session;
@@ -55,21 +56,33 @@ export default function CreateSessionForm({ session }: ViewSessionProps) {
           </h1>
         </div>
         <LocationIcon className='mr-2 mt-2 h-5 w-5' />
-        <h1 className='mt-2 font-poppins font-semibold text-blackTextColor'>
-          {session.location === '' ? 'Sin ubicación' : session.location}
+        <h1
+          className={
+            !session.location
+              ? 'mt-2 font-poppins text-grayText'
+              : 'mt-2 font-poppins font-semibold text-blackTextColor'
+          }
+        >
+          {!session.location
+            ? strings.viewSession.noLocation
+            : session.location}
         </h1>
 
         <BarsIcon className='mr-2 mt-1 h-5 w-5' />
         <p className='font-poppins text-grayText'>
-          {session.description === '' ? 'Sin descripción' : session.description}
+          {!session.description
+            ? strings.viewSession.noDescription
+            : session.description}
         </p>
         <LinkIcon className='mr-2 mt-2 h-5 w-5' />
-        {session.meeting_link === '' ? (
-          <p className='mt-1 font-poppins text-grayText'>Sin enlace</p>
+        {!session.meeting_link ? (
+          <p className='mt-1 font-poppins text-grayText'>
+            {strings.viewSession.noMeetLink}
+          </p>
         ) : (
           <a
             className='mt-1 font-poppins text-blue-700 hover:underline'
-            href={validateUrl(session.meeting_link)}
+            href={validateUrl(session.meeting_link ?? '')}
             target='_blank'
           >
             {session.meeting_link}
@@ -109,7 +122,7 @@ export default function CreateSessionForm({ session }: ViewSessionProps) {
         </div>
       </div>
       <div className='-mb-2 flex items-center border-t border-t-gray-300 pt-1'>
-        <h1 className='font-poppins'>¿Asistirás?</h1>
+        <h1 className='font-poppins'>{strings.viewSession.inviteQuestion}</h1>
         <div className='flex w-full justify-end'>
           <Button
             text='Si'
