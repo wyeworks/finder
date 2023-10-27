@@ -85,7 +85,6 @@ export const translateEnglishDays: { [key: string]: string } = {
 };
 
 export function formatDateToSpanish(date: string) {
-  // Creamos array con los meses del año
   const dateAux = new Date(date.replace('Z', ''));
   const months = [
     'Enero',
@@ -119,9 +118,9 @@ export function formatDateToSpanish(date: string) {
     ' de ' +
     dateAux.getUTCFullYear() +
     ' - ' +
-    dateAux.getHours() +
+    dateAux.getHours().toString().padStart(2, '0') +
     ':' +
-    dateAux.getMinutes()
+    dateAux.getMinutes().toString().padStart(2, '0')
   );
 }
 

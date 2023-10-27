@@ -90,6 +90,8 @@ export default function Sessions({ group }: SessionsProps) {
     group_id: 0,
     attendances: [],
   });
+  const [createSelected, setCreateSelected] = useState<boolean>(false);
+  const [viewSelected, setViewSelected] = useState<boolean>(false);
 
   useEffect(() => {
     const isMember = user_ids?.some(
@@ -97,6 +99,13 @@ export default function Sessions({ group }: SessionsProps) {
     );
     setIsMemberGroup(isMember ?? false);
   }, [session?.user.id, user_ids]);
+
+  useEffect(() => {
+    if (!openModal) {
+      setCreateSelected(false);
+      setViewSelected(false);
+    }
+  }, [openModal]);
 
   function addErrors(parsedError: BackendError) {
     const errorMessages = [];
@@ -207,12 +216,14 @@ export default function Sessions({ group }: SessionsProps) {
   };
 
   const viewSession = async () => {
+    //remove hardcoded id when session list functional
     const response = await SessionService.getSession(
-      '1',
+      '3',
       session?.user.accessToken!
     );
     if (response) {
       setOpenModal(true);
+      setViewSelected(true);
       setSelectedSession(response);
     }
   };
@@ -227,6 +238,20 @@ export default function Sessions({ group }: SessionsProps) {
       </div>
     );
   }
+
+  const getModalContent = function () {
+    return createSelected ? (
+      <CreateSessionForm
+        formData={formData}
+        setFormData={setFormData}
+        handleSubmit={handleSubmit}
+        touched={touchedData}
+        alertProps={alertProps}
+      />
+    ) : (
+      <ViewSession session={selectedSession} />
+    );
+  };
 
   return (
     <>
@@ -257,7 +282,10 @@ export default function Sessions({ group }: SessionsProps) {
               classNameWrapper='sm:p-4'
               spaceBetween={8}
               className=' h-8 items-center  bg-primaryBlue hover:bg-hoverPrimaryBlue'
-              onClick={() => setOpenModal(true)}
+              onClick={() => {
+                setCreateSelected(true);
+                setOpenModal(true);
+              }}
             />
             {/* Remove when session list functional */}
             <Button
@@ -276,25 +304,17 @@ export default function Sessions({ group }: SessionsProps) {
         </div>
         <TimePreferences group={group} />
       </div>
-      <CustomModal
+      {/* <CustomModal
         isOpen={openModal}
         setIsOpen={setOpenModal}
         content={<ViewSession session={selectedSession} />}
-        showXButton={true}
-      />
+        showXButton={false}
+      /> */}
       <CustomModal
         isOpen={openModal}
         setIsOpen={setOpenModal}
-        content={
-          <CreateSessionForm
-            formData={formData}
-            setFormData={setFormData}
-            handleSubmit={handleSubmit}
-            touched={touchedData}
-            alertProps={alertProps}
-          />
-        }
-        showXButton={true}
+        content={getModalContent()}
+        showXButton={createSelected ? true : viewSelected ? false : true}
       />
     </>
   );
