@@ -31,7 +31,7 @@ export default function CreateSessionForm({ session }: ViewSessionProps) {
   return (
     <div>
       <div
-        className='m-2 grid grid-cols-[20px,auto] grid-rows-[50px,50px,50px,50px,auto,50px,125px] gap-x-3 gap-y-8 sm:gap-y-[10px]'
+        className='m-2 grid grid-cols-[20px,auto]  gap-x-3 gap-y-8 sm:gap-y-[10px]'
         data-testid='view-sesion'
       >
         <div className='col-span-2 flex items-start'>
