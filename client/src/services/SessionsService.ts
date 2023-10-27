@@ -46,7 +46,7 @@ export class SessionService {
   }
 
   public static async getSession(
-    sessionId: string,
+    sessionId: number | string,
     accessToken: string
   ): Promise<Session | null> {
     try {

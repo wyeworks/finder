@@ -13,7 +13,7 @@ const renderSessions = () => {
     <SessionProvider
       session={{ user: { id: '1', name: 'test' }, expires: '11' }}
     >
-      <Sessions group={{ name: 'Test', subject_id: 12 }} />
+      <Sessions group={{ name: 'Test', subject_id: 12, sessions: [] }} />
     </SessionProvider>
   );
 };

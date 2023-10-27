@@ -124,42 +124,21 @@ export function formatDateToSpanish(date: string) {
   );
 }
 
-// recive times in the format "2023-12-10T19:00:00.000Z" and return the new format "11 Diciembre 2023 18:00"
-export function dateFormat(
+export function formatDateToSpanishWithEndTime(
   startTime: string,
-  endTime: string,
-  isShowEndHour: boolean
+  endTime: string
 ) {
   const startDate = startTime.split('T')[0];
   const endDate = endTime.split('T')[0];
   const endHour = endTime.split('T')[1].split(':');
   const startHour = startTime.split('T')[1].split(':');
 
-  const day = startDate.split('-')[2];
-  const month = Number(startDate.split('-')[1]);
-  const year = startDate.split('-')[0];
-
   const showEndHour =
-    isShowEndHour && startDate === endDate && endHour[0] !== startHour[0]
+    startDate === endDate && endHour[0] !== startHour[0]
       ? `/ ${endHour[0]}:${endHour[1]}`
       : '';
 
-  const months: { [key: number]: string } = {
-    1: 'Enero',
-    2: 'Febrero',
-    3: 'Marzo',
-    4: 'Abril',
-    5: 'Mayo',
-    6: 'Junio',
-    7: 'Julio',
-    8: 'Agosto',
-    9: 'Septiembre',
-    10: 'Octubre',
-    11: 'Noviembre',
-    12: 'Diciembre',
-  };
-
-  return `${day} ${months[month]} ${year} ${startHour[0]}:${startHour[1]} ${showEndHour}`;
+  return `${formatDateToSpanish(startTime)} ${showEndHour}`;
 }
 
 export function formatAttendanceQauntity(attendances: Attendance[]) {

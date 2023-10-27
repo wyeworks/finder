@@ -1,42 +1,51 @@
 import GroupSizeIcon from '@/assets/Icons/GroupSizeIcon';
 import LocationIcon from '@/assets/Icons/LocationIcon';
-import { dateFormat } from '@/utils/Formatter';
+import { Session } from '@/types/Session';
+import {
+  formatDateToSpanishWithEndTime,
+  formatAttendanceQauntity,
+  formatDateToSpanish,
+} from '@/utils/Formatter';
 
 type CardSessionProps = {
-  session: any; // that type will specific when conect this to back
+  session: Session;
   isHistory?: boolean;
+  // eslint-disable-next-line no-unused-vars
+  viewSession: (id: number) => void;
 };
 
 export default function CardSession({
   session,
   isHistory = false,
+  viewSession,
 }: CardSessionProps) {
-  const { name, location, start_time, attendances, end_time } =
-    session.sessions;
-  let accepted = 0;
-  let pending = 0;
-  let denied = 0;
+  if (!session) {
+    return <></>;
+  }
 
-  attendances.map((member: any) => {
-    const status = member.status;
-    if (status === 'accepted') accepted += 1;
-    if (status === 'pending') pending += 1;
-    if (status === 'denied') denied += 1;
-  });
+  const { name, location, start_time, attendances, end_time } = session;
 
   return (
     <div className='grid grid-rows-3 gap-3 border border-solid border-gray-200 bg-white p-4'>
       <div className='flex gap-5 font-poppins font-bold text-primaryBlue '>
-        <div>{dateFormat(start_time, end_time, isHistory)}</div>
-        <div className='flex'>
-          <LocationIcon className='h-5 w-5' />
-          {location}
-        </div>
+        {isHistory && formatDateToSpanish(start_time)}
+        {!isHistory && formatDateToSpanishWithEndTime(start_time, end_time)}
+        {location && (
+          <div className='flex'>
+            <LocationIcon className='h-5 w-5' />
+            {location}
+          </div>
+        )}
       </div>
-      <div className='font-poppins text-xl text-primaryBlue'>{name}</div>
+      <div
+        className='cursor-pointer font-poppins text-xl text-primaryBlue hover:text-primaryBlue-100 '
+        onClick={() => viewSession(session.id)}
+      >
+        {name}
+      </div>
       <div className='flex text-gray-500'>
-        <GroupSizeIcon className='mr-1 h-5 w-5' /> {accepted} si,{denied} no,
-        {pending} pendientes{' '}
+        <GroupSizeIcon className='mr-1 h-5 w-5' />
+        {formatAttendanceQauntity(attendances)}
       </div>
     </div>
   );

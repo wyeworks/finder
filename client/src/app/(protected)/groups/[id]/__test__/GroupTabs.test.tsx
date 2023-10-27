@@ -8,6 +8,7 @@ import sections from '../Sections';
 const mockGroup: StudyGroup = {
   name: 'Test Group',
   subject_id: 1,
+  sessions: [],
 };
 
 describe('GroupTabs', () => {

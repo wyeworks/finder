@@ -53,6 +53,7 @@ export class GroupService {
       subject_id: 1,
       size: 3,
       isLab: true,
+      sessions: [],
     };
     const TProg: StudyGroup = {
       id: 2,
@@ -61,6 +62,7 @@ export class GroupService {
       subject_id: 2,
       size: 3,
       isLab: true,
+      sessions: [],
     };
     const RedesComp: StudyGroup = {
       id: 3,
@@ -69,6 +71,7 @@ export class GroupService {
       subject_id: 3,
       size: 3,
       isLab: false,
+      sessions: [],
     };
 
     const grupos: StudyGroup[] = [BasesDeDatos, TProg, RedesComp];
