@@ -56,19 +56,25 @@ export default function CreateSessionForm({ session }: ViewSessionProps) {
         </div>
         <LocationIcon className='mr-2 mt-2 h-5 w-5' />
         <h1 className='mt-2 font-poppins font-semibold text-blackTextColor'>
-          {session.location}
+          {session.location === '' ? 'Sin ubicación' : session.location}
         </h1>
 
         <BarsIcon className='mr-2 mt-1 h-5 w-5' />
-        <p className='font-poppins text-grayText'>{session.description}</p>
+        <p className='font-poppins text-grayText'>
+          {session.description === '' ? 'Sin descripción' : session.description}
+        </p>
         <LinkIcon className='mr-2 mt-2 h-5 w-5' />
-        <a
-          className='mt-1 font-poppins text-blue-700 hover:underline'
-          href={validateUrl(session.meeting_link)}
-          target='_blank'
-        >
-          {session.meeting_link}
-        </a>
+        {session.meeting_link === '' ? (
+          <p className='mt-1 font-poppins text-grayText'>Sin enlace</p>
+        ) : (
+          <a
+            className='mt-1 font-poppins text-blue-700 hover:underline'
+            href={validateUrl(session.meeting_link)}
+            target='_blank'
+          >
+            {session.meeting_link}
+          </a>
+        )}
         <GroupSizeIcon className='mr-2 mt-2 h-5 w-5 text-grayText' />
         <div>
           <p className='mt-2 font-poppins text-grayText'>
