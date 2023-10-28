@@ -15,6 +15,9 @@ import { NotOkError } from '@/types/NotOkError';
 import { Logger } from '@/services/Logger';
 import { BackendError } from '@/types/BackendError';
 import strings from '@/locales/strings.json';
+import { Session } from '@/types/Session';
+import ViewSession from './ViewSession';
+import EyeIcon from '@/assets/Icons/EyeIcon';
 
 type SessionsProps = {
   group: StudyGroup;
@@ -76,6 +79,19 @@ export default function Sessions({ group }: SessionsProps) {
   const [alertProps, setAlertProps] = useState<CreateSessionAlertProps>({
     show: false,
   });
+  const [selectedSession, setSelectedSession] = useState<Session>({
+    id: 0,
+    name: '',
+    description: '',
+    location: '',
+    meeting_link: '',
+    start_time: '',
+    end_time: '',
+    group_id: 0,
+    attendances: [],
+  });
+  const [createSelected, setCreateSelected] = useState<boolean>(false);
+  const [viewSelected, setViewSelected] = useState<boolean>(false);
 
   useEffect(() => {
     const isMember = user_ids?.some(
@@ -83,6 +99,13 @@ export default function Sessions({ group }: SessionsProps) {
     );
     setIsMemberGroup(isMember ?? false);
   }, [session?.user.id, user_ids]);
+
+  useEffect(() => {
+    if (!openModal) {
+      setCreateSelected(false);
+      setViewSelected(false);
+    }
+  }, [openModal]);
 
   function addErrors(parsedError: BackendError) {
     const errorMessages = [];
@@ -192,6 +215,19 @@ export default function Sessions({ group }: SessionsProps) {
     }
   };
 
+  const viewSession = async () => {
+    //remove hardcoded id when session list functional
+    const response = await SessionService.getSession(
+      '3',
+      session?.user.accessToken!
+    );
+    if (response) {
+      setOpenModal(true);
+      setViewSelected(true);
+      setSelectedSession(response);
+    }
+  };
+
   if (!isMemberGroup) {
     return (
       <div>
@@ -202,6 +238,22 @@ export default function Sessions({ group }: SessionsProps) {
       </div>
     );
   }
+
+  const getModalContent = function () {
+    return createSelected ? (
+      <CreateSessionForm
+        formData={formData}
+        setFormData={setFormData}
+        handleSubmit={handleSubmit}
+        touched={touchedData}
+        alertProps={alertProps}
+      />
+    ) : viewSelected ? (
+      <ViewSession session={selectedSession} />
+    ) : (
+      <></>
+    );
+  };
 
   return (
     <>
@@ -232,7 +284,19 @@ export default function Sessions({ group }: SessionsProps) {
               classNameWrapper='sm:p-4'
               spaceBetween={8}
               className=' h-8 items-center  bg-primaryBlue hover:bg-hoverPrimaryBlue'
-              onClick={() => setOpenModal(true)}
+              onClick={() => {
+                setCreateSelected(true);
+                setOpenModal(true);
+              }}
+            />
+            {/* Remove when session list functional */}
+            <Button
+              text='Ver Sesion'
+              Icon={<EyeIcon className='h-5 w-5' />}
+              classNameWrapper='sm:p-4'
+              spaceBetween={8}
+              className=' h-8 items-center  bg-primaryBlue hover:bg-hoverPrimaryBlue'
+              onClick={() => viewSession()}
             />
           </div>
         </div>
@@ -245,15 +309,7 @@ export default function Sessions({ group }: SessionsProps) {
       <CustomModal
         isOpen={openModal}
         setIsOpen={setOpenModal}
-        content={
-          <CreateSessionForm
-            formData={formData}
-            setFormData={setFormData}
-            handleSubmit={handleSubmit}
-            touched={touchedData}
-            alertProps={alertProps}
-          />
-        }
+        content={getModalContent()}
         showXButton={true}
       />
     </>
