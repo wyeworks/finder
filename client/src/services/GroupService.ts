@@ -43,6 +43,19 @@ export class GroupService {
     return await response.json();
   }
 
+  public static async update(
+    group: StudyGroup,
+    accessToken: string
+  ): Promise<void> {
+    // await ApiCommunicator.commonFetch({
+    //   url: `/groups/${group.id}`,
+    //   method: 'PATCH',
+    //   data: group,
+    //   accessToken,
+    // });
+    return Promise.resolve();
+  }
+
   public static async getActiveGroups(user: User): Promise<StudyGroup[]> {
     Logger.debug('Getting active groups for users: ' + user.name);
 

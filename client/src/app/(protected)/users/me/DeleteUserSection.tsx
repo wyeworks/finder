@@ -1,6 +1,6 @@
 'use client';
 
-import { ConfigProfileSection } from '@/app/(protected)/users/me/ConfigProfileSection';
+import { ConfigProfileSection } from '@/components/common/ConfigProfileSection';
 import { TrashCanIcon } from '@/assets/Icons/TrashCanIcon';
 import React, { useState } from 'react';
 import { User } from '@/types/User';
