@@ -31,7 +31,7 @@ RSpec.describe Member, type: :model do
     let!(:group) { create(:group) }
     let!(:admin_member) { create(:member, group:) }
     let!(:creator_member) { create(:member, role: 'participant', group:) }
-    let!(:sessions_created) { create_list(:session, 3, creator: creator_member) }
+    let!(:sessions_created) { create_list(:session, 3, creator: creator_member, group:) }
 
     context 'when a member that created sessions is destroyed' do
       before do

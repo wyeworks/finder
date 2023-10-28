@@ -19,7 +19,7 @@ class Member < ApplicationRecord
 
   def assign_new_session_creator
     sessions_created_by_member = Session.where(creator_id: id)
-    admin_member = group.members.where(role: 'admin').where.not(id:).first
+    admin_member = group.admins.where.not(id:).first
 
     # At this point, it is certain that an administrator exists in the group
     sessions_created_by_member.each do |session|
