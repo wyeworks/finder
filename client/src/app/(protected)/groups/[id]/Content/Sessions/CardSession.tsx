@@ -27,7 +27,7 @@ export default function CardSession({
 
   return (
     <div className='grid grid-rows-3 gap-3 border border-solid border-gray-200 bg-white p-4'>
-      <div className='flex gap-5 font-poppins font-bold text-primaryBlue '>
+      <div className='flex justify-between gap-5 font-poppins font-bold text-primaryBlue '>
         {isHistory && formatDateToSpanish(start_time)}
         {!isHistory && formatDateToSpanishWithEndTime(start_time, end_time)}
         {location && (
