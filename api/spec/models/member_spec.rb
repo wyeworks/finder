@@ -7,7 +7,11 @@ RSpec.describe Member, type: :model do
   end
 
   describe 'validations' do
+    subject { build(:member) }
+
+    it { should validate_presence_of(:role) }
     it { should validate_inclusion_of(:role).in_array(%w[admin participant]) }
+    it { should validate_uniqueness_of(:user_id).scoped_to(:group_id) }
 
     it 'should not allow roles other than admin or participant' do
       invalid_member = build(:member, role: 'fake_role')

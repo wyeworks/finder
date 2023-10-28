@@ -7,6 +7,7 @@ class Member < ApplicationRecord
 
   # Validations
   validates :role, presence: true, inclusion: { in: %w[admin participant] }
+  validates :user_id, uniqueness: { scope: :group_id }
 
   # After
   after_create :add_to_upcoming_sessions
