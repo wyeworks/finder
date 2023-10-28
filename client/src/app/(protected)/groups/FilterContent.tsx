@@ -112,7 +112,7 @@ export function FiltersContent({
       </div>
       <div className={'h-4'} />
       <div className='px-4 pt-4'>
-        <label className='font-bold'>
+        <label className='font-poppins font-bold'>
           <input
             type='checkbox'
             name='my_groups'
@@ -124,7 +124,9 @@ export function FiltersContent({
         </label>
       </div>
       <div>
-        <h4 className='mt-4 px-4 font-bold'>Preferencia horaria</h4>
+        <h4 className='mt-4 px-4 font-poppins font-bold'>
+          Preferencia horaria
+        </h4>
         {['Morning', 'Afternoon', 'Night'].map((time) => {
           if (isTimeOfDay(time)) {
             return (
