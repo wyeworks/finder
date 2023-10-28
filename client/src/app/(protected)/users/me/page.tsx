@@ -6,6 +6,7 @@ import { ChangePasswordSection } from '@/app/(protected)/users/me/ChangePassword
 import { DeleteUserSection } from '@/app/(protected)/users/me/DeleteUserSection';
 import { UserService } from '@/services/UserService';
 import { CareerService } from '@/services/CareerService';
+import { ConfigLayout } from '@/components/common/ConfigLayout';
 
 export default async function ConfigProfile() {
   const session = await getServerSession(authOptions);
@@ -16,32 +17,24 @@ export default async function ConfigProfile() {
   const subjects = await SubjectService.getAll(session!.user.accessToken!);
   const careers = await CareerService.getCareers(session!.user.accessToken!);
 
-  return (
+  const mainBody = (
     <>
-      <div className='flex w-full justify-center bg-primaryBlue md:flex'>
-        <p className='flex w-[98%] items-center border-t-2 border-gray-500 py-5 text-2xl text-white'>
-          <strong className='pl-6 font-poppins md:ml-12'>Editar perfil</strong>
-        </p>
-      </div>
-      <div className='flex min-h-[500px] justify-center py-5'>
-        <div className='block w-[98vw] rounded-lg md:w-[90%] lg:w-[85%] xl:w-[40%]'>
-          {user && (
-            <>
-              <FormPersonalInfo
-                user={user}
-                subjects={subjects}
-                careers={careers}
-                careersByUser={user.careers}
-                subjectsByUser={user.subjects}
-              />
-              <div className='h-6' />
-              <ChangePasswordSection user={user} />
-              <div className='h-6' />
-              <DeleteUserSection user={user} />
-            </>
-          )}
-        </div>
-      </div>
+      {user && (
+        <>
+          <FormPersonalInfo
+            user={user}
+            subjects={subjects}
+            careers={careers}
+            careersByUser={user.careers}
+            subjectsByUser={user.subjects}
+          />
+          <div className='h-6' />
+          <ChangePasswordSection user={user} />
+          <div className='h-6' />
+          <DeleteUserSection user={user} />
+        </>
+      )}
     </>
   );
+  return <ConfigLayout title={'Editar Perfil'}>{mainBody}</ConfigLayout>;
 }
