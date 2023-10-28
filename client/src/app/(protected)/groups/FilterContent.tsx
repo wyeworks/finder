@@ -80,7 +80,7 @@ export function FiltersContent({
   return (
     <div className='flex flex-col'>
       <div className='mt-4 px-4'>
-        <h4 className='font-bold'>Grupo</h4>
+        <h4 className='font-poppins font-bold text-blackTextColor'>Grupo</h4>
         <Input
           type='text'
           id='name'
@@ -95,7 +95,7 @@ export function FiltersContent({
       </div>
       <div className={'h-3'} />
       <div className='mt-4 px-4'>
-        <h4 className='font-bold'>Materia</h4>
+        <h4 className='font-poppins font-bold text-blackTextColor'>Materia</h4>
         <SearchDropdown
           id='dropdown'
           options={parseSubjectToOption(subjects)}
