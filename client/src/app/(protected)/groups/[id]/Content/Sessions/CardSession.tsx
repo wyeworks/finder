@@ -10,14 +10,11 @@ import {
 type CardSessionProps = {
   session: Session;
   isHistory?: boolean;
-  // eslint-disable-next-line no-unused-vars
-  viewSession: (id: number) => void;
 };
 
 export default function CardSession({
   session,
   isHistory = false,
-  viewSession,
 }: CardSessionProps) {
   if (!session) {
     return <></>;
@@ -26,7 +23,7 @@ export default function CardSession({
   const { name, location, start_time, attendances, end_time } = session;
 
   return (
-    <div className='grid grid-rows-3 gap-3 border border-solid border-gray-200 bg-white p-4'>
+    <div className='grid cursor-pointer grid-rows-3 gap-3 border border-solid border-gray-200 bg-white p-4 hover:bg-gray-100'>
       <div className='flex justify-between gap-5 font-poppins font-bold text-primaryBlue '>
         {isHistory && formatDateToSpanish(start_time)}
         {!isHistory && formatDateToSpanishWithEndTime(start_time, end_time)}
@@ -37,10 +34,7 @@ export default function CardSession({
           </div>
         )}
       </div>
-      <div
-        className='cursor-pointer font-poppins text-xl text-primaryBlue hover:text-primaryBlue-100 '
-        onClick={() => viewSession(session.id)}
-      >
+      <div className='cursor-pointer font-poppins text-xl text-primaryBlue'>
         {name}
       </div>
       <div className='flex text-gray-500'>

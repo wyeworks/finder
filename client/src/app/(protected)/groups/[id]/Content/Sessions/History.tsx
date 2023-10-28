@@ -12,12 +12,9 @@ export default function History({ sessions, viewSession }: HistoryProps) {
     <div data-testid='session-history'>
       {sessions.map((session, index) => {
         return (
-          <CardSession
-            key={index}
-            session={session}
-            isHistory={true}
-            viewSession={viewSession}
-          />
+          <div key={index} onClick={() => viewSession(session?.id)}>
+            <CardSession session={session} isHistory={true} />
+          </div>
         );
       })}
     </div>

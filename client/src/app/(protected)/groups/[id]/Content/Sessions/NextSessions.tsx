@@ -15,11 +15,9 @@ export default function NextSessions({
     <div data-testid='next-session'>
       {sessions.map((session, index) => {
         return (
-          <CardSession
-            key={index}
-            session={session}
-            viewSession={viewSession}
-          />
+          <div key={index} onClick={() => viewSession(session?.id)}>
+            <CardSession session={session} isHistory={true} />
+          </div>
         );
       })}
     </div>
