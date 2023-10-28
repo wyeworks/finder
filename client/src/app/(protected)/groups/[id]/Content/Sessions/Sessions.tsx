@@ -17,7 +17,7 @@ import { BackendError } from '@/types/BackendError';
 import strings from '@/locales/strings.json';
 import { Session } from '@/types/Session';
 import ViewSession from './ViewSession';
-import EyeIcon from '@/assets/Icons/EyeIcon';
+import { filterExpiredSessions, filterNextSessions } from '@/utils/Filters';
 
 type SessionsProps = {
   group: StudyGroup;
@@ -215,10 +215,9 @@ export default function Sessions({ group }: SessionsProps) {
     }
   };
 
-  const viewSession = async () => {
-    //remove hardcoded id when session list functional
+  const viewSession = async (id: number) => {
     const response = await SessionService.getSession(
-      '3',
+      id,
       session?.user.accessToken!
     );
     if (response) {
@@ -289,20 +288,21 @@ export default function Sessions({ group }: SessionsProps) {
                 setOpenModal(true);
               }}
             />
-            {/* Remove when session list functional */}
-            <Button
-              text='Ver Sesion'
-              Icon={<EyeIcon className='h-5 w-5' />}
-              classNameWrapper='sm:p-4'
-              spaceBetween={8}
-              className=' h-8 items-center  bg-primaryBlue hover:bg-hoverPrimaryBlue'
-              onClick={() => viewSession()}
-            />
           </div>
         </div>
         <div className='mb-5'>
-          {tab === typeTabs.HISTORY && <History />}
-          {tab === typeTabs.NEXT && <NextSessions />}
+          {tab === typeTabs.HISTORY && (
+            <History
+              sessions={filterExpiredSessions(group.sessions)}
+              viewSession={viewSession}
+            />
+          )}
+          {tab === typeTabs.NEXT && (
+            <NextSessions
+              sessions={filterNextSessions(group.sessions)}
+              viewSession={viewSession}
+            />
+          )}
         </div>
         <TimePreferences group={group} />
       </div>

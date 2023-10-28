@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { Session } from './Session';
 
 export enum TimeOfDay {
   Morning = 'Morning',
@@ -29,4 +30,5 @@ export type StudyGroup = {
   isLab?: boolean;
   banner?: string;
   user_ids?: number[];
+  sessions: Session[];
 };

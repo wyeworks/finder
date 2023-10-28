@@ -82,6 +82,7 @@ export class StudyGroupBuilder {
       subject_id: this.subject_id,
       isLab: this.isLab,
       banner: this.banner,
+      sessions: [],
     };
   }
 }

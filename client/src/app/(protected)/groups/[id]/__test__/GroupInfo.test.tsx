@@ -15,6 +15,7 @@ describe('GroupInfo', () => {
     name: 'Test Group',
     description: 'This is a description for the test groups.',
     size: 10,
+    sessions: [],
   };
 
   const mockSubject = {

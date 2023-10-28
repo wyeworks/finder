@@ -8,12 +8,15 @@ jest.mock('next/navigation', () => ({
   usePathname: jest.fn().mockReturnValue('groups/1'),
 }));
 
-const renderSessions = () => {
+const renderSessions = (isMember: boolean = true) => {
+  const ids = isMember ? [1] : [];
   render(
     <SessionProvider
       session={{ user: { id: '1', name: 'test' }, expires: '11' }}
     >
-      <Sessions group={{ name: 'Test', subject_id: 12 }} />
+      <Sessions
+        group={{ name: 'Test', subject_id: 12, sessions: [], user_ids: ids }}
+      />
     </SessionProvider>
   );
 };
@@ -54,5 +57,12 @@ describe('Session Component', () => {
     await userEvent.click(nextSessions);
     expect(screen.queryByTestId('next-session')).toBeInTheDocument();
     expect(screen.queryByTestId('session-history')).toBeNull();
+  });
+
+  test('it does not render sessions if user is not member group', () => {
+    renderSessions(false);
+    expect(
+      screen.getByText('Debes ser un miembro para ver las sesiones del grupo.')
+    ).toBeInTheDocument();
   });
 });
