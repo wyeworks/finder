@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import Footer from '../Footer';
 
-describe.skip('Footer', () => {
+describe('Footer', () => {
   it('renders the WyeWorks logo', () => {
     render(<Footer />);
     const logo = screen.getByTestId('WyeWorksLogo');
@@ -12,7 +12,7 @@ describe.skip('Footer', () => {
     render(<Footer />);
     const text = screen.getByText('Powered by');
     expect(text).toBeInTheDocument();
-    expect(text).toHaveClass('text-black');
+    expect(text).toHaveClass('font-poppins font-medium text-grayText');
   });
 
   it('renders the WyeWorks link', () => {
