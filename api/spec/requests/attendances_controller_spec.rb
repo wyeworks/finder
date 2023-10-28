@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AttendancesController, type: :request do
   # General
-  let(:user) { create :user }
+  let(:user) { attendance.member.user }
   let(:headers) do
     post user_session_path, params: { user: { email: user.email, password: user.password } }
     { 'Authorization' => response.headers['Authorization'] }
@@ -90,6 +90,24 @@ RSpec.describe AttendancesController, type: :request do
 
         expect(json_response['errors']['attendance'])
           .to include("No se pudo encontrar la asistencia con ID ##{attendance_id}")
+      end
+    end
+
+    context 'when the attendance does not belong to the user' do
+      let(:user) { create :user }
+
+      before do
+        patch attendance_path(attendance.id), params: { attendance: attendance_params }, headers:
+      end
+
+      it 'returns http unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns JSON containing error message' do
+        json_response = response.parsed_body
+
+        expect(json_response['errors']['attendance']).to include('No estás autorizado para realizar esta acción')
       end
     end
   end

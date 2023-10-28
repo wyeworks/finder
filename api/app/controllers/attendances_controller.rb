@@ -1,8 +1,7 @@
 class AttendancesController < ApplicationController
   include GroupAuthorizable
 
-  before_action :set_attendance, :set_session
-  before_action :authorize_group_member!
+  before_action :set_attendance, :set_session, :authorize_attendee!, :authorize_group_member!
 
   def update
     if @attendance.update(attendance_params)
@@ -35,6 +34,18 @@ class AttendancesController < ApplicationController
 
   def set_session
     @session = @attendance.session
+  end
+
+  def authorize_attendee!
+    return if @attendance.member.user == current_user
+
+    Rails.logger.info "User ##{current_user.id} is not authorized to update Attendance ##{params[:id]}"
+
+    render json: {
+      errors: {
+        attendance: ['No estás autorizado para realizar esta acción']
+      }
+    }, status: :unauthorized
   end
 
   def attendance_params
