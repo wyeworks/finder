@@ -5,24 +5,6 @@ import { Subject } from '@/types/Subject';
 
 global.fetch = jest.fn();
 
-//We want to also mock ApiCommunicator.clientSideEditUser(id)
-// eslint-disable-next-line no-unused-vars
-const ApiCommunicator =
-  require('../../../../services/ApiCommunicator').ApiCommunicator;
-jest.mock('../../../../services/ApiCommunicator', () => ({
-  ApiCommunicator: {
-    getById: jest.fn().mockReturnValue({
-      ok: true,
-      data: {
-        id: 1,
-        name: 'Bases de datos',
-        code: 'IS2',
-        credits: 5,
-      },
-    }),
-  },
-}));
-
 const sampleSubject: Subject = {
   id: 1,
   name: 'Bases de datos',

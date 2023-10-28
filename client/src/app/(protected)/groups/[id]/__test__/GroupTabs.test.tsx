@@ -4,6 +4,11 @@ import userEvent from '@testing-library/user-event';
 import GroupTabs from '../GroupTabs';
 import { StudyGroup } from '@/types/StudyGroup';
 import sections from '../Sections';
+import { SessionProvider } from 'next-auth/react';
+
+jest.mock('next/navigation', () => ({
+  usePathname: jest.fn().mockReturnValue('groups/1'),
+}));
 
 const mockGroup: StudyGroup = {
   name: 'Test Group',
@@ -11,20 +16,30 @@ const mockGroup: StudyGroup = {
   sessions: [],
 };
 
+const renderGroupTabs = () => {
+  render(
+    <SessionProvider
+      session={{ user: { id: '1', name: 'test' }, expires: '11' }}
+    >
+      <GroupTabs group={mockGroup} />
+    </SessionProvider>
+  );
+};
+
 describe('GroupTabs', () => {
   it('renders without crashing', () => {
-    render(<GroupTabs group={mockGroup} />);
+    renderGroupTabs();
   });
 
   it('renders all sections', () => {
-    render(<GroupTabs group={mockGroup} />);
+    renderGroupTabs();
     sections.forEach((section) => {
       expect(screen.getByText(section.name)).toBeInTheDocument();
     });
   });
 
   it('updates tab style on selection', () => {
-    render(<GroupTabs group={mockGroup} />);
+    renderGroupTabs();
     const tab = screen.getByText('Sesiones');
     userEvent.click(tab);
     expect(tab).toHaveClass('border-sky-500 text-sky-500');
