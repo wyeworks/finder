@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     confirmations: 'users/confirmations'
   }
 
+  resources :attendances, only: :update
   resources :careers, only: :index
   resources :groups, except: [:new, :edit] do
     get :members, on: :member
@@ -20,7 +21,7 @@ Rails.application.routes.draw do
     end
   end
   resources :members, only: :destroy
+  resources :sessions, only: [:create, :show, :update, :destroy]
   resources :subjects, only: [:index, :show]
   resources :users, only: [:show, :update, :destroy]
-  resources :sessions, only: [:create, :show, :update, :destroy]
 end
