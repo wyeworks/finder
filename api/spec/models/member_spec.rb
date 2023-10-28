@@ -26,4 +26,23 @@ RSpec.describe Member, type: :model do
       expect(member.reload.role).to eq('admin')
     end
   end
+
+  describe '#assign_new_session_creator' do
+    let!(:group) { create(:group) }
+    let!(:admin_member) { create(:member, group:) }
+    let!(:creator_member) { create(:member, role: 'participant', group:) }
+    let!(:sessions_created) { create_list(:session, 3, creator: creator_member) }
+
+    context 'when a member that created sessions is destroyed' do
+      before do
+        creator_member.destroy
+      end
+
+      it 'reassigns the sessions to another admin in the group' do
+        sessions_created.each do |session|
+          expect(session.reload.creator_id).to eq(admin_member.id)
+        end
+      end
+    end
+  end
 end

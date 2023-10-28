@@ -9,7 +9,7 @@ class Member < ApplicationRecord
   validates :role, presence: true, inclusion: { in: %w[admin participant] }
 
   # Before
-  before_destroy :destroy_associated_sessions
+  before_destroy :assign_new_session_creator
 
   def promote!
     update!(role: 'admin')
@@ -17,8 +17,13 @@ class Member < ApplicationRecord
 
   private
 
-  def destroy_associated_sessions
+  def assign_new_session_creator
     sessions_created_by_member = Session.where(creator_id: id)
-    sessions_created_by_member.destroy_all
+    admin_member = group.members.where(role: 'admin').where.not(id:).first
+
+    # At this point, it is certain that an administrator exists in the group
+    sessions_created_by_member.each do |session|
+      session.update(creator_id: admin_member.id)
+    end
   end
 end
