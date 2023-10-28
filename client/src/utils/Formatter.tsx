@@ -103,7 +103,7 @@ export function formatDateToSpanish(date: string) {
   const days = [
     'Domingo',
     'Lunes',
-    'martes',
+    'Martes',
     'Miércoles',
     'Jueves',
     'Viernes',

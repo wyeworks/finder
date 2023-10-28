@@ -211,5 +211,11 @@
         "title": "Añadí un titulo"
       }
     }
+  },
+  "viewSession": {
+    "noLocation": "Sin ubicación",
+    "noDescription": "Sin descripción",
+    "noMeetLink": "Sin enlace",
+    "inviteQuestion": "¿Asistirás?"
   }
 }
