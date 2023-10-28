@@ -26,4 +26,25 @@ RSpec.describe Member, type: :model do
       expect(member.reload.role).to eq('admin')
     end
   end
+
+  describe '#add_to_upcoming_sessions' do
+    let(:user) { create :user }
+
+    before do
+      create :group, :with_sessions
+    end
+
+    it 'adds member to upcoming sessions' do
+      group = Group.first
+      session_one = group.sessions.first
+      session_two = group.sessions.second
+      session_two.update(start_time: 2.hours.ago, end_time: 1.hour.ago)
+
+      create :member, user:, group:, role: 'participant'
+
+      member = Member.where(user:, group:).last
+      expect(member.attended_sessions).to include(session_one)
+      expect(member.attended_sessions).not_to include(session_two)
+    end
+  end
 end
