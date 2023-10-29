@@ -21,6 +21,7 @@ import { filterExpiredSessions, filterNextSessions } from '@/utils/Filters';
 
 type SessionsProps = {
   group: StudyGroup;
+  fetchGroup?: () => void;
 };
 
 // eslint-disable-next-line no-unused-vars
@@ -49,7 +50,7 @@ export type CreateSessionAlertProps = {
   alertType?: 'error' | 'success';
 };
 
-export default function Sessions({ group }: SessionsProps) {
+export default function Sessions({ group, fetchGroup }: SessionsProps) {
   const { user_ids } = group;
   const groupId = group.id;
   const { data: session } = useSession();
@@ -193,6 +194,7 @@ export default function Sessions({ group }: SessionsProps) {
         description: false,
         meetLink: false,
       });
+      if (fetchGroup) fetchGroup();
     } catch (error) {
       if (error instanceof NotOkError) {
         const errorMessages = addErrors(error.backendError);
