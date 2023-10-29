@@ -39,6 +39,7 @@ RSpec.describe SessionsController, type: :request do
                 'updated_at' => attendance.updated_at.utc.iso8601(3),
                 'member_id' => attendance.member_id,
                 'member_name' => user.name
+                'user_id' => user.id
               }
             end
 
