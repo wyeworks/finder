@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Sessions from '../Sessions';
 import { SessionProvider } from 'next-auth/react';
@@ -21,7 +20,7 @@ const renderSessions = (isMember: boolean = true) => {
   );
 };
 
-describe.skip('Session Component', () => {
+describe('Session Component', () => {
   test('render session correct', () => {
     renderSessions();
   });
