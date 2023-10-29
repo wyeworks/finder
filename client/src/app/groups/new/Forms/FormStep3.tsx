@@ -65,7 +65,7 @@ export default function FormStep3({
       <form
         noValidate
         onSubmit={handleSubmit}
-        className='grid grid-rows-[130px,100px,60px,auto] gap-4 sm:grid-rows-[130px,70px,60px,auto]'
+        className='grid grid-rows-[130px,100px,60px,auto] gap-4 sm:grid-rows-[150px,70px,60px,auto]'
       >
         <TextArea
           id='description'
