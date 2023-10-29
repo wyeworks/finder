@@ -1,6 +1,7 @@
 module Groups
   class RequestsController < ApplicationController
-    include GroupAdminConcern
+    include GroupAuthorizable
+
     before_action :set_group
     before_action :set_request, only: :update
     before_action :authorize_group_admin!, only: %i[index update]
