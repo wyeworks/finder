@@ -227,6 +227,38 @@ export default function Sessions({ group }: SessionsProps) {
     }
   };
 
+  const handleAttendance = async (
+    status: 'accepted' | 'rejected',
+    attendanceId: number
+  ) => {
+    try {
+      await SessionService.updateAttendance(
+        attendanceId,
+        session?.user.accessToken!,
+        { attendance: { status: status } }
+      );
+    } catch (error) {
+      if (error instanceof NotOkError) {
+        const errorMessages = addErrors(error.backendError);
+        const title = error.message ? error.message : 'Error';
+        setAlertProps({
+          show: true,
+          message: errorMessages.join('\n'),
+          title: title,
+          alertType: 'error',
+        });
+        return;
+      }
+      Logger.debug('Error trying to update attendance' + { error });
+      setAlertProps({
+        show: true,
+        message: strings.common.error.unexpectedError,
+        title: 'Error',
+        alertType: 'error',
+      });
+    }
+  };
+
   if (!isMemberGroup) {
     return (
       <div>
@@ -248,7 +280,10 @@ export default function Sessions({ group }: SessionsProps) {
         alertProps={alertProps}
       />
     ) : viewSelected ? (
-      <ViewSession session={selectedSession} />
+      <ViewSession
+        sessionGroup={selectedSession}
+        handleAttendance={handleAttendance}
+      />
     ) : (
       <></>
     );

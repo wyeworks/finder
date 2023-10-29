@@ -62,4 +62,27 @@ export class SessionService {
       return null;
     }
   }
+
+  public static async updateAttendance(
+    attendanceId: number | string,
+    accessToken: string,
+    data: {
+      attendance: {
+        status: string;
+      };
+    }
+  ) {
+    try {
+      const response = await ApiCommunicator.commonFetch({
+        url: '/attendances/' + attendanceId,
+        method: 'PATCH',
+        data,
+        accessToken,
+      });
+      return await response.json();
+    } catch (error) {
+      Logger.debug('Error trying to update attendance: ' + error);
+      return null;
+    }
+  }
 }

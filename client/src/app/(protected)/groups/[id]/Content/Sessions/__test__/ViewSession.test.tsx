@@ -26,6 +26,7 @@ describe('ViewSession', () => {
         updated_at: '2021-10-10T20:00:00.000Z',
         member_id: 1,
         session_id: 1,
+        user_id: 1,
       },
       {
         id: 2,
@@ -35,11 +36,12 @@ describe('ViewSession', () => {
         updated_at: '2021-10-10T19:00:00.000Z',
         member_id: 2,
         session_id: 1,
+        user_id: 2,
       },
     ],
   };
   it('renders all the correct data', () => {
-    render(<ViewSession session={session} />);
+    render(<ViewSession sessionGroup={session} />);
     expect(screen.getByText('Session Name')).toBeInTheDocument();
     expect(screen.getByText('Session Description')).toBeInTheDocument();
     expect(screen.getByText('Session Location')).toBeInTheDocument();
@@ -77,6 +79,7 @@ describe('ViewSession', () => {
           updated_at: '2021-10-10T20:00:00.000Z',
           member_id: 1,
           session_id: 1,
+          user_id: 1,
         },
         {
           id: 2,
@@ -86,10 +89,11 @@ describe('ViewSession', () => {
           updated_at: '2021-10-10T19:00:00.000Z',
           member_id: 2,
           session_id: 1,
+          user_id: 2,
         },
       ],
     };
-    render(<ViewSession session={emptyValuesSession} />);
+    render(<ViewSession sessionGroup={emptyValuesSession} />);
     expect(screen.getByText('Session Name')).toBeInTheDocument();
     expect(
       screen.getByText(strings.viewSession.noDescription)
