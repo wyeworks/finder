@@ -4,6 +4,7 @@ export type BackendError = {
     email?: string[];
     password?: string[];
     name?: string[];
+    token?: string[];
     code?: string[];
     credits?: string[];
     years?: string[];

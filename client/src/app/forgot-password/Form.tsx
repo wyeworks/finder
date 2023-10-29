@@ -74,7 +74,6 @@ export default function Form() {
 
     try {
       Logger.debug('Sending password recover request with data:', formData);
-      await AuthService.forgotPassword(formData);
       const successMessage = await AuthService.forgotPassword(formData);
       setAlertType('success');
       setAlertTitle(successMessage);
@@ -85,6 +84,7 @@ export default function Form() {
       setIsDisabled(false);
     } catch (error) {
       setAlertType('error');
+      setAlertTitle(strings.common.error.defaultError);
       setAlertMessage(strings.common.error.unexpectedError);
       setisAlertVisible(true);
       setIsDisabled(false);

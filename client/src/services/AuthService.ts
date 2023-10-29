@@ -60,7 +60,7 @@ export class AuthService {
     token: string;
     email: string;
     password: string;
-  }): Promise<Response> {
+  }): Promise<string> {
     const dataToSend = {
       user: {
         token: data.token,
@@ -68,10 +68,13 @@ export class AuthService {
         password: data.password,
       },
     };
-    return await ApiCommunicator.commonFetch({
+    const response = await ApiCommunicator.commonFetch({
       url: '/users/forgot_password',
       method: 'PUT',
       data: dataToSend,
     });
+
+    const body = await response.json();
+    return body.message;
   }
 }
