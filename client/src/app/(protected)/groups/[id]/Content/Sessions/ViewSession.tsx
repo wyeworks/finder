@@ -33,6 +33,7 @@ type ViewSessionProps = {
     attendanceId: number
   ) => void;
   alertProps: ModalSessionAlertProps;
+  showAttendanceRequest?: boolean;
 };
 
 function validateUrl(url: string) {
@@ -44,6 +45,7 @@ export default function ViewSession({
   sessionGroup,
   handleAttendance,
   alertProps,
+  showAttendanceRequest = true,
 }: ViewSessionProps) {
   const { data: session } = useSession();
   function getOwnAttendance(attendances: Attendance[]) {
@@ -143,39 +145,43 @@ export default function ViewSession({
           </div>
         </div>
       </div>
-      <div className='-mb-2 flex items-center border-t border-t-gray-300 pt-1'>
-        <h1 className='font-poppins'>{strings.viewSession.inviteQuestion}</h1>
-        <div className='flex w-full justify-end'>
-          <Button
-            text='Si'
-            type='button'
-            Icon={
-              <CheckIcon className='mr-2 h-5 w-5 shrink-0 text-green-600' />
-            }
-            onClick={() => {
-              const attendanceId = getOwnAttendance(sessionGroup.attendances);
-              if (attendanceId) {
-                handleAttendance?.('accepted', attendanceId);
+      {showAttendanceRequest && (
+        <div className='-mb-2 flex items-center border-t border-t-gray-300 pt-1'>
+          <h1 className='font-poppins'>{strings.viewSession.inviteQuestion}</h1>
+          <div className='flex w-full justify-end'>
+            <Button
+              text='Si'
+              type='button'
+              Icon={
+                <CheckIcon className='mr-2 h-5 w-5 shrink-0 text-green-600' />
               }
-            }}
-            classNameWrapper='p-1'
-            className='h-8 items-center border-[1.5px]  border-green-600 !bg-transparent !font-medium !text-green-600 hover:!bg-gray-200 '
-          />
-          <Button
-            text='No'
-            type='button'
-            Icon={<CrossIcon className='mr-1 h-5 w-5 shrink-0 text-red-600' />}
-            classNameWrapper='p-1 w-auto'
-            className=' h-8 items-center border-[1.5px]  border-red-600 !bg-transparent !font-medium !text-red-600 hover:!bg-gray-200'
-            onClick={() => {
-              const attendanceId = getOwnAttendance(sessionGroup.attendances);
-              if (attendanceId) {
-                handleAttendance?.('rejected', attendanceId);
+              onClick={() => {
+                const attendanceId = getOwnAttendance(sessionGroup.attendances);
+                if (attendanceId) {
+                  handleAttendance?.('accepted', attendanceId);
+                }
+              }}
+              classNameWrapper='p-1'
+              className='h-8 items-center border-[1.5px]  border-green-600 !bg-transparent !font-medium !text-green-600 hover:!bg-gray-200 '
+            />
+            <Button
+              text='No'
+              type='button'
+              Icon={
+                <CrossIcon className='mr-1 h-5 w-5 shrink-0 text-red-600' />
               }
-            }}
-          />
+              classNameWrapper='p-1 w-auto'
+              className=' h-8 items-center border-[1.5px]  border-red-600 !bg-transparent !font-medium !text-red-600 hover:!bg-gray-200'
+              onClick={() => {
+                const attendanceId = getOwnAttendance(sessionGroup.attendances);
+                if (attendanceId) {
+                  handleAttendance?.('rejected', attendanceId);
+                }
+              }}
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div className='mt-3'>
         <Alert
           isVisible={alertProps.show}

@@ -91,6 +91,7 @@ export default function Sessions({ group }: SessionsProps) {
     attendances: [],
   });
   const [createSelected, setCreateSelected] = useState<boolean>(false);
+  const [showAttendance, setShowAttendance] = useState<boolean>(false);
   const [viewSelected, setViewSelected] = useState<boolean>(false);
 
   useEffect(() => {
@@ -166,7 +167,7 @@ export default function Sessions({ group }: SessionsProps) {
 
       setAlertProps({
         show: true,
-        message: 'Sesión creada con éxito!',
+        message: '¡Sesión creada con éxito!',
         alertType: 'success',
       });
       setTimeout(() => {
@@ -215,7 +216,7 @@ export default function Sessions({ group }: SessionsProps) {
     }
   };
 
-  const viewSession = async (id: number) => {
+  const viewSession = async (id: number, showAttendance: boolean) => {
     const response = await SessionService.getSession(
       id,
       session?.user.accessToken!
@@ -230,6 +231,7 @@ export default function Sessions({ group }: SessionsProps) {
         alertType: 'error',
       });
       setSelectedSession(response);
+      setShowAttendance(showAttendance);
     }
   };
 
@@ -237,12 +239,23 @@ export default function Sessions({ group }: SessionsProps) {
     status: 'accepted' | 'rejected',
     attendanceId: number
   ) => {
+    setAlertProps({
+      show: false,
+      message: '',
+      title: '',
+      alertType: 'error',
+    });
     try {
       await SessionService.updateAttendance(
         attendanceId,
         session?.user.accessToken!,
         { attendance: { status: status } }
       );
+      setAlertProps({
+        show: true,
+        message: '¡Tu asistencia se ha marcado con éxito!',
+        alertType: 'success',
+      });
     } catch (error) {
       if (error instanceof NotOkError) {
         const errorMessages = addErrors(error.backendError);
@@ -290,6 +303,7 @@ export default function Sessions({ group }: SessionsProps) {
         sessionGroup={selectedSession}
         handleAttendance={handleAttendance}
         alertProps={alertProps}
+        showAttendanceRequest={showAttendance}
       />
     ) : (
       <></>
