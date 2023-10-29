@@ -20,6 +20,8 @@ import TrashIcon from '@/assets/Icons/TrashIcon';
 import strings from '@/locales/strings.json';
 import { Attendance } from '@/types/Attendance';
 import { useSession } from 'next-auth/react';
+import { ModalSessionAlertProps } from './Sessions';
+import Alert from '@/components/common/Alert';
 
 type ViewSessionProps = {
   sessionGroup: Session;
@@ -30,6 +32,7 @@ type ViewSessionProps = {
     // eslint-disable-next-line no-unused-vars
     attendanceId: number
   ) => void;
+  alertProps: ModalSessionAlertProps;
 };
 
 function validateUrl(url: string) {
@@ -37,14 +40,15 @@ function validateUrl(url: string) {
   else return `https://${url}`;
 }
 
-export default function CreateSessionForm({
+export default function ViewSession({
   sessionGroup,
   handleAttendance,
+  alertProps,
 }: ViewSessionProps) {
   const { data: session } = useSession();
   function getOwnAttendance(attendances: Attendance[]) {
     return attendances.find(
-      (attendance) => attendance.user_id.toString() === session?.user?.id
+      (attendance) => attendance.user_id === Number(session?.user?.id)
     )?.id;
   }
   return (
@@ -171,6 +175,15 @@ export default function CreateSessionForm({
             }}
           />
         </div>
+      </div>
+      <div className='mt-3'>
+        <Alert
+          isVisible={alertProps.show}
+          message={alertProps.message}
+          title={alertProps.title}
+          alertType={alertProps.alertType}
+          withTitle={Boolean(alertProps.title)}
+        />
       </div>
     </div>
   );

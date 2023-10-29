@@ -7,6 +7,7 @@ import {
 } from '@/utils/Formatter';
 import strings from '@/locales/strings.json';
 import { SessionProvider } from 'next-auth/react';
+import { ModalSessionAlertProps } from '../Sessions';
 
 describe('ViewSession', () => {
   const session: Session = {
@@ -41,12 +42,19 @@ describe('ViewSession', () => {
       },
     ],
   };
+
+  const alertProps: ModalSessionAlertProps = {
+    show: false,
+    title: '',
+    message: '',
+    alertType: 'error',
+  };
   it('renders all the correct data', () => {
     render(
       <SessionProvider
         session={{ user: { id: '1', name: 'test' }, expires: '11' }}
       >
-        <ViewSession sessionGroup={session} />
+        <ViewSession sessionGroup={session} alertProps={alertProps} />
       </SessionProvider>
     );
     expect(screen.getByText('Session Name')).toBeInTheDocument();
@@ -104,7 +112,10 @@ describe('ViewSession', () => {
       <SessionProvider
         session={{ user: { id: '1', name: 'test' }, expires: '11' }}
       >
-        <ViewSession sessionGroup={emptyValuesSession} />
+        <ViewSession
+          sessionGroup={emptyValuesSession}
+          alertProps={alertProps}
+        />
       </SessionProvider>
     );
     expect(screen.getByText('Session Name')).toBeInTheDocument();

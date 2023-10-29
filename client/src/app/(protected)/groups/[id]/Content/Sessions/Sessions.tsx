@@ -42,7 +42,7 @@ export type CreateSessionData = {
   meetLink: string;
 };
 
-export type CreateSessionAlertProps = {
+export type ModalSessionAlertProps = {
   show: boolean;
   message?: string;
   title?: string;
@@ -76,7 +76,7 @@ export default function Sessions({ group }: SessionsProps) {
     description: false,
     meetLink: false,
   });
-  const [alertProps, setAlertProps] = useState<CreateSessionAlertProps>({
+  const [alertProps, setAlertProps] = useState<ModalSessionAlertProps>({
     show: false,
   });
   const [selectedSession, setSelectedSession] = useState<Session>({
@@ -223,6 +223,12 @@ export default function Sessions({ group }: SessionsProps) {
     if (response) {
       setOpenModal(true);
       setViewSelected(true);
+      setAlertProps({
+        show: false,
+        message: '',
+        title: '',
+        alertType: 'error',
+      });
       setSelectedSession(response);
     }
   };
@@ -283,6 +289,7 @@ export default function Sessions({ group }: SessionsProps) {
       <ViewSession
         sessionGroup={selectedSession}
         handleAttendance={handleAttendance}
+        alertProps={alertProps}
       />
     ) : (
       <></>

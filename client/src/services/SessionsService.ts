@@ -72,17 +72,13 @@ export class SessionService {
       };
     }
   ) {
-    try {
-      const response = await ApiCommunicator.commonFetch({
-        url: '/attendances/' + attendanceId,
-        method: 'PATCH',
-        data,
-        accessToken,
-      });
-      return await response.json();
-    } catch (error) {
-      Logger.debug('Error trying to update attendance: ' + error);
-      return null;
-    }
+    const response = await ApiCommunicator.commonFetch({
+      url: '/attendances/' + attendanceId,
+      method: 'PATCH',
+      data,
+      accessToken,
+    });
+    const body = await response.json();
+    return body.message;
   }
 }
