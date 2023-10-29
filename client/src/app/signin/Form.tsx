@@ -135,7 +135,7 @@ export default function Form() {
         />
         <div className='mt-2'>
           <Link
-            href='/reset-password'
+            href='/forgot-password'
             className='font-poppins text-sm text-gray-500'
           >
             {' '}

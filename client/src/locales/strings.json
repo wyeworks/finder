@@ -64,6 +64,12 @@
       "newPasswordLabel": "Nueva contraseña",
       "newPasswordPlaceholder": "Ingresa tu nueva contraseña"
     },
+    "recoverPassword": {
+      "title": "Recuperar contraseña",
+      "confirmButtonText": "Siguiente",
+      "newPasswordLabel": "Nueva contraseña",
+      "newPasswordPlaceholder": "Ingresa tu nueva contraseña"
+    },
     "deleteUser": {
       "title": "Eliminar perfil",
       "confirmButtonText": "Eliminar perfil",
