@@ -6,6 +6,7 @@ import {
   formatDateToSpanish,
 } from '@/utils/Formatter';
 import strings from '@/locales/strings.json';
+import { SessionProvider } from 'next-auth/react';
 
 describe('ViewSession', () => {
   const session: Session = {
@@ -41,7 +42,13 @@ describe('ViewSession', () => {
     ],
   };
   it('renders all the correct data', () => {
-    render(<ViewSession sessionGroup={session} />);
+    render(
+      <SessionProvider
+        session={{ user: { id: '1', name: 'test' }, expires: '11' }}
+      >
+        <ViewSession sessionGroup={session} />
+      </SessionProvider>
+    );
     expect(screen.getByText('Session Name')).toBeInTheDocument();
     expect(screen.getByText('Session Description')).toBeInTheDocument();
     expect(screen.getByText('Session Location')).toBeInTheDocument();
@@ -93,7 +100,13 @@ describe('ViewSession', () => {
         },
       ],
     };
-    render(<ViewSession sessionGroup={emptyValuesSession} />);
+    render(
+      <SessionProvider
+        session={{ user: { id: '1', name: 'test' }, expires: '11' }}
+      >
+        <ViewSession sessionGroup={emptyValuesSession} />
+      </SessionProvider>
+    );
     expect(screen.getByText('Session Name')).toBeInTheDocument();
     expect(
       screen.getByText(strings.viewSession.noDescription)
