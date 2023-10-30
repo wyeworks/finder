@@ -21,6 +21,7 @@ export function GroupCard({ group, className = '' }: GroupCardProps) {
           width={891}
           height={306}
           className='w-full'
+          priority
         />
         <div className='bg-white p-5'>
           <h1
