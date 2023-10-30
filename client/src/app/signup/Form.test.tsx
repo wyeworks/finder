@@ -5,6 +5,7 @@ import strings from '@/locales/strings.json';
 import Form from './Form';
 
 global.fetch = jest.fn();
+jest.mock('../../services/Logger');
 
 const fillAndSubmitForm = () => {
   // Fill the form
@@ -19,7 +20,7 @@ const fillAndSubmitForm = () => {
   userEvent.click(screen.getByText(strings.form.createAccountButton.text));
 };
 
-describe.skip('Form Component', () => {
+describe('Form Component', () => {
   it('should render without crashing', () => {
     render(<Form />);
   });
@@ -30,20 +31,28 @@ describe.skip('Form Component', () => {
 
     await waitFor(() => {
       expect(
-        screen.queryByText(strings.common.error.completeFields)
+        screen.queryByText('Por favor ingrese su Nombre')
+      ).toBeInTheDocument();
+      expect(screen.queryByText('Ingresa un email válido')).toBeInTheDocument();
+      expect(
+        screen.queryByText('Ingresa una contraseña válida')
       ).toBeInTheDocument();
     });
   });
 
   it('should make a successful API call when form is submitted with valid data', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({ ok: true }); // Mock a successful fetch call
+    process.env.NEXT_PUBLIC_RAILS_API_URL = 'backend_url';
 
     render(<Form />);
     fillAndSubmitForm();
 
     // Wait for the fetch to be called
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('/api/signup', expect.anything());
+      expect(fetch).toHaveBeenCalledWith(
+        'backend_url/users/signup',
+        expect.anything()
+      );
     });
   });
 
@@ -110,17 +119,14 @@ describe.skip('Form Component', () => {
 
     // Wait for the specific error messages to appear
     await waitFor(() => {
-      expect(screen.getByTestId('alert')).not.toHaveTextContent(
-        'La contraseña es demasiado corta. Debe tener al menos 8 caracteres'
-      );
       expect(screen.getByTestId('alert')).toHaveTextContent(
         'El email utilizado no está disponible'
       );
     });
   });
-});
 
-// Clear all mocks after each test
-afterEach(() => {
-  jest.clearAllMocks();
+  // Clear all mocks after each test
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 });

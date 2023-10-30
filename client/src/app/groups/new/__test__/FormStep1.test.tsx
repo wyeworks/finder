@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import FormStep1 from '../Forms/FormStep1';
 import strings from '@/locales/strings.json';
 import { SessionProvider } from 'next-auth/react';
+import { Logger } from '@/services/Logger';
 
 // Mock fetch function
 global.fetch = jest.fn();
@@ -42,7 +43,7 @@ describe('Create Group FormStep1', () => {
     ).toBeInTheDocument();
   });
 
-  test.skip('handles subject selection and button click', async () => {
+  test('handles subject selection and button click', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       json: () =>
@@ -83,9 +84,9 @@ describe('Create Group FormStep1', () => {
 
     // Wait for the dropdown to open and display the "Math" subject
     await waitFor(() => {
-      expect(screen.getByText('Math(111)')).toBeInTheDocument();
+      expect(screen.getByText('Math (111)')).toBeInTheDocument();
     });
-    userEvent.click(screen.getByText('Math(111)'));
+    userEvent.click(screen.getByText('Math (111)'));
 
     // Wait next button be enabled
     await waitFor(() => {
@@ -95,5 +96,31 @@ describe('Create Group FormStep1', () => {
 
     expect(setValueMock).toBeCalled();
     expect(nextPageMock).toHaveBeenCalled();
+  });
+
+  test('displays error logging when fetching subjects fails', async () => {
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: false,
+      json: () => Promise.resolve({ message: 'Error fetching subjects.' }),
+    });
+
+    const loggerSpy = jest.spyOn(Logger, 'error');
+
+    render(
+      <SessionProvider
+        session={{ user: { id: '1', name: 'test' }, expires: '11' }}
+      >
+        <FormStep1 nextPage={() => {}} setValue={() => {}} />
+      </SessionProvider>
+    );
+
+    await waitFor(() => {
+      expect(loggerSpy).toHaveBeenCalledWith(
+        'Error trying to get subjects:',
+        expect.anything()
+      );
+    });
+
+    loggerSpy.mockRestore();
   });
 });

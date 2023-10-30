@@ -44,6 +44,7 @@ export default function Pagination({
   return (
     <div className='flex items-center justify-center space-x-2 rounded bg-white p-2 shadow-lg'>
       <button
+        aria-label='previous page'
         className='rounded p-1 hover:bg-gray-200'
         disabled={currentPage === 1}
         onClick={() => onChange(currentPage - 1)}
@@ -79,6 +80,7 @@ export default function Pagination({
       )}
 
       <button
+        aria-label='next page'
         className='rounded p-1 hover:bg-gray-200'
         disabled={currentPage === totalPages}
         onClick={() => onChange(currentPage + 1)}

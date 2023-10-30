@@ -3,13 +3,14 @@ import { render, screen } from '@testing-library/react';
 import GroupInfo from '../GroupInfo';
 import { User } from '@/types/User';
 import { SessionProvider } from 'next-auth/react';
+import strings from '@/locales/strings.json';
 
 jest.mock('../../../../../services/GroupService', () => ({
   submitRequest: jest.fn(),
   getRequestState: jest.fn().mockReturnValue({ ok: true }),
 }));
 
-describe.skip('GroupInfo', () => {
+describe('GroupInfo', () => {
   const mockGroup = {
     id: 123,
     subject_id: 1,
@@ -71,8 +72,52 @@ describe.skip('GroupInfo', () => {
 
   it('displays the size of the groups correctly', () => {
     renderGroupInfo();
-    const groupSize = screen.getByText('10 integrantes máximo');
+    const groupSize = screen.getByText('máximo 10 integrantes');
     expect(groupSize).toBeInTheDocument();
+  });
+
+  it('does not display the join button when user is already in the group', () => {
+    const groupWithUser = {
+      ...mockGroup,
+      user_ids: [1],
+    };
+    render(
+      <SessionProvider
+        session={{ user: { id: '1', name: 'test' }, expires: '11' }}
+      >
+        <GroupInfo
+          group={groupWithUser}
+          subject={mockSubject}
+          user={mockUser}
+        />
+      </SessionProvider>
+    );
+    const joinButton = screen.queryByText('Unirse al grupo');
+    expect(joinButton).toBeNull();
+  });
+
+  it('displays an alert when the group has reached its size limit', () => {
+    const groupAtSizeLimit = {
+      ...mockGroup,
+      user_ids: Array(mockGroup.size).fill(0),
+    };
+
+    render(
+      <SessionProvider
+        session={{ user: { id: '1', name: 'test' }, expires: '11' }}
+      >
+        <GroupInfo
+          group={groupAtSizeLimit}
+          subject={mockSubject}
+          user={mockUser}
+        />
+      </SessionProvider>
+    );
+
+    const alertMessages = screen.getAllByText(
+      strings.groups.infoTab.reachedSizeLimit
+    );
+    expect(alertMessages.length).toBeGreaterThan(0);
   });
 
   beforeEach(() => {
