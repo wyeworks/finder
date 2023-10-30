@@ -48,11 +48,14 @@ export default function ViewSession({
   showAttendanceRequest = true,
 }: ViewSessionProps) {
   const { data: session } = useSession();
-  function getOwnAttendance(attendances: Attendance[]) {
+  const showOptions = () => {
+    return Number(session?.user?.id) === sessionGroup.creator_user_id;
+  };
+  const getOwnAttendance = (attendances: Attendance[]) => {
     return attendances.find(
       (attendance) => attendance.user_id === Number(session?.user?.id)
     )?.id;
-  }
+  };
   return (
     <div>
       <div
@@ -63,12 +66,16 @@ export default function ViewSession({
           <h1 className='peer mt-0 h-fit w-[90%] font-poppins text-xl text-primaryBlue'>
             {sessionGroup.name}
           </h1>
-          <button className='h-full'>
-            <EditIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
-          </button>
-          <button className='mx-2 h-full'>
-            <TrashIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
-          </button>
+          {showOptions() && (
+            <>
+              <button className='h-full'>
+                <EditIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
+              </button>
+              <button className='mx-2 h-full'>
+                <TrashIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
+              </button>
+            </>
+          )}
         </div>
         <ClockIcon className='mr-2 mt-2 h-5 w-5' />
         <div className='mt-1 block items-baseline gap-3'>

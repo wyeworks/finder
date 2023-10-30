@@ -31,4 +31,5 @@ export type StudyGroup = {
   banner?: string;
   user_ids?: number[];
   sessions: Session[];
+  admin_ids?: number[];
 };

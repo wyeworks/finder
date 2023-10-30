@@ -19,6 +19,8 @@ describe('ViewSession', () => {
     description: 'Session Description',
     meeting_link: 'https://meet.google.com/abc-defg-hij',
     start_time: '2021-10-10T20:00:00.000Z',
+    creator_id: 1,
+    creator_user_id: 1,
     attendances: [
       {
         id: 1,
@@ -85,6 +87,8 @@ describe('ViewSession', () => {
       description: null,
       meeting_link: null,
       start_time: '2021-10-10T20:00:00.000Z',
+      creator_id: 1,
+      creator_user_id: 1,
       attendances: [
         {
           id: 1,

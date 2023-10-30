@@ -51,10 +51,12 @@ export type ModalSessionAlertProps = {
 };
 
 export default function Sessions({ group, fetchGroup }: SessionsProps) {
-  const { user_ids } = group;
+  const { user_ids, admin_ids } = group;
   const groupId = group.id;
   const { data: session } = useSession();
   const [isMemberGroup, setIsMemberGroup] = useState<boolean>(false);
+  // eslint-disable-next-line no-unused-vars
+  const [isAdminGroup, setIsAdminGroup] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [tab, setTab] = useState<typeTabs>(typeTabs.NEXT);
   const [formData, setFormData] = useState<CreateSessionData>({
@@ -90,6 +92,8 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
     end_time: '',
     group_id: 0,
     attendances: [],
+    creator_id: 0,
+    creator_user_id: 0,
   });
   const [createSelected, setCreateSelected] = useState<boolean>(false);
   const [showAttendance, setShowAttendance] = useState<boolean>(false);
@@ -99,8 +103,13 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
     const isMember = user_ids?.some(
       (userGroup) => session?.user.id && userGroup === Number(session?.user.id)
     );
+    const isAdmin = admin_ids?.some(
+      (adminGroup) =>
+        session?.user.id && adminGroup === Number(session?.user.id)
+    );
+    setIsAdminGroup(isAdmin ?? false);
     setIsMemberGroup(isMember ?? false);
-  }, [session?.user.id, user_ids]);
+  }, [admin_ids, session?.user.id, user_ids]);
 
   useEffect(() => {
     if (!openModal) {
@@ -258,6 +267,10 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
         message: '¡Tu asistencia se ha marcado con éxito!',
         alertType: 'success',
       });
+      if (fetchGroup) {
+        fetchGroup();
+        viewSession(selectedSession.id, showAttendance);
+      }
     } catch (error) {
       if (error instanceof NotOkError) {
         const errorMessages = addErrors(error.backendError);
