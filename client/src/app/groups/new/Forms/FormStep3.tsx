@@ -51,7 +51,7 @@ export default function FormStep3({
 
   return (
     <LayoutForms
-      className='grid grid-rows-[30px,120px,140px,80px] justify-center gap-3 sm:grid-rows-[30px,80px,140px,80px]'
+      className='grid grid-rows-[30px,120px,auto,80px] justify-center gap-3 sm:grid-rows-[30px,80px,auto,80px]'
       backPage={back}
     >
       <div className='flex flex-col gap-2 pb-2'>
@@ -65,7 +65,7 @@ export default function FormStep3({
       <form
         noValidate
         onSubmit={handleSubmit}
-        className='grid grid-rows-[130px,60px,60px,auto] gap-4'
+        className='grid grid-rows-[130px,100px,60px,auto] gap-4 sm:grid-rows-[150px,70px,60px,auto]'
       >
         <TextArea
           id='description'
