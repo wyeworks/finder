@@ -4,7 +4,7 @@ class User < ApplicationRecord
          jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null
 
   # Constants
-  PASSWORD_REGEX = /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-.])/
+  PASSWORD_REGEX = /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-._])/
 
   # Associations
   has_many :members, dependent: :destroy
