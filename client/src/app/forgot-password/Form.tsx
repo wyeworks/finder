@@ -78,7 +78,7 @@ export default function Form() {
       setAlertType('success');
       setAlertTitle(successMessage);
       setAlertMessage(
-        'Verifica tu casilla de correo para saber los promixos pasos para recuperar tu contraseña'
+        'Verifica tu casilla de correo para saber los promixos pasos de como recuperar tu contraseña'
       );
       setisAlertVisible(true);
       setIsDisabled(false);
