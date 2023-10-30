@@ -14,7 +14,7 @@ export default function View() {
           finder
         </h2>
         <h2 className='mt-4 text-center font-poppins text-2xl font-medium leading-9 tracking-tight text-gray-900 sm:mt-10'>
-          ¿Olvidatse tu contraseña?
+          ¿Olvidaste tu contraseña?
         </h2>
         <p className='mt-1 text-center font-poppins text-sm font-light tracking-tight text-gray-400'>
           Te enviaremos un correo electrónico para ayudarte
