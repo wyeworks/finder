@@ -110,7 +110,7 @@ describe('Form Personal Info Component', () => {
     });
   });
 
-  it.skip('should show success message when make a successful API call when form is submitted with valid data', async () => {
+  it('should show success message when make a successful API call when form is submitted with valid data', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({ ok: true }); // Mock a successful fetch call
 
     sut();
@@ -134,9 +134,11 @@ describe('Form Personal Info Component', () => {
       );
     });
 
-    expect(
-      await screen.findByText(strings.common.success.changeSuccess)
-    ).toBeInTheDocument();
+    waitFor(() => {
+      expect(
+        screen.findByText(strings.common.success.changeSuccess)
+      ).toBeInTheDocument();
+    });
   });
 
   it('should show an error alert when the API call fails', async () => {

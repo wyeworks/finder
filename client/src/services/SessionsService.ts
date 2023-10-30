@@ -2,7 +2,7 @@ import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Logger } from './Logger';
 import { Session } from '@/types/Session';
 
-type CreateSessionData = {
+export type CreateSessionData = {
   name: string;
   description: string;
   location: string;
