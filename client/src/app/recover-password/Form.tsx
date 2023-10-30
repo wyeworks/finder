@@ -108,7 +108,7 @@ export default function Form() {
           'Te dirigrás a iniciar sesión en ' + String(timerCountdown)
         );
         if (timerCountdown <= 0) {
-          router.push('/signup');
+          router.push('/signin');
           clearInterval(timer);
         }
       }, 1000);
