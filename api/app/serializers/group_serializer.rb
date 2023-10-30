@@ -8,7 +8,8 @@ class GroupSerializer
              :time_preferences,
              :subject_id,
              :subject_name,
-             :user_ids
+             :user_ids,
+             :admin_ids
 
   belongs_to :subject
 
@@ -40,5 +41,9 @@ class GroupSerializer
     group.sessions.map do |session|
       SessionSerializer.new(session).serializable_hash[:data][:attributes]
     end
+  end
+
+  attribute :admin_ids do |group|
+    group.admins.pluck(:user_id)
   end
 end
