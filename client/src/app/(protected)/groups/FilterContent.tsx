@@ -4,6 +4,7 @@ import { TimeOfDay } from '@/types/StudyGroup';
 import { Subject } from '@/types/Subject';
 import { parseSubjectToOption, translatePreference } from '@/utils/Formatter';
 import { SearchGroup } from '@/app/(protected)/groups/page';
+import Input from '@/components/common/Input';
 
 type FiltersContentProps = {
   subjects: Subject[];
@@ -21,15 +22,26 @@ export function FiltersContent({
   onSearchParametersChange,
   searchParameters,
 }: FiltersContentProps) {
+  const [name, setName] = useState<string>(searchParameters.name ?? '');
   const [selectedSubject, setSelectedSubject] = useState<number | undefined>(
     searchParameters.subject
   );
-  const [myGroups, setMyGroups] = React.useState<boolean | undefined>(
-    searchParameters.isMyGroup
+  const [myGroups, setMyGroups] = React.useState<boolean>(
+    searchParameters.isMyGroup ?? false
   );
-  const [timePreference, setTimePreference] = React.useState<
-    string[] | undefined
-  >(searchParameters.timeOfDay);
+  const [timePreference, setTimePreference] = React.useState<string[]>(
+    searchParameters.timeOfDay ?? []
+  );
+
+  function handleNameChange(value: string) {
+    setName(value);
+    onSearchParametersChange({
+      name: value,
+      subject: selectedSubject,
+      isMyGroup: myGroups,
+      timeOfDay: timePreference,
+    });
+  }
 
   function handleSubjectChange(value: string) {
     let selectedSubject: number | undefined;
@@ -38,24 +50,27 @@ export function FiltersContent({
     }
     setSelectedSubject(selectedSubject);
     onSearchParametersChange({
+      name: name,
       subject: selectedSubject,
       isMyGroup: myGroups,
       timeOfDay: timePreference,
     });
   }
 
-  function handleMyGroupsChange(value: boolean | undefined) {
+  function handleMyGroupsChange(value: boolean) {
     setMyGroups(value);
     onSearchParametersChange({
+      name: name,
       subject: selectedSubject,
       isMyGroup: value,
       timeOfDay: timePreference,
     });
   }
 
-  function handleTimePreferenceChange(value: string[] | undefined) {
+  function handleTimePreferenceChange(value: string[]) {
     setTimePreference(value);
     onSearchParametersChange({
+      name: name,
       subject: selectedSubject,
       isMyGroup: myGroups,
       timeOfDay: value,
@@ -63,25 +78,41 @@ export function FiltersContent({
   }
 
   return (
-    <div className='flex h-full flex-col'>
+    <div className='flex flex-col'>
       <div className='mt-4 px-4'>
-        <h4 className='font-bold'>Materia</h4>
+        <h4 className='font-poppins font-bold text-blackTextColor'>Grupo</h4>
+        <Input
+          type='text'
+          id='name'
+          name='name'
+          value={name}
+          onChange={(e) => {
+            handleNameChange(e.target.value);
+          }}
+          classNameInput='bg-backgroundInput max-w-sm'
+          maxLength={40}
+        />
+      </div>
+      <div className={'h-3'} />
+      <div className='mt-4 px-4'>
+        <h4 className='font-poppins font-bold text-blackTextColor'>Materia</h4>
         <SearchDropdown
           id='dropdown'
           options={parseSubjectToOption(subjects)}
           required={true}
           placeholder=''
           initialValue={
-            subjects.find((subject) => subject.id === searchParameters.subject)
-              ?.name
+            subjects.find((subject) => subject.id === selectedSubject)?.name
           }
           onChange={(value) => {
             handleSubjectChange(value);
           }}
+          marginTopAndBottom={0}
         />
       </div>
+      <div className={'h-4'} />
       <div className='px-4 pt-4'>
-        <label className='font-bold'>
+        <label className='font-poppins font-bold'>
           <input
             type='checkbox'
             name='my_groups'
@@ -93,7 +124,9 @@ export function FiltersContent({
         </label>
       </div>
       <div>
-        <h4 className='mt-4 px-4 font-bold'>Preferencia horaria</h4>
+        <h4 className='mt-4 px-4 font-poppins font-bold'>
+          Preferencia horaria
+        </h4>
         {['Morning', 'Afternoon', 'Night'].map((time) => {
           if (isTimeOfDay(time)) {
             return (
@@ -117,11 +150,7 @@ export function FiltersContent({
                         const valueShortened = prevTimePreference.filter(
                           (time) => time !== e.target.value
                         );
-                        handleTimePreferenceChange(
-                          valueShortened.length === 0
-                            ? undefined
-                            : valueShortened
-                        );
+                        handleTimePreferenceChange(valueShortened);
                       }
                     }}
                   />
