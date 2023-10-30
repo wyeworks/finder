@@ -66,7 +66,7 @@ describe('GroupService', () => {
     const result = await GroupService.getAll('mockAccessToken', searchParams);
     expect(result).toEqual(mockData);
     expect(mockedApiCommunicator).toHaveBeenCalledWith({
-      url: '/groups?&name=Test&subject_id=1&time_preferences=morning,evening&my_groups=true',
+      url: '/groups?name=Test&subject_id=1&time_preferences=morning,evening&my_groups=true',
       method: 'GET',
       accessToken: 'mockAccessToken',
     });
