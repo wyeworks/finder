@@ -12,7 +12,7 @@ describe('Footer', () => {
     render(<Footer />);
     const text = screen.getByText('Powered by');
     expect(text).toBeInTheDocument();
-    expect(text).toHaveClass('text-black');
+    expect(text).toHaveClass('font-poppins font-medium text-grayText');
   });
 
   it('renders the WyeWorks link', () => {

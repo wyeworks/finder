@@ -1,7 +1,3 @@
-/* eslint-disable */
-// TODO: Habilitar el eslint cuando estos datos se consigan del back
-
-import { User } from '@/types/User';
 import { StudyGroup, TimePreference } from '@/types/StudyGroup';
 import { Logger } from '@/services/Logger';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
@@ -25,16 +21,30 @@ export class GroupService {
     accessToken: string,
     searchParams: SearchGroup | null
   ): Promise<StudyGroup[]> {
-    let queryString = '';
-    if (searchParams) {
-      if (searchParams.name) queryString += `&name=${searchParams.name}`;
-      if (searchParams.subject)
-        queryString += `&subject_id=${searchParams.subject}`;
-      if (searchParams.timeOfDay)
-        queryString += `&time_preferences=${searchParams.timeOfDay.join(',')}`;
-      if (searchParams.isMyGroup)
-        queryString += `&my_groups=${searchParams.isMyGroup}`;
+    function makeQueryString(searchParams: SearchGroup | null) {
+      function addParameter(parameterKey: string, parameterValue: any) {
+        if (queryString.length > 0) queryString += '&';
+        queryString += parameterKey + '=' + parameterValue;
+      }
+
+      let queryString = '';
+
+      if (searchParams) {
+        if (searchParams.name && searchParams.name.length > 0)
+          addParameter('name', searchParams.name);
+        if (searchParams.subject)
+          addParameter('subject_id', searchParams.subject);
+        if (searchParams.timeOfDay && searchParams.timeOfDay.length > 0)
+          addParameter('time_preferences', searchParams.timeOfDay.join(','));
+        if (searchParams.isMyGroup)
+          addParameter('my_groups', searchParams.isMyGroup);
+      }
+
+      return queryString;
     }
+
+    const queryString = makeQueryString(searchParams);
+
     const response = await ApiCommunicator.commonFetch({
       url: `/groups${queryString.length > 0 ? '?' + queryString : ''}`,
       method: 'GET',
@@ -44,7 +54,9 @@ export class GroupService {
   }
 
   public static async update(
+    // eslint-disable-next-line no-unused-vars
     group: StudyGroup,
+    // eslint-disable-next-line no-unused-vars
     accessToken: string
   ): Promise<void> {
     // await ApiCommunicator.commonFetch({
@@ -54,40 +66,6 @@ export class GroupService {
     //   accessToken,
     // });
     return Promise.resolve();
-  }
-
-  public static async getActiveGroups(user: User): Promise<StudyGroup[]> {
-    Logger.debug('Getting active groups for users: ' + user.name);
-
-    const BasesDeDatos: StudyGroup = {
-      id: 1,
-      name: 'Lab Bases de Datos',
-      description: 'Estamos buscando gente para el lab de bases de datos',
-      subject_id: 1,
-      size: 3,
-      isLab: true,
-    };
-    const TProg: StudyGroup = {
-      id: 2,
-      name: 'Lab Taller de Programación',
-      description: 'Estamos buscando gente para el taller de programación',
-      subject_id: 2,
-      size: 3,
-      isLab: true,
-    };
-    const RedesComp: StudyGroup = {
-      id: 3,
-      name: 'Los Pibardos Preparan Redes',
-      description: 'Estamos tratando de estudiar para el parcial de redes',
-      subject_id: 3,
-      size: 3,
-      isLab: false,
-    };
-
-    const grupos: StudyGroup[] = [BasesDeDatos, TProg, RedesComp];
-
-    Logger.debug('Active groups for users: ' + user.name + ' are: ' + grupos);
-    return Promise.resolve(grupos);
   }
 
   public static async submitRequest(

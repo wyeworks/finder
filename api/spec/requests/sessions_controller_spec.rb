@@ -11,17 +11,10 @@ RSpec.describe SessionsController, type: :request do
   # Show
   describe 'GET /sessions/:id' do
     let(:group) { create :group }
-    let(:creator_member) { create(:member, user:, group:) }
-    let(:session) { create :session, group:, creator: creator_member }
+    let(:session) { create :session, group:, creator: member }
     let(:session_id) { session.id }
 
     context 'when the user is authenticated' do
-      let(:user) { create :user }
-      let(:headers) do
-        post user_session_path, params: { user: { email: user.email, password: user.password } }
-        { 'Authorization' => response.headers['Authorization'] }
-      end
-
       context 'and belongs to the group' do
         let!(:member) { create(:member, user:, group:) }
 
@@ -45,7 +38,8 @@ RSpec.describe SessionsController, type: :request do
                 'created_at' => attendance.created_at.utc.iso8601(3),
                 'updated_at' => attendance.updated_at.utc.iso8601(3),
                 'member_id' => attendance.member_id,
-                'member_name' => user.name
+                'member_name' => user.name,
+                'user_id' => user.id
               }
             end
 
@@ -68,15 +62,21 @@ RSpec.describe SessionsController, type: :request do
       end
 
       context 'but does not belong to the group' do
-        before do
-          get(session_path(session_id), headers:)
+        let(:member) { create(:member, group:) }
 
+        before do
+          get session_path(session_id), headers:
+        end
+
+        it 'returns http unauthorized' do
           expect(response).to have_http_status(:unauthorized)
         end
       end
     end
 
     context 'when the user is not authenticated' do
+      let(:member) { create(:member, group:) }
+
       before do
         get session_path(session_id)
       end

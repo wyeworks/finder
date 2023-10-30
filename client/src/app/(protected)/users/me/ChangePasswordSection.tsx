@@ -128,7 +128,8 @@ export function ChangePasswordSection({ user }: { user: User }) {
           required
           value={currentPassword}
           onChange={handleCurrentPasswordChange}
-          touched={touched.newPassword}
+          touched={touched.currentPassword}
+          classNameWrapper='h-[70px]'
           classNameInput='bg-backgroundInput w-full'
         />
       </div>
@@ -143,6 +144,7 @@ export function ChangePasswordSection({ user }: { user: User }) {
           value={newPassword}
           onChange={handleNewPasswordChange}
           touched={touched.newPassword}
+          classNameWrapper='h-[70px]'
           classNameInput='bg-backgroundInput w-full'
           fieldInfo={strings.form.passwordInput.passwordInfo}
           validateText={strings.form.passwordInput.validateText}

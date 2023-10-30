@@ -4,14 +4,16 @@ Rails.application.routes.draw do
   devise_for :users, path_names: {
     sign_in: 'login',
     sign_out: 'logout',
-    registration: 'signup'
+    registration: 'signup',
   },
   controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations',
-    confirmations: 'users/confirmations'
+    confirmations: 'users/confirmations',
+    passwords: 'users/passwords'
   }
 
+  resources :attendances, only: :update
   resources :careers, only: :index
   resources :groups, except: [:new, :edit] do
     get :members, on: :member
@@ -20,7 +22,7 @@ Rails.application.routes.draw do
     end
   end
   resources :members, only: :destroy
+  resources :sessions, only: [:create, :show, :update, :destroy]
   resources :subjects, only: [:index, :show]
   resources :users, only: [:show, :update, :destroy]
-  resources :sessions, only: [:create, :show, :update, :destroy]
 end
