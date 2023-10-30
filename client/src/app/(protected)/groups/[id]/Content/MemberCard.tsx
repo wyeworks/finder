@@ -75,8 +75,8 @@ export default function MemberCard({
     }
   }
 
-  const showTagOptions = function (memberId: string) {
-    if (isAdmin && memberId !== session?.user.id) return true;
+  const showTagOptions = function (userId: string) {
+    if (isAdmin && userId !== session?.user.id) return true;
     return false;
   };
 

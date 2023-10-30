@@ -15,9 +15,13 @@ import { NotOkError } from '@/types/NotOkError';
 import { Logger } from '@/services/Logger';
 import { BackendError } from '@/types/BackendError';
 import strings from '@/locales/strings.json';
+import { Session } from '@/types/Session';
+import ViewSession from './ViewSession';
+import { filterExpiredSessions, filterNextSessions } from '@/utils/Filters';
 
 type SessionsProps = {
   group: StudyGroup;
+  fetchGroup?: () => void;
 };
 
 // eslint-disable-next-line no-unused-vars
@@ -39,14 +43,14 @@ export type CreateSessionData = {
   meetLink: string;
 };
 
-export type CreateSessionAlertProps = {
+export type ModalSessionAlertProps = {
   show: boolean;
   message?: string;
   title?: string;
   alertType?: 'error' | 'success';
 };
 
-export default function Sessions({ group }: SessionsProps) {
+export default function Sessions({ group, fetchGroup }: SessionsProps) {
   const { user_ids } = group;
   const groupId = group.id;
   const { data: session } = useSession();
@@ -73,9 +77,23 @@ export default function Sessions({ group }: SessionsProps) {
     description: false,
     meetLink: false,
   });
-  const [alertProps, setAlertProps] = useState<CreateSessionAlertProps>({
+  const [alertProps, setAlertProps] = useState<ModalSessionAlertProps>({
     show: false,
   });
+  const [selectedSession, setSelectedSession] = useState<Session>({
+    id: 0,
+    name: '',
+    description: '',
+    location: '',
+    meeting_link: '',
+    start_time: '',
+    end_time: '',
+    group_id: 0,
+    attendances: [],
+  });
+  const [createSelected, setCreateSelected] = useState<boolean>(false);
+  const [showAttendance, setShowAttendance] = useState<boolean>(false);
+  const [viewSelected, setViewSelected] = useState<boolean>(false);
 
   useEffect(() => {
     const isMember = user_ids?.some(
@@ -83,6 +101,13 @@ export default function Sessions({ group }: SessionsProps) {
     );
     setIsMemberGroup(isMember ?? false);
   }, [session?.user.id, user_ids]);
+
+  useEffect(() => {
+    if (!openModal) {
+      setCreateSelected(false);
+      setViewSelected(false);
+    }
+  }, [openModal]);
 
   function addErrors(parsedError: BackendError) {
     const errorMessages = [];
@@ -143,7 +168,7 @@ export default function Sessions({ group }: SessionsProps) {
 
       setAlertProps({
         show: true,
-        message: 'Sesión creada con éxito!',
+        message: '¡Sesión creada con éxito!',
         alertType: 'success',
       });
       setTimeout(() => {
@@ -170,6 +195,7 @@ export default function Sessions({ group }: SessionsProps) {
         description: false,
         meetLink: false,
       });
+      if (fetchGroup) fetchGroup();
     } catch (error) {
       if (error instanceof NotOkError) {
         const errorMessages = addErrors(error.backendError);
@@ -192,6 +218,68 @@ export default function Sessions({ group }: SessionsProps) {
     }
   };
 
+  const viewSession = async (id: number, showAttendance: boolean) => {
+    const response = await SessionService.getSession(
+      id,
+      session?.user.accessToken!
+    );
+    if (response) {
+      setOpenModal(true);
+      setViewSelected(true);
+      setAlertProps({
+        show: false,
+        message: '',
+        title: '',
+        alertType: 'error',
+      });
+      setSelectedSession(response);
+      setShowAttendance(showAttendance);
+    }
+  };
+
+  const handleAttendance = async (
+    status: 'accepted' | 'rejected',
+    attendanceId: number
+  ) => {
+    setAlertProps({
+      show: false,
+      message: '',
+      title: '',
+      alertType: 'error',
+    });
+    try {
+      await SessionService.updateAttendance(
+        attendanceId,
+        session?.user.accessToken!,
+        { attendance: { status: status } }
+      );
+      setAlertProps({
+        show: true,
+        message: '¡Tu asistencia se ha marcado con éxito!',
+        alertType: 'success',
+      });
+    } catch (error) {
+      if (error instanceof NotOkError) {
+        const errorMessages = addErrors(error.backendError);
+        const title = error.message ? error.message : 'Error';
+        setAlertProps({
+          show: true,
+          message: errorMessages.join('\n'),
+          title: title,
+          alertType: 'error',
+        });
+        return;
+      }
+      Logger.debug('Error trying to update attendance' + { error });
+      setAlertProps({
+        show: true,
+        message: strings.common.error.unexpectedError,
+        title: 'Error',
+        alertType: 'error',
+      });
+    }
+  };
+
   if (!isMemberGroup) {
     return (
       <div>
@@ -202,6 +290,27 @@ export default function Sessions({ group }: SessionsProps) {
       </div>
     );
   }
+
+  const getModalContent = function () {
+    return createSelected ? (
+      <CreateSessionForm
+        formData={formData}
+        setFormData={setFormData}
+        handleSubmit={handleSubmit}
+        touched={touchedData}
+        alertProps={alertProps}
+      />
+    ) : viewSelected ? (
+      <ViewSession
+        sessionGroup={selectedSession}
+        handleAttendance={handleAttendance}
+        alertProps={alertProps}
+        showAttendanceRequest={showAttendance}
+      />
+    ) : (
+      <></>
+    );
+  };
 
   return (
     <>
@@ -232,28 +341,33 @@ export default function Sessions({ group }: SessionsProps) {
               classNameWrapper='sm:p-4'
               spaceBetween={8}
               className=' h-8 items-center  bg-primaryBlue hover:bg-hoverPrimaryBlue'
-              onClick={() => setOpenModal(true)}
+              onClick={() => {
+                setCreateSelected(true);
+                setOpenModal(true);
+              }}
             />
           </div>
         </div>
         <div className='mb-5'>
-          {tab === typeTabs.HISTORY && <History />}
-          {tab === typeTabs.NEXT && <NextSessions />}
+          {tab === typeTabs.HISTORY && (
+            <History
+              sessions={filterExpiredSessions(group.sessions)}
+              viewSession={viewSession}
+            />
+          )}
+          {tab === typeTabs.NEXT && (
+            <NextSessions
+              sessions={filterNextSessions(group.sessions)}
+              viewSession={viewSession}
+            />
+          )}
         </div>
         <TimePreferences group={group} />
       </div>
       <CustomModal
         isOpen={openModal}
         setIsOpen={setOpenModal}
-        content={
-          <CreateSessionForm
-            formData={formData}
-            setFormData={setFormData}
-            handleSubmit={handleSubmit}
-            touched={touchedData}
-            alertProps={alertProps}
-          />
-        }
+        content={getModalContent()}
         showXButton={true}
       />
     </>

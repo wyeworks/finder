@@ -12,14 +12,16 @@ export type Section = {
   name: string;
   icon: JSX.Element;
   // eslint-disable-next-line no-unused-vars
-  content: (group: StudyGroup) => JSX.Element;
+  content: (group: StudyGroup, fetchGroup?: () => void) => JSX.Element;
 };
 
 const sections: Section[] = [
   {
     name: 'Sesiones',
     icon: <PlayIcon className='mr-2 h-5 w-5' />,
-    content: (group: StudyGroup) => <Sessions group={group} />,
+    content: (group: StudyGroup, fetchGroup?: () => void) => (
+      <Sessions group={group} fetchGroup={fetchGroup} />
+    ),
   },
   {
     name: 'Recursos',

@@ -1,7 +1,8 @@
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Logger } from './Logger';
+import { Session } from '@/types/Session';
 
-type CreateSessionData = {
+export type CreateSessionData = {
   name: string;
   description: string;
   location: string;
@@ -42,5 +43,42 @@ export class SessionService {
       Logger.debug('Error trying to get sessions: ' + error);
       return null;
     }
+  }
+
+  public static async getSession(
+    sessionId: number | string,
+    accessToken: string
+  ): Promise<Session | null> {
+    try {
+      const response = await ApiCommunicator.commonFetch({
+        url: '/sessions/' + sessionId,
+        method: 'GET',
+        accessToken,
+      });
+
+      return await response.json();
+    } catch (error) {
+      Logger.debug('Error trying to get session: ' + error);
+      return null;
+    }
+  }
+
+  public static async updateAttendance(
+    attendanceId: number | string,
+    accessToken: string,
+    data: {
+      attendance: {
+        status: string;
+      };
+    }
+  ) {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/attendances/' + attendanceId,
+      method: 'PATCH',
+      data,
+      accessToken,
+    });
+    const body = await response.json();
+    return body.message;
   }
 }

@@ -19,7 +19,8 @@ class SessionSerializer
         created_at: attendance.created_at,
         updated_at: attendance.updated_at,
         member_id: attendance.member_id,
-        member_name: attendance.member.user.name
+        member_name: attendance.member.user.name,
+        user_id: attendance.member.user.id
       }
     end
   end
