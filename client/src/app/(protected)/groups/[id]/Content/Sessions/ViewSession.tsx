@@ -18,9 +18,22 @@ import Button from '@/components/common/Button';
 import EditIcon from '@/assets/Icons/EditIcon';
 import TrashIcon from '@/assets/Icons/TrashIcon';
 import strings from '@/locales/strings.json';
+import { Attendance } from '@/types/Attendance';
+import { useSession } from 'next-auth/react';
+import { ModalSessionAlertProps } from './Sessions';
+import Alert from '@/components/common/Alert';
 
 type ViewSessionProps = {
-  session: Session;
+  sessionGroup: Session;
+  // eslint-disable-next-line no-unused-vars
+  handleAttendance?: (
+    // eslint-disable-next-line no-unused-vars
+    status: 'accepted' | 'rejected',
+    // eslint-disable-next-line no-unused-vars
+    attendanceId: number
+  ) => void;
+  alertProps: ModalSessionAlertProps;
+  showAttendanceRequest?: boolean;
 };
 
 function validateUrl(url: string) {
@@ -28,7 +41,18 @@ function validateUrl(url: string) {
   else return `https://${url}`;
 }
 
-export default function CreateSessionForm({ session }: ViewSessionProps) {
+export default function ViewSession({
+  sessionGroup,
+  handleAttendance,
+  alertProps,
+  showAttendanceRequest = true,
+}: ViewSessionProps) {
+  const { data: session } = useSession();
+  function getOwnAttendance(attendances: Attendance[]) {
+    return attendances.find(
+      (attendance) => attendance.user_id === Number(session?.user?.id)
+    )?.id;
+  }
   return (
     <div>
       <div
@@ -37,7 +61,7 @@ export default function CreateSessionForm({ session }: ViewSessionProps) {
       >
         <div className='col-span-2 flex h-6'>
           <h1 className='peer mt-0 h-fit w-[90%] font-poppins text-xl text-primaryBlue'>
-            {session.name}
+            {sessionGroup.name}
           </h1>
           <button className='h-full'>
             <EditIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
@@ -49,52 +73,52 @@ export default function CreateSessionForm({ session }: ViewSessionProps) {
         <ClockIcon className='mr-2 mt-2 h-5 w-5' />
         <div className='mt-1 block items-baseline gap-3'>
           <h1 className='font-poppins font-semibold text-blackTextColor'>
-            {formatDateToSpanish(session.start_time)}
+            {formatDateToSpanish(sessionGroup.start_time)}
           </h1>
           <h1 className='font-poppins font-semibold text-blackTextColor'>
-            {formatDateToSpanish(session.end_time)}
+            {formatDateToSpanish(sessionGroup.end_time)}
           </h1>
         </div>
         <LocationIcon className='mr-2 mt-2 h-5 w-5' />
         <h1
           className={
-            !session.location
+            !sessionGroup.location
               ? 'mt-2 font-poppins text-grayText'
               : 'mt-2 font-poppins font-semibold text-blackTextColor'
           }
         >
-          {!session.location
+          {!sessionGroup.location
             ? strings.viewSession.noLocation
-            : session.location}
+            : sessionGroup.location}
         </h1>
 
         <BarsIcon className='mr-2 mt-1 h-5 w-5' />
         <p className='font-poppins text-grayText'>
-          {!session.description
+          {!sessionGroup.description
             ? strings.viewSession.noDescription
-            : session.description}
+            : sessionGroup.description}
         </p>
         <LinkIcon className='mr-2 mt-2 h-5 w-5' />
-        {!session.meeting_link ? (
+        {!sessionGroup.meeting_link ? (
           <p className='mt-1 font-poppins text-grayText'>
             {strings.viewSession.noMeetLink}
           </p>
         ) : (
           <a
             className='mt-1 font-poppins text-blue-700 hover:underline'
-            href={validateUrl(session.meeting_link ?? '')}
+            href={validateUrl(sessionGroup.meeting_link ?? '')}
             target='_blank'
           >
-            {session.meeting_link}
+            {sessionGroup.meeting_link}
           </a>
         )}
         <GroupSizeIcon className='mr-2 mt-2 h-5 w-5 text-grayText' />
         <div>
           <p className='mt-2 font-poppins text-grayText'>
-            {formatAttendanceQauntity(session.attendances)}
+            {formatAttendanceQauntity(sessionGroup.attendances)}
           </p>
           <div className='mt-2 block'>
-            {session.attendances.map((attendance) => {
+            {sessionGroup.attendances.map((attendance) => {
               return (
                 <div key={attendance.id} className='mb-2 flex'>
                   <div className='relative h-8 min-w-[30px]'>
@@ -121,26 +145,51 @@ export default function CreateSessionForm({ session }: ViewSessionProps) {
           </div>
         </div>
       </div>
-      <div className='-mb-2 flex items-center border-t border-t-gray-300 pt-1'>
-        <h1 className='font-poppins'>{strings.viewSession.inviteQuestion}</h1>
-        <div className='flex w-full justify-end'>
-          <Button
-            text='Si'
-            type='button'
-            Icon={
-              <CheckIcon className='mr-2 h-5 w-5 shrink-0 text-green-600' />
-            }
-            classNameWrapper='p-1'
-            className='h-8 items-center border-[1.5px]  border-green-600 !bg-transparent !font-medium !text-green-600 hover:!bg-gray-200 '
-          />
-          <Button
-            text='No'
-            type='button'
-            Icon={<CrossIcon className='mr-1 h-5 w-5 shrink-0 text-red-600' />}
-            classNameWrapper='p-1 w-auto'
-            className=' h-8 items-center border-[1.5px]  border-red-600 !bg-transparent !font-medium !text-red-600 hover:!bg-gray-200'
-          />
+      {showAttendanceRequest && (
+        <div className='-mb-2 flex items-center border-t border-t-gray-300 pt-1'>
+          <h1 className='font-poppins'>{strings.viewSession.inviteQuestion}</h1>
+          <div className='flex w-full justify-end'>
+            <Button
+              text='Si'
+              type='button'
+              Icon={
+                <CheckIcon className='mr-2 h-5 w-5 shrink-0 text-green-600' />
+              }
+              onClick={() => {
+                const attendanceId = getOwnAttendance(sessionGroup.attendances);
+                if (attendanceId) {
+                  handleAttendance?.('accepted', attendanceId);
+                }
+              }}
+              classNameWrapper='p-1'
+              className='h-8 items-center border-[1.5px]  border-green-600 !bg-transparent !font-medium !text-green-600 hover:!bg-gray-200 '
+            />
+            <Button
+              text='No'
+              type='button'
+              Icon={
+                <CrossIcon className='mr-1 h-5 w-5 shrink-0 text-red-600' />
+              }
+              classNameWrapper='p-1 w-auto'
+              className=' h-8 items-center border-[1.5px]  border-red-600 !bg-transparent !font-medium !text-red-600 hover:!bg-gray-200'
+              onClick={() => {
+                const attendanceId = getOwnAttendance(sessionGroup.attendances);
+                if (attendanceId) {
+                  handleAttendance?.('rejected', attendanceId);
+                }
+              }}
+            />
+          </div>
         </div>
+      )}
+      <div className='mt-3'>
+        <Alert
+          isVisible={alertProps.show}
+          message={alertProps.message}
+          title={alertProps.title}
+          alertType={alertProps.alertType}
+          withTitle={Boolean(alertProps.title)}
+        />
       </div>
     </div>
   );

@@ -6,6 +6,8 @@ import {
   formatDateToSpanish,
 } from '@/utils/Formatter';
 import strings from '@/locales/strings.json';
+import { SessionProvider } from 'next-auth/react';
+import { ModalSessionAlertProps } from '../Sessions';
 
 describe('ViewSession', () => {
   const session: Session = {
@@ -26,6 +28,7 @@ describe('ViewSession', () => {
         updated_at: '2021-10-10T20:00:00.000Z',
         member_id: 1,
         session_id: 1,
+        user_id: 1,
       },
       {
         id: 2,
@@ -35,11 +38,25 @@ describe('ViewSession', () => {
         updated_at: '2021-10-10T19:00:00.000Z',
         member_id: 2,
         session_id: 1,
+        user_id: 2,
       },
     ],
   };
+
+  const alertProps: ModalSessionAlertProps = {
+    show: false,
+    title: '',
+    message: '',
+    alertType: 'error',
+  };
   it('renders all the correct data', () => {
-    render(<ViewSession session={session} />);
+    render(
+      <SessionProvider
+        session={{ user: { id: '1', name: 'test' }, expires: '11' }}
+      >
+        <ViewSession sessionGroup={session} alertProps={alertProps} />
+      </SessionProvider>
+    );
     expect(screen.getByText('Session Name')).toBeInTheDocument();
     expect(screen.getByText('Session Description')).toBeInTheDocument();
     expect(screen.getByText('Session Location')).toBeInTheDocument();
@@ -77,6 +94,7 @@ describe('ViewSession', () => {
           updated_at: '2021-10-10T20:00:00.000Z',
           member_id: 1,
           session_id: 1,
+          user_id: 1,
         },
         {
           id: 2,
@@ -86,10 +104,20 @@ describe('ViewSession', () => {
           updated_at: '2021-10-10T19:00:00.000Z',
           member_id: 2,
           session_id: 1,
+          user_id: 2,
         },
       ],
     };
-    render(<ViewSession session={emptyValuesSession} />);
+    render(
+      <SessionProvider
+        session={{ user: { id: '1', name: 'test' }, expires: '11' }}
+      >
+        <ViewSession
+          sessionGroup={emptyValuesSession}
+          alertProps={alertProps}
+        />
+      </SessionProvider>
+    );
     expect(screen.getByText('Session Name')).toBeInTheDocument();
     expect(
       screen.getByText(strings.viewSession.noDescription)

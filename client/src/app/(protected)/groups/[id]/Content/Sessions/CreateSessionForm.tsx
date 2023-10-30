@@ -4,7 +4,7 @@ import LinkIcon from '@/assets/Icons/LinkIcon';
 import LocationIcon from '@/assets/Icons/LocationIcon';
 import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
-import { CreateSessionAlertProps, CreateSessionData } from './Sessions';
+import { ModalSessionAlertProps, CreateSessionData } from './Sessions';
 import Button from '@/components/common/Button';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction } from 'react';
@@ -16,7 +16,7 @@ type CreateSessionModalProps = {
   // eslint-disable-next-line no-unused-vars
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
   touched: any;
-  alertProps: CreateSessionAlertProps;
+  alertProps: ModalSessionAlertProps;
 };
 
 export default function CreateSessionForm({
