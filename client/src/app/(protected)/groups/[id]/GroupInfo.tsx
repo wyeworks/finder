@@ -127,7 +127,7 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
           <div className='block w-full items-center justify-center sm:justify-start md:flex md:w-[85%]'>
             <h1 className='font-regular mb-3 font-poppins text-4xl'>{name}</h1>
             <span className='mb-2 ml-2 rounded-full bg-primaryBlue px-2.5 py-0.5 text-xl text-white'>
-              <h1 className='font-poppins font-medium'>#{id}</h1>
+              <strong className='font-poppins font-medium'>#{id}</strong>
             </span>
           </div>
 
