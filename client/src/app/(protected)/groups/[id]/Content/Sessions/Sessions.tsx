@@ -55,7 +55,6 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
   const groupId = group.id;
   const { data: session } = useSession();
   const [isMemberGroup, setIsMemberGroup] = useState<boolean>(false);
-  // eslint-disable-next-line no-unused-vars
   const [isAdminGroup, setIsAdminGroup] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [tab, setTab] = useState<typeTabs>(typeTabs.NEXT);
@@ -319,6 +318,7 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
         handleAttendance={handleAttendance}
         alertProps={alertProps}
         showAttendanceRequest={showAttendance}
+        isAdmin={isAdminGroup}
       />
     ) : (
       <></>
@@ -329,19 +329,19 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
     <>
       <div className='grid grid-rows-[130px,auto,auto] sm:grid-rows-[90px,auto,auto]'>
         <div className='flex flex-auto gap-7 '>
-          <div className='flex flex-col justify-start gap-3 sm:flex-row'>
+          <div className='flex w-[50%] flex-col justify-start gap-3 sm:flex-row'>
             <Button
               text='Próximas sesiones'
-              classNameWrapper='sm:p-4'
-              className={`h-8 items-center border border-gray-300 bg-white text-lg !text-primaryBlue hover:bg-gray-300   ${
+              classNameWrapper='sm:py-4'
+              className={`h-11 items-center border border-gray-300 bg-white !text-primaryBlue hover:!bg-gray-300 md:text-xl ${
                 tab === typeTabs.NEXT && '!bg-gray-200'
               }`}
               onClick={() => setTab(typeTabs.NEXT)}
             />
             <Button
               text='Historial'
-              classNameWrapper='sm:p-4'
-              className={`h-8 items-center border border-gray-300 bg-white text-lg !text-primaryBlue hover:bg-gray-300   ${
+              classNameWrapper='sm:py-4'
+              className={`h-11 items-center border border-gray-300 bg-white !text-primaryBlue hover:!bg-gray-300 md:text-xl   ${
                 tab === typeTabs.HISTORY && '!bg-gray-200'
               }`}
               onClick={() => setTab(typeTabs.HISTORY)}
@@ -351,9 +351,9 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
             <Button
               text='Crear sesión'
               Icon={<PlusIcon className='h-5 w-5' />}
-              classNameWrapper='sm:p-4'
+              classNameWrapper='sm:p-4 sm:pr-0'
               spaceBetween={8}
-              className=' h-8 items-center  bg-primaryBlue hover:bg-hoverPrimaryBlue'
+              className=' h-11 items-center  bg-primaryBlue hover:bg-hoverPrimaryBlue'
               onClick={() => {
                 setCreateSelected(true);
                 setOpenModal(true);

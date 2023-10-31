@@ -12,7 +12,15 @@ export default function History({ sessions, viewSession }: HistoryProps) {
     <div data-testid='session-history'>
       {sessions.map((session, index) => {
         return (
-          <div key={index} onClick={() => viewSession(session?.id, false)}>
+          <div
+            key={index}
+            onClick={() => viewSession(session?.id, false)}
+            className={`${index === 0 ? 'overflow-hidden rounded-t-md' : ''} ${
+              index === sessions.length - 1
+                ? 'overflow-hidden rounded-b-md'
+                : ''
+            } border border-solid border-gray-200`}
+          >
             <CardSession session={session} isHistory={true} />
           </div>
         );

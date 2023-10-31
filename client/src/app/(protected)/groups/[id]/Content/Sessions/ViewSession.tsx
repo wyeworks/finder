@@ -34,6 +34,7 @@ type ViewSessionProps = {
   ) => void;
   alertProps: ModalSessionAlertProps;
   showAttendanceRequest?: boolean;
+  isAdmin?: boolean;
 };
 
 function validateUrl(url: string) {
@@ -46,10 +47,13 @@ export default function ViewSession({
   handleAttendance,
   alertProps,
   showAttendanceRequest = true,
+  isAdmin = false,
 }: ViewSessionProps) {
   const { data: session } = useSession();
   const showOptions = () => {
-    return Number(session?.user?.id) === sessionGroup.creator_user_id;
+    return (
+      Number(session?.user?.id) === sessionGroup.creator_user_id || isAdmin
+    );
   };
   const getOwnAttendance = (attendances: Attendance[]) => {
     return attendances.find(
