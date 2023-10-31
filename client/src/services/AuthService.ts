@@ -47,7 +47,7 @@ export class AuthService {
     };
 
     const response = await ApiCommunicator.commonFetch({
-      url: '/users/forgot_password',
+      url: '/users/password',
       method: 'POST',
       data: dataToSend,
     });
@@ -69,7 +69,7 @@ export class AuthService {
       },
     };
     const response = await ApiCommunicator.commonFetch({
-      url: '/users/forgot_password',
+      url: '/users/password',
       method: 'PUT',
       data: dataToSend,
     });
