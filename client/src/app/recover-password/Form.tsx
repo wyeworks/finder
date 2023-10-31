@@ -98,7 +98,7 @@ export default function Form() {
       setAlertType('success');
       setAlertTitle(successMessage);
       setAlertMessage(
-        'Te dirigrás a iniciar sesión en ' + String(timerCountdown)
+        'Te dirigirás a iniciar sesión en ' + String(timerCountdown)
       );
       setIsAlertVisible(true);
 
