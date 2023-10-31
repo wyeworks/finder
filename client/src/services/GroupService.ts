@@ -28,7 +28,7 @@ export class GroupService {
       queryString += parameterKey + '=' + parameterValue;
     }
 
-    if (searchParams) {
+    function handleAddParameter(searchParams: SearchGroup) {
       if (searchParams.name && searchParams.name.length > 0)
         addParameter('name', searchParams.name);
       if (searchParams.subject)
@@ -37,6 +37,10 @@ export class GroupService {
         addParameter('time_preferences', searchParams.timeOfDay.join(','));
       if (searchParams.isMyGroup)
         addParameter('my_groups', searchParams.isMyGroup);
+    }
+
+    if (searchParams) {
+      handleAddParameter(searchParams);
     }
     const response = await ApiCommunicator.commonFetch({
       url: `/groups${queryString.length > 0 ? '?' + queryString : ''}`,
