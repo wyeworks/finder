@@ -61,6 +61,54 @@ RSpec.describe 'Groups::MessagesController', type: :request do
     end
   end
 
+  # Index
+  describe 'GET /groups/:group_id/messages' do
+    let!(:messages) { create_list(:message, 5, user:, group:) } # Create 5 messages
+
+    context 'when user is authenticated' do
+      before { headers }
+
+      context 'when user is a member of the group' do
+        before do
+          group.members.create(user:, role: 'participant')
+          get group_messages_path(group), headers:
+        end
+
+        it 'returns a list of messages' do
+          expect(response).to have_http_status(:ok)
+          expect(response.parsed_body.size).to eq(5) # por tirar
+        end
+
+        it 'returns the correct message content' do
+          returned_messages = response.parsed_body
+          messages.each_with_index do |message, index|
+            expect(returned_messages[index]['content']).to eq(message.content)
+          end
+        end
+      end
+
+      context 'when user is not a member of the group' do
+        before do
+          get group_messages_path(group), headers:
+        end
+
+        it 'does not return the messages' do
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
+    end
+
+    context 'when user is not authenticated' do
+      before do
+        get group_messages_path(group)
+      end
+
+      it 'does not return the messages' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
   # Update
   describe 'PUT /groups/:group_id/messages/:id' do
     let(:new_content) { 'Updated message content' }

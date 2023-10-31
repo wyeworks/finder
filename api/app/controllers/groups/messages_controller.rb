@@ -14,10 +14,13 @@ module Groups
     end
 
     def create
-      @message = @group.messages.new(message_params)
-      @message.user = current_user
-      @message.hour = DateTime.now
-
+      @message = Message.new(
+        message_params.merge(
+          group: @group,
+          user: current_user,
+          hour: DateTime.now
+        )
+      )
       if @message.save
         render json: MessageSerializer.new(@message).serializable_hash[:data][:attributes], status: :created
       else
