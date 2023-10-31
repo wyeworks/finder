@@ -2,7 +2,7 @@ interface Props {
   className: string;
 }
 
-export default function UserIcon({ className }: Props) {
+export default function KeyIcon({ className }: Props) {
   return (
     <svg
       className={className}
