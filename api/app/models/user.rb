@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :members, dependent: :destroy
   has_many :groups, through: :members
   has_many :requests, dependent: :destroy
+  has_many :messages, dependent: :destroy
   has_and_belongs_to_many :careers
   has_and_belongs_to_many :subjects
 
