@@ -170,7 +170,7 @@ export default function CreateSessionForm({
         onChange={handleChange}
         touched={touched.meetLink}
         validateText={strings.createSession.form.validateText.meetLink}
-        pattern='.*\..*'
+        pattern='https?://[^.]+\.[^.]+'
       />
       <div className='col-span-2 flex flex-col justify-center gap-1'>
         <Alert

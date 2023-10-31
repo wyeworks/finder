@@ -50,7 +50,6 @@ function validateUrl(url: string) {
   else return `https://${url}`;
 }
 
-// eslint-disable-next-line complexity
 export default function ViewSession({
   sessionGroup,
   handleAttendance,
@@ -227,6 +226,22 @@ export default function ViewSession({
     }
   }
 
+  function handleRenderLocation() {
+    return (
+      <>
+        {!sessionGroup.location ? (
+          <h1 className='mt-2 font-poppins text-grayText'>
+            {strings.viewSession.noLocation}
+          </h1>
+        ) : (
+          <h1 className='mt-2 font-poppins font-semibold text-blackTextColor'>
+            {sessionGroup.location}
+          </h1>
+        )}
+      </>
+    );
+  }
+
   return (
     <form noValidate onSubmit={handleSubmit}>
       <div
@@ -340,21 +355,8 @@ export default function ViewSession({
               value={editData.location ?? ''}
               classNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
             />,
-            <>
-              <h1
-                className={
-                  !sessionGroup.location
-                    ? 'mt-2 font-poppins text-grayText'
-                    : 'mt-2 font-poppins font-semibold text-blackTextColor'
-                }
-              >
-                {!sessionGroup.location
-                  ? strings.viewSession.noLocation
-                  : sessionGroup.location}
-              </h1>
-            </>
+            handleRenderLocation()
           )}
-
           <BarsIcon className='mr-2 mt-1 h-5 w-5' />
           {handleEditMode(
             <Input
@@ -384,7 +386,7 @@ export default function ViewSession({
               classNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
               touched={true}
               validateText={strings.createSession.form.validateText.meetLink}
-              pattern='.*\..*'
+              pattern='https?://[^.]+\.[^.]+'
             />,
             <>
               {!sessionGroup.meeting_link ? (
