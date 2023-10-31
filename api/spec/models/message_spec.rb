@@ -7,7 +7,7 @@ RSpec.describe Message, type: :model do
   end
 
   describe 'validations' do
-    subject { build(:message) } # Using the message factory
+    subject { build(:message) }
 
     it { should validate_presence_of(:content) }
     it { should validate_presence_of(:hour) }

@@ -17,7 +17,7 @@ RSpec.describe 'Groups::MessagesController', type: :request do
 
       context 'when user is a member of the group' do
         before do
-          group.members.create(user:, role: 'participant') # Add user as a member only in this context
+          group.members.create(user:, role: 'participant')
           post group_messages_path(group), params: { message: { content: 'Test message content' } }, headers:
         end
 
