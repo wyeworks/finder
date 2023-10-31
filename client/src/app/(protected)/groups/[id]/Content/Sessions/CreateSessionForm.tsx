@@ -9,6 +9,7 @@ import Button from '@/components/common/Button';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction } from 'react';
 import Alert from '@/components/common/Alert';
+import { validateHour } from '@/utils/validations';
 
 type CreateSessionModalProps = {
   formData: CreateSessionData;
@@ -45,14 +46,6 @@ export default function CreateSessionForm({
       ...prevState,
       [name]: value,
     }));
-  };
-
-  const validateHour = (value: any) => {
-    const pattern = /^[0-2][0-9]:[0-5][0-9]$/;
-    if (value !== '' && !pattern.test(value)) {
-      return strings.createSession.form.validateText.hourFormat;
-    }
-    return strings.createSession.form.validateText.default;
   };
 
   return (

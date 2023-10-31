@@ -50,6 +50,29 @@ export type ModalSessionAlertProps = {
   alertType?: 'error' | 'success';
 };
 
+export function addErrors(parsedError: BackendError) {
+  const errorMessages = [];
+  if (parsedError.errors?.name) {
+    errorMessages.push(parsedError.errors.name);
+  }
+  if (parsedError.errors?.description) {
+    errorMessages.push(parsedError.errors.description);
+  }
+  if (parsedError.errors?.meeting_link) {
+    errorMessages.push(parsedError.errors.meeting_link);
+  }
+  if (parsedError.errors?.start_time) {
+    errorMessages.push(parsedError.errors.start_time);
+  }
+  if (parsedError.errors?.end_time) {
+    errorMessages.push(parsedError.errors.end_time);
+  }
+  if (parsedError.errors?.group_id) {
+    errorMessages.push(parsedError.errors.group_id);
+  }
+  return errorMessages;
+}
+
 export default function Sessions({ group, fetchGroup }: SessionsProps) {
   const { user_ids } = group;
   const groupId = group.id;
@@ -108,29 +131,6 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
       setViewSelected(false);
     }
   }, [openModal]);
-
-  function addErrors(parsedError: BackendError) {
-    const errorMessages = [];
-    if (parsedError.errors?.name) {
-      errorMessages.push(parsedError.errors.name);
-    }
-    if (parsedError.errors?.description) {
-      errorMessages.push(parsedError.errors.description);
-    }
-    if (parsedError.errors?.meeting_link) {
-      errorMessages.push(parsedError.errors.meeting_link);
-    }
-    if (parsedError.errors?.start_time) {
-      errorMessages.push(parsedError.errors.start_time);
-    }
-    if (parsedError.errors?.end_time) {
-      errorMessages.push(parsedError.errors.end_time);
-    }
-    if (parsedError.errors?.group_id) {
-      errorMessages.push(parsedError.errors.group_id);
-    }
-    return errorMessages;
-  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -306,6 +306,7 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
         handleAttendance={handleAttendance}
         alertProps={alertProps}
         showAttendanceRequest={showAttendance}
+        setAlertProps={setAlertProps}
       />
     ) : (
       <></>

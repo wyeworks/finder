@@ -81,4 +81,19 @@ export class SessionService {
     const body = await response.json();
     return body.message;
   }
+
+  public static async editSession(
+    newData: any,
+    sessionId: number,
+    accessToken: string
+  ) {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/sessions/' + sessionId,
+      method: 'PATCH',
+      data: newData,
+      accessToken,
+    });
+    const body = await response.json();
+    return body.message;
+  }
 }
