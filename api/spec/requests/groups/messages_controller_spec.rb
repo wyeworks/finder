@@ -60,4 +60,72 @@ RSpec.describe 'Groups::MessagesController', type: :request do
       end
     end
   end
+
+  # Update
+  describe 'PUT /groups/:group_id/messages/:id' do
+    let(:new_content) { 'Updated message content' }
+
+    context 'when user is authenticated' do
+      before { headers }
+
+      context 'when user is a member of the group and is the creator of the message' do
+        before do
+          group.members.create(user:, role: 'participant')
+          put group_message_path(group, message), params: { message: { content: new_content } }, headers:
+        end
+
+        it 'updates the message successfully' do
+          expect(response).to have_http_status(:ok)
+          expect(message.reload.content).to eq(new_content)
+        end
+      end
+    end
+
+    context 'when user is not authenticated' do
+      before do
+        put group_message_path(group, message), params: { message: { content: new_content } }
+      end
+
+      it 'does not update the message' do
+        expect(message.reload.content).not_to eq(new_content)
+      end
+
+      it 'returns http unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  # Destroy
+  describe 'DELETE /groups/:group_id/messages/:id' do
+    context 'when user is authenticated' do
+      before { headers }
+
+      context 'when user is a member of the group and is the creator of the message' do
+        before do
+          group.members.create(user:, role: 'participant')
+          delete group_message_path(group, message), headers:
+        end
+
+        it 'deletes the message successfully' do
+          expect(response).to have_http_status(:no_content)
+          expect(Message.exists?(message.id)).to be_falsey
+        end
+      end
+
+      context 'when user is not authenticated' do
+        before do
+          delete group_message_path(group, message)
+        end
+
+        it 'does not delete the message' do
+          expect(Message.exists?(message.id)).to be_truthy
+        end
+
+        it 'returns http unauthorized' do
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+    end
+  end
 end
