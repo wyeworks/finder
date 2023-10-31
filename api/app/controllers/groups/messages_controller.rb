@@ -1,18 +1,17 @@
 module Groups
   class MessagesController < ApplicationController
     before_action :set_group
-    before_action :set_message, only: %i[show update destroy]
-    before_action :ensure_member_access, only: %i[index show create update destroy]
+    before_action :set_message, only: %i[update destroy]
+    before_action :ensure_member_access, only: %i[index create update destroy]
     before_action :ensure_correct_user_or_admin, only: %i[destroy update]
+
     def index
-      messages = @group.messages
+      messages = @group.messages.order(created_at: :desc)
       serialized_messages = messages.map do |message|
         MessageSerializer.new(message).serializable_hash[:data][:attributes]
       end
       render json: serialized_messages
     end
-
-    def show; end
 
     def create
       @message = @group.messages.new(message_params)
@@ -20,7 +19,7 @@ module Groups
       @message.hour = DateTime.now
 
       if @message.save
-        render :show, status: :created
+        render json: MessageSerializer.new(@message).serializable_hash[:data][:attributes], status: :created
       else
         render json: @message.errors, status: :unprocessable_entity
       end
@@ -28,15 +27,24 @@ module Groups
 
     def update
       if @message.update(message_params)
-        render :show, status: :ok
+        render json: MessageSerializer.new(@message).serializable_hash[:data][:attributes], status: :ok
       else
         render json: @message.errors, status: :unprocessable_entity
       end
     end
 
     def destroy
-      @message.destroy
-      head :no_content
+      if @message.destroy
+        Rails.logger.info "Message with ID ##{@message.id} was successfully destroyed."
+        render json: { success: 'El mensaje fue eliminado exitosamente.' }, status: :ok
+      else
+        Rails.logger.error "Failed to destroy Message with ID ##{@message.id}."
+        render json: {
+          errors: {
+            message: ["No se pudo eliminar el mensaje con el ID ##{@message.id}"]
+          }
+        }, status: :unprocessable_entity
+      end
     end
 
     private

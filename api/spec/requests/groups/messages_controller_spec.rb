@@ -108,7 +108,7 @@ RSpec.describe 'Groups::MessagesController', type: :request do
         end
 
         it 'deletes the message successfully' do
-          expect(response).to have_http_status(:no_content)
+          expect(response).to have_http_status(:ok)
           expect(Message.exists?(message.id)).to be_falsey
         end
       end
