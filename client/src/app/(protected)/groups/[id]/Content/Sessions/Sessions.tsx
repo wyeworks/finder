@@ -21,6 +21,7 @@ import { filterExpiredSessions, filterNextSessions } from '@/utils/Filters';
 
 type SessionsProps = {
   group: StudyGroup;
+  fetchGroup?: () => void;
 };
 
 // eslint-disable-next-line no-unused-vars
@@ -42,14 +43,14 @@ export type CreateSessionData = {
   meetLink: string;
 };
 
-export type CreateSessionAlertProps = {
+export type ModalSessionAlertProps = {
   show: boolean;
   message?: string;
   title?: string;
   alertType?: 'error' | 'success';
 };
 
-export default function Sessions({ group }: SessionsProps) {
+export default function Sessions({ group, fetchGroup }: SessionsProps) {
   const { user_ids } = group;
   const groupId = group.id;
   const { data: session } = useSession();
@@ -76,7 +77,7 @@ export default function Sessions({ group }: SessionsProps) {
     description: false,
     meetLink: false,
   });
-  const [alertProps, setAlertProps] = useState<CreateSessionAlertProps>({
+  const [alertProps, setAlertProps] = useState<ModalSessionAlertProps>({
     show: false,
   });
   const [selectedSession, setSelectedSession] = useState<Session>({
@@ -91,6 +92,7 @@ export default function Sessions({ group }: SessionsProps) {
     attendances: [],
   });
   const [createSelected, setCreateSelected] = useState<boolean>(false);
+  const [showAttendance, setShowAttendance] = useState<boolean>(false);
   const [viewSelected, setViewSelected] = useState<boolean>(false);
 
   useEffect(() => {
@@ -166,7 +168,7 @@ export default function Sessions({ group }: SessionsProps) {
 
       setAlertProps({
         show: true,
-        message: 'Sesión creada con éxito!',
+        message: '¡Sesión creada con éxito!',
         alertType: 'success',
       });
       setTimeout(() => {
@@ -193,6 +195,7 @@ export default function Sessions({ group }: SessionsProps) {
         description: false,
         meetLink: false,
       });
+      if (fetchGroup) fetchGroup();
     } catch (error) {
       if (error instanceof NotOkError) {
         const errorMessages = addErrors(error.backendError);
@@ -215,7 +218,7 @@ export default function Sessions({ group }: SessionsProps) {
     }
   };
 
-  const viewSession = async (id: number) => {
+  const viewSession = async (id: number, showAttendance: boolean) => {
     const response = await SessionService.getSession(
       id,
       session?.user.accessToken!
@@ -223,7 +226,57 @@ export default function Sessions({ group }: SessionsProps) {
     if (response) {
       setOpenModal(true);
       setViewSelected(true);
+      setAlertProps({
+        show: false,
+        message: '',
+        title: '',
+        alertType: 'error',
+      });
       setSelectedSession(response);
+      setShowAttendance(showAttendance);
+    }
+  };
+
+  const handleAttendance = async (
+    status: 'accepted' | 'rejected',
+    attendanceId: number
+  ) => {
+    setAlertProps({
+      show: false,
+      message: '',
+      title: '',
+      alertType: 'error',
+    });
+    try {
+      await SessionService.updateAttendance(
+        attendanceId,
+        session?.user.accessToken!,
+        { attendance: { status: status } }
+      );
+      setAlertProps({
+        show: true,
+        message: '¡Tu asistencia se ha marcado con éxito!',
+        alertType: 'success',
+      });
+    } catch (error) {
+      if (error instanceof NotOkError) {
+        const errorMessages = addErrors(error.backendError);
+        const title = error.message ? error.message : 'Error';
+        setAlertProps({
+          show: true,
+          message: errorMessages.join('\n'),
+          title: title,
+          alertType: 'error',
+        });
+        return;
+      }
+      Logger.debug('Error trying to update attendance' + { error });
+      setAlertProps({
+        show: true,
+        message: strings.common.error.unexpectedError,
+        title: 'Error',
+        alertType: 'error',
+      });
     }
   };
 
@@ -248,7 +301,12 @@ export default function Sessions({ group }: SessionsProps) {
         alertProps={alertProps}
       />
     ) : viewSelected ? (
-      <ViewSession session={selectedSession} />
+      <ViewSession
+        sessionGroup={selectedSession}
+        handleAttendance={handleAttendance}
+        alertProps={alertProps}
+        showAttendanceRequest={showAttendance}
+      />
     ) : (
       <></>
     );

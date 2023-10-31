@@ -62,4 +62,23 @@ export class SessionService {
       return null;
     }
   }
+
+  public static async updateAttendance(
+    attendanceId: number | string,
+    accessToken: string,
+    data: {
+      attendance: {
+        status: string;
+      };
+    }
+  ) {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/attendances/' + attendanceId,
+      method: 'PATCH',
+      data,
+      accessToken,
+    });
+    const body = await response.json();
+    return body.message;
+  }
 }
