@@ -19,9 +19,13 @@ import EditIcon from '@/assets/Icons/EditIcon';
 import TrashIcon from '@/assets/Icons/TrashIcon';
 import strings from '@/locales/strings.json';
 import { Attendance } from '@/types/Attendance';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { ModalSessionAlertProps } from './Sessions';
 import Alert from '@/components/common/Alert';
+import React, { useState } from 'react';
+import DelayedConfirmDialog from '@/app/(protected)/users/me/DelayedConfirmDialog';
+import { TrashCanIcon } from '@/assets/Icons/TrashCanIcon';
+import { Logger } from '@/services/Logger';
 
 type ViewSessionProps = {
   sessionGroup: Session;
@@ -42,6 +46,172 @@ function validateUrl(url: string) {
   else return `https://${url}`;
 }
 
+function DatesLayout(props: { sessionGroup: Session }) {
+  return (
+    <>
+      <ClockIcon className='mr-2 mt-2 h-5 w-5' />
+      <div className='mt-1 block items-baseline gap-3'>
+        <h1 className='font-poppins font-semibold text-blackTextColor'>
+          {formatDateToSpanish(props.sessionGroup.start_time)}
+        </h1>
+        <h1 className='font-poppins font-semibold text-blackTextColor'>
+          {formatDateToSpanish(props.sessionGroup.end_time)}
+        </h1>
+      </div>
+    </>
+  );
+}
+
+function AttendancesLayout(props: { sessionGroup: Session }) {
+  return (
+    <div>
+      <p className='mt-2 font-poppins text-grayText'>
+        {formatAttendanceQauntity(props.sessionGroup.attendances)}
+      </p>
+      <div className='mt-2 block'>
+        {props.sessionGroup.attendances.map((attendance) => {
+          return (
+            <div key={attendance.id} className='mb-2 flex'>
+              <div className='relative h-8 min-w-[30px]'>
+                <Image
+                  alt='Avatar'
+                  src={defaultUser}
+                  className='rounded-full bg-slate-400 shadow-sm'
+                  width={30}
+                  height={30}
+                />
+                {attendance.status === 'accepted' && (
+                  <CheckIcon className='absolute bottom-0 left-5  h-3.5 w-3.5 rounded-full border-2 border-white bg-green-200 stroke-2 p-[.9px] font-bold text-green-800' />
+                )}
+                {attendance.status === 'rejected' && (
+                  <CrossIcon className='absolute bottom-0 left-5  h-3.5 w-3.5 rounded-full border-2 border-white bg-red-300 stroke-2 p-[.9px] text-red-600' />
+                )}
+              </div>
+              <p className='ml-3 font-poppins text-inputTextColor'>
+                {attendance.member_name}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function ButtonsLayout(props: { onDelete: () => void }) {
+  return (
+    <>
+      <button className='h-full'>
+        <EditIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
+      </button>
+      <button className='mx-2 h-full' onClick={props.onDelete}>
+        <TrashIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
+      </button>
+    </>
+  );
+}
+
+function DeleteDialogue(props: {
+  open: boolean;
+  setOpen: () => void;
+  onCancel: () => void;
+  onConfirm: () => void;
+}) {
+  return (
+    <>
+      <DelayedConfirmDialog
+        open={props.open}
+        setOpen={props.setOpen}
+        description={strings.form.deleteUser.confirmDialogDescription}
+        title={strings.form.deleteUser.confirmDialogTitle}
+        onCancel={props.onCancel}
+        onConfirm={props.onConfirm}
+        confirmText={strings.form.deleteUser.confirmDialogConfirmButtonText}
+        cancelText={strings.form.deleteUser.confirmDialogCancelButtonText}
+        delayDuration={5}
+        confirmColor={'blue'}
+        icon={<TrashCanIcon width={30} height={30} />}
+      />
+    </>
+  );
+}
+
+function AttendanceRequestLayout(props: {
+  sessionGroup: Session;
+  handleAttendance?: (
+    // eslint-disable-next-line no-unused-vars
+    status: 'accepted' | 'rejected',
+    // eslint-disable-next-line no-unused-vars
+    attendanceId: number
+  ) => void;
+}) {
+  const { data: session } = useSession();
+
+  const getOwnAttendance = (attendances: Attendance[]) => {
+    return attendances.find(
+      (attendance) => attendance.user_id === Number(session!.user?.id)
+    )?.id;
+  };
+
+  return (
+    <div className='-mb-2 flex items-center border-t border-t-gray-300 pt-1'>
+      <h1 className='font-poppins'>{strings.viewSession.inviteQuestion}</h1>
+      <div className='flex w-full justify-end'>
+        <Button
+          text='Si'
+          type='button'
+          Icon={<CheckIcon className='mr-2 h-5 w-5 shrink-0 text-green-600' />}
+          onClick={() => {
+            const attendanceId = getOwnAttendance(
+              props.sessionGroup.attendances
+            );
+            if (attendanceId) {
+              props.handleAttendance?.('accepted', attendanceId);
+            }
+          }}
+          classNameWrapper='p-1'
+          className='h-8 items-center border-[1.5px]  border-green-600 !bg-transparent !font-medium !text-green-600 hover:!bg-gray-200 '
+        />
+        <Button
+          text='No'
+          type='button'
+          Icon={<CrossIcon className='mr-1 h-5 w-5 shrink-0 text-red-600' />}
+          classNameWrapper='p-1 w-auto'
+          className=' h-8 items-center border-[1.5px]  border-red-600 !bg-transparent !font-medium !text-red-600 hover:!bg-gray-200'
+          onClick={() => {
+            const attendanceId = getOwnAttendance(
+              props.sessionGroup.attendances
+            );
+            if (attendanceId) {
+              props.handleAttendance?.('rejected', attendanceId);
+            }
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function MeetingLink(props: { link: string | null }) {
+  return (
+    <>
+      {props.link ? (
+        <a
+          className='mt-1 font-poppins text-blue-700 hover:underline'
+          href={validateUrl(props.link ?? '')}
+          target='_blank'
+        >
+          {props.link}
+        </a>
+      ) : (
+        <p className='mt-1 font-poppins text-grayText'>
+          {strings.viewSession.noMeetLink}
+        </p>
+      )}
+    </>
+  );
+}
+
 export default function ViewSession({
   sessionGroup,
   handleAttendance,
@@ -50,16 +220,45 @@ export default function ViewSession({
   isAdmin = false,
 }: ViewSessionProps) {
   const { data: session } = useSession();
+
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState<'success' | 'error'>('success');
+  const [open, setOpen] = useState(false);
+
   const showOptions = () => {
     return (
       Number(session?.user?.id) === sessionGroup.creator_user_id || isAdmin
     );
   };
-  const getOwnAttendance = (attendances: Attendance[]) => {
-    return attendances.find(
-      (attendance) => attendance.user_id === Number(session?.user?.id)
-    )?.id;
-  };
+
+  function handleCancelDelete() {
+    Logger.debug('Cancel');
+    setOpen(false);
+  }
+
+  async function handleConfirm() {
+    Logger.debug('Confirm');
+    setOpen(false);
+
+    try {
+      // await UserService.deleteUser(user.id, user.accessToken);
+
+      setIsAlertVisible(true);
+      setAlertMessage('Sesión eliminado');
+      setAlertType('success');
+
+      setTimeout(() => {
+        signOut().catch((error) => Logger.error(error));
+      }, 1000);
+    } catch (error: any) {
+      Logger.error(error);
+      setIsAlertVisible(true);
+      setAlertMessage('No se pudo eliminar la sesión');
+      setAlertType('error');
+    }
+  }
+
   return (
     <div>
       <div
@@ -71,25 +270,15 @@ export default function ViewSession({
             {sessionGroup.name}
           </h1>
           {showOptions() && (
-            <>
-              <button className='h-full'>
-                <EditIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
-              </button>
-              <button className='mx-2 h-full'>
-                <TrashIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
-              </button>
-            </>
+            <ButtonsLayout
+              onDelete={() => {
+                setIsAlertVisible(false);
+                setOpen(true);
+              }}
+            />
           )}
         </div>
-        <ClockIcon className='mr-2 mt-2 h-5 w-5' />
-        <div className='mt-1 block items-baseline gap-3'>
-          <h1 className='font-poppins font-semibold text-blackTextColor'>
-            {formatDateToSpanish(sessionGroup.start_time)}
-          </h1>
-          <h1 className='font-poppins font-semibold text-blackTextColor'>
-            {formatDateToSpanish(sessionGroup.end_time)}
-          </h1>
-        </div>
+        <DatesLayout sessionGroup={sessionGroup} />
         <LocationIcon className='mr-2 mt-2 h-5 w-5' />
         <h1
           className={
@@ -110,88 +299,15 @@ export default function ViewSession({
             : sessionGroup.description}
         </p>
         <LinkIcon className='mr-2 mt-2 h-5 w-5' />
-        {!sessionGroup.meeting_link ? (
-          <p className='mt-1 font-poppins text-grayText'>
-            {strings.viewSession.noMeetLink}
-          </p>
-        ) : (
-          <a
-            className='mt-1 font-poppins text-blue-700 hover:underline'
-            href={validateUrl(sessionGroup.meeting_link ?? '')}
-            target='_blank'
-          >
-            {sessionGroup.meeting_link}
-          </a>
-        )}
+        <MeetingLink link={sessionGroup.meeting_link} />
         <GroupSizeIcon className='mr-2 mt-2 h-5 w-5 text-grayText' />
-        <div>
-          <p className='mt-2 font-poppins text-grayText'>
-            {formatAttendanceQauntity(sessionGroup.attendances)}
-          </p>
-          <div className='mt-2 block'>
-            {sessionGroup.attendances.map((attendance) => {
-              return (
-                <div key={attendance.id} className='mb-2 flex'>
-                  <div className='relative h-8 min-w-[30px]'>
-                    <Image
-                      alt='Avatar'
-                      src={defaultUser}
-                      className='rounded-full bg-slate-400 shadow-sm'
-                      width={30}
-                      height={30}
-                    />
-                    {attendance.status === 'accepted' && (
-                      <CheckIcon className='absolute bottom-0 left-5  h-3.5 w-3.5 rounded-full border-2 border-white bg-green-200 stroke-2 p-[.9px] font-bold text-green-800' />
-                    )}
-                    {attendance.status === 'rejected' && (
-                      <CrossIcon className='absolute bottom-0 left-5  h-3.5 w-3.5 rounded-full border-2 border-white bg-red-300 stroke-2 p-[.9px] text-red-600' />
-                    )}
-                  </div>
-                  <p className='ml-3 font-poppins text-inputTextColor'>
-                    {attendance.member_name}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <AttendancesLayout sessionGroup={sessionGroup} />
       </div>
       {showAttendanceRequest && (
-        <div className='-mb-2 flex items-center border-t border-t-gray-300 pt-1'>
-          <h1 className='font-poppins'>{strings.viewSession.inviteQuestion}</h1>
-          <div className='flex w-full justify-end'>
-            <Button
-              text='Si'
-              type='button'
-              Icon={
-                <CheckIcon className='mr-2 h-5 w-5 shrink-0 text-green-600' />
-              }
-              onClick={() => {
-                const attendanceId = getOwnAttendance(sessionGroup.attendances);
-                if (attendanceId) {
-                  handleAttendance?.('accepted', attendanceId);
-                }
-              }}
-              classNameWrapper='p-1'
-              className='h-8 items-center border-[1.5px]  border-green-600 !bg-transparent !font-medium !text-green-600 hover:!bg-gray-200 '
-            />
-            <Button
-              text='No'
-              type='button'
-              Icon={
-                <CrossIcon className='mr-1 h-5 w-5 shrink-0 text-red-600' />
-              }
-              classNameWrapper='p-1 w-auto'
-              className=' h-8 items-center border-[1.5px]  border-red-600 !bg-transparent !font-medium !text-red-600 hover:!bg-gray-200'
-              onClick={() => {
-                const attendanceId = getOwnAttendance(sessionGroup.attendances);
-                if (attendanceId) {
-                  handleAttendance?.('rejected', attendanceId);
-                }
-              }}
-            />
-          </div>
-        </div>
+        <AttendanceRequestLayout
+          sessionGroup={sessionGroup}
+          handleAttendance={handleAttendance}
+        />
       )}
       <div className='mt-3'>
         <Alert
@@ -202,6 +318,20 @@ export default function ViewSession({
           withTitle={Boolean(alertProps.title)}
         />
       </div>
+      {open && (
+        <DeleteDialogue
+          open={open}
+          setOpen={() => setOpen(true)}
+          onCancel={handleCancelDelete}
+          onConfirm={handleConfirm}
+        />
+      )}
+      <Alert
+        isVisible={isAlertVisible}
+        message={alertMessage}
+        alertType={alertType}
+        title={'Eliminar Sesion'}
+      />
     </div>
   );
 }
