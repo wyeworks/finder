@@ -46,6 +46,27 @@ RSpec.describe 'Groups::MessagesController', type: :request do
       end
     end
 
+    context 'when user is authenticated and message creation fails' do
+      before do
+        group.members.create(user:, role: 'participant')
+        headers
+        post group_messages_path(group), params: { message: { content: '' } }, headers:
+      end
+
+      it 'does not create a new message' do
+        expect(Message.count).to eq(0)
+      end
+
+      it 'returns unprocessable entity status' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns the error messages' do
+        error_response = response.parsed_body
+        expect(error_response).to have_key('content')
+      end
+    end
+
     context 'when user is not authenticated' do
       before do
         post group_messages_path(group), params: { message: { content: 'Test message content' } }
@@ -116,15 +137,19 @@ RSpec.describe 'Groups::MessagesController', type: :request do
     context 'when user is authenticated' do
       before { headers }
 
-      context 'when user is a member of the group and is the creator of the message' do
+      context 'when update fails' do
         before do
           group.members.create(user:, role: 'participant')
+          allow_any_instance_of(Message).to receive(:update).and_return(false)
           put group_message_path(group, message), params: { message: { content: new_content } }, headers:
         end
 
-        it 'updates the message successfully' do
-          expect(response).to have_http_status(:ok)
-          expect(message.reload.content).to eq(new_content)
+        it 'returns unprocessable entity status' do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'returns the error messages' do
+          expect(response.parsed_body['errors']).to have_key('message')
         end
       end
     end
@@ -140,6 +165,46 @@ RSpec.describe 'Groups::MessagesController', type: :request do
 
       it 'returns http unauthorized' do
         expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  # set_gorup
+  describe 'GET /groups/:group_id/messages' do
+    context 'when group does not exist' do
+      before do
+        get group_messages_path(group_id: -1), headers:
+      end
+
+      it 'returns not found status' do
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'returns an error message' do
+        expect(response.parsed_body['errors']['group']).to include('No se pudo encontrar el grupo con el ID #-1')
+      end
+    end
+  end
+
+  # ensure_correct_user_or_admin
+
+  describe 'PUT /groups/:group_id/messages/:id' do
+    let(:new_content) { 'Updated message content' } # Define new_content here
+
+    let(:other_user) { create :user }
+    let(:other_headers) do
+      post user_session_path, params: { user: { email: other_user.email, password: other_user.password } }
+      { 'Authorization' => response.headers['Authorization'] }
+    end
+
+    context 'when user is not the creator of the message nor an admin' do
+      before do
+        group.members.create(user: other_user, role: 'participant')
+        put group_message_path(group, message), params: { message: { content: new_content } }, headers: other_headers
+      end
+
+      it 'does not update the message' do
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end
@@ -161,18 +226,38 @@ RSpec.describe 'Groups::MessagesController', type: :request do
         end
       end
 
-      context 'when user is not authenticated' do
+      context 'when destruction fails' do
         before do
-          delete group_message_path(group, message)
+          group.members.create(user:, role: 'participant')
+          allow_any_instance_of(Message).to receive(:destroy).and_return(false)
+          allow(Rails.logger).to receive(:error)
+          delete group_message_path(group, message), headers:
         end
 
-        it 'does not delete the message' do
-          expect(Message.exists?(message.id)).to be_truthy
+        it 'logs an error' do
+          expect(Rails.logger).to have_received(:error).with("Failed to destroy Message with ID ##{message.id}.")
         end
 
-        it 'returns http unauthorized' do
-          expect(response).to have_http_status(:unauthorized)
+        it 'returns unprocessable entity status' do
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['errors']['message']).to include(
+            "No se pudo eliminar el mensaje con el ID ##{message.id}"
+          )
         end
+      end
+    end
+
+    context 'when user is not authenticated' do
+      before do
+        delete group_message_path(group, message)
+      end
+
+      it 'does not delete the message' do
+        expect(Message.exists?(message.id)).to be_truthy
+      end
+
+      it 'returns http unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end

@@ -24,6 +24,7 @@ module Groups
       if @message.save
         render json: MessageSerializer.new(@message).serializable_hash[:data][:attributes], status: :created
       else
+        Rails.logger.error "Failed to create Message: #{@message.errors.full_messages.join(', ')}"
         render json: @message.errors, status: :unprocessable_entity
       end
     end
@@ -32,7 +33,13 @@ module Groups
       if @message.update(message_params)
         render json: MessageSerializer.new(@message).serializable_hash[:data][:attributes], status: :ok
       else
-        render json: @message.errors, status: :unprocessable_entity
+        Rails.logger.error 'Failed to update Message with ID ' \
+                           "##{@message.id}: #{@message.errors.full_messages.join(', ')}"
+        render json: {
+          errors: {
+            message: @message.errors.full_messages
+          }
+        }, status: :unprocessable_entity
       end
     end
 
