@@ -15,7 +15,15 @@ export default function NextSessions({
     <div data-testid='next-session'>
       {sessions.map((session, index) => {
         return (
-          <div key={index} onClick={() => viewSession(session?.id, true)}>
+          <div
+            key={index}
+            onClick={() => viewSession(session?.id, true)}
+            className={`${index === 0 ? 'overflow-hidden rounded-t-md' : ''} ${
+              index === sessions.length - 1
+                ? 'overflow-hidden rounded-b-md'
+                : ''
+            } border border-solid border-gray-200`}
+          >
             <CardSession session={session} isHistory={true} />
           </div>
         );
