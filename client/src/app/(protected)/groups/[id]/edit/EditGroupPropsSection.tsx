@@ -15,6 +15,7 @@ import { useSession } from 'next-auth/react';
 import { GroupService } from '@/services/GroupService';
 import { Logger } from '@/services/Logger';
 import EditableTimePreferences from '@/components/common/EditableTimePreferences';
+import TextArea from '@/components/common/TextArea';
 
 //export enum TimeOfDay {
 //   Morning = 'Morning',
@@ -147,8 +148,8 @@ export default function EditGroupPropsSection({
     setTouched({ ...touched, name: true });
   }
 
-  function handleDescriptionChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setGroupData({ ...groupData, description: event.target.value });
+  function handleDescriptionChange(value: string) {
+    setGroupData({ ...groupData, description: value });
     setTouched({ ...touched, description: true });
   }
 
@@ -229,7 +230,7 @@ export default function EditGroupPropsSection({
         value={groupData.name}
         onChange={handleNameChange}
         touched={touched.name}
-        classNameInput='bg-backgroundInput max-w-sm'
+        classNameInput='bg-backgroundInput w-full'
         maxLength={40}
       />
       <SearchDropdown
@@ -240,17 +241,17 @@ export default function EditGroupPropsSection({
         initialValue={''}
         onChange={handleSubjectIdChange}
       />
-      <Input
-        type={'text'}
+      <TextArea
         id={'description'}
         name={'description'}
         label={'Descripción'}
         placeholder={'Ingresa una descripción'}
         required={false}
         value={groupData.description}
-        onChange={handleDescriptionChange}
+        onChange={(e) => handleDescriptionChange(e.target.value)}
         touched={touched.description}
-        classNameInput='bg-backgroundInput max-w-sm'
+        className='w-full resize-none bg-backgroundInput'
+        maxWidth={false}
         maxLength={200}
       />
 

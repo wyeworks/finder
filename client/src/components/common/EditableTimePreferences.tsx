@@ -22,14 +22,14 @@ export default function EditableTimePreferences({
   // eslint-disable-next-line no-unused-vars
   onTimePreferenceForDayChange: (day: string, value: string) => void;
 }) {
-  const initialValues = initialTimePreferences ?? {
-    Lunes: TimeOfDay.NoPreferences,
-    Martes: TimeOfDay.NoPreferences,
-    Miércoles: TimeOfDay.NoPreferences,
-    Jueves: TimeOfDay.NoPreferences,
-    Viernes: TimeOfDay.NoPreferences,
-    Sábado: TimeOfDay.NoPreferences,
-    Domingo: TimeOfDay.NoPreferences,
+  const initialValues = {
+    Lunes: initialTimePreferences?.Monday ?? TimeOfDay.NoPreferences,
+    Martes: initialTimePreferences?.Tuesday ?? TimeOfDay.NoPreferences,
+    Miércoles: initialTimePreferences?.Wednesday ?? TimeOfDay.NoPreferences,
+    Jueves: initialTimePreferences?.Thursday ?? TimeOfDay.NoPreferences,
+    Viernes: initialTimePreferences?.Friday ?? TimeOfDay.NoPreferences,
+    Sábado: initialTimePreferences?.Saturday ?? TimeOfDay.NoPreferences,
+    Domingo: initialTimePreferences?.Sunday ?? TimeOfDay.NoPreferences,
   };
 
   const entries = Object.entries(initialValues);

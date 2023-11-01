@@ -34,7 +34,7 @@ export function ConfigProfileSection({
         {sectionTitle}
       </p>
       <form
-        className='grid gap-5 rounded-lg border border-gray-200 bg-white pl-7 pr-7 pt-2'
+        className='grid w-full gap-5 rounded-lg border border-gray-200 bg-white pl-7 pr-7 pt-2'
         onSubmit={handleSubmit}
         noValidate
       >
