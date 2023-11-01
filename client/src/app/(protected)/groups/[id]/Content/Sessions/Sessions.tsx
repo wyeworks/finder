@@ -319,6 +319,10 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
         alertProps={alertProps}
         showAttendanceRequest={showAttendance}
         isAdmin={isAdminGroup}
+        close={() => {
+          setOpenModal(false);
+          fetchGroup!();
+        }}
       />
     ) : (
       <></>

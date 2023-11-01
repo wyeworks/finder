@@ -19,7 +19,7 @@ import EditIcon from '@/assets/Icons/EditIcon';
 import TrashIcon from '@/assets/Icons/TrashIcon';
 import strings from '@/locales/strings.json';
 import { Attendance } from '@/types/Attendance';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { ModalSessionAlertProps } from './Sessions';
 import Alert from '@/components/common/Alert';
 import React, { useState } from 'react';
@@ -40,6 +40,7 @@ type ViewSessionProps = {
   alertProps: ModalSessionAlertProps;
   showAttendanceRequest?: boolean;
   isAdmin?: boolean;
+  close?: () => void;
 };
 
 function validateUrl(url: string) {
@@ -198,6 +199,7 @@ export default function ViewSession({
   alertProps,
   showAttendanceRequest = true,
   isAdmin = false,
+  close = () => {},
 }: ViewSessionProps) {
   const { data: session } = useSession();
 
@@ -228,12 +230,9 @@ export default function ViewSession({
       );
 
       setIsAlertVisible(true);
-      setAlertMessage('Sesión eliminado');
+      setAlertMessage('Sesión eliminada');
       setAlertType('success');
-
-      setTimeout(() => {
-        signOut().catch((error) => Logger.error(error));
-      }, 1000);
+      close!();
     } catch (error: any) {
       Logger.error(error);
       setIsAlertVisible(true);
