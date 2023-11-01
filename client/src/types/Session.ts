@@ -10,4 +10,6 @@ export type Session = {
   end_time: string;
   group_id: number;
   attendances: Attendance[];
+  creator_id: number;
+  creator_user_id: number;
 };
