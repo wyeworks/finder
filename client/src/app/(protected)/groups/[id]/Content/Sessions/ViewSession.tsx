@@ -304,12 +304,12 @@ export default function ViewSession({
       <DelayedConfirmDialog
         open={open}
         setOpen={setOpen}
-        description={strings.form.deleteUser.confirmDialogDescription}
-        title={strings.form.deleteUser.confirmDialogTitle}
+        description={strings.form.deleteSession.confirmDialogDescription}
+        title={strings.form.deleteSession.confirmDialogTitle}
         onCancel={handleCancelDelete}
         onConfirm={handleConfirm}
-        confirmText={strings.form.deleteUser.confirmDialogConfirmButtonText}
-        cancelText={strings.form.deleteUser.confirmDialogCancelButtonText}
+        confirmText={strings.form.deleteSession.confirmDialogConfirmButtonText}
+        cancelText={strings.form.deleteSession.confirmDialogCancelButtonText}
         delayDuration={5}
         confirmColor={'blue'}
         icon={<TrashCanIcon width={30} height={30} />}
