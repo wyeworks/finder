@@ -111,31 +111,6 @@ function ButtonsLayout(props: { onDelete: () => void }) {
   );
 }
 
-function DeleteDialogue(props: {
-  open: boolean;
-  setOpen: () => void;
-  onCancel: () => void;
-  onConfirm: () => void;
-}) {
-  return (
-    <>
-      <DelayedConfirmDialog
-        open={props.open}
-        setOpen={props.setOpen}
-        description={strings.form.deleteUser.confirmDialogDescription}
-        title={strings.form.deleteUser.confirmDialogTitle}
-        onCancel={props.onCancel}
-        onConfirm={props.onConfirm}
-        confirmText={strings.form.deleteUser.confirmDialogConfirmButtonText}
-        cancelText={strings.form.deleteUser.confirmDialogCancelButtonText}
-        delayDuration={5}
-        confirmColor={'blue'}
-        icon={<TrashCanIcon width={30} height={30} />}
-      />
-    </>
-  );
-}
-
 function AttendanceRequestLayout(props: {
   sessionGroup: Session;
   handleAttendance?: (
@@ -233,8 +208,8 @@ export default function ViewSession({
   };
 
   function handleCancelDelete() {
-    Logger.debug('Cancel');
     setOpen(false);
+    Logger.debug('Cancel');
   }
 
   async function handleConfirm() {
@@ -318,14 +293,19 @@ export default function ViewSession({
           withTitle={Boolean(alertProps.title)}
         />
       </div>
-      {open && (
-        <DeleteDialogue
-          open={open}
-          setOpen={() => setOpen(true)}
-          onCancel={handleCancelDelete}
-          onConfirm={handleConfirm}
-        />
-      )}
+      <DelayedConfirmDialog
+        open={open}
+        setOpen={setOpen}
+        description={strings.form.deleteUser.confirmDialogDescription}
+        title={strings.form.deleteUser.confirmDialogTitle}
+        onCancel={handleCancelDelete}
+        onConfirm={handleConfirm}
+        confirmText={strings.form.deleteUser.confirmDialogConfirmButtonText}
+        cancelText={strings.form.deleteUser.confirmDialogCancelButtonText}
+        delayDuration={5}
+        confirmColor={'blue'}
+        icon={<TrashCanIcon width={30} height={30} />}
+      />
       <Alert
         isVisible={isAlertVisible}
         message={alertMessage}
