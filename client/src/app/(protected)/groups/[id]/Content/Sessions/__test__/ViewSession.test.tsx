@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import ViewSession from '../ViewSession';
 import { Session } from '@/types/Session';
 import {
@@ -8,6 +8,7 @@ import {
 import strings from '@/locales/strings.json';
 import { SessionProvider } from 'next-auth/react';
 import { ModalSessionAlertProps } from '../Sessions';
+import userEvent from '@testing-library/user-event';
 
 describe('ViewSession', () => {
   const session: Session = {
@@ -143,6 +144,23 @@ describe('ViewSession', () => {
     ).toBeInTheDocument();
     session.attendances.forEach((attendance) => {
       expect(screen.getByText(attendance.member_name)).toBeInTheDocument();
+    });
+  });
+  it('renders modal when the delete session button gets pressed', async () => {
+    const { getByRole } = render(
+      <SessionProvider
+        session={{ user: { id: '1', name: 'test' }, expires: '11' }}
+      >
+        <ViewSession sessionGroup={session} alertProps={alertProps} />
+      </SessionProvider>
+    );
+
+    const deleteButton = screen.getByTestId('delete-session-button');
+
+    await act(() => userEvent.click(deleteButton));
+
+    await waitFor(() => {
+      expect(getByRole('dialog')).toBeInTheDocument();
     });
   });
 });

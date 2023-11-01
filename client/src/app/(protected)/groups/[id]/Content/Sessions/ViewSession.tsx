@@ -104,7 +104,11 @@ function ButtonsLayout(props: { onDelete: () => void }) {
       <button className='h-full'>
         <EditIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
       </button>
-      <button className='mx-2 h-full' onClick={props.onDelete}>
+      <button
+        className='mx-2 h-full'
+        onClick={props.onDelete}
+        data-testid={'delete-session-button'}
+      >
         <TrashIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
       </button>
     </>
