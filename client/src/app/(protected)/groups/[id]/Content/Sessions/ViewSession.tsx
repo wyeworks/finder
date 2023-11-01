@@ -26,6 +26,7 @@ import React, { useState } from 'react';
 import DelayedConfirmDialog from '@/app/(protected)/users/me/DelayedConfirmDialog';
 import { TrashCanIcon } from '@/assets/Icons/TrashCanIcon';
 import { Logger } from '@/services/Logger';
+import { SessionService } from '@/services/SessionsService';
 
 type ViewSessionProps = {
   sessionGroup: Session;
@@ -221,7 +222,10 @@ export default function ViewSession({
     setOpen(false);
 
     try {
-      // await UserService.deleteUser(user.id, user.accessToken);
+      await SessionService.deleteSession(
+        sessionGroup.id,
+        session?.user?.accessToken!
+      );
 
       setIsAlertVisible(true);
       setAlertMessage('Sesión eliminado');

@@ -81,4 +81,12 @@ export class SessionService {
     const body = await response.json();
     return body.message;
   }
+
+  public static async deleteSession(sessionId: number, accessToken: string) {
+    await ApiCommunicator.commonFetch({
+      url: '/sessions/' + sessionId,
+      method: 'DELETE',
+      accessToken,
+    });
+  }
 }
