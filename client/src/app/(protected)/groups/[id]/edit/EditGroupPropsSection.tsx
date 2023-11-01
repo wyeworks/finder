@@ -7,13 +7,14 @@ import React, { useEffect, useState } from 'react';
 import { alertTypes } from '@/components/common/Alert';
 import strings from '@/locales/strings.json';
 import Input from '@/components/common/Input';
-import { parseSubjectToOption } from '@/utils/Formatter';
+import { parseSubjectToOption, translateSpanishDays } from '@/utils/Formatter';
 import SearchDropdown from '@/components/common/SearchDropDown';
 import { Subject } from '@/types/Subject';
 import { SubjectService } from '@/services/SubjectService';
 import { useSession } from 'next-auth/react';
 import { GroupService } from '@/services/GroupService';
 import { Logger } from '@/services/Logger';
+import EditableTimePreferences from '@/components/common/EditableTimePreferences';
 
 //export enum TimeOfDay {
 //   Morning = 'Morning',
@@ -162,18 +163,13 @@ export default function EditGroupPropsSection({
     setTouched({ ...touched, subject_id: true });
   }
 
-  // function handleTimePreferencesChange(
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) {
-  //   setGroupData({
-  //     ...groupData,
-  //     time_preferences: {
-  //       ...groupData.time_preferences,
-  //       [event.target.name]: event.target.value,
-  //     },
-  //   });
-  //   setTouched({ ...touched, time_preferences: true });
-  // }
+  function handleTimePreferencesChange(day: string, value: string) {
+    const newTimePreferences = { ...groupData.time_preferences };
+    // @ts-ignore
+    newTimePreferences[translateSpanishDays[day]] = value;
+    setGroupData({ ...groupData, time_preferences: newTimePreferences });
+    setTouched({ ...touched, time_preferences: true });
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -256,6 +252,11 @@ export default function EditGroupPropsSection({
         touched={touched.description}
         classNameInput='bg-backgroundInput max-w-sm'
         maxLength={200}
+      />
+
+      <EditableTimePreferences
+        initialTimePreferences={groupData.time_preferences}
+        onTimePreferenceForDayChange={handleTimePreferencesChange}
       />
     </ConfigProfileSection>
   );

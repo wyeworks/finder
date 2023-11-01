@@ -11,6 +11,7 @@ type DropdownProps = {
   maxWidth?: boolean;
   // eslint-disable-next-line no-unused-vars
   onSelect?: (value: string) => void;
+  initialValue?: string;
 };
 
 export default function Dropdown({
@@ -18,10 +19,11 @@ export default function Dropdown({
   label,
   options,
   onSelect,
+  initialValue,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string>(
-    options[0].label ?? 'Seleccione un valor...'
+    options[0].label ?? initialValue ?? 'Seleccione un valor...'
   );
 
   const handleOptionClick = (value: string, key: string) => {
