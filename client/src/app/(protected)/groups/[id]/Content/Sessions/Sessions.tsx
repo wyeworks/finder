@@ -351,6 +351,7 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
               onClick={() => {
                 setCreateSelected(true);
                 setOpenModal(true);
+                setAlertProps({ show: false });
               }}
             />
           </div>
