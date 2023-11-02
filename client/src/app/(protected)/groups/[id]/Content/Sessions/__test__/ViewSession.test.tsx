@@ -8,6 +8,9 @@ import {
 import strings from '@/locales/strings.json';
 import { SessionProvider } from 'next-auth/react';
 import { ModalSessionAlertProps } from '../Sessions';
+import userEvent from '@testing-library/user-event';
+
+jest.mock('../../../../../../../services/Logger');
 
 describe('ViewSession', () => {
   const session: Session = {
@@ -56,7 +59,13 @@ describe('ViewSession', () => {
       <SessionProvider
         session={{ user: { id: '1', name: 'test' }, expires: '11' }}
       >
-        <ViewSession sessionGroup={session} alertProps={alertProps} />
+        <ViewSession
+          sessionGroup={session}
+          alertProps={alertProps}
+          setAlertProps={jest.fn()}
+          refetchSession={jest.fn()}
+          setOpenModal={jest.fn()}
+        />
       </SessionProvider>
     );
     expect(screen.getByText('Session Name')).toBeInTheDocument();
@@ -119,6 +128,9 @@ describe('ViewSession', () => {
         <ViewSession
           sessionGroup={emptyValuesSession}
           alertProps={alertProps}
+          setAlertProps={jest.fn()}
+          refetchSession={jest.fn()}
+          setOpenModal={jest.fn()}
         />
       </SessionProvider>
     );
@@ -144,5 +156,34 @@ describe('ViewSession', () => {
     session.attendances.forEach((attendance) => {
       expect(screen.getByText(attendance.member_name)).toBeInTheDocument();
     });
+  });
+
+  it('should toggle edit mode and submit form', async () => {
+    const refetchSession = jest.fn();
+    const setOpenModal = jest.fn();
+    render(
+      <SessionProvider
+        session={{ user: { id: '1', name: 'test' }, expires: '11' }}
+      >
+        <ViewSession
+          sessionGroup={session}
+          alertProps={alertProps}
+          setAlertProps={jest.fn()}
+          refetchSession={refetchSession}
+          setOpenModal={setOpenModal}
+        />
+      </SessionProvider>
+    );
+
+    const editButton = screen.getByTestId('edit-button');
+    await userEvent.click(editButton);
+
+    expect(screen.getByTestId('name')).toBeInTheDocument();
+
+    screen.getByTestId('name').focus();
+    await userEvent.paste('Updated Test Session');
+
+    const saveButton = screen.getByText('Guardar');
+    await userEvent.click(saveButton);
   });
 });

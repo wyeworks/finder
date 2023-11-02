@@ -39,6 +39,12 @@ es:
               inclusion: "El rol utilizado no es una opción válida"
             user:
               required: "El miembro debe estar asociado a un usuario"
+        message:
+          attributes:
+            content:
+              blank: "El contenido del mensaje no puede ser vacío"
+            hour:
+              blank: "La hora del mensaje no puede ser vacía"
         request:
           attributes:
             user:

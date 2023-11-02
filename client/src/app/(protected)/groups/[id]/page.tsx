@@ -26,6 +26,7 @@ export default function Group({ params }: Props) {
   const [group, setGroup] = useState<StudyGroup>();
   const [user, setUser] = useState<User>();
   const [subject, setSubject] = useState<Subject>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchGroup = useCallback(async () => {
     try {
@@ -44,7 +45,9 @@ export default function Group({ params }: Props) {
       setGroup(groupData);
       setUser(userData);
       setSubject(subjectData);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       Logger.debug('Error trying get group, subject or user' + { error });
     }
   }, [params.id, session]);
@@ -52,6 +55,21 @@ export default function Group({ params }: Props) {
   useEffect(() => {
     fetchGroup();
   }, [fetchGroup]);
+
+  if (isLoading) {
+    return (
+      <div className='flex h-full flex-col items-center justify-center'>
+        <Image
+          src='/loading_groups.png'
+          alt='Banner'
+          width={100}
+          height={100}
+          className='animate-bounce object-cover'
+        />
+        <p className='mt-4'>Cargando grupo...</p>
+      </div>
+    );
+  }
 
   if (!group || !user || !subject) {
     return (

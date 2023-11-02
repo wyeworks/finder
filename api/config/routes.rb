@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     resources :requests, only: [:create, :index, :update], module: :groups do
       get 'users/:user_id', to: 'requests#show_for_user', on: :collection
     end
+    resources :messages, module: :groups, except: :show
   end
   resources :members, only: [:update, :destroy]
   resources :sessions, only: [:create, :show, :update, :destroy]
