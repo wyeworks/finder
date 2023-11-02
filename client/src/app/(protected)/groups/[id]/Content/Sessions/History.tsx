@@ -3,10 +3,12 @@ import CardSession from './CardSession';
 
 type HistoryProps = {
   sessions: Session[];
-  // eslint-disable-next-line no-unused-vars
   viewSession: (
+    // eslint-disable-next-line no-unused-vars
     id: number,
+    // eslint-disable-next-line no-unused-vars
     showAttendance: boolean,
+    // eslint-disable-next-line no-unused-vars
     isHistorial: boolean
   ) => void;
 };
