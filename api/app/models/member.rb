@@ -19,6 +19,14 @@ class Member < ApplicationRecord
     update!(role: 'admin')
   end
 
+  def admin?
+    role == 'admin'
+  end
+
+  def participant?
+    role == 'participant'
+  end
+
   private
 
   def assign_new_session_creator

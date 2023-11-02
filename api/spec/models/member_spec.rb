@@ -69,4 +69,28 @@ RSpec.describe Member, type: :model do
       end
     end
   end
+
+  describe '#admin?' do
+    it 'returns true if the member has the role "admin"' do
+      member = build(:member, role: 'admin')
+      expect(member.admin?).to be(true)
+    end
+
+    it 'returns false if the member does not have the role "admin"' do
+      member = build(:member, role: 'participant')
+      expect(member.admin?).to be(false)
+    end
+  end
+
+  describe '#participant?' do
+    it 'returns true if the member has the role "participant"' do
+      member = build(:member, role: 'participant')
+      expect(member.participant?).to be(true)
+    end
+
+    it 'returns false if the member does not have the role "participant"' do
+      member = build(:member, role: 'admin')
+      expect(member.participant?).to be(false)
+    end
+  end
 end
