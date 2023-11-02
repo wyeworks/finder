@@ -47,6 +47,7 @@ export default function FormStep4({
       </div>
       <EditableTimePreferences
         onTimePreferenceForDayChange={setTimePreference}
+        paddingAroundSelectors={2}
       />
       <Button
         text={strings.form.nextButton.text}

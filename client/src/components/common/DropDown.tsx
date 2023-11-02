@@ -8,10 +8,11 @@ type DropdownProps = {
   options: Option[];
   required?: boolean;
   validateText?: string;
-  maxWidth?: boolean;
   // eslint-disable-next-line no-unused-vars
   onSelect?: (value: string) => void;
   initialValue?: string;
+  maxWidth?: boolean;
+  paddingTB?: number;
 };
 
 export default function Dropdown({
@@ -20,6 +21,8 @@ export default function Dropdown({
   options,
   onSelect,
   initialValue,
+  maxWidth = true,
+  paddingTB = 3,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string>(
@@ -33,7 +36,9 @@ export default function Dropdown({
   };
 
   return (
-    <div className='my-3 max-w-sm justify-center'>
+    <div
+      className={`${maxWidth && 'max-w-sm'} justify-center my-${paddingTB} `}
+    >
       {label && (
         <label
           htmlFor={id}

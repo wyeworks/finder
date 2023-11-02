@@ -18,8 +18,8 @@ type DropdownProps = {
   // eslint-disable-next-line no-unused-vars
   onChange?: (value: string) => void;
   disableText?: string;
-  marginTopAndBottom?: number;
   className?: string;
+  classNameAll?: string;
 };
 
 export default function SearchDropdown({
@@ -32,8 +32,9 @@ export default function SearchDropdown({
   disableOption,
   onChange,
   disableText = '',
-  marginTopAndBottom = 3,
   className,
+  classNameAll = 'my-3',
+  maxWidth = true,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string>(
@@ -70,7 +71,7 @@ export default function SearchDropdown({
   }
 
   return (
-    <div className={`max-w-sm justify-center my-${marginTopAndBottom}`}>
+    <div className={`${maxWidth && 'max-w-sm'} justify-center ${classNameAll}`}>
       {label && (
         <label
           htmlFor={id}

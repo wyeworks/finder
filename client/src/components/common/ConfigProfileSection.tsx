@@ -13,6 +13,7 @@ export function ConfigProfileSection({
   alertMessage,
   alertType,
   alertTitle = '',
+  padding = 'pl-7 pr-7',
   children,
 }: {
   sectionTitle: string;
@@ -25,6 +26,7 @@ export function ConfigProfileSection({
   isAlertVisible: boolean;
   alertMessage: string;
   alertType: alertTypes;
+  padding?: string;
   children: React.ReactNode;
   alertTitle?: string;
 }) {
@@ -34,7 +36,7 @@ export function ConfigProfileSection({
         {sectionTitle}
       </p>
       <form
-        className='grid w-full gap-5 rounded-lg border border-gray-200 bg-white pl-7 pr-7 pt-2'
+        className={`flex w-full flex-col gap-3 rounded-lg border border-gray-200 bg-white md:mx-0 ${padding} pt-2`}
         onSubmit={handleSubmit}
         noValidate
       >

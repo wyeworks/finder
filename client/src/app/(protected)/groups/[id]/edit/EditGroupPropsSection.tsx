@@ -209,6 +209,8 @@ export default function EditGroupPropsSection({
     }
   }
 
+  const paddingRL = 'mx-7';
+
   return (
     <ConfigProfileSection
       sectionTitle={'Información general'}
@@ -219,6 +221,7 @@ export default function EditGroupPropsSection({
       alertMessage={alertMessage}
       alertType={alertType}
       alertTitle={alertTitle}
+      padding={''}
     >
       <Input
         type='text'
@@ -231,16 +234,27 @@ export default function EditGroupPropsSection({
         onChange={handleNameChange}
         touched={touched.name}
         classNameInput='bg-backgroundInput w-full'
+        classNameAll={paddingRL}
         maxLength={40}
       />
-      <SearchDropdown
-        id='dropdown'
-        options={parseSubjectToOption(subjects)}
-        required={true}
-        placeholder={groupData.subject_name}
-        initialValue={''}
-        onChange={handleSubjectIdChange}
-      />
+      <div className={`${paddingRL} my-1`}>
+        <label
+          htmlFor='dropdown'
+          className='flex-1 font-poppins text-sm font-medium leading-6 text-blackTextColor'
+        >
+          Materia
+        </label>
+        <SearchDropdown
+          id='dropdown'
+          options={parseSubjectToOption(subjects)}
+          required={true}
+          placeholder={groupData.subject_name}
+          initialValue={''}
+          maxWidth={false}
+          onChange={handleSubjectIdChange}
+          classNameAll={'my-1'}
+        />
+      </div>
       <TextArea
         id={'description'}
         name={'description'}
@@ -251,13 +265,21 @@ export default function EditGroupPropsSection({
         onChange={(e) => handleDescriptionChange(e.target.value)}
         touched={touched.description}
         className='w-full resize-none bg-backgroundInput'
+        classNameAll={paddingRL}
         maxWidth={false}
         maxLength={200}
       />
-
+      <div className='flex w-full justify-center bg-gray-100'>
+        <h4 className='text-bg-primaryBlue font-poppins text-2xl font-medium'>
+          Preferencia horaria
+        </h4>
+      </div>
       <EditableTimePreferences
         initialTimePreferences={groupData.time_preferences}
         onTimePreferenceForDayChange={handleTimePreferencesChange}
+        className={paddingRL}
+        paddingAroundSelectors={0}
+        maxWidth={false}
       />
     </ConfigProfileSection>
   );

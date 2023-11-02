@@ -180,4 +180,13 @@ export class GroupService {
       accessToken,
     });
   }
+
+  // eslint-disable-next-line no-unused-vars
+  public static async deleteGroup(groupId: number, accessToken: string) {
+    // await ApiCommunicator.commonFetch({
+    //   url: `/groups/${groupId}`,
+    //   method: 'DELETE',
+    //   accessToken,
+    // });
+  }
 }

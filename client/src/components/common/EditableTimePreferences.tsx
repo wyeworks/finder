@@ -14,28 +14,38 @@ const preferences: Option[] = [
   { key: TimeOfDay.Night, label: translatePreference(TimeOfDay.Night) },
 ];
 
+function buildInitialValues(timePreferences?: TimePreference) {
+  return {
+    Lunes: timePreferences?.Monday ?? TimeOfDay.NoPreferences,
+    Martes: timePreferences?.Tuesday ?? TimeOfDay.NoPreferences,
+    Miércoles: timePreferences?.Wednesday ?? TimeOfDay.NoPreferences,
+    Jueves: timePreferences?.Thursday ?? TimeOfDay.NoPreferences,
+    Viernes: timePreferences?.Friday ?? TimeOfDay.NoPreferences,
+    Sábado: timePreferences?.Saturday ?? TimeOfDay.NoPreferences,
+    Domingo: timePreferences?.Sunday ?? TimeOfDay.NoPreferences,
+  };
+}
+
 export default function EditableTimePreferences({
   initialTimePreferences,
   onTimePreferenceForDayChange,
+  paddingAroundSelectors,
+  maxWidth = true,
+  className = 'my-3',
 }: {
   initialTimePreferences?: TimePreference;
   // eslint-disable-next-line no-unused-vars
   onTimePreferenceForDayChange: (day: string, value: string) => void;
+  paddingAroundSelectors?: number;
+  maxWidth?: boolean;
+  className?: string;
 }) {
-  const initialValues = {
-    Lunes: initialTimePreferences?.Monday ?? TimeOfDay.NoPreferences,
-    Martes: initialTimePreferences?.Tuesday ?? TimeOfDay.NoPreferences,
-    Miércoles: initialTimePreferences?.Wednesday ?? TimeOfDay.NoPreferences,
-    Jueves: initialTimePreferences?.Thursday ?? TimeOfDay.NoPreferences,
-    Viernes: initialTimePreferences?.Friday ?? TimeOfDay.NoPreferences,
-    Sábado: initialTimePreferences?.Saturday ?? TimeOfDay.NoPreferences,
-    Domingo: initialTimePreferences?.Sunday ?? TimeOfDay.NoPreferences,
-  };
+  const initialValues = buildInitialValues(initialTimePreferences);
 
   const entries = Object.entries(initialValues);
 
   return (
-    <div className='my-3'>
+    <div className={`${maxWidth && 'max-w-sm'} ${className}`}>
       {entries.map((entry, index) => {
         const day = entry[0];
         const value = entry[1];
@@ -52,7 +62,10 @@ export default function EditableTimePreferences({
               label={day}
               onSelect={handleTime}
               initialValue={translatePreference(value)}
+              paddingTB={paddingAroundSelectors}
+              maxWidth={maxWidth}
             />
+            <div className='h-4' />
           </div>
         );
       })}
