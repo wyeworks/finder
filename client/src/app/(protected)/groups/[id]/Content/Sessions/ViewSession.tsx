@@ -23,7 +23,13 @@ import { Attendance } from '@/types/Attendance';
 import { useSession } from 'next-auth/react';
 import { ModalSessionAlertProps, addErrors } from './Sessions';
 import Alert from '@/components/common/Alert';
-import { ReactNode, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import Input from '@/components/common/Input';
 import { validateHour } from '@/utils/validations';
 import { SessionService } from '@/services/SessionsService';
@@ -32,7 +38,6 @@ import { NotOkError } from '@/types/NotOkError';
 
 type ViewSessionProps = {
   sessionGroup: Session;
-  // eslint-disable-next-line no-unused-vars
   handleAttendance?: (
     // eslint-disable-next-line no-unused-vars
     status: 'accepted' | 'rejected',
@@ -41,8 +46,11 @@ type ViewSessionProps = {
   ) => void;
   alertProps: ModalSessionAlertProps;
   showAttendanceRequest?: boolean;
-  setAlertProps?: any;
-  fetchGroup?: any;
+  setAlertProps: Dispatch<SetStateAction<ModalSessionAlertProps>>;
+  // eslint-disable-next-line no-unused-vars
+  refetchSession: (id: number, showAttendance: boolean) => Promise<void>;
+  isAdmin?: boolean;
+  setOpenModal: Dispatch<SetStateAction<boolean>>;
 };
 
 function validateUrl(url: string) {
@@ -56,6 +64,9 @@ export default function ViewSession({
   alertProps,
   showAttendanceRequest = true,
   setAlertProps,
+  isAdmin = false,
+  refetchSession,
+  setOpenModal,
 }: ViewSessionProps) {
   const { data: session } = useSession();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
@@ -71,6 +82,10 @@ export default function ViewSession({
     location: sessionGroup.location,
     metLink: sessionGroup.meeting_link,
   });
+
+  useEffect(() => {
+    setAlertProps({ show: false });
+  }, [setAlertProps]);
 
   useEffect(() => {
     setEditData({
@@ -95,11 +110,32 @@ export default function ViewSession({
     startHour,
   ]);
 
-  function getOwnAttendance(attendances: Attendance[]) {
+  const renderOptions = () => {
+    const isShowOption =
+      Number(session?.user?.id) === sessionGroup.creator_user_id || isAdmin;
+    if (isShowOption) {
+      return (
+        <>
+          <button
+            className='h-full'
+            onClick={() => setIsEditMode(!isEditMode)}
+            type='button'
+            data-testid='edit-button'
+          >
+            <EditIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
+          </button>
+          <button className='mx-2 h-full' type='button'>
+            <TrashIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
+          </button>
+        </>
+      );
+    }
+  };
+  const getOwnAttendance = (attendances: Attendance[]) => {
     return attendances.find(
       (attendance) => attendance.user_id === Number(session?.user?.id)
     )?.id;
-  }
+  };
 
   function handleEditMode(renderEditMode: ReactNode, notEditMode: ReactNode) {
     if (isEditMode) {
@@ -151,6 +187,8 @@ export default function ViewSession({
       );
       setIsEditMode(false);
       setAlertProps({ show: false });
+      setOpenModal(false);
+      refetchSession(sessionGroup.id, true);
     } catch (error) {
       Logger.debug('Error trying to edit session', { error });
       let errorMessages: any[] = [];
@@ -261,20 +299,12 @@ export default function ViewSession({
                 required
                 touched={true}
                 validateText={strings.createSession.form.validateText.default}
+                data-testid='name'
               />,
               <span>{sessionGroup.name}</span>
             )}
           </h1>
-          <button
-            className='h-full'
-            onClick={() => setIsEditMode(!isEditMode)}
-            type='button'
-          >
-            <EditIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
-          </button>
-          <button className='mx-2 h-full' type='button'>
-            <TrashIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
-          </button>
+          {renderOptions()}
         </div>
         <>
           <ClockIcon className='mr-2 mt-2 h-5 w-5' />

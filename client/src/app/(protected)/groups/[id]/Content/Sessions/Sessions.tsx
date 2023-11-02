@@ -74,10 +74,11 @@ export function addErrors(parsedError: BackendError) {
 }
 
 export default function Sessions({ group, fetchGroup }: SessionsProps) {
-  const { user_ids } = group;
+  const { user_ids, admin_ids } = group;
   const groupId = group.id;
   const { data: session } = useSession();
   const [isMemberGroup, setIsMemberGroup] = useState<boolean>(false);
+  const [isAdminGroup, setIsAdminGroup] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [tab, setTab] = useState<typeTabs>(typeTabs.NEXT);
   const [formData, setFormData] = useState<CreateSessionData>({
@@ -113,6 +114,8 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
     end_time: '',
     group_id: 0,
     attendances: [],
+    creator_id: 0,
+    creator_user_id: 0,
   });
   const [createSelected, setCreateSelected] = useState<boolean>(false);
   const [showAttendance, setShowAttendance] = useState<boolean>(false);
@@ -122,8 +125,13 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
     const isMember = user_ids?.some(
       (userGroup) => session?.user.id && userGroup === Number(session?.user.id)
     );
+    const isAdmin = admin_ids?.some(
+      (adminGroup) =>
+        session?.user.id && adminGroup === Number(session?.user.id)
+    );
+    setIsAdminGroup(isAdmin ?? false);
     setIsMemberGroup(isMember ?? false);
-  }, [session?.user.id, user_ids]);
+  }, [admin_ids, session?.user.id, user_ids]);
 
   useEffect(() => {
     if (!openModal) {
@@ -165,7 +173,6 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
         },
         session?.user.accessToken!
       );
-
       setAlertProps({
         show: true,
         message: '¡Sesión creada con éxito!',
@@ -226,14 +233,9 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
     if (response) {
       setOpenModal(true);
       setViewSelected(true);
-      setAlertProps({
-        show: false,
-        message: '',
-        title: '',
-        alertType: 'error',
-      });
       setSelectedSession(response);
       setShowAttendance(showAttendance);
+      if (fetchGroup) fetchGroup();
     }
   };
 
@@ -258,6 +260,7 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
         message: '¡Tu asistencia se ha marcado con éxito!',
         alertType: 'success',
       });
+      viewSession(selectedSession.id, showAttendance);
     } catch (error) {
       if (error instanceof NotOkError) {
         const errorMessages = addErrors(error.backendError);
@@ -307,6 +310,9 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
         alertProps={alertProps}
         showAttendanceRequest={showAttendance}
         setAlertProps={setAlertProps}
+        isAdmin={isAdminGroup}
+        refetchSession={viewSession}
+        setOpenModal={setOpenModal}
       />
     ) : (
       <></>
@@ -317,19 +323,19 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
     <>
       <div className='grid grid-rows-[130px,auto,auto] sm:grid-rows-[90px,auto,auto]'>
         <div className='flex flex-auto gap-7 '>
-          <div className='flex flex-col justify-start gap-3 sm:flex-row'>
+          <div className='flex w-[50%] flex-col justify-start gap-3 sm:flex-row'>
             <Button
               text='Próximas sesiones'
-              classNameWrapper='sm:p-4'
-              className={`h-8 items-center border border-gray-300 bg-white text-lg !text-primaryBlue hover:bg-gray-300   ${
+              classNameWrapper='sm:py-4'
+              className={`h-11 items-center border border-gray-300 bg-white !text-primaryBlue hover:!bg-gray-300 md:text-xl ${
                 tab === typeTabs.NEXT && '!bg-gray-200'
               }`}
               onClick={() => setTab(typeTabs.NEXT)}
             />
             <Button
               text='Historial'
-              classNameWrapper='sm:p-4'
-              className={`h-8 items-center border border-gray-300 bg-white text-lg !text-primaryBlue hover:bg-gray-300   ${
+              classNameWrapper='sm:py-4'
+              className={`h-11 items-center border border-gray-300 bg-white !text-primaryBlue hover:!bg-gray-300 md:text-xl   ${
                 tab === typeTabs.HISTORY && '!bg-gray-200'
               }`}
               onClick={() => setTab(typeTabs.HISTORY)}
@@ -339,9 +345,9 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
             <Button
               text='Crear sesión'
               Icon={<PlusIcon className='h-5 w-5' />}
-              classNameWrapper='sm:p-4'
+              classNameWrapper='sm:p-4 sm:pr-0'
               spaceBetween={8}
-              className=' h-8 items-center  bg-primaryBlue hover:bg-hoverPrimaryBlue'
+              className=' h-11 items-center  bg-primaryBlue hover:bg-hoverPrimaryBlue'
               onClick={() => {
                 setCreateSelected(true);
                 setOpenModal(true);
