@@ -4,7 +4,7 @@ class User < ApplicationRecord
          jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null
 
   # Constants
-  PASSWORD_REGEX = /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-._]).{8,}$/
+  PASSWORD_REGEX = /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-._])/
 
   # Associations
   has_many :members, dependent: :destroy
@@ -23,7 +23,6 @@ class User < ApplicationRecord
     return if password.blank? || password =~ PASSWORD_REGEX
 
     errors.add :password, 'No se cumplen los requerimientos de complejidad de la contraseña. ' \
-                          'Por favor utilizar: 1 mayúscula, 1 minúscula, 1 dígito y un carácter especial ' \
-                          'y al menos 8 caracteres'
+                          'Por favor utilizar: 1 mayúscula, 1 minúscula, 1 dígito y un carácter especial.'
   end
 end
