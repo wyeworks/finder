@@ -4,7 +4,11 @@ import CardSession from './CardSession';
 type HistoryProps = {
   sessions: Session[];
   // eslint-disable-next-line no-unused-vars
-  viewSession: (id: number, showAttendance: boolean) => void;
+  viewSession: (
+    id: number,
+    showAttendance: boolean,
+    isHistorial: boolean
+  ) => void;
 };
 
 export default function History({ sessions, viewSession }: HistoryProps) {
@@ -14,7 +18,7 @@ export default function History({ sessions, viewSession }: HistoryProps) {
         return (
           <div
             key={index}
-            onClick={() => viewSession(session?.id, false)}
+            onClick={() => viewSession(session?.id, false, true)}
             className={`${index === 0 ? 'overflow-hidden rounded-t-md' : ''} ${
               index === sessions.length - 1
                 ? 'overflow-hidden rounded-b-md'
