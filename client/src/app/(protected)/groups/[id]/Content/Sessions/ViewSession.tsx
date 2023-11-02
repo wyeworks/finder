@@ -115,7 +115,6 @@ export default function ViewSession({
   const renderOptions = () => {
     const isShowOption =
       Number(session?.user?.id) === sessionGroup.creator_user_id || isAdmin;
-    console.log({ isHistorial });
 
     if (isShowOption) {
       return (
