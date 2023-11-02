@@ -199,7 +199,7 @@
         "default": "No puede ser vacío",
         "title": "La sesion debe tener título",
         "hourFormat": "formato válido: hh:mm",
-        "meetLink": "Debe ser un link válido",
+        "meetLink": "Debe ser un link válido, ejemplo http://meet.com",
         "date": "Fecha inválida"
       },
       "submitText": "Guardar",
