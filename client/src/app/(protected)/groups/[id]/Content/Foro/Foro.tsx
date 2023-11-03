@@ -23,6 +23,9 @@ export default function Foro({ group }: ForoProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [actualMessage, setActualMessage] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
+  const isMemberGroup = group.user_ids?.some(
+    (user) => session?.user.id === user.toString()
+  );
   const getMessages = useCallback(async () => {
     try {
       const messages = await GroupService.getMessages(
@@ -54,8 +57,18 @@ export default function Foro({ group }: ForoProps) {
   };
 
   useEffect(() => {
-    getMessages();
-  }, [getMessages]);
+    if (isMemberGroup) {
+      getMessages();
+    }
+  }, [getMessages, isMemberGroup]);
+
+  if (!isMemberGroup) {
+    return (
+      <div className='border border-solid bg-white p-10 text-center'>
+        Solo los miembros del grupo pueden participar del foro
+      </div>
+    );
+  }
 
   return (
     <div className='mb-4'>

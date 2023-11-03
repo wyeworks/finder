@@ -36,7 +36,7 @@ const sections: Section[] = [
   {
     name: 'Solicitudes',
     icon: <UserPlusIcon className='mr-2 h-5 w-5' />,
-    content: () => <RequestJoinGroup />,
+    content: (group: StudyGroup) => <RequestJoinGroup group={group} />,
   },
 ];
 
