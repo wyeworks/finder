@@ -119,10 +119,10 @@ function GroupsFound({
   return (
     <div className='flex basis-5/6 flex-col md:justify-start'>
       {/* Button to toggle MobileFilters (Visible only on mobile) */}
-      <div className='px-4 py-2 md:hidden'>
+      <div className='mx-4 my-2 rounded-lg border md:hidden'>
         <button
           onClick={() => onSetIsMobileFiltersOpen(true)}
-          className='flex w-full items-center justify-center border-b border-t bg-white px-4 py-4'
+          className='flex w-full items-center justify-center bg-transparent px-4 py-4'
         >
           {/* Added border-t and border-b */}
           <FilterIcon className='mr-2 h-5 w-5' />
