@@ -3,6 +3,7 @@ import { Logger } from '@/services/Logger';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Member } from '@/types/Member';
 import { SearchGroup } from '@/app/(protected)/groups/page';
+import { Message } from '@/types/Message';
 
 export class GroupService {
   public static async getById(
@@ -17,6 +18,7 @@ export class GroupService {
     return await response.json();
   }
 
+  // eslint-disable-next-line complexity
   public static async getAll(
     accessToken: string,
     searchParams: SearchGroup | null
@@ -28,7 +30,7 @@ export class GroupService {
       queryString += parameterKey + '=' + parameterValue;
     }
 
-    if (searchParams) {
+    function handleAddParameter(searchParams: SearchGroup) {
       if (searchParams.name && searchParams.name.length > 0)
         addParameter('name', searchParams.name);
       if (searchParams.subject)
@@ -37,6 +39,10 @@ export class GroupService {
         addParameter('time_preferences', searchParams.timeOfDay.join(','));
       if (searchParams.isMyGroup)
         addParameter('my_groups', searchParams.isMyGroup);
+    }
+
+    if (searchParams) {
+      handleAddParameter(searchParams);
     }
     const response = await ApiCommunicator.commonFetch({
       url: `/groups${queryString.length > 0 ? '?' + queryString : ''}`,
@@ -145,5 +151,35 @@ export class GroupService {
       method: 'DELETE',
       accessToken,
     });
+  }
+
+  public static async sendMessage(
+    data: {
+      content: string | null;
+    },
+    accessToken: string,
+    gorupId: number
+  ): Promise<string> {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/groups/' + gorupId + '/messages',
+      method: 'POST',
+      data,
+      accessToken,
+    });
+    const body = await response.json();
+    return body.id;
+  }
+
+  public static async getMessages(
+    id: number,
+    accessToken: string
+  ): Promise<Message[]> {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/groups/' + id + '/messages',
+      method: 'GET',
+      accessToken,
+    });
+    const body = await response.json();
+    return body;
   }
 }

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import Sessions from '../Sessions';
 import { SessionProvider } from 'next-auth/react';
 import userEvent from '@testing-library/user-event';
@@ -63,5 +63,23 @@ describe('Session Component', () => {
     expect(
       screen.getByText('Debes ser un miembro para ver las sesiones del grupo.')
     ).toBeInTheDocument();
+  });
+
+  // test WIP
+  it.skip('should handle form submission error', async () => {
+    renderSessions();
+
+    // Click in Create session button
+    userEvent.click(screen.getByText('Crear sesión'));
+
+    // fill form to create session (Required fields: title, start and end time )
+
+    // send form
+    await userEvent.click(screen.getByText('Crear'));
+
+    // waiting to error
+    await waitFor(() => {
+      expect(screen.queryByText('Error')).toBeInTheDocument();
+    });
   });
 });

@@ -161,3 +161,8 @@ export function formatAttendanceQauntity(attendances: Attendance[]) {
   }
   return yes + ' si, ' + no + ' no, ' + pending + ' pendientes';
 }
+
+export function getHour(date: string) {
+  const hours = date.split('T')[1].replace('Z', '').split(':');
+  return `${hours[0]}:${hours[1]}`;
+}

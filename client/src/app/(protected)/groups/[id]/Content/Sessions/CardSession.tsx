@@ -23,7 +23,7 @@ export default function CardSession({
   const { name, location, start_time, attendances, end_time } = session;
 
   return (
-    <div className='grid cursor-pointer grid-rows-3 gap-3 border border-solid border-gray-200 bg-white p-4 hover:bg-gray-100'>
+    <div className='grid cursor-pointer grid-rows-3 gap-3 bg-white p-4 hover:bg-gray-100'>
       <div className='flex justify-between gap-5 font-poppins font-bold text-primaryBlue '>
         {isHistory && formatDateToSpanish(start_time)}
         {!isHistory && formatDateToSpanishWithEndTime(start_time, end_time)}

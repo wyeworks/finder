@@ -73,7 +73,7 @@ export default function RequestJoinGroup() {
 
   if (!forbiddenData) {
     return (
-      <div className='border border-solid p-10 text-center'>
+      <div className='border border-solid bg-white p-10 text-center'>
         Solo los administradores del grupo pueden ver las solicitudes
       </div>
     );
@@ -81,7 +81,7 @@ export default function RequestJoinGroup() {
 
   if (requestUsers.length === 0) {
     return (
-      <div className='border border-solid p-10 text-center'>
+      <div className='border border-solid bg-white p-10 text-center'>
         No hay solicitudes
       </div>
     );
@@ -92,7 +92,7 @@ export default function RequestJoinGroup() {
       className='grid grid-rows-[60px,auto]'
       data-testid='request-join-group-component'
     >
-      <div className='max-w-[100%] border border-solid border-gray-200 sm:max-w-none'>
+      <div className='max-w-[100%] border border-solid border-gray-200 bg-white sm:max-w-none'>
         <Input
           id='filter-input-request'
           name='filter-input-request'
