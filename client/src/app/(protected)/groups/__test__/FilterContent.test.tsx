@@ -56,7 +56,6 @@ describe('FiltersContent Component', () => {
   });
 
   it('updates time preference when checkboxes are clicked', async () => {
-    // Assuming 'morning' is a value your component handles and has a corresponding checkbox.
     const morningCheckbox = screen.getByLabelText('Mañana');
 
     // Click the checkbox to select 'morning'.
@@ -85,7 +84,6 @@ describe('FiltersContent Component', () => {
   });
 
   it('updates name input field and calls onSearchParametersChange with new name', async () => {
-    // Find the input for the group name.
     const nameInput = screen.getByTestId('name');
 
     // Type a new name into the input field.
@@ -103,7 +101,6 @@ describe('FiltersContent Component', () => {
   });
 
   it('calls onSearchParametersChange with the new subject when a subject is selected', async () => {
-    // Assuming your dropdown component calls the onChange with the subject's ID as a string
     const subjectDropdown = screen.getByTestId('dropdown');
     userEvent.click(subjectDropdown);
 
