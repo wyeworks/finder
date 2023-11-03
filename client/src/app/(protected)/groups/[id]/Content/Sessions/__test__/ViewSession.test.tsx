@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import ViewSession from '../ViewSession';
 import { Session } from '@/types/Session';
 import {
@@ -185,5 +185,29 @@ describe('ViewSession', () => {
 
     const saveButton = screen.getByText('Guardar');
     await userEvent.click(saveButton);
+  });
+
+  it('renders modal when the delete session button gets pressed', async () => {
+    const { getByRole } = render(
+      <SessionProvider
+        session={{ user: { id: '1', name: 'test' }, expires: '11' }}
+      >
+        <ViewSession
+          sessionGroup={session}
+          alertProps={alertProps}
+          setAlertProps={jest.fn()}
+          refetchSession={jest.fn()}
+          setOpenModal={jest.fn()}
+        />
+      </SessionProvider>
+    );
+
+    const deleteButton = screen.getByTestId('delete-session-button');
+
+    await act(() => userEvent.click(deleteButton));
+
+    await waitFor(() => {
+      expect(getByRole('dialog')).toBeInTheDocument();
+    });
   });
 });
