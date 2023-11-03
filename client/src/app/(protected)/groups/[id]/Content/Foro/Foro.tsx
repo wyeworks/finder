@@ -38,7 +38,7 @@ export default function Foro({ group }: ForoProps) {
   const sendMessage = async () => {
     try {
       await GroupService.sendMessage(
-        { content: null },
+        { content: actualMessage },
         session?.user.accessToken!,
         id!
       );

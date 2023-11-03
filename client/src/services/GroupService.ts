@@ -155,7 +155,7 @@ export class GroupService {
 
   public static async sendMessage(
     data: {
-      content: string | null;
+      content: string;
     },
     accessToken: string,
     gorupId: number
