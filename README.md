@@ -106,6 +106,13 @@ $ bundle exec rails db:setup
 This last command does: `db:create db:schema:load db:seed`.
 Last one, `db:seed` is the one that populates the database will `subjects` and `careers` data from a seed file.
 
+Another option would be to run:
+
+```
+$ cd finder/api
+$ bundle exec rails db:create db:migrate db:seed
+```
+
 ### Start App Locally
 
 Run `api` (BE) and `client` (FE) separately.
