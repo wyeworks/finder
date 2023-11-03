@@ -319,7 +319,6 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
         isAdmin={isAdminGroup}
         refetchSession={viewSession}
         setOpenModal={setOpenModal}
-
         close={() => {
           setOpenModal(false);
           fetchGroup!();
