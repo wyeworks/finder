@@ -6,9 +6,6 @@ import { ConfigLayout } from '@/components/common/ConfigLayout';
 import EditGroupPropsSection from '@/app/(protected)/groups/[id]/edit/EditGroupPropsSection';
 import DeleteGroupSection from '@/app/(protected)/groups/[id]/edit/DeleteGroupSection';
 
-//The url for this page is /groups/[id]/edit
-//we need to check taht the user in this session is the admin of the group
-//So we check if it is a member and has the admin role
 export default async function EditGroup({
   params,
 }: {
@@ -20,7 +17,7 @@ export default async function EditGroup({
       params.id,
       session?.user.accessToken!
     );
-    const isAdmin = GroupService.isAdmin(
+    const isAdmin = await GroupService.isAdmin(
       params.id,
       session?.user.id!,
       session?.user.accessToken!
