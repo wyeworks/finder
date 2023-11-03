@@ -73,6 +73,15 @@
       "confirmDialogConfirmButtonText": "Eliminar perfil",
       "confirmDialogCancelButtonText": "Cancelar"
     },
+    "deleteSession": {
+      "title": "Eliminar sesión",
+      "confirmButtonText": "Eliminar sesión",
+      "deleteExplanation": "Si eliminas la sesión, se eliminarán todos los datos vinculados a la misma. Esta acción no se puede deshacer.",
+      "confirmDialogDescription": "¿Estás seguro que deseas eliminar la sesión? Esta acción no se puede deshacer.",
+      "confirmDialogTitle": "Eliminar sesión",
+      "confirmDialogConfirmButtonText": "Eliminar sesión",
+      "confirmDialogCancelButtonText": "Cancelar"
+    },
     "descriptionGroupInput": {
       "placeholder": "Descripción de <materia>",
       "validateText": "Ingresa una descripción de grupo"

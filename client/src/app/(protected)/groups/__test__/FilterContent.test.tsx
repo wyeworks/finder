@@ -55,35 +55,64 @@ describe('FiltersContent Component', () => {
     });
   });
 
-  it('updates time preference checkboxes', () => {
+  it('updates time preference when checkboxes are clicked', async () => {
     const morningCheckbox = screen.getByLabelText('Mañana');
-    const afternoonCheckbox = screen.getByLabelText('Tarde');
-    // Check morning
-    userEvent.click(morningCheckbox);
-    waitFor(() => {
-      expect(mockOnSearchParametersChange).toHaveBeenCalledWith({
-        ...mockSearchParameters,
-        timeOfDay: ['morning'],
-      });
-    });
 
-    // Check afternoon
-    userEvent.click(afternoonCheckbox);
-
-    waitFor(() => {
-      expect(mockOnSearchParametersChange).toHaveBeenCalledWith({
-        ...mockSearchParameters,
-        timeOfDay: ['morning', 'afternoon'],
-      });
-    });
-
-    // Uncheck morning
+    // Click the checkbox to select 'morning'.
     userEvent.click(morningCheckbox);
 
-    waitFor(() => {
+    // We expect `onSearchParametersChange` to be called with 'morning' included in the time preferences.
+    await waitFor(() => {
+      expect(mockOnSearchParametersChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          timeOfDay: expect.arrayContaining(['morning']),
+        })
+      );
+    });
+
+    // Now click the checkbox again to unselect 'morning'.
+    userEvent.click(morningCheckbox);
+
+    // We expect `onSearchParametersChange` to be called with 'morning' removed from the time preferences.
+    await waitFor(() => {
+      expect(mockOnSearchParametersChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          timeOfDay: expect.not.arrayContaining(['morning']),
+        })
+      );
+    });
+  });
+
+  it('updates name input field and calls onSearchParametersChange with new name', async () => {
+    const nameInput = screen.getByTestId('name');
+
+    // Type a new name into the input field.
+    userEvent.clear(nameInput);
+    userEvent.type(nameInput, 'Study Group Alpha');
+
+    // Assert that onSearchParametersChange has been called with the new name.
+    await waitFor(() => {
+      expect(mockOnSearchParametersChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: 'Study Group Alpha',
+        })
+      );
+    });
+  });
+
+  it('calls onSearchParametersChange with the new subject when a subject is selected', async () => {
+    const subjectDropdown = screen.getByTestId('dropdown');
+    userEvent.click(subjectDropdown);
+
+    // Wait for options to be visible if they are dynamically rendered
+    const option = await screen.findByText('Math (MATH101)');
+    userEvent.click(option);
+
+    await waitFor(() => {
       expect(mockOnSearchParametersChange).toHaveBeenCalledWith({
         ...mockSearchParameters,
-        timeOfDay: ['afternoon'],
+        subject: 1,
+        name: '',
       });
     });
   });
