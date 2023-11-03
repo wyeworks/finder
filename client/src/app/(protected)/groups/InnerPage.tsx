@@ -63,7 +63,7 @@ export default function InnerPage() {
   const totalPages = Math.ceil(groups.length / itemsPerPage);
 
   return (
-    <div className='flex h-full flex-row justify-center md:mx-80'>
+    <div className='flex h-full flex-row justify-center'>
       <div className='flex h-full md:basis-1/6'>
         {/* Mobile Filters (Visible only on mobile) */}
         <div className='md:hidden'>
@@ -134,12 +134,12 @@ function GroupsFound({
         {!isLoading && !noGroupsFound && (
           <>
             <div className='flex w-full items-center justify-center'>
-              <ul className='grid w-full grid-cols-1 gap-4 overflow-auto px-4 py-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+              <ul className='grid w-full grid-cols-1 gap-4 overflow-auto px-4 py-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:pr-48 xl:grid-cols-4 '>
                 {groups.map((group) => (
                   <GroupCard
                     key={group.id}
                     group={group}
-                    className='h-full w-full max-w-[444px]'
+                    className='h-full w-full max-w-[350px]'
                   />
                 ))}
               </ul>
@@ -154,7 +154,7 @@ function GroupsFound({
           </>
         )}
         {(isLoading || noGroupsFound) && (
-          <div className='mx-auto flex h-full w-full flex-col items-center justify-center'>
+          <div className='fixed left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center'>
             {isLoading && (
               <>
                 <Image
