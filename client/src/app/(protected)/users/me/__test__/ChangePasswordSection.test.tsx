@@ -73,7 +73,7 @@ describe('<ChangePasswordSection />', () => {
     );
   });
 
-  it('handles API error and displays appropriate error alert', async () => {
+  it("throws invalid password error if password doesn't meet requirements", async () => {
     const { getByText, queryByRole, getByLabelText } = render(
       <ChangePasswordSection user={mockUser} />
     );
@@ -84,11 +84,13 @@ describe('<ChangePasswordSection />', () => {
     );
     fireEvent.change(
       getByLabelText(strings.form.cambiarPassword.newPasswordLabel),
-      { target: { value: 'NewPassword123!' } }
+      { target: { value: 'newpassword' } }
     );
     fireEvent.click(getByText(strings.form.cambiarPassword.confirmButtonText));
 
     await waitFor(() => expect(queryByRole('alert')).toBeInTheDocument());
-    expect(queryByRole('alert')).toHaveTextContent('Algo salió mal');
+    expect(queryByRole('alert')).toHaveTextContent(
+      'Por favor completa el campo correctamente'
+    );
   });
 });
