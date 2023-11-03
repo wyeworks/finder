@@ -188,7 +188,7 @@ describe('ViewSession', () => {
   });
 
   it('renders modal when the delete session button gets pressed', async () => {
-    render(
+    const { getByRole } = render(
       <SessionProvider
         session={{ user: { id: '1', name: 'test' }, expires: '11' }}
       >
@@ -207,7 +207,7 @@ describe('ViewSession', () => {
     await act(() => userEvent.click(deleteButton));
 
     await waitFor(() => {
-      expect(screen.getByTestId('modal-dialog')).toBeInTheDocument();
+      expect(getByRole('dialog')).toBeInTheDocument();
     });
   });
 });
