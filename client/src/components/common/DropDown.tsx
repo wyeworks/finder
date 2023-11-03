@@ -26,7 +26,7 @@ export default function Dropdown({
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string>(
-    options[0].label ?? initialValue ?? 'Seleccione un valor...'
+    initialValue ?? options[0].label ?? 'Seleccione un valor...'
   );
 
   const handleOptionClick = (value: string, key: string) => {

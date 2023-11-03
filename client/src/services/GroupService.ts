@@ -54,18 +54,16 @@ export class GroupService {
   }
 
   public static async update(
-    // eslint-disable-next-line no-unused-vars
     group: StudyGroup,
-    // eslint-disable-next-line no-unused-vars
     accessToken: string
   ): Promise<void> {
-    // await ApiCommunicator.commonFetch({
-    //   url: `/groups/${group.id}`,
-    //   method: 'PATCH',
-    //   data: group,
-    //   accessToken,
-    // });
-    return Promise.resolve();
+    await ApiCommunicator.commonFetch({
+      url: `/groups/${group.id}`,
+      method: 'PATCH',
+      data: group,
+      accessToken,
+    });
+    return;
   }
 
   public static async submitRequest(
@@ -183,10 +181,10 @@ export class GroupService {
 
   // eslint-disable-next-line no-unused-vars
   public static async deleteGroup(groupId: number, accessToken: string) {
-    // await ApiCommunicator.commonFetch({
-    //   url: `/groups/${groupId}`,
-    //   method: 'DELETE',
-    //   accessToken,
-    // });
+    await ApiCommunicator.commonFetch({
+      url: `/groups/${groupId}`,
+      method: 'DELETE',
+      accessToken,
+    });
   }
 }
