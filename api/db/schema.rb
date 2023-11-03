@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_28_150730) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_31_005625) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -66,6 +66,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_28_150730) do
     t.index ["group_id"], name: "index_members_on_group_id"
     t.index ["user_id", "group_id"], name: "index_members_on_user_id_and_group_id", unique: true
     t.index ["user_id"], name: "index_members_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text "content"
+    t.datetime "hour"
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_messages_on_group_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "requests", force: :cascade do |t|
@@ -138,6 +149,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_28_150730) do
   add_foreign_key "groups", "subjects"
   add_foreign_key "members", "groups"
   add_foreign_key "members", "users"
+  add_foreign_key "messages", "groups"
+  add_foreign_key "messages", "users"
   add_foreign_key "requests", "groups"
   add_foreign_key "requests", "users"
   add_foreign_key "sessions", "groups"

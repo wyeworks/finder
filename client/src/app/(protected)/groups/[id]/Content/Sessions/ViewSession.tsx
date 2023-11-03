@@ -51,6 +51,7 @@ type ViewSessionProps = {
   refetchSession: (id: number, showAttendance: boolean) => Promise<void>;
   isAdmin?: boolean;
   setOpenModal: Dispatch<SetStateAction<boolean>>;
+  isHistorial?: boolean;
 };
 
 function validateUrl(url: string) {
@@ -67,6 +68,7 @@ export default function ViewSession({
   isAdmin = false,
   refetchSession,
   setOpenModal,
+  isHistorial = false,
 }: ViewSessionProps) {
   const { data: session } = useSession();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
@@ -113,17 +115,20 @@ export default function ViewSession({
   const renderOptions = () => {
     const isShowOption =
       Number(session?.user?.id) === sessionGroup.creator_user_id || isAdmin;
+
     if (isShowOption) {
       return (
         <>
-          <button
-            className='h-full'
-            onClick={() => setIsEditMode(!isEditMode)}
-            type='button'
-            data-testid='edit-button'
-          >
-            <EditIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
-          </button>
+          {!isHistorial && (
+            <button
+              className='h-full'
+              onClick={() => setIsEditMode(!isEditMode)}
+              type='button'
+              data-testid='edit-button'
+            >
+              <EditIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
+            </button>
+          )}
           <button className='mx-2 h-full' type='button'>
             <TrashIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
           </button>
@@ -325,6 +330,7 @@ export default function ViewSession({
                   required
                   touched={true}
                   validateText={strings.createSession.form.validateText.date}
+                  minNumber={new Date().toISOString().split('T')[0]}
                 />
                 <Input
                   type='text'
@@ -355,6 +361,7 @@ export default function ViewSession({
                   required
                   touched={true}
                   validateText={strings.createSession.form.validateText.date}
+                  minNumber={editData.startTime}
                 />
                 <Input
                   type='text'

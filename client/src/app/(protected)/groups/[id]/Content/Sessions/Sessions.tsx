@@ -120,6 +120,7 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
   const [createSelected, setCreateSelected] = useState<boolean>(false);
   const [showAttendance, setShowAttendance] = useState<boolean>(false);
   const [viewSelected, setViewSelected] = useState<boolean>(false);
+  const [isFromHistorial, setIsFromHistorial] = useState<boolean>(false);
 
   useEffect(() => {
     const isMember = user_ids?.some(
@@ -225,12 +226,17 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
     }
   };
 
-  const viewSession = async (id: number, showAttendance: boolean) => {
+  const viewSession = async (
+    id: number,
+    showAttendance: boolean,
+    isHistorial: boolean = false
+  ) => {
     const response = await SessionService.getSession(
       id,
       session?.user.accessToken!
     );
     if (response) {
+      setIsFromHistorial(isHistorial);
       setOpenModal(true);
       setViewSelected(true);
       setSelectedSession(response);
@@ -313,6 +319,7 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
         isAdmin={isAdminGroup}
         refetchSession={viewSession}
         setOpenModal={setOpenModal}
+        isHistorial={isFromHistorial}
       />
     ) : (
       <></>
