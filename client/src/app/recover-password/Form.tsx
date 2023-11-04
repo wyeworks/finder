@@ -120,12 +120,6 @@ export default function Form() {
         if (parsedError.errors.email) {
           errorMessages.push(parsedError.errors.email);
         }
-        if (parsedError.errors.token) {
-          errorMessages.push(parsedError.errors.token);
-        }
-        if (parsedError.errors.password) {
-          errorMessages.push(parsedError.errors.password);
-        }
 
         setAlertType('error');
         setAlertTitle(strings.common.error.defaultError);

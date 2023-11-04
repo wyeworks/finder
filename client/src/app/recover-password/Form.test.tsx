@@ -5,6 +5,7 @@ import strings from '@/locales/strings.json';
 import Form from './Form';
 
 global.fetch = jest.fn();
+jest.mock('../../services/Logger');
 
 const fillAndSubmitForm = () => {
   // Fill the form
@@ -29,14 +30,19 @@ describe.skip('Form Component', () => {
     userEvent.click(screen.getByText(strings.form.recoverPassword.title));
 
     await waitFor(() => {
+      expect(screen.queryByText('Ingresa un email válido')).toBeInTheDocument();
       expect(
-        screen.queryByText(strings.common.error.completeFields)
+        screen.queryByText('Por favor ingrese su Código de verificación')
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByText('Ingresa una contraseña válida')
       ).toBeInTheDocument();
     });
   });
 
   it('should make a successful API call when form is submitted with valid data', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({ ok: true }); // Mock a successful fetch call
+    process.env.NEXT_PUBLIC_RAILS_API_URL = 'backend_url';
 
     render(<Form />);
     fillAndSubmitForm();
@@ -44,7 +50,7 @@ describe.skip('Form Component', () => {
     // Wait for the fetch to be called
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
-        '/api/forgot_password',
+        'backend_url/users/password',
         expect.anything()
       );
     });
@@ -52,7 +58,7 @@ describe.skip('Form Component', () => {
 
   it('should show an error alert when the API call fails', async () => {
     (fetch as jest.Mock).mockRejectedValueOnce(
-      new Error(strings.common.error.unexpectedError)
+      new Error(strings.common.error.defaultError)
     ); // Mock a failed fetch call
 
     render(<Form />);
@@ -61,7 +67,7 @@ describe.skip('Form Component', () => {
     // Wait for the error message to appear
     await waitFor(() => {
       expect(
-        screen.queryByText(strings.common.error.unexpectedError)
+        screen.queryByText(strings.common.error.defaultError)
       ).toBeInTheDocument();
     });
   });
@@ -77,10 +83,6 @@ describe.skip('Form Component', () => {
           email: [
             'El correo electrónico proporcionado no coincide con el token.',
           ],
-          password: [
-            'La contraseña es demasiado corta. Debe tener al menos 8 caracteres',
-            'No se cumplen los requerimientos de complejidad de la contraseña',
-          ],
         },
       }),
     });
@@ -90,37 +92,8 @@ describe.skip('Form Component', () => {
 
     // Wait for the specific error messages to appear
     await waitFor(() => {
-      expect(screen.getByTestId('alert')).toHaveTextContent(
-        'La contraseña es demasiado corta. Debe tener al menos 8 caracteres'
-      );
       expect(screen.getByTestId('alert')).toHaveTextContent(
         'El correo electrónico proporcionado no coincide con el token.'
-      );
-    });
-  });
-
-  it('should show only email error', async () => {
-    // Mock a fetch call that returns the specific error structure
-    (fetch as jest.Mock).mockResolvedValueOnce({
-      ok: false,
-      json: async () => ({
-        message: 'El usuario no pudo ser creado correctamente',
-        errors: {
-          email: ['El email utilizado no está disponible'],
-        },
-      }),
-    });
-
-    render(<Form />);
-    fillAndSubmitForm();
-
-    // Wait for the specific error messages to appear
-    await waitFor(() => {
-      expect(screen.getByTestId('alert')).not.toHaveTextContent(
-        'La contraseña es demasiado corta. Debe tener al menos 8 caracteres'
-      );
-      expect(screen.getByTestId('alert')).toHaveTextContent(
-        'El email utilizado no está disponible'
       );
     });
   });

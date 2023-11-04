@@ -5,6 +5,7 @@ import strings from '@/locales/strings.json';
 import Form from './Form';
 
 global.fetch = jest.fn();
+jest.mock('../../services/Logger');
 
 const fillAndSubmitForm = () => {
   // Fill the form
@@ -29,14 +30,13 @@ describe.skip('Form Component', () => {
     );
 
     await waitFor(() => {
-      expect(
-        screen.queryByText(strings.common.error.completeFields)
-      ).toBeInTheDocument();
+      expect(screen.queryByText('Ingresa un email válido')).toBeInTheDocument();
     });
   });
 
   it('should make a successful API call when form is submitted with valid data', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({ ok: true }); // Mock a successful fetch call
+    process.env.NEXT_PUBLIC_RAILS_API_URL = 'backend_url';
 
     render(<Form />);
     fillAndSubmitForm();
@@ -44,7 +44,7 @@ describe.skip('Form Component', () => {
     // Wait for the fetch to be called
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
-        '/api/forgot_password',
+        'backend_url/users/password',
         expect.anything()
       );
     });
