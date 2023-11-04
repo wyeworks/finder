@@ -33,6 +33,7 @@ type InputParams = {
   autoComplete?: string;
   disabled?: boolean;
   maxLength?: number;
+  newClassNameInput?: string;
 };
 
 export default function Input({
@@ -60,6 +61,7 @@ export default function Input({
   onBlur,
   onFocus,
   maxLength,
+  newClassNameInput,
 }: InputParams) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -90,6 +92,15 @@ export default function Input({
     }
   }
 
+  function getClassName() {
+    if (newClassNameInput) return newClassNameInput;
+    return `focus:ring-primaryBlue peer block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 
+      shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 
+      focus:ring-inset sm:text-sm sm:leading-6 ${
+        (Icon || type === 'password') && 'pl-10'
+      } ${classNameInput}`;
+  }
+
   return (
     <div className={`${maxWidth && 'max-w'} justify-center`}>
       {renderLabelAndInfo()}
@@ -118,9 +129,7 @@ export default function Input({
           required={required}
           value={value}
           onChange={onChange}
-          className={`focus:ring-primaryBlue peer block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset sm:text-sm sm:leading-6 ${
-            (Icon || type === 'password') && 'pl-10'
-          } ${classNameInput}`}
+          className={getClassName()}
           min={minNumber}
           max={max}
           disabled={disabled}

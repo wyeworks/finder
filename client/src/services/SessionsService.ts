@@ -62,4 +62,46 @@ export class SessionService {
       return null;
     }
   }
+
+  public static async updateAttendance(
+    attendanceId: number | string,
+    accessToken: string,
+    data: {
+      attendance: {
+        status: string;
+      };
+    }
+  ) {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/attendances/' + attendanceId,
+      method: 'PATCH',
+      data,
+      accessToken,
+    });
+    const body = await response.json();
+    return body.message;
+  }
+
+  public static async editSession(
+    newData: any,
+    sessionId: number,
+    accessToken: string
+  ) {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/sessions/' + sessionId,
+      method: 'PATCH',
+      data: newData,
+      accessToken,
+    });
+    const body = await response.json();
+    return body.message;
+  }
+
+  public static async deleteSession(sessionId: number, accessToken: string) {
+    await ApiCommunicator.commonFetch({
+      url: '/sessions/' + sessionId,
+      method: 'DELETE',
+      accessToken,
+    });
+  }
 }

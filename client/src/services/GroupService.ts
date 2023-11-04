@@ -22,14 +22,25 @@ export class GroupService {
     searchParams: SearchGroup | null
   ): Promise<StudyGroup[]> {
     let queryString = '';
-    if (searchParams) {
-      if (searchParams.name) queryString += `&name=${searchParams.name}`;
+
+    function addParameter(parameterKey: string, parameterValue: any) {
+      if (queryString.length > 0) queryString += '&';
+      queryString += parameterKey + '=' + parameterValue;
+    }
+
+    function handleAddParameter(searchParams: SearchGroup) {
+      if (searchParams.name && searchParams.name.length > 0)
+        addParameter('name', searchParams.name);
       if (searchParams.subject)
-        queryString += `&subject_id=${searchParams.subject}`;
-      if (searchParams.timeOfDay)
-        queryString += `&time_preferences=${searchParams.timeOfDay.join(',')}`;
+        addParameter('subject_id', searchParams.subject);
+      if (searchParams.timeOfDay && searchParams.timeOfDay.length > 0)
+        addParameter('time_preferences', searchParams.timeOfDay.join(','));
       if (searchParams.isMyGroup)
-        queryString += `&my_groups=${searchParams.isMyGroup}`;
+        addParameter('my_groups', searchParams.isMyGroup);
+    }
+
+    if (searchParams) {
+      handleAddParameter(searchParams);
     }
     const response = await ApiCommunicator.commonFetch({
       url: `/groups${queryString.length > 0 ? '?' + queryString : ''}`,

@@ -4,11 +4,12 @@ import LinkIcon from '@/assets/Icons/LinkIcon';
 import LocationIcon from '@/assets/Icons/LocationIcon';
 import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
-import { CreateSessionAlertProps, CreateSessionData } from './Sessions';
+import { ModalSessionAlertProps, CreateSessionData } from './Sessions';
 import Button from '@/components/common/Button';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction } from 'react';
 import Alert from '@/components/common/Alert';
+import { validateHour } from '@/utils/validations';
 
 type CreateSessionModalProps = {
   formData: CreateSessionData;
@@ -16,7 +17,7 @@ type CreateSessionModalProps = {
   // eslint-disable-next-line no-unused-vars
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
   touched: any;
-  alertProps: CreateSessionAlertProps;
+  alertProps: ModalSessionAlertProps;
 };
 
 export default function CreateSessionForm({
@@ -45,14 +46,6 @@ export default function CreateSessionForm({
       ...prevState,
       [name]: value,
     }));
-  };
-
-  const validateHour = (value: any) => {
-    const pattern = /^[0-2][0-9]:[0-5][0-9]$/;
-    if (value !== '' && !pattern.test(value)) {
-      return strings.createSession.form.validateText.hourFormat;
-    }
-    return strings.createSession.form.validateText.default;
   };
 
   return (
@@ -177,7 +170,7 @@ export default function CreateSessionForm({
         onChange={handleChange}
         touched={touched.meetLink}
         validateText={strings.createSession.form.validateText.meetLink}
-        pattern='.*\..*'
+        pattern='https?://[^.]+\.[^.]+'
       />
       <div className='col-span-2 flex flex-col justify-center gap-1'>
         <Alert

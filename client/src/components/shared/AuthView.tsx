@@ -27,6 +27,7 @@ export default function AuthView({ children }: AuthFlowProps) {
             className='h-full w-full object-cover'
             width={600}
             height={600}
+            priority
           />
         </div>
         {/* Right side (View Component) */}

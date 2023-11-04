@@ -8,7 +8,8 @@ class SessionSerializer
              :meeting_link,
              :start_time,
              :end_time,
-             :group_id
+             :group_id,
+             :creator_user_id
 
   attribute :attendances do |session|
     session.attendances.map do |attendance|
@@ -23,5 +24,9 @@ class SessionSerializer
         user_id: attendance.member.user.id
       }
     end
+  end
+
+  attribute :creator_user_id do |session|
+    session.creator.user.id
   end
 end

@@ -31,6 +31,7 @@ RSpec.describe GroupsController, type: :request do
         expect(json_response[0]['time_preferences']).to be_a(Hash)
         expect(json_response[0]['subject_id']).to be_a(Integer)
         expect(json_response[0]['subject_name']).to be_a(String)
+        expect(json_response[0]['user_ids']).to be_a(Array)
       end
 
       it 'returns JSON containing sessions data for each group' do
@@ -108,11 +109,19 @@ RSpec.describe GroupsController, type: :request do
 
   # Show
   describe 'GET /groups/:id' do
-    let(:group) { create(:group, :with_sessions) }
-    let(:group_id) { group.id }
+    let!(:group) { create(:group, :with_sessions, size: 5) }
+    let!(:admin) { create :user }
+    let!(:admin_member) { create(:member, role: 'admin', group:, user: admin) }
+    let!(:request) { create(:request, group:) }
+    let!(:group_id) { group.id }
+
+    let(:headersAdmin) do
+      post user_session_path, params: { user: { email: admin.email, password: admin.password } }
+      { 'Authorization' => response.headers['Authorization'] }
+    end
 
     before do
-      get group_path(group_id), headers:
+      get group_path(group_id), headers: headersAdmin
     end
 
     context 'when user is authenticated' do
@@ -131,6 +140,10 @@ RSpec.describe GroupsController, type: :request do
           expect(json_response['time_preferences']).to eq(group.time_preferences)
           expect(json_response['subject_id']).to eq(group.subject_id)
           expect(json_response['subject_name']).to eq(group.subject.name)
+          expect(json_response['admin_ids']).to include(admin_member.user.id)
+          expect(json_response['requests']).to be_an(Array)
+          expect(json_response['requests'][0]['id']).to eq(request.id)
+          expect(json_response['requests'][0]['status']).to eq(request.status)
         end
       end
 
