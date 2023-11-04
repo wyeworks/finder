@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     end
     resources :messages, module: :groups, except: :show
   end
-  resources :members, only: :destroy
+  resources :members, only: [:update, :destroy]
   resources :sessions, only: [:create, :show, :update, :destroy]
   resources :subjects, only: [:index, :show]
   resources :users, only: [:show, :update, :destroy]
