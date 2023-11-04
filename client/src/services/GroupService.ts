@@ -160,12 +160,16 @@ export class GroupService {
     accessToken: string,
     gorupId: number
   ): Promise<string> {
+    console.log({ data, accessToken, gorupId });
+
     const response = await ApiCommunicator.commonFetch({
       url: '/groups/' + gorupId + '/messages',
       method: 'POST',
       data,
       accessToken,
     });
+    console.log({ response });
+
     const body = await response.json();
     return body.id;
   }

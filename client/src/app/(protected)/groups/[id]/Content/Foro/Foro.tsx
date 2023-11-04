@@ -114,6 +114,7 @@ export default function Foro({ group }: ForoProps) {
             disabled={actualMessage.trim() === ''}
             className='h-[2.2rem] items-center'
             classNameWrapper='items-center'
+            id='send-button'
           />
         </div>
       </div>
