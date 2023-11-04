@@ -116,7 +116,7 @@ export default function Form() {
           onFocus={handleFocus}
           touched={touched.email}
           Icon={<EmailIcon className='h-5 w-5 text-gray-400' />}
-          autoComplete='off'
+          autoComplete='on'
         />
         <Button
           type='submit'

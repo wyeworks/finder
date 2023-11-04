@@ -63,9 +63,10 @@ export class AuthService {
   }): Promise<string> {
     const dataToSend = {
       user: {
-        token: data.token,
-        email: data.email,
+        reset_password_token: data.token,
         password: data.password,
+        password_confirmation: data.password,
+        email: data.email,
       },
     };
     const response = await ApiCommunicator.commonFetch({
