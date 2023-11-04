@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@/__mocks__/next/router';
 import strings from '@/locales/strings.json';
@@ -7,13 +7,16 @@ import Form from './Form';
 global.fetch = jest.fn();
 jest.mock('../../services/Logger');
 
-const fillAndSubmitForm = () => {
+const fillAndSubmitForm = async () => {
   // Fill the form
-  screen.getByLabelText(strings.form.emailInput.label).focus();
-  userEvent.paste('john.doe@email.com');
+  await act(async () => {
+    screen.getByLabelText(strings.form.emailInput.label).focus();
+  });
+
+  await userEvent.paste('john.doe@email.com');
 
   // Submit the form
-  userEvent.click(
+  await userEvent.click(
     screen.getByText(strings.form.recoverPassword.confirmButtonText)
   );
 };
@@ -25,7 +28,8 @@ describe('Form Component', () => {
 
   it('should show an alert when form is submitted with invalid data', async () => {
     render(<Form />);
-    userEvent.click(
+
+    await userEvent.click(
       screen.getByText(strings.form.recoverPassword.confirmButtonText)
     );
 
@@ -39,8 +43,8 @@ describe('Form Component', () => {
     process.env.NEXT_PUBLIC_RAILS_API_URL = 'backend_url';
 
     render(<Form />);
-    fillAndSubmitForm();
-
+    //await act(async () => fillAndSubmitForm());
+    await fillAndSubmitForm();
     // Wait for the fetch to be called
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
@@ -56,7 +60,8 @@ describe('Form Component', () => {
     ); // Mock a failed fetch call
 
     render(<Form />);
-    fillAndSubmitForm();
+    //await act(async () => fillAndSubmitForm());
+    await fillAndSubmitForm();
 
     // Wait for the error message to appear
     await waitFor(() => {
