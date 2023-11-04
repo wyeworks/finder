@@ -1,6 +1,7 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { getServerSession } from 'next-auth';
 import { GroupService } from '@/services/GroupService';
+import strings from '@/locales/strings.json';
 import { redirect } from 'next/navigation';
 import { ConfigLayout } from '@/components/common/ConfigLayout';
 import EditGroupPropsSection from '@/app/(protected)/groups/[id]/edit/EditGroupPropsSection';
@@ -25,7 +26,7 @@ export default async function EditGroup({
     if (!isAdmin) redirect(`/groups/${params.id}`);
 
     return (
-      <ConfigLayout title={'Ajustes de grupo'}>
+      <ConfigLayout title={strings.configGroup.title}>
         <EditGroupPropsSection group={group} />
         <DeleteGroupSection group={group} />
       </ConfigLayout>

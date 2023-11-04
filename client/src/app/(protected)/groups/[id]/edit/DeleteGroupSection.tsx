@@ -2,6 +2,8 @@
 
 import { StudyGroup } from '@/types/StudyGroup';
 import { Logger } from '@/services/Logger';
+import strings from '@/locales/strings.json';
+
 import { GeneralDeleteSection } from '@/components/common/GeneralDeleteSection';
 import { GroupService } from '@/services/GroupService';
 import { useSession } from 'next-auth/react';
@@ -28,13 +30,15 @@ export default function DeleteGroupSection({ group }: { group: StudyGroup }) {
 
   return (
     <GeneralDeleteSection
-      sectionTitle={'Eliminar grupo'}
-      deleteButtonText={'Eliminar grupo'}
-      deleteExplanation={'Todos los datos serán eliminados permanentemente'}
+      sectionTitle={strings.configGroup.form.delete.title}
+      deleteButtonText={strings.configGroup.form.delete.confirmButton}
+      deleteExplanation={strings.configGroup.form.delete.explanation}
       confirmDialogDescription={
-        '¿Estás seguro que quieres eliminar este grupo?'
+        strings.configGroup.form.delete.confirmationDialogText
       }
-      confirmDialogTitle={'Eliminar grupo'}
+      confirmDialogTitle={
+        strings.configGroup.form.delete.confirmationDialogTitle
+      }
       onDelete={async () => {
         Logger.debug('Delete');
         await GroupService.deleteGroup(group.id!, session?.user.accessToken!);
@@ -43,8 +47,8 @@ export default function DeleteGroupSection({ group }: { group: StudyGroup }) {
         Logger.debug('Successful delete');
         setDeleted(true);
       }}
-      onSuccessfulDeleteMessage={'Grupo eliminado'}
-      onFailedDeleteErrorMessage={'No se pudo eliminar el grupo'}
+      onSuccessfulDeleteMessage={strings.configGroup.form.delete.alertSuccess}
+      onFailedDeleteErrorMessage={strings.configGroup.form.delete.alertError}
     />
   );
 }

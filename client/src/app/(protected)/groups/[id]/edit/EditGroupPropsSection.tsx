@@ -91,7 +91,9 @@ export default function EditGroupPropsSection({
         );
         setSubjects(subjects);
       } catch (error: any) {
-        setAlertMessage('No se pudieron cargar las materias');
+        setAlertMessage(
+          strings.configGroup.form.edit.alertErrorLoadingSubjects
+        );
         setAlertVisible(true);
         setAlertType('error');
       }
@@ -165,12 +167,12 @@ export default function EditGroupPropsSection({
       };
       await GroupService.update(updatedGroup, session?.user.accessToken!);
 
-      setAlertMessage('Grupo actualizado');
+      setAlertMessage(strings.configGroup.form.edit.alertSuccess);
       setAlertVisible(true);
       setAlertType('success');
-      setAlertTitle('Éxito');
+      setAlertTitle(strings.common.success.defaultSuccess);
     } catch (error: any) {
-      setAlertMessage('No se pudo actualizar el grupo');
+      setAlertMessage(strings.configGroup.form.edit.alertError);
       setAlertVisible(true);
       setAlertType('error');
       setDisabledSubmittButton(false);
@@ -182,8 +184,8 @@ export default function EditGroupPropsSection({
 
   return (
     <ConfigProfileSection
-      sectionTitle={'Información general'}
-      confirmButtonText={'Guardar cambios'}
+      sectionTitle={strings.configGroup.form.edit.title}
+      confirmButtonText={strings.configGroup.form.edit.confirmButton}
       isConfirmButtonDisabled={disabledSubmittButton}
       handleSubmit={handleSubmit}
       isAlertVisible={alertVisible}
@@ -196,8 +198,8 @@ export default function EditGroupPropsSection({
         type='text'
         id='name'
         name='name'
-        label={'Nombre del grupo'}
-        placeholder={'Ingresa el nombre del grupo'}
+        label={strings.configGroup.form.edit.fields.name.label}
+        placeholder={strings.configGroup.form.edit.fields.name.placeholder}
         required
         value={groupData.name}
         onChange={handleNameChange}
@@ -211,7 +213,7 @@ export default function EditGroupPropsSection({
           htmlFor='dropdown'
           className='flex-1 font-poppins text-sm font-medium leading-6 text-blackTextColor'
         >
-          Materia
+          {strings.configGroup.form.edit.fields.materia.label}
         </label>
         <SearchDropdown
           id='dropdown'
@@ -227,8 +229,10 @@ export default function EditGroupPropsSection({
       <TextArea
         id={'description'}
         name={'description'}
-        label={'Descripción'}
-        placeholder={'Ingresa una descripción'}
+        label={strings.configGroup.form.edit.fields.description.label}
+        placeholder={
+          strings.configGroup.form.edit.fields.description.placeholder
+        }
         required={false}
         value={groupData.description}
         onChange={(e) => handleDescriptionChange(e.target.value)}
@@ -240,7 +244,7 @@ export default function EditGroupPropsSection({
       />
       <div className='flex w-full justify-center bg-gray-100'>
         <h4 className='text-bg-primaryBlue font-poppins text-2xl font-medium'>
-          Preferencia horaria
+          {strings.configGroup.form.edit.fields.preferenciaHoraria.label}
         </h4>
       </div>
       <EditableTimePreferences
