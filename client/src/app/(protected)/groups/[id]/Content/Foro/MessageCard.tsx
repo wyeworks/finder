@@ -14,12 +14,12 @@ export default function MessageCard({
   return (
     <div className='w-full'>
       <div
-        className={`m-2 flex w-auto max-w-[60%] flex-col rounded-md p-2 
+        className={`m-2 flex  max-w-[60%] flex-col rounded-md p-2 
         text-sm shadow-lg 
         ${
           isMeMessage
-            ? 'float-right bg-primaryBlue-300 text-white'
-            : 'bg-white '
+            ? 'float-right w-auto bg-primaryBlue-300 text-white'
+            : 'w-fit bg-white'
         } 
         whitespace-normal" overflow-hidden`}
       >
