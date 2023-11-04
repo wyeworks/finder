@@ -1,4 +1,4 @@
-import { render, waitFor, screen, fireEvent } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import { DeleteUserSection } from '@/app/(protected)/users/me/DeleteUserSection';
 import { User } from '@/types/User';
 import strings from '@/locales/strings.json';
@@ -10,6 +10,7 @@ jest.mock('next-auth/react', () => ({
 }));
 
 jest.mock('../../../../../services/UserService');
+jest.mock('../../../../../services/Logger');
 
 const mockUser: User = {
   id: '1',
@@ -29,7 +30,6 @@ describe('<DeleteUserSection />', () => {
     userEvent.click(
       getByRole('button', { name: strings.form.deleteUser.confirmButtonText })
     );
-    screen.debug();
     await waitFor(() => {
       expect(getByRole('dialog')).toBeInTheDocument();
     });
