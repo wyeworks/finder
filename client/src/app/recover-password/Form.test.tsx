@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@/__mocks__/next/router';
 import strings from '@/locales/strings.json';
@@ -7,17 +7,25 @@ import Form from './Form';
 global.fetch = jest.fn();
 jest.mock('../../services/Logger');
 
-const fillAndSubmitForm = () => {
+const fillAndSubmitForm = async () => {
   // Fill the form
-  screen.getByLabelText(strings.form.emailInput.label).focus();
-  userEvent.paste('john.doe@email.com');
-  screen.getByLabelText(strings.form.tokenInput.label).focus();
-  userEvent.paste('oMa2Dbp2yksDN8t5y_qE');
-  screen.getByLabelText(strings.form.recoverPassword.newPasswordLabel).focus();
-  userEvent.paste('Password#123');
+  await act(async () => {
+    screen.getByLabelText(strings.form.emailInput.label).focus();
+  });
+  await userEvent.paste('john.doe@email.com');
+  await act(async () => {
+    screen.getByLabelText(strings.form.tokenInput.label).focus();
+  });
+  await userEvent.paste('oMa2Dbp2yksDN8t5y_qE');
+  await act(async () => {
+    screen
+      .getByLabelText(strings.form.recoverPassword.newPasswordLabel)
+      .focus();
+  });
+  await userEvent.paste('Password#123');
 
   // Submit the form
-  userEvent.click(screen.getByText(strings.form.recoverPassword.title));
+  await userEvent.click(screen.getByText(strings.form.recoverPassword.title));
 };
 
 describe('Form Component', () => {
@@ -27,7 +35,8 @@ describe('Form Component', () => {
 
   it('should show an alert when form is submitted with invalid data', async () => {
     render(<Form />);
-    userEvent.click(screen.getByText(strings.form.recoverPassword.title));
+
+    await userEvent.click(screen.getByText(strings.form.recoverPassword.title));
 
     await waitFor(() => {
       expect(screen.queryByText('Ingresa un email válido')).toBeInTheDocument();
@@ -45,7 +54,8 @@ describe('Form Component', () => {
     process.env.NEXT_PUBLIC_RAILS_API_URL = 'backend_url';
 
     render(<Form />);
-    fillAndSubmitForm();
+
+    await fillAndSubmitForm();
 
     // Wait for the fetch to be called
     await waitFor(() => {
@@ -62,7 +72,7 @@ describe('Form Component', () => {
     ); // Mock a failed fetch call
 
     render(<Form />);
-    fillAndSubmitForm();
+    await fillAndSubmitForm();
 
     // Wait for the error message to appear
     await waitFor(() => {
@@ -88,7 +98,7 @@ describe('Form Component', () => {
     });
 
     render(<Form />);
-    fillAndSubmitForm();
+    await fillAndSubmitForm();
 
     // Wait for the specific error messages to appear
     await waitFor(() => {
