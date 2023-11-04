@@ -136,7 +136,7 @@ export default function Form() {
         <div className='mt-2'>
           <Link
             href='/forgot-password'
-            className='font-poppins text-sm text-gray-500'
+            className='font-poppins text-sm text-gray-500 hover:text-primaryBlue'
           >
             {' '}
             ¿Olvidaste tu contraseña?
