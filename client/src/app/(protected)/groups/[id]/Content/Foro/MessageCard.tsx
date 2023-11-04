@@ -14,19 +14,19 @@ export default function MessageCard({
   return (
     <div className='w-full'>
       <div
-        className={`m-2 flex  max-w-[60%] flex-col rounded-md p-2 
+        className={`m-2 flex max-w-[60%] flex-col rounded-md p-2 
         text-sm shadow-lg 
         ${
           isMeMessage
             ? 'float-right w-auto bg-primaryBlue-300 text-white'
             : 'w-fit bg-white'
         } 
-        whitespace-normal" overflow-hidden`}
+        overflow-hidden whitespace-normal`}
       >
         {!isMeMessage && (
           <span className=' font-bold text-sky-500 '>{name}</span>
         )}
-        <div className={`${isMeMessage ? 'mr-8' : 'mr-8'} `}>
+        <div className={`${isMeMessage ? 'mr-8' : 'mr-8'} break-words`}>
           <span>{message}</span>
         </div>
         <div className=''>
