@@ -279,8 +279,8 @@ export default function ViewSession({
             <Button
               text='Guardar'
               type='submit'
-              classNameWrapper='p-1'
-              className='h-8 w-1/3 items-center bg-primaryBlue hover:bg-hoverPrimaryBlue'
+              classNameWrapper='p-1 pb-0'
+              className='h-8 w-1/3 items-center bg-primaryBlue !p-5 hover:bg-hoverPrimaryBlue'
             />
           </div>
         </div>
@@ -358,6 +358,7 @@ export default function ViewSession({
                 name='name'
                 newClassNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-blue-950 focus:outline-none'
                 onChange={handleChange}
+                maxLength={35}
                 value={editData.name}
                 required
                 touched={true}
@@ -447,6 +448,7 @@ export default function ViewSession({
               name='location'
               newClassNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-blue-950 focus:outline-none'
               onChange={handleChange}
+              maxLength={35}
               value={editData.location ?? ''}
               classNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
             />,
@@ -460,6 +462,7 @@ export default function ViewSession({
               name='description'
               newClassNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-blue-950 focus:outline-none'
               onChange={handleChange}
+              maxLength={200}
               value={editData.description ?? ''}
               classNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
             />,
@@ -480,6 +483,7 @@ export default function ViewSession({
               value={editData.meetLink ?? ''}
               classNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
               touched={true}
+              maxLength={60}
               validateText={strings.createSession.form.validateText.meetLink}
               pattern='https?://[^.]+\.[^.]+'
             />,

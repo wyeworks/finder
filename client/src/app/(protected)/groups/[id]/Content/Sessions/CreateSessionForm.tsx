@@ -63,6 +63,7 @@ export default function CreateSessionForm({
           placeholder={strings.createSession.form.placeholders.title}
           value={formData.title}
           onChange={handleChange}
+          maxLength={35}
           required
         />
         {touched.title && (
@@ -145,6 +146,7 @@ export default function CreateSessionForm({
         value={formData.location}
         onChange={handleChange}
         touched={touched.location}
+        maxLength={35}
         validateText={strings.createSession.form.validateText.default}
       />
       <BarsIcon className='mr-2 mt-1 h-5 w-5' />
@@ -158,6 +160,7 @@ export default function CreateSessionForm({
         onChange={handleChange}
         touched={touched.description}
         validateText={strings.createSession.form.validateText.default}
+        maxLength={200}
       />
       <LinkIcon className='mr-2 mt-2 h-5 w-5' />
       <Input
@@ -170,6 +173,7 @@ export default function CreateSessionForm({
         onChange={handleChange}
         touched={touched.meetLink}
         validateText={strings.createSession.form.validateText.meetLink}
+        maxLength={60}
         pattern='https?://[^.]+\.[^.]+'
       />
       <div className='col-span-2 flex flex-col justify-center gap-1'>
