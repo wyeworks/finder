@@ -22,13 +22,8 @@ module Groups
     end
 
     def create
-      @message = Message.new(
-        message_params.merge(
-          group: @group,
-          user: current_user,
-          hour: DateTime.now
-        )
-      )
+      @message = Message.new(message_params.merge(group: @group, user: current_user))
+
       if @message.save
         Rails.logger.info "Message was successfully created with params: '#{message_params}'"
 

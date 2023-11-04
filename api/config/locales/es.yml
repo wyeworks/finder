@@ -43,8 +43,6 @@ es:
           attributes:
             content:
               blank: "El contenido del mensaje no puede ser vacío"
-            hour:
-              blank: "La hora del mensaje no puede ser vacía"
         request:
           attributes:
             user:

@@ -10,7 +10,6 @@ RSpec.describe Message, type: :model do
     subject { build(:message) }
 
     it { should validate_presence_of(:content) }
-    it { should validate_presence_of(:hour) }
   end
 
   describe '#group_by_date' do
