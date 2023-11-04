@@ -98,14 +98,14 @@ export default function Form() {
       setAlertType('success');
       setAlertTitle(successMessage);
       setAlertMessage(
-        'Te dirigrás a iniciar sesión en ' + String(timerCountdown)
+        'Te dirigirás a iniciar sesión en ' + String(timerCountdown)
       );
       setIsAlertVisible(true);
 
       timer = setInterval(() => {
         timerCountdown -= 1;
         setAlertMessage(
-          'Te dirigrás a iniciar sesión en ' + String(timerCountdown)
+          'Te dirigirás a iniciar sesión en ' + String(timerCountdown)
         );
         if (timerCountdown <= 0) {
           router.push('/signin');
