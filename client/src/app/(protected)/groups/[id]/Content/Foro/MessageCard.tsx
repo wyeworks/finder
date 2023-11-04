@@ -12,8 +12,9 @@ export default function MessageCard({
   name,
 }: MessageCardProps) {
   return (
-    <div
-      className={`m-2 flex w-3/5 flex-col rounded-md p-2 
+    <div className='w-full'>
+      <div
+        className={`m-2 flex w-fit max-w-[60%] flex-col rounded-md p-2 
         text-sm shadow-lg 
         ${
           isMeMessage
@@ -21,19 +22,22 @@ export default function MessageCard({
             : 'bg-white '
         } 
         whitespace-normal" overflow-hidden`}
-    >
-      {!isMeMessage && <span className=' font-bold text-sky-500 '>{name}</span>}
-      <div className=''>
-        <span>{message}</span>
-      </div>
-      <div className=''>
-        <span
-          className={` float-right h-2 text-[0.6rem] ${
-            isMeMessage ? '' : 'text-gray-500'
-          }`}
-        >
-          {date}
-        </span>
+      >
+        {!isMeMessage && (
+          <span className=' font-bold text-sky-500 '>{name}</span>
+        )}
+        <div className={`${isMeMessage ? 'mr-8' : 'mr-8'} `}>
+          <span>{message}</span>
+        </div>
+        <div className=''>
+          <span
+            className={` float-right mb-2 h-2 text-[0.6rem] ${
+              isMeMessage ? '' : 'text-gray-500'
+            }`}
+          >
+            {date}
+          </span>
+        </div>
       </div>
     </div>
   );
