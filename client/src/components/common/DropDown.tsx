@@ -37,6 +37,7 @@ export default function Dropdown({
 
   return (
     <div
+      data-testid={id}
       className={`${maxWidth && 'max-w-sm'} justify-center my-${paddingTB} `}
     >
       {label && (
@@ -53,6 +54,7 @@ export default function Dropdown({
             role='dropdown'
             onClick={() => setIsOpen(!isOpen)}
             className='flex w-full cursor-pointer items-center justify-between rounded-md border px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6'
+            data-testid={id + '-' + selectedValue}
           >
             {selectedValue}
             <ArrowDownIcon
