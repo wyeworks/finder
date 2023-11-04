@@ -25,9 +25,8 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
   const [finishedLoading, setFinishedLoading] = useState<boolean>(false);
   const [reachedGroupLimit, setReachedGroupLimit] = useState<boolean>(false);
   const [inGroup, setInGroup] = useState<boolean>(false);
-  const isAdmin = group.admin_ids?.some(
-    (user) => Number(session?.user.id) === user
-  );
+  const isAdmin =
+    session?.user.id && group.admin_ids?.includes(Number(session?.user.id));
 
   const handleRequestGroup = async function () {
     if (id) {

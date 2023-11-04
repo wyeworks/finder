@@ -23,9 +23,9 @@ export default function Foro({ group }: ForoProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [actualMessage, setActualMessage] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
-  const isMemberGroup = group.user_ids?.some(
-    (user) => session?.user.id === user.toString()
-  );
+  const isMemberGroup =
+    session?.user.id && group.user_ids?.includes(Number(session?.user.id));
+
   const getMessages = useCallback(async () => {
     try {
       const messages = await GroupService.getMessages(

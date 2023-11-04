@@ -29,9 +29,8 @@ export default function RequestJoinGroup({ group }: RequestJoinGroupProps) {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState<alertTypes>('success');
   const [isAlertVisible, setIsAlertVisible] = useState(false);
-  const isAdmin = group.admin_ids?.some(
-    (user) => session?.user.id === user.toString()
-  );
+  const isAdmin =
+    session?.user.id && group.admin_ids?.includes(Number(session?.user.id));
 
   function onError(error: string[]) {
     setIsAlertVisible(true);
