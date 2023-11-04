@@ -53,7 +53,7 @@ class MembersController < ApplicationController
 
   def promote_to_admin
     if @member.participant? && @member.group.admin?(current_user)
-      @member.update(role: 'admin')
+      @member.promote!
       render json: { message: 'El miembro ahora es administrador del grupo' }
     else
       render_unauthorized_error
@@ -61,11 +61,15 @@ class MembersController < ApplicationController
   end
 
   def demote_to_participant
-    if @member.admin? && @member.group.admin?(current_user) && @member.group.admins.count > 1
-      @member.update(role: 'participant')
-      render json: { message: 'El miembro ahora es participante del grupo' }
+    if @member.group.admin?(current_user)
+      if @member.admin? && @member.group.admins.count > 1
+        @member.demote!
+        render json: { message: 'El miembro ahora es participante del grupo' }
+      else
+        render_unauthorized_error('El grupo necesita al menos un administrador')
+      end
     else
-      render_unauthorized_error('El grupo necesita al menos un administrador')
+      render_unauthorized_error
     end
   end
 

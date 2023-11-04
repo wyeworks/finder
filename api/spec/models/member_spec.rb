@@ -30,6 +30,17 @@ RSpec.describe Member, type: :model do
       expect(member.reload.role).to eq('admin')
     end
   end
+
+  describe '#demote!' do
+    let(:member) { create :member, role: 'admin' }
+
+    it 'changes member role to participant' do
+      member.demote!
+
+      expect(member.reload.role).to eq('participant')
+    end
+  end
+
   describe '#add_to_upcoming_sessions' do
     let(:user) { create :user }
 

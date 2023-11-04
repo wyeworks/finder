@@ -19,6 +19,10 @@ class Member < ApplicationRecord
     update!(role: 'admin')
   end
 
+  def demote!
+    update!(role: 'participant')
+  end
+
   def admin?
     role == 'admin'
   end
