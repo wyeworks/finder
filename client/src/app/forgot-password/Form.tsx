@@ -1,39 +1,31 @@
 'use client';
 
 import EmailIcon from '@/assets/Icons/EmailIcon';
-import UserIcon from '@/assets/Icons/UserIcon';
 import Alert from '@/components/common/Alert';
+import { alertTypes } from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import strings from '@/locales/strings.json';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Logger } from '@/services/Logger';
-import { mustHaveUpperCaseLowerCaseAndEightCharacters } from '@/utils/Pattern';
 import { AuthService } from '@/services/AuthService';
-import { NotOkError } from '@/types/NotOkError';
 
-type SignUpFormData = {
-  name: string;
+type RecoverPasswordFormData = {
   email: string;
-  password: string;
 };
 
 export default function Form() {
-  const [formData, setFormData] = useState<SignUpFormData>({
-    name: '',
+  const [formData, setFormData] = useState<RecoverPasswordFormData>({
     email: '',
-    password: '',
   });
   const [touched, setTouched] = useState({
-    name: false,
     email: false,
-    password: false,
   });
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isAlertVisible, setisAlertVisible] = useState<boolean>(false);
+  const [alertType, setAlertType] = useState<alertTypes>('success');
+  const [alertTitle, setAlertTitle] = useState<string>('');
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
-  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -41,9 +33,6 @@ export default function Form() {
       ...prevState,
       [name]: value,
     }));
-    if (name !== 'email') {
-      setTouched((prevTouched) => ({ ...prevTouched, [name]: true }));
-    }
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -68,14 +57,12 @@ export default function Form() {
     event.preventDefault();
 
     setTouched({
-      name: true,
       email: true,
-      password: true,
     });
 
     //Clean previous Alert Messages
     setAlertMessage('');
-    setIsVisible(false);
+    setisAlertVisible(false);
 
     const isCurrentFormValid = event.currentTarget.checkValidity();
 
@@ -86,29 +73,20 @@ export default function Form() {
     setIsDisabled(true);
 
     try {
-      Logger.debug('Sending signup request with data:', formData);
-      await AuthService.signUp(formData);
-      router.push('/confirmation');
+      Logger.debug('Sending password recover request with data:', formData);
+      const successMessage = await AuthService.forgotPassword(formData);
+      setAlertType('success');
+      setAlertTitle(successMessage);
+      setAlertMessage(
+        'Verifica tu casilla de correo para saber los próximos pasos de como recuperar tu contraseña'
+      );
+      setisAlertVisible(true);
+      setIsDisabled(false);
     } catch (error) {
-      if (error instanceof NotOkError) {
-        const parsedError = error.backendError;
-        const errorMessages = [];
-
-        if (parsedError.errors.email) {
-          errorMessages.push(parsedError.errors.email);
-        }
-        if (parsedError.errors.password) {
-          errorMessages.push(parsedError.errors.password);
-        }
-
-        setAlertMessage(errorMessages.join('\n'));
-        setIsVisible(true);
-        setIsDisabled(false);
-        return;
-      }
-
+      setAlertType('error');
+      setAlertTitle(strings.common.error.defaultError);
       setAlertMessage(strings.common.error.unexpectedError);
-      setIsVisible(true);
+      setisAlertVisible(true);
       setIsDisabled(false);
     }
   };
@@ -116,29 +94,14 @@ export default function Form() {
   return (
     <div
       className='mt-3 flex justify-center sm:mx-auto sm:mt-10 sm:w-full sm:max-w-sm'
-      id='register-form'
+      id='forgot-pass-form'
     >
       <form
-        className='grid w-full max-w-xs grid-rows-register-form gap-1'
+        className='grid-rows-forgot-pass-form grid w-full max-w-xs gap-3'
         onSubmit={handleSubmit}
         noValidate
         autoComplete='off'
       >
-        <Input
-          type='text'
-          id='name'
-          name='name'
-          label={strings.form.nameInput.label}
-          placeholder={strings.form.nameInput.placeholder}
-          required
-          value={formData.name}
-          onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          touched={touched.name}
-          Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
-          maxLength={40}
-        />
         <Input
           type='email'
           id='email'
@@ -153,35 +116,19 @@ export default function Form() {
           onFocus={handleFocus}
           touched={touched.email}
           Icon={<EmailIcon className='h-5 w-5 text-gray-400' />}
-          autoComplete='off'
-        />
-        <Input
-          type='password'
-          id='password'
-          name='password'
-          pattern={mustHaveUpperCaseLowerCaseAndEightCharacters()}
-          label={strings.form.passwordInput.label}
-          fieldInfo={strings.form.passwordInput.passwordInfo}
-          placeholder={strings.form.passwordInput.placeholder}
-          validateText={strings.form.passwordInput.validateText}
-          required
-          value={formData.password}
-          onChange={handleChange}
-          onFocus={handleFocus}
-          touched={touched.password}
-          autoComplete='new-password'
+          autoComplete='on'
         />
         <Button
           type='submit'
-          text={strings.form.createAccountButton.text}
-          className='mt-6'
+          text={strings.form.recoverPassword.confirmButtonText}
+          className='mt-8'
           disabled={isDisabled}
         />
         <Alert
-          isVisible={isVisible}
+          isVisible={isAlertVisible}
           message={alertMessage}
-          title={strings.common.error.signup}
-          alertType='error'
+          alertType={alertType}
+          title={alertTitle}
         />
       </form>
     </div>

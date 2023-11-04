@@ -46,6 +46,10 @@
       "validateText": "Ingresa una contraseña válida",
       "passwordInfo": "Asegúrate de que tu contraseña tenga al menos 8 caracteres y contenga: \n- Una letra mayúscula \n- Una letra minúscula \n- Un número \n- Al menos un caracter especial (#?!@$%^&*._-) \n\n Evita usar contraseñas con patrones simples como \"Abcd-12345\", con tu nombre y/o fecha de cumpleaños."
     },
+    "tokenInput": {
+      "label": "Código de verificación",
+      "placeholder": "Ingresa tu código"
+    },
     "createAccountButton": {
       "text": "Crear cuenta"
     },
@@ -61,6 +65,12 @@
       "confirmButtonText": "Actualizar",
       "oldPasswordLabel": "Contraseña actual",
       "oldPasswordPlaceholder": "Ingresa tu contraseña actual",
+      "newPasswordLabel": "Nueva contraseña",
+      "newPasswordPlaceholder": "Ingresa tu nueva contraseña"
+    },
+    "recoverPassword": {
+      "title": "Recuperar contraseña",
+      "confirmButtonText": "Siguiente",
       "newPasswordLabel": "Nueva contraseña",
       "newPasswordPlaceholder": "Ingresa tu nueva contraseña"
     },
