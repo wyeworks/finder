@@ -25,6 +25,8 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
   const [finishedLoading, setFinishedLoading] = useState<boolean>(false);
   const [reachedGroupLimit, setReachedGroupLimit] = useState<boolean>(false);
   const [inGroup, setInGroup] = useState<boolean>(false);
+  const isAdmin =
+    session?.user.id && group.admin_ids?.includes(Number(session?.user.id));
 
   const handleRequestGroup = async function () {
     if (id) {
@@ -91,8 +93,18 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
       setRequestPending(res);
       setFinishedLoading(true);
     };
-    isRequestPending();
-  }, [id, session?.user.accessToken, user.id, user_ids]);
+    if (!isAdmin) {
+      isRequestPending();
+    }
+  }, [
+    group.admin_ids,
+    id,
+    isAdmin,
+    session?.user.accessToken,
+    session?.user.id,
+    user.id,
+    user_ids,
+  ]);
 
   const buttonJoin = () => {
     return (

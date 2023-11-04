@@ -6,7 +6,7 @@ module Groups
     before_action :ensure_correct_user_or_admin, only: %i[destroy update]
 
     def index
-      messages = @group.messages.order(created_at: :desc)
+      messages = @group.messages.order(created_at: :asc)
       serialized_messages = messages.map do |message|
         MessageSerializer.new(message).serializable_hash[:data][:attributes]
       end

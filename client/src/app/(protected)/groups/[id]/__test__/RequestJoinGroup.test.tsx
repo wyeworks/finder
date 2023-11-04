@@ -5,7 +5,6 @@ import RequestJoinGroup from '../Content/RequestJoinGroup';
 import strings from '@/locales/strings.json';
 import { SessionProvider } from 'next-auth/react';
 import { GroupService } from '@/services/GroupService';
-import { NotOkError } from '@/types/NotOkError';
 
 jest.mock('next/navigation', () => ({
   usePathname: jest.fn().mockReturnValue('groups/1'),
@@ -13,12 +12,20 @@ jest.mock('next/navigation', () => ({
 
 jest.mock('../../../../../services/Logger');
 
-const renderRequestJoinGroup = () => {
+const renderRequestJoinGroup = (isAdmin: boolean = true) => {
+  const admin_ids = isAdmin ? [1] : [];
   render(
     <SessionProvider
       session={{ user: { id: '1', name: 'test' }, expires: '11' }}
     >
-      <RequestJoinGroup />
+      <RequestJoinGroup
+        group={{
+          name: 'Test Group',
+          subject_id: 1,
+          sessions: [],
+          admin_ids: admin_ids,
+        }}
+      />
     </SessionProvider>
   );
 };
@@ -78,15 +85,7 @@ describe('RequestJoinGroup Component Tests', () => {
   });
 
   test('should display forbidden access message when not authorized', async () => {
-    // Mock the service to simulate a NotOkError and set the backendError's group property to true
-    GroupService.getRequestJoinGroup = jest.fn().mockImplementation(() => {
-      throw new NotOkError(
-        { message: 'Not authorized', errors: { group: ['Not allowed'] } },
-        403
-      );
-    });
-
-    renderRequestJoinGroup();
+    renderRequestJoinGroup(false);
 
     await waitFor(() => {
       const forbiddenMessage = screen.getByText(
