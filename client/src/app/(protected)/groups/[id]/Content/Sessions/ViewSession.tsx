@@ -35,6 +35,8 @@ import { validateHour } from '@/utils/validations';
 import { SessionService } from '@/services/SessionsService';
 import { Logger } from '@/services/Logger';
 import { NotOkError } from '@/types/NotOkError';
+import DelayedConfirmDialog from '@/app/(protected)/users/me/DelayedConfirmDialog';
+import { TrashCanIcon } from '@/assets/Icons/TrashCanIcon';
 
 type ViewSessionProps = {
   sessionGroup: Session;
@@ -51,6 +53,8 @@ type ViewSessionProps = {
   refetchSession: (id: number, showAttendance: boolean) => Promise<void>;
   isAdmin?: boolean;
   setOpenModal: Dispatch<SetStateAction<boolean>>;
+  close?: () => void;
+  isHistorial?: boolean;
 };
 
 function validateUrl(url: string) {
@@ -67,6 +71,8 @@ export default function ViewSession({
   isAdmin = false,
   refetchSession,
   setOpenModal,
+  close,
+  isHistorial = false,
 }: ViewSessionProps) {
   const { data: session } = useSession();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
@@ -82,6 +88,38 @@ export default function ViewSession({
     location: sessionGroup.location,
     metLink: sessionGroup.meeting_link,
   });
+
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState<'success' | 'error'>('success');
+  const [open, setOpen] = useState(false);
+
+  function handleCancelDelete() {
+    setOpen(false);
+    Logger.debug('Cancel');
+  }
+
+  async function handleConfirm() {
+    Logger.debug('Confirm');
+    setOpen(false);
+
+    try {
+      await SessionService.deleteSession(
+        sessionGroup.id,
+        session?.user?.accessToken!
+      );
+
+      setIsAlertVisible(true);
+      setAlertMessage('Sesión eliminada');
+      setAlertType('success');
+      close!();
+    } catch (error: any) {
+      Logger.error(error);
+      setIsAlertVisible(true);
+      setAlertMessage('No se pudo eliminar la sesión');
+      setAlertType('error');
+    }
+  }
 
   useEffect(() => {
     setAlertProps({ show: false });
@@ -113,20 +151,45 @@ export default function ViewSession({
   const renderOptions = () => {
     const isShowOption =
       Number(session?.user?.id) === sessionGroup.creator_user_id || isAdmin;
+
     if (isShowOption) {
       return (
         <>
+          {!isHistorial && (
+            <button
+              className='h-full'
+              onClick={() => setIsEditMode(!isEditMode)}
+              type='button'
+              data-testid='edit-button'
+            >
+              <EditIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
+            </button>
+          )}
           <button
-            className='h-full'
-            onClick={() => setIsEditMode(!isEditMode)}
+            className='mx-2 h-full'
             type='button'
-            data-testid='edit-button'
+            onClick={() => setOpen(true)}
+            data-testid={'delete-session-button'}
           >
-            <EditIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
-          </button>
-          <button className='mx-2 h-full' type='button'>
             <TrashIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
           </button>
+          <DelayedConfirmDialog
+            open={open}
+            setOpen={setOpen}
+            description={strings.form.deleteSession.confirmDialogDescription}
+            title={strings.form.deleteSession.confirmDialogTitle}
+            onCancel={handleCancelDelete}
+            onConfirm={handleConfirm}
+            confirmText={
+              strings.form.deleteSession.confirmDialogConfirmButtonText
+            }
+            cancelText={
+              strings.form.deleteSession.confirmDialogCancelButtonText
+            }
+            delayDuration={5}
+            confirmColor={'blue'}
+            icon={<TrashCanIcon width={30} height={30} />}
+          />
         </>
       );
     }
@@ -325,6 +388,7 @@ export default function ViewSession({
                   required
                   touched={true}
                   validateText={strings.createSession.form.validateText.date}
+                  minNumber={new Date().toISOString().split('T')[0]}
                 />
                 <Input
                   type='text'
@@ -355,6 +419,7 @@ export default function ViewSession({
                   required
                   touched={true}
                   validateText={strings.createSession.form.validateText.date}
+                  minNumber={editData.startTime}
                 />
                 <Input
                   type='text'
@@ -476,6 +541,12 @@ export default function ViewSession({
           title={alertProps.title}
           alertType={alertProps.alertType}
           withTitle={Boolean(alertProps.title)}
+        />
+        <Alert
+          isVisible={isAlertVisible}
+          message={alertMessage}
+          alertType={alertType}
+          title={'Eliminar Sesion'}
         />
       </div>
     </form>

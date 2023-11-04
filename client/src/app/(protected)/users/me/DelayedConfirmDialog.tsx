@@ -132,6 +132,7 @@ function DelayedConfirmDialog({
                 <div className='bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
                   <button
                     type='button'
+                    data-testid={'cancel-delete-button'}
                     className={`inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-sm ${
                       isConfirmDisabled
                         ? 'cursor-not-allowed bg-gray-300 text-gray-600'

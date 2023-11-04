@@ -9,7 +9,7 @@ type GroupCardProps = {
 
 export function GroupCard({ group, className = '' }: GroupCardProps) {
   return (
-    <Link href={'/groups/' + group.id}>
+    <Link href={'/groups/' + group.id} className='flex w-fit'>
       <div
         data-testid={`groupCard-${group.name}`}
         className={`flex-col overflow-hidden rounded-2xl bg-white shadow-lg ${className}`}
