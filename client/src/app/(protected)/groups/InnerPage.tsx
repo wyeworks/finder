@@ -154,7 +154,7 @@ function GroupsFound({
           </>
         )}
         {(isLoading || noGroupsFound) && (
-          <div className='fixed left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center'>
+          <div className='mt-8 flex flex-col items-center justify-center md:fixed md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:transform'>
             {isLoading && (
               <>
                 <Image
