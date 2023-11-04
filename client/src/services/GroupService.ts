@@ -3,6 +3,7 @@ import { Logger } from '@/services/Logger';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Member } from '@/types/Member';
 import { SearchGroup } from '@/app/(protected)/groups/page';
+import { Message } from '@/types/Message';
 
 export class GroupService {
   public static async getById(
@@ -17,6 +18,7 @@ export class GroupService {
     return await response.json();
   }
 
+  // eslint-disable-next-line complexity
   public static async getAll(
     accessToken: string,
     searchParams: SearchGroup | null
@@ -149,5 +151,35 @@ export class GroupService {
       method: 'DELETE',
       accessToken,
     });
+  }
+
+  public static async sendMessage(
+    data: {
+      content: string;
+    },
+    accessToken: string,
+    gorupId: number
+  ): Promise<string> {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/groups/' + gorupId + '/messages',
+      method: 'POST',
+      data,
+      accessToken,
+    });
+    const body = await response.json();
+    return body.id;
+  }
+
+  public static async getMessages(
+    id: number,
+    accessToken: string
+  ): Promise<Message[]> {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/groups/' + id + '/messages',
+      method: 'GET',
+      accessToken,
+    });
+    const body = await response.json();
+    return body;
   }
 }
