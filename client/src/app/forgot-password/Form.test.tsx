@@ -18,7 +18,7 @@ const fillAndSubmitForm = () => {
   );
 };
 
-describe.skip('Form Component', () => {
+describe('Form Component', () => {
   it('should render without crashing', () => {
     render(<Form />);
   });

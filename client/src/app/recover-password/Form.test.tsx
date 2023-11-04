@@ -13,14 +13,14 @@ const fillAndSubmitForm = () => {
   userEvent.paste('john.doe@email.com');
   screen.getByLabelText(strings.form.tokenInput.label).focus();
   userEvent.paste('oMa2Dbp2yksDN8t5y_qE');
-  screen.getByLabelText(strings.form.passwordInput.label).focus();
+  screen.getByLabelText(strings.form.recoverPassword.newPasswordLabel).focus();
   userEvent.paste('Password#123');
 
   // Submit the form
   userEvent.click(screen.getByText(strings.form.recoverPassword.title));
 };
 
-describe.skip('Form Component', () => {
+describe('Form Component', () => {
   it('should render without crashing', () => {
     render(<Form />);
   });
