@@ -14,7 +14,7 @@ export default function MessageCard({
   return (
     <div className='w-full'>
       <div
-        className={`m-2 flex w-fit max-w-[60%] flex-col rounded-md p-2 
+        className={`m-2 flex w-auto max-w-[60%] flex-col rounded-md p-2 
         text-sm shadow-lg 
         ${
           isMeMessage
