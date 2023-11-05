@@ -103,7 +103,7 @@ export default function MemberCard({
           session?.user.accessToken!
         );
         fetchData!();
-      } else throw new Error('El rol actual es invalido.');
+      } else throw new Error('El rol actual es inválido.');
     } catch (error) {
       if (error instanceof NotOkError) {
         if (onError)
