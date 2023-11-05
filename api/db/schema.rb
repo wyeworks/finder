@@ -93,7 +93,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_04_193818) do
     t.string "name", null: false
     t.text "description"
     t.string "location"
-    t.string "meeting_link", null: false
+    t.string "meeting_link"
     t.datetime "start_time", null: false
     t.datetime "end_time", null: false
     t.bigint "group_id", null: false
