@@ -40,7 +40,7 @@ describe('Edit Group Component', () => {
   });
 
   describe('Form', () => {
-    test('Deberia mostrar un error en pantalla si no carga correctamente las Materias', async () => {
+    test('Should show an error if there is a problem loading the subjects', async () => {
       (SubjectService.getAll as jest.Mock).mockRejectedValueOnce(
         new Error('Error')
       );
@@ -55,14 +55,14 @@ describe('Edit Group Component', () => {
       );
     });
 
-    describe('Deberia cargar correctamente los campos con los datos del grupo', () => {
+    describe('Should load the fields with the group properties', () => {
       beforeEach(() => {
         (SubjectService.getAll as jest.Mock).mockResolvedValueOnce([
           SubjectBuilder.aSubject().build(),
         ]);
       });
 
-      test('Deberia cargar correctamente el nombre', async () => {
+      test('Should load name field correctly', async () => {
         renderSut(StudyGroupBuilder.aStudyGroup().withName('Test'));
 
         await waitFor(() =>
@@ -74,7 +74,7 @@ describe('Edit Group Component', () => {
         );
       });
 
-      test('Deberia cargar correctamente la descripcion', async () => {
+      test('Should load description field correctly', async () => {
         renderSut(StudyGroupBuilder.aStudyGroup().withDescription('Test'));
 
         await waitFor(() =>
@@ -86,7 +86,7 @@ describe('Edit Group Component', () => {
         );
       });
 
-      test('Deberia cargar correctamente la materia', async () => {
+      test('Should load subject field correctly', async () => {
         renderSut(StudyGroupBuilder.aStudyGroup().withSubjectName('Test'));
 
         await waitFor(() =>
@@ -97,7 +97,7 @@ describe('Edit Group Component', () => {
         );
       });
 
-      test('Deberia cargar correctamente las preferencias de horario', async () => {
+      test('Should load schedule preferences fields correctly', async () => {
         renderSut(
           StudyGroupBuilder.aStudyGroup().withTimePreferences({
             Monday: TimeOfDay.Morning,
@@ -137,7 +137,7 @@ describe('Edit Group Component', () => {
       });
     });
 
-    describe('Editar campos', () => {
+    describe('Modify fields', () => {
       beforeEach(() => {
         //we clear the mock so it doesn't return the same value for every test
         (SubjectService.getAll as jest.Mock).mockClear();
@@ -148,9 +148,8 @@ describe('Edit Group Component', () => {
       });
 
       test(
-        "Si se presione el boton de 'Guardar', " +
-          'deberia mostrar llamar a GroupService.update() con el StudyGroup ' +
-          'modificado y deberia devolver succees',
+        'Should call GroupService.update() with the modified group, ' +
+          'when the "Guardar" button is pressed',
         async () => {
           //We want to mock GroupService.update(groupEdited, token) to return success
           const mockEdit = GroupService.update as jest.Mock;
@@ -191,9 +190,8 @@ describe('Edit Group Component', () => {
       );
 
       test(
-        "Si se presione el boton de 'Guardar', " +
-          'si al llamar al service da error entonces deberia ' +
-          'mostrar un mensaje de error',
+        'If, after trying to edit a group, the server returns an error, ' +
+          'should show an error alert',
         async () => {
           //We want to mock GroupService.update(groupEdited, token) to return success
           const mockEdit = GroupService.update as jest.Mock;
