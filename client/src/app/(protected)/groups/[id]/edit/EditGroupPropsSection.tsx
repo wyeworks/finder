@@ -65,11 +65,7 @@ export default function EditGroupPropsSection({
       groupData.subject_name !== group.subject_name ||
       groupData.time_preferences !== group.time_preferences;
 
-    if (changesWereMade) {
-      setDisabledSubmittButton(false);
-    } else {
-      setDisabledSubmittButton(true);
-    }
+    setDisabledSubmittButton(!changesWereMade);
   }, [
     group.description,
     group.name,

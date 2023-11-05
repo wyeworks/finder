@@ -108,18 +108,6 @@ export class GroupService {
     }
   }
 
-  public static async isAdmin(
-    groupId: string,
-    userId: string,
-    accessToken: string
-  ): Promise<boolean> {
-    const members = await GroupService.getGroupMembers(groupId, accessToken);
-    const isAdmin = members.find(
-      (member) => member.id == userId && member.role === 'admin'
-    );
-    return isAdmin !== undefined;
-  }
-
   public static async createGroup(
     data: {
       name: string;

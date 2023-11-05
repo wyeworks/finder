@@ -18,11 +18,8 @@ export default async function EditGroup({
       params.id,
       session?.user.accessToken!
     );
-    const isAdmin = await GroupService.isAdmin(
-      params.id,
-      session?.user.id!,
-      session?.user.accessToken!
-    );
+    const isAdmin =
+      session?.user.id && group.admin_ids?.includes(Number(session?.user.id));
     if (!isAdmin) redirect(`/groups/${params.id}`);
 
     return (
