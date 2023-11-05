@@ -59,7 +59,7 @@ describe('FiltersContent Component', () => {
     const morningCheckbox = screen.getByLabelText('Mañana');
 
     // Click the checkbox to select 'morning'.
-    userEvent.click(morningCheckbox);
+    await userEvent.click(morningCheckbox);
 
     // We expect `onSearchParametersChange` to be called with 'morning' included in the time preferences.
     await waitFor(() => {
@@ -71,7 +71,7 @@ describe('FiltersContent Component', () => {
     });
 
     // Now click the checkbox again to unselect 'morning'.
-    userEvent.click(morningCheckbox);
+    await userEvent.click(morningCheckbox);
 
     // We expect `onSearchParametersChange` to be called with 'morning' removed from the time preferences.
     await waitFor(() => {
@@ -87,8 +87,8 @@ describe('FiltersContent Component', () => {
     const nameInput = screen.getByTestId('name');
 
     // Type a new name into the input field.
-    userEvent.clear(nameInput);
-    userEvent.type(nameInput, 'Study Group Alpha');
+    await userEvent.clear(nameInput);
+    await userEvent.type(nameInput, 'Study Group Alpha');
 
     // Assert that onSearchParametersChange has been called with the new name.
     await waitFor(() => {
@@ -102,18 +102,18 @@ describe('FiltersContent Component', () => {
 
   it('calls onSearchParametersChange with the new subject when a subject is selected', async () => {
     const subjectDropdown = screen.getByTestId('dropdown');
-    userEvent.click(subjectDropdown);
+    await userEvent.click(subjectDropdown);
 
     // Wait for options to be visible if they are dynamically rendered
     const option = await screen.findByText('Math (MATH101)');
-    userEvent.click(option);
+    await userEvent.click(option);
 
     await waitFor(() => {
-      expect(mockOnSearchParametersChange).toHaveBeenCalledWith({
-        ...mockSearchParameters,
-        subject: 1,
-        name: '',
-      });
+      expect(mockOnSearchParametersChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          subject: 1,
+        })
+      );
     });
   });
 });

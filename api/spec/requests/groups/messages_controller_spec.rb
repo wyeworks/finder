@@ -43,16 +43,18 @@ RSpec.describe 'Groups::MessagesController', type: :request do
         it 'returns JSON containing all messages from the group' do
           json_response = response.parsed_body
 
-          expect(json_response[0]['id']).to be_a(Integer)
-          expect(json_response[0]['content']).to be_a(String)
-          expect(json_response[0]['hour']).to be_a(String)
-          expect(json_response[0]['user_id']).to eq(user.id)
-          expect(json_response[0]['group_id']).to eq(group.id)
-          expect(json_response[0]['user_name']).to eq(user.name)
+          expect(json_response[0]['date']).to be_a(String)
+          expect(json_response[0]['messages'][0]['id']).to be_a(Integer)
+          expect(json_response[0]['messages'][0]['content']).to be_a(String)
+          expect(json_response[0]['messages'][0]['created_at']).to be_a(String)
+          expect(json_response[0]['messages'][0]['user_id']).to eq(user.id)
+          expect(json_response[0]['messages'][0]['group_id']).to eq(group.id)
+          expect(json_response[0]['messages'][0]['user_name']).to eq(user.name)
         end
 
         it 'returns the correct message content' do
-          returned_messages = response.parsed_body
+          returned_messages = response.parsed_body[0]['messages']
+
           messages.each_with_index do |message, index|
             expect(returned_messages[index]['content']).to eq(message.content)
           end

@@ -126,7 +126,7 @@ describe('GroupsLayout Component', () => {
 
     it('should show the groups subject', () => {
       const grupoConSubject = StudyGroupBuilder.aStudyGroup()
-        .withSubject(1)
+        .withSubjectId(1)
         .build();
 
       render(

@@ -12,6 +12,7 @@ type TextAreaParams = {
   Icon?: React.ReactNode;
   className?: string;
   classNameWrapper?: string;
+  classNameAll?: string;
   maxWidth?: boolean;
   resize?: boolean;
   maxLength?: number;
@@ -30,12 +31,13 @@ export default function TextArea({
   Icon,
   className = '',
   classNameWrapper = '',
+  classNameAll = '',
   maxWidth = true,
   resize = false,
   maxLength,
 }: TextAreaParams) {
   return (
-    <div className={`${maxWidth && 'max-w-sm'} justify-center`}>
+    <div className={`${maxWidth && 'max-w-sm'} justify-center ${classNameAll}`}>
       {label && (
         <label
           htmlFor={id}

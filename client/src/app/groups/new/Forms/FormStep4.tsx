@@ -1,23 +1,10 @@
 import Button from '@/components/common/Button';
-import Dropdown from '@/components/common/DropDown';
-import { Option } from '@/types/Option';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction } from 'react';
 import { CreateGroupData } from '../page';
-import { TimeOfDay } from '@/types/StudyGroup';
-import { translatePreference, translateSpanishDays } from '@/utils/Formatter';
+import { translateSpanishDays } from '@/utils/Formatter';
 import LayoutForms from './LayoutForms';
-
-const preferences: Option[] = [
-  {
-    key: TimeOfDay.NoPreferences,
-    label: translatePreference(TimeOfDay.NoPreferences),
-  },
-  { key: TimeOfDay.No, label: translatePreference(TimeOfDay.No) },
-  { key: TimeOfDay.Afternoon, label: translatePreference(TimeOfDay.Afternoon) },
-  { key: TimeOfDay.Morning, label: translatePreference(TimeOfDay.Morning) },
-  { key: TimeOfDay.Night, label: translatePreference(TimeOfDay.Night) },
-];
+import EditableTimePreferences from '@/components/common/EditableTimePreferences';
 
 type FormStep4Props = {
   setValue: Dispatch<SetStateAction<CreateGroupData>>;
@@ -30,8 +17,6 @@ export default function FormStep4({
   handleSubmit,
   back,
 }: FormStep4Props) {
-  const spanishDays = Object.keys(translateSpanishDays);
-
   function setTimePreference(day: string, newValue: string) {
     setValue((prevState: any) => {
       const updatedTimePreference = { ...prevState.timePreference };
@@ -60,23 +45,10 @@ export default function FormStep4({
           {strings.createGroup.step4.description2}
         </span>
       </div>
-      <div className='my-3'>
-        {spanishDays.map((day, index) => {
-          function handleTime(value: string) {
-            setTimePreference(day, value);
-          }
-          return (
-            <div key={index}>
-              <Dropdown
-                id={`dropdown-${day}`}
-                options={preferences}
-                label={day}
-                onSelect={handleTime}
-              />
-            </div>
-          );
-        })}
-      </div>
+      <EditableTimePreferences
+        onTimePreferenceForDayChange={setTimePreference}
+        paddingAroundSelectors={2}
+      />
       <Button
         text={strings.form.nextButton.text}
         type='button'
