@@ -1,0 +1,69 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API V1",
+    "version": "v1"
+  },
+  "paths": {
+    "/careers": {
+      "get": {
+        "summary": "Returns all careers",
+        "tags": [
+          "Careers"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "index_careers": {
+                    "value": [
+                      {
+                        "id": 53,
+                        "name": "Career_1",
+                        "code": "1",
+                        "approved_on": "2023",
+                        "years": 5,
+                        "credits": 450,
+                        "user_ids": [
+
+                        ]
+                      },
+                      {
+                        "id": 54,
+                        "name": "Career_2",
+                        "code": "2",
+                        "approved_on": "2023",
+                        "years": 5,
+                        "credits": 450,
+                        "user_ids": [
+
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ]
+}
