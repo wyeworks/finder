@@ -92,6 +92,7 @@ describe('GroupsLayout Component', () => {
               description: grupoConDescripcion.description!,
               name: grupoConDescripcion.name,
               subject_id: sampleSubject.id,
+              subject_name: sampleSubject.name,
               sessions: [],
               banner: grupoConDescripcion.banner,
             },
@@ -142,6 +143,7 @@ describe('GroupsLayout Component', () => {
               description: grupoConSubject.description!,
               name: grupoConSubject.name,
               subject_id: sampleSubject.id,
+              subject_name: sampleSubject.name,
               sessions: [],
               banner: grupoConSubject.banner,
             },
@@ -149,9 +151,9 @@ describe('GroupsLayout Component', () => {
         />
       );
 
-      expect(
-        screen.getByTestId('groupSubject-Bases de datos')
-      ).toHaveTextContent(sampleSubject.name);
+      expect(screen.getByTestId('groupSubject-1')).toHaveTextContent(
+        sampleSubject.name
+      );
     });
   });
 });
