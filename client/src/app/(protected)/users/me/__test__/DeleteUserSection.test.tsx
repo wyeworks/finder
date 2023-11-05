@@ -1,8 +1,8 @@
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { DeleteUserSection } from '@/app/(protected)/users/me/DeleteUserSection';
 import { User } from '@/types/User';
 import strings from '@/locales/strings.json';
-import { UserService } from '../../../../../services/UserService';
+import { UserService } from '@/services/UserService';
 import userEvent from '@testing-library/user-event';
 
 jest.mock('next-auth/react', () => ({
@@ -27,7 +27,7 @@ describe('<DeleteUserSection />', () => {
 
   it('shows DelayedConfirmDialog on form submission', async () => {
     const { getByRole } = render(<DeleteUserSection user={mockUser} />);
-    userEvent.click(
+    await userEvent.click(
       getByRole('button', { name: strings.form.deleteUser.confirmButtonText })
     );
     await waitFor(() => {
@@ -39,7 +39,7 @@ describe('<DeleteUserSection />', () => {
     const { getByRole, queryByRole } = render(
       <DeleteUserSection user={mockUser} />
     );
-    userEvent.click(
+    await userEvent.click(
       getByRole('button', { name: strings.form.deleteUser.confirmButtonText })
     );
 
@@ -47,7 +47,7 @@ describe('<DeleteUserSection />', () => {
       expect(getByRole('dialog')).toBeInTheDocument();
     });
 
-    userEvent.click(getByRole('button', { name: 'Cancelar' }));
+    await userEvent.click(getByRole('button', { name: 'Cancelar' }));
 
     await waitFor(() => {
       expect(queryByRole('dialog')).not.toBeInTheDocument();
@@ -64,17 +64,17 @@ describe('<DeleteUserSection />', () => {
     );
 
     // Open the dialog
-    fireEvent.click(
+    await userEvent.click(
       getByRole('button', { name: strings.form.deleteUser.confirmButtonText })
     );
     await waitFor(
       () => {
-        expect(getByTestId('confirm-delete-button')).not.toBeDisabled();
+        expect(getByTestId('confirm-dialog-confirm-button')).not.toBeDisabled();
       },
       { timeout: 7000 }
     );
     // Click the confirm button in the dialog
-    fireEvent.click(getByTestId('confirm-delete-button'));
+    await userEvent.click(getByTestId('confirm-dialog-confirm-button'));
 
     await waitFor(() => {
       expect(getByText('No se pudo eliminar el perfil')).toBeInTheDocument();
@@ -91,17 +91,17 @@ describe('<DeleteUserSection />', () => {
     );
 
     // Open the dialog
-    fireEvent.click(
+    await userEvent.click(
       getByRole('button', { name: strings.form.deleteUser.confirmButtonText })
     );
     await waitFor(
       () => {
-        expect(getByTestId('confirm-delete-button')).not.toBeDisabled();
+        expect(getByTestId('confirm-dialog-confirm-button')).not.toBeDisabled();
       },
       { timeout: 7000 }
     );
     // Click the confirm button in the dialog
-    fireEvent.click(getByTestId('confirm-delete-button'));
+    await userEvent.click(getByTestId('confirm-dialog-confirm-button'));
 
     await waitFor(() => {
       expect(getByText('Perfil eliminado')).toBeInTheDocument();

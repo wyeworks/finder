@@ -107,7 +107,6 @@ export function FiltersContent({
           onChange={(value) => {
             handleSubjectChange(value);
           }}
-          marginTopAndBottom={0}
         />
       </div>
       <div className={'h-4'} />

@@ -180,6 +180,43 @@
       }
     }
   },
+  "configGroup": {
+    "title": "Ajustes de grupo",
+    "form": {
+      "edit": {
+        "title": "Información general",
+        "confirmButton": "Guardar cambios",
+        "alertSuccess": "Grupo actualizado",
+        "alertError": "No se pudo actualizar el grupo",
+        "alertErrorLoadingSubjects": "No se pudieron cargar las materias",
+        "fields": {
+          "name": {
+            "label": "Nombre del grupo",
+            "placeholder": "Ingresa el nombre del grupo"
+          },
+          "materia": {
+            "label": "Materia"
+          },
+          "description": {
+            "label": "Descripción",
+            "placeholder": "Ingresa una descripción"
+          },
+          "preferenciaHoraria": {
+            "label": "Preferencia horaria"
+          }
+        }
+      },
+      "delete": {
+        "title": "Eliminar grupo",
+        "confirmButton": "Eliminar grupo",
+        "explanation": "Todos los datos serán eliminados permanentemente",
+        "confirmationDialogText": "¿Estás seguro que deseas eliminar el grupo? Esta acción no se puede deshacer.",
+        "confirmationDialogTitle": "Eliminar grupo",
+        "alertSuccess": "Grupo eliminado",
+        "alertError": "No se pudo eliminar el grupo"
+      }
+    }
+  },
   "createGroup": {
     "step1": {
       "description": "Primero elige la materia del grupo",

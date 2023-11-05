@@ -30,6 +30,7 @@ type InputParams = {
   minNumber?: string | number;
   max?: string | number;
   classNameLabel?: string;
+  classNameAll?: string;
   autoComplete?: string;
   disabled?: boolean;
   maxLength?: number;
@@ -53,6 +54,7 @@ export default function Input({
   maxWidth = true,
   classNameWrapper = '',
   classNameInput = '',
+  classNameAll = '',
   minNumber,
   max,
   classNameLabel = '',
@@ -102,7 +104,7 @@ export default function Input({
   }
 
   return (
-    <div className={`${maxWidth && 'max-w'} justify-center`}>
+    <div className={`${maxWidth && 'max-w'} justify-center ${classNameAll}`}>
       {renderLabelAndInfo()}
       <div className={`relative -mb-3 ${classNameWrapper}`}>
         {Icon && (
