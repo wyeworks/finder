@@ -182,4 +182,22 @@ export class GroupService {
     const body = await response.json();
     return body;
   }
+
+  static async changeRole(
+    member_id: string,
+    role: 'admin' | 'participant',
+    accessToken: string
+  ) {
+    let newRole = null;
+    if (role == 'admin') newRole = 'participant';
+    else newRole = 'admin';
+    return ApiCommunicator.commonFetch({
+      url: '/members/' + member_id,
+      method: 'PATCH',
+      accessToken: accessToken,
+      data: {
+        role: newRole,
+      },
+    });
+  }
 }
