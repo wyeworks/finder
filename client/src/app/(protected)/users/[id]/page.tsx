@@ -24,7 +24,7 @@ export default async function Page({ params }: Props) {
         user={user}
         isLoggedUser={session?.user?.email === user.email}
       />
-      <div className='flex flex-col items-start justify-center lg:flex-row lg:pt-20'>
+      <div className='flex flex-col items-start justify-center lg:flex-row lg:p-10 lg:pt-20'>
         <GroupsLayout user={user} />
         <SubjectsLayout user={user} />
       </div>

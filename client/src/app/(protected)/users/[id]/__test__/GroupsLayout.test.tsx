@@ -32,14 +32,16 @@ describe('GroupsLayout Component', () => {
             id: grupoPIS.id!,
             description: grupoPIS.description!,
             name: grupoPIS.name,
-            subject: sampleSubject.name,
+            subject_id: sampleSubject.id,
+            sessions: [],
             banner: grupoPIS.banner,
           },
           {
             id: grupoBasesDeDatos.id!,
             description: grupoBasesDeDatos.description!,
             name: grupoBasesDeDatos.name,
-            subject: sampleSubject.name,
+            subject_id: sampleSubject.id,
+            sessions: [],
             banner: grupoBasesDeDatos.banner,
           },
         ]}
@@ -64,7 +66,8 @@ describe('GroupsLayout Component', () => {
               id: grupoConNombre.id!,
               description: grupoConNombre.description!,
               name: grupoConNombre.name,
-              subject: sampleSubject.name,
+              subject_id: sampleSubject.id,
+              sessions: [],
               banner: grupoConNombre.banner,
             },
           ]}
@@ -88,7 +91,8 @@ describe('GroupsLayout Component', () => {
               id: grupoConDescripcion.id!,
               description: grupoConDescripcion.description!,
               name: grupoConDescripcion.name,
-              subject: sampleSubject.name,
+              subject_id: sampleSubject.id,
+              sessions: [],
               banner: grupoConDescripcion.banner,
             },
           ]}
@@ -112,7 +116,8 @@ describe('GroupsLayout Component', () => {
               id: grupoWithBanner.id!,
               description: grupoWithBanner.description!,
               name: grupoWithBanner.name,
-              subject: sampleSubject.name,
+              subject_id: sampleSubject.id,
+              sessions: [],
               banner: grupoWithBanner.banner,
             },
           ]}
@@ -136,7 +141,8 @@ describe('GroupsLayout Component', () => {
               id: grupoConSubject.id!,
               description: grupoConSubject.description!,
               name: grupoConSubject.name,
-              subject: sampleSubject.name,
+              subject_id: sampleSubject.id,
+              sessions: [],
               banner: grupoConSubject.banner,
             },
           ]}
