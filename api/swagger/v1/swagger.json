@@ -5,6 +5,69 @@
     "version": "v1"
   },
   "paths": {
+    "/attendances/{id}": {
+      "patch": {
+        "summary": "Updates an attendance",
+        "tags": [
+          "Attendances"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Attendance ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "update_attendances": {
+                    "value": {
+                      "id": 1168,
+                      "status": "accepted",
+                      "session_id": 612,
+                      "member_id": 1772
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "attendance"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
     "/careers": {
       "get": {
         "summary": "Returns all careers",
@@ -30,7 +93,7 @@
                   "index_careers": {
                     "value": [
                       {
-                        "id": 124,
+                        "id": 175,
                         "name": "Career_1",
                         "code": "1",
                         "approved_on": "2023",
@@ -41,7 +104,7 @@
                         ]
                       },
                       {
-                        "id": 125,
+                        "id": 176,
                         "name": "Career_2",
                         "code": "2",
                         "approved_on": "2023",
@@ -85,9 +148,9 @@
                   "index_subjects": {
                     "value": [
                       {
-                        "id": 1011,
-                        "name": "Subject_1",
-                        "code": "1",
+                        "id": 1467,
+                        "name": "Subject_3",
+                        "code": "3",
                         "credits": 10,
                         "group_ids": [
 
@@ -97,9 +160,9 @@
                         ]
                       },
                       {
-                        "id": 1012,
-                        "name": "Subject_2",
-                        "code": "2",
+                        "id": 1468,
+                        "name": "Subject_4",
+                        "code": "4",
                         "credits": 10,
                         "group_ids": [
 
@@ -150,9 +213,9 @@
                 "examples": {
                   "show_subjects": {
                     "value": {
-                      "id": 1013,
-                      "name": "Subject_3",
-                      "code": "3",
+                      "id": 1469,
+                      "name": "Subject_5",
+                      "code": "5",
                       "credits": 10,
                       "group_ids": [
 
