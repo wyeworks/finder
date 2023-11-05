@@ -1,6 +1,7 @@
 import { Career } from '@/types/Career';
 import { SocialNetworks } from '@/types/SocialNetworks';
-import { GroupDetails, User } from '@/types/User';
+import { User } from '@/types/User';
+import { StudyGroup } from '@/types/StudyGroup';
 
 export class UserBuilder {
   private readonly id: string;
@@ -10,7 +11,7 @@ export class UserBuilder {
   private readonly bio?: string;
   private readonly socialNetworks?: SocialNetworksBuilder;
   private readonly accessToken: string;
-  private readonly groups?: GroupDetails[];
+  private readonly groups?: StudyGroup[];
   private readonly careers?: Career[];
 
   constructor(
@@ -21,7 +22,7 @@ export class UserBuilder {
     profileImage?: string,
     bio?: string,
     socialNetworks?: SocialNetworksBuilder,
-    groups?: GroupDetails[],
+    groups?: StudyGroup[],
     careers?: Career[]
   ) {
     this.id = id;
