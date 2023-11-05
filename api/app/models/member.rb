@@ -19,6 +19,18 @@ class Member < ApplicationRecord
     update!(role: 'admin')
   end
 
+  def demote!
+    update!(role: 'participant')
+  end
+
+  def admin?
+    role == 'admin'
+  end
+
+  def participant?
+    role == 'participant'
+  end
+
   private
 
   def assign_new_session_creator

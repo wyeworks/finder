@@ -1,8 +1,9 @@
 'use client';
 
 import EmailIcon from '@/assets/Icons/EmailIcon';
-import UserIcon from '@/assets/Icons/UserIcon';
+import KeyIcon from '@/assets/Icons/KeyIcon';
 import Alert from '@/components/common/Alert';
+import { alertTypes } from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import strings from '@/locales/strings.json';
@@ -14,23 +15,25 @@ import { AuthService } from '@/services/AuthService';
 import { NotOkError } from '@/types/NotOkError';
 
 type SignUpFormData = {
-  name: string;
+  token: string;
   email: string;
   password: string;
 };
 
 export default function Form() {
   const [formData, setFormData] = useState<SignUpFormData>({
-    name: '',
+    token: '',
     email: '',
     password: '',
   });
   const [touched, setTouched] = useState({
-    name: false,
+    token: false,
     email: false,
     password: false,
   });
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isAlertVisible, setIsAlertVisible] = useState<boolean>(false);
+  const [alertType, setAlertType] = useState<alertTypes>('error');
+  const [alertTitle, setAlertTitle] = useState<string>('');
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
   const router = useRouter();
@@ -68,14 +71,14 @@ export default function Form() {
     event.preventDefault();
 
     setTouched({
-      name: true,
+      token: true,
       email: true,
       password: true,
     });
 
     //Clean previous Alert Messages
     setAlertMessage('');
-    setIsVisible(false);
+    setIsAlertVisible(false);
 
     const isCurrentFormValid = event.currentTarget.checkValidity();
 
@@ -86,9 +89,29 @@ export default function Form() {
     setIsDisabled(true);
 
     try {
-      Logger.debug('Sending signup request with data:', formData);
-      await AuthService.signUp(formData);
-      router.push('/confirmation');
+      Logger.debug('Sending password recover request with data:', formData);
+      const successMessage = await AuthService.recoverPassword(formData);
+
+      let timer: NodeJS.Timeout;
+      let timerCountdown: number = 5;
+
+      setAlertType('success');
+      setAlertTitle(successMessage);
+      setAlertMessage(
+        'Te dirigirás a iniciar sesión en ' + String(timerCountdown)
+      );
+      setIsAlertVisible(true);
+
+      timer = setInterval(() => {
+        timerCountdown -= 1;
+        setAlertMessage(
+          'Te dirigirás a iniciar sesión en ' + String(timerCountdown)
+        );
+        if (timerCountdown <= 0) {
+          router.push('/signin');
+          clearInterval(timer);
+        }
+      }, 1000);
     } catch (error) {
       if (error instanceof NotOkError) {
         const parsedError = error.backendError;
@@ -97,18 +120,19 @@ export default function Form() {
         if (parsedError.errors.email) {
           errorMessages.push(parsedError.errors.email);
         }
-        if (parsedError.errors.password) {
-          errorMessages.push(parsedError.errors.password);
-        }
 
+        setAlertType('error');
+        setAlertTitle(strings.common.error.defaultError);
         setAlertMessage(errorMessages.join('\n'));
-        setIsVisible(true);
+        setIsAlertVisible(true);
         setIsDisabled(false);
         return;
       }
 
+      setAlertType('error');
+      setAlertTitle(strings.common.error.defaultError);
       setAlertMessage(strings.common.error.unexpectedError);
-      setIsVisible(true);
+      setIsAlertVisible(true);
       setIsDisabled(false);
     }
   };
@@ -116,7 +140,7 @@ export default function Form() {
   return (
     <div
       className='mt-3 flex justify-center sm:mx-auto sm:mt-10 sm:w-full sm:max-w-sm'
-      id='register-form'
+      id='recover-pasword-form'
     >
       <form
         className='grid w-full max-w-xs grid-rows-register-form gap-1'
@@ -124,21 +148,6 @@ export default function Form() {
         noValidate
         autoComplete='off'
       >
-        <Input
-          type='text'
-          id='name'
-          name='name'
-          label={strings.form.nameInput.label}
-          placeholder={strings.form.nameInput.placeholder}
-          required
-          value={formData.name}
-          onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          touched={touched.name}
-          Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
-          maxLength={40}
-        />
         <Input
           type='email'
           id='email'
@@ -156,13 +165,28 @@ export default function Form() {
           autoComplete='off'
         />
         <Input
+          type='text'
+          id='token'
+          name='token'
+          label={strings.form.tokenInput.label}
+          placeholder={strings.form.tokenInput.placeholder}
+          required
+          value={formData.token}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          touched={touched.token}
+          Icon={<KeyIcon className='h-5 w-5 text-gray-400' />}
+          maxLength={40}
+        />
+        <Input
           type='password'
           id='password'
           name='password'
           pattern={mustHaveUpperCaseLowerCaseAndEightCharacters()}
-          label={strings.form.passwordInput.label}
+          label={strings.form.recoverPassword.newPasswordLabel}
           fieldInfo={strings.form.passwordInput.passwordInfo}
-          placeholder={strings.form.passwordInput.placeholder}
+          placeholder={strings.form.recoverPassword.newPasswordPlaceholder}
           validateText={strings.form.passwordInput.validateText}
           required
           value={formData.password}
@@ -173,15 +197,15 @@ export default function Form() {
         />
         <Button
           type='submit'
-          text={strings.form.createAccountButton.text}
+          text={strings.form.recoverPassword.title}
           className='mt-6'
           disabled={isDisabled}
         />
         <Alert
-          isVisible={isVisible}
+          isVisible={isAlertVisible}
           message={alertMessage}
-          title={strings.common.error.signup}
-          alertType='error'
+          alertType={alertType}
+          title={alertTitle}
         />
       </form>
     </div>

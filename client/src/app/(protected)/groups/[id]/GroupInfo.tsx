@@ -26,7 +26,8 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
   const [finishedLoading, setFinishedLoading] = useState<boolean>(false);
   const [reachedGroupLimit, setReachedGroupLimit] = useState<boolean>(false);
   const [inGroup, setInGroup] = useState<boolean>(false);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const isAdmin =
+    session?.user.id && group.admin_ids?.includes(Number(session?.user.id));
 
   const handleRequestGroup = async function () {
     if (id) {
@@ -93,29 +94,18 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
       setRequestPending(res);
       setFinishedLoading(true);
     };
-    isRequestPending();
-  }, [id, session?.user.accessToken, user.id, user_ids]);
-
-  useEffect(() => {
-    const isUserAdmin = async () => {
-      let res = false;
-      if (id) {
-        try {
-          res = await GroupService.isAdmin(
-            id.toString(),
-            user.id,
-            session?.user.accessToken!
-          );
-        } catch (error) {
-          if (error instanceof NotOkError) {
-            res = error.status !== 404;
-          }
-        }
-      }
-      setIsAdmin(res);
-    };
-    isUserAdmin();
-  }, [id, session?.user.accessToken, user.id]);
+    if (!isAdmin) {
+      isRequestPending();
+    }
+  }, [
+    group.admin_ids,
+    id,
+    isAdmin,
+    session?.user.accessToken,
+    session?.user.id,
+    user.id,
+    user_ids,
+  ]);
 
   const buttonJoin = () => {
     return (
@@ -154,7 +144,11 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
             </span>
           </div>
 
-          {!inGroup && finishedLoading && buttonJoin()}
+          {!inGroup && finishedLoading && (
+            <div className='hidden min-w-[175px] justify-center md:flex md:w-[15%]'>
+              {buttonJoin()}
+            </div>
+          )}
 
           {isAdmin && (
             <Link href={`/groups/${id}/edit`}>

@@ -3,6 +3,7 @@ import { Logger } from '@/services/Logger';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Member } from '@/types/Member';
 import { SearchGroup } from '@/app/(protected)/groups/page';
+import { Message } from '@/types/Message';
 
 export class GroupService {
   public static async getById(
@@ -176,6 +177,54 @@ export class GroupService {
       url: `/members/${memberId}`,
       method: 'DELETE',
       accessToken,
+    });
+  }
+
+  public static async sendMessage(
+    data: {
+      content: string;
+    },
+    accessToken: string,
+    gorupId: number
+  ): Promise<string> {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/groups/' + gorupId + '/messages',
+      method: 'POST',
+      data,
+      accessToken,
+    });
+    const body = await response.json();
+    return body.id;
+  }
+
+  public static async getMessages(
+    id: number,
+    accessToken: string
+  ): Promise<Message[]> {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/groups/' + id + '/messages',
+      method: 'GET',
+      accessToken,
+    });
+    const body = await response.json();
+    return body;
+  }
+
+  static async changeRole(
+    member_id: string,
+    role: 'admin' | 'participant',
+    accessToken: string
+  ) {
+    let newRole = null;
+    if (role == 'admin') newRole = 'participant';
+    else newRole = 'admin';
+    return ApiCommunicator.commonFetch({
+      url: '/members/' + member_id,
+      method: 'PATCH',
+      accessToken: accessToken,
+      data: {
+        role: newRole,
+      },
     });
   }
 

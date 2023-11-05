@@ -4,6 +4,7 @@ import UserIcon from '@/assets/Icons/UserIcon';
 import Alert from '@/components/common/Alert';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
+import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import strings from '@/locales/strings.json';
@@ -132,10 +133,19 @@ export default function Form() {
           onFocus={handleFocus}
           touched={touched.password}
         />
+        <div className='mt-2'>
+          <Link
+            href='/forgot-password'
+            className='font-poppins text-sm text-gray-500 hover:text-primaryBlue'
+          >
+            {' '}
+            ¿Olvidaste tu contraseña?
+          </Link>
+        </div>
         <Button
           type='submit'
           text={strings.form.logInButton.text}
-          className='mt-5 hover:bg-primaryBlue-300 focus:outline-none focus:ring focus:ring-blue-200'
+          className='hover:bg-primaryBlue-300 focus:outline-none focus:ring focus:ring-blue-200'
           disabled={isDisabled}
         />
         <Alert
