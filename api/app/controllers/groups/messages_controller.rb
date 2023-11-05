@@ -6,21 +6,24 @@ module Groups
     before_action :ensure_correct_user_or_admin, only: %i[destroy update]
 
     def index
-      messages = @group.messages.order(created_at: :asc)
-      serialized_messages = messages.map do |message|
-        MessageSerializer.new(message).serializable_hash[:data][:attributes]
+      grouped_messages = Message.group_by_date(group_id: @group.id)
+
+      serialized_grouped_messages = []
+      grouped_messages.each do |date_and_messages|
+        serialized_grouped_messages << {
+          date: date_and_messages.first,
+          messages: date_and_messages.second.map do |message|
+            MessageSerializer.new(message).serializable_hash[:data][:attributes]
+          end
+        }
       end
-      render json: serialized_messages
+
+      render json: serialized_grouped_messages
     end
 
     def create
-      @message = Message.new(
-        message_params.merge(
-          group: @group,
-          user: current_user,
-          hour: DateTime.now
-        )
-      )
+      @message = Message.new(message_params.merge(group: @group, user: current_user))
+
       if @message.save
         Rails.logger.info "Message was successfully created with params: '#{message_params}'"
 

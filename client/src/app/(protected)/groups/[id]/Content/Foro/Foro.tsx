@@ -1,17 +1,17 @@
 'use client';
 
-import ArrowRightIcon from '@/assets/Icons/ArrowRightIcon';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import { GroupService } from '@/services/GroupService';
 import { Logger } from '@/services/Logger';
 import { StudyGroup } from '@/types/StudyGroup';
-import { getHour } from '@/utils/Formatter';
+import { formatDateYYYYMMDDToDDMMYYYY, getHour } from '@/utils/Formatter';
 import { useSession } from 'next-auth/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import MessageCard from './MessageCard';
-import { Message } from '@/types/Message';
 import Alert from '@/components/common/Alert';
+import { MessagesGroup } from '@/types/MessagesGroup';
+import SendIcon from '@/assets/Icons/SendIcon';
 
 type ForoProps = {
   group: StudyGroup;
@@ -20,11 +20,13 @@ type ForoProps = {
 export default function Foro({ group }: ForoProps) {
   const { id, name } = group;
   const { data: session } = useSession();
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<MessagesGroup[]>([]);
   const [actualMessage, setActualMessage] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
   const isMemberGroup =
     session?.user.id && group.user_ids?.includes(Number(session?.user.id));
+  const scrollDiv = useRef<null | HTMLDivElement>(null);
+  const [newMessageAdded, setNewMessageAdded] = useState<boolean>(false);
 
   const getMessages = useCallback(async () => {
     try {
@@ -38,13 +40,15 @@ export default function Foro({ group }: ForoProps) {
     }
   }, [id, session?.user.accessToken]);
 
-  const sendMessage = async () => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
       await GroupService.sendMessage(
         { content: actualMessage },
         session?.user.accessToken!,
         id!
       );
+      setNewMessageAdded(true);
       setActualMessage('');
       getMessages();
     } catch (error) {
@@ -55,6 +59,14 @@ export default function Foro({ group }: ForoProps) {
       }, 5000);
     }
   };
+
+  useEffect(() => {
+    const lastChildElement =
+      scrollDiv.current?.lastElementChild?.lastElementChild?.lastElementChild;
+    lastChildElement?.scrollIntoView({
+      behavior: newMessageAdded ? 'smooth' : 'instant',
+    });
+  }, [messages, newMessageAdded]);
 
   useEffect(() => {
     if (isMemberGroup) {
@@ -71,26 +83,40 @@ export default function Foro({ group }: ForoProps) {
   }
 
   return (
-    <div className='mb-4'>
+    <form className='mb-4' onSubmit={onSubmit} noValidate>
       <div className='rounded-tl-10 rounded-tr-10 my-5 grid grid-rows-[50px,300px,50px] rounded-lg border border-solid border-gray-200 bg-white'>
         <div className=' rounded-t-lg bg-primaryBlue p-3 font-bold text-white '>
           Chat de {name}
         </div>
 
-        <div className='overflow-y-scroll bg-gray-200'>
-          {messages.map((message, index: number) => {
-            const { content, hour, user_name } = message;
-            const day = hour.split('T')[0];
-            const formatHour = getHour(hour);
-            const isMeMessage = user_name === session?.user.name;
+        <div className='overflow-y-scroll bg-gray-200' ref={scrollDiv}>
+          {messages.map((messageGroup, index) => {
             return (
-              <MessageCard
-                key={index}
-                name={user_name}
-                message={content}
-                date={`${day} ${formatHour}`}
-                isMeMessage={isMeMessage}
-              />
+              <div key={index} className='block'>
+                <div className='sticky top-1 mt-1 flex w-full justify-center bg-inherit'>
+                  <span className='rounded-xl bg-gray-200 px-2'>
+                    <p className='text-md my-2 text-grayText'>
+                      {formatDateYYYYMMDDToDDMMYYYY(messageGroup.date)}
+                    </p>
+                  </span>
+                </div>
+                <div className='grid'>
+                  {messageGroup.messages.map((message, index: number) => {
+                    const { content, created_at, user_name } = message;
+                    const formatHour = getHour(created_at);
+                    const isMeMessage = user_name === session?.user.name;
+                    return (
+                      <MessageCard
+                        key={index}
+                        name={user_name}
+                        message={content}
+                        date={`${formatHour}`}
+                        isMeMessage={isMeMessage}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
             );
           })}
         </div>
@@ -104,13 +130,12 @@ export default function Foro({ group }: ForoProps) {
               placeholder='Escriba su mensaje aqui'
               value={actualMessage}
               onChange={(e) => setActualMessage(e.target.value)}
+              autoComplete='off'
             />
           </div>
           <Button
-            onClick={() => {
-              sendMessage();
-            }}
-            Icon={<ArrowRightIcon className=' h-5 w-5' />}
+            type='submit'
+            Icon={<SendIcon className=' h-5 w-5' />}
             disabled={actualMessage.trim() === ''}
             className='h-[2.2rem] items-center'
             classNameWrapper='items-center'
@@ -123,6 +148,6 @@ export default function Foro({ group }: ForoProps) {
         title='Error al enviar mensaje'
         alertType='error'
       />
-    </div>
+    </form>
   );
 }

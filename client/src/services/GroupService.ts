@@ -3,7 +3,7 @@ import { Logger } from '@/services/Logger';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Member } from '@/types/Member';
 import { SearchGroup } from '@/app/(protected)/groups/page';
-import { Message } from '@/types/Message';
+import { MessagesGroup } from '@/types/MessagesGroup';
 
 export class GroupService {
   public static async getById(
@@ -188,7 +188,7 @@ export class GroupService {
   public static async getMessages(
     id: number,
     accessToken: string
-  ): Promise<Message[]> {
+  ): Promise<MessagesGroup[]> {
     const response = await ApiCommunicator.commonFetch({
       url: '/groups/' + id + '/messages',
       method: 'GET',
