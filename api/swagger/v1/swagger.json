@@ -30,7 +30,7 @@
                   "index_careers": {
                     "value": [
                       {
-                        "id": 53,
+                        "id": 124,
                         "name": "Career_1",
                         "code": "1",
                         "approved_on": "2023",
@@ -41,7 +41,7 @@
                         ]
                       },
                       {
-                        "id": 54,
+                        "id": 125,
                         "name": "Career_2",
                         "code": "2",
                         "approved_on": "2023",
@@ -52,6 +52,115 @@
                         ]
                       }
                     ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subjects": {
+      "get": {
+        "summary": "Returns all subjects",
+        "tags": [
+          "Subjects"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "index_subjects": {
+                    "value": [
+                      {
+                        "id": 1011,
+                        "name": "Subject_1",
+                        "code": "1",
+                        "credits": 10,
+                        "group_ids": [
+
+                        ],
+                        "user_ids": [
+
+                        ]
+                      },
+                      {
+                        "id": 1012,
+                        "name": "Subject_2",
+                        "code": "2",
+                        "credits": 10,
+                        "group_ids": [
+
+                        ],
+                        "user_ids": [
+
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subjects/{id}": {
+      "get": {
+        "summary": "Returns a subject",
+        "tags": [
+          "Subjects"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Subject ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "show_subjects": {
+                    "value": {
+                      "id": 1013,
+                      "name": "Subject_3",
+                      "code": "3",
+                      "credits": 10,
+                      "group_ids": [
+
+                      ],
+                      "user_ids": [
+
+                      ]
+                    }
                   }
                 }
               }
