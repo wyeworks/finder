@@ -41,7 +41,7 @@ export default function DeleteGroupSection({ group }: { group: StudyGroup }) {
       }
       onDelete={async () => {
         Logger.debug('Delete');
-        await GroupService.deleteGroup(group.id!, session?.user.accessToken!);
+        await GroupService.delete(group.id!, session?.user.accessToken!);
       }}
       onSuccessfulDelete={() => {
         Logger.debug('Successful delete');

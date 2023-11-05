@@ -229,7 +229,7 @@ export class GroupService {
   }
 
   // eslint-disable-next-line no-unused-vars
-  public static async deleteGroup(groupId: number, accessToken: string) {
+  public static async delete(groupId: number, accessToken: string) {
     await ApiCommunicator.commonFetch({
       url: `/groups/${groupId}`,
       method: 'DELETE',

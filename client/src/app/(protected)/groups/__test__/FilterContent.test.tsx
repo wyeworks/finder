@@ -113,6 +113,8 @@ describe('FiltersContent Component', () => {
         ...mockSearchParameters,
         subject: 1,
         name: '',
+        isMyGroup: false,
+        timeOfDay: [],
       });
     });
   });

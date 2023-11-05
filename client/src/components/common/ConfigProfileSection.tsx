@@ -32,7 +32,10 @@ export function ConfigProfileSection({
 }) {
   return (
     <div className='mt-3 sm:w-full'>
-      <p className='mb-4 pl-7 pr-7 font-poppins text-2xl font-medium text-black md:px-0'>
+      <p
+        data-testid={'section-title'}
+        className='mb-4 pl-7 pr-7 font-poppins text-2xl font-medium text-black md:px-0'
+      >
         {sectionTitle}
       </p>
       <form
@@ -63,6 +66,7 @@ export function ConfigProfileSection({
             message={alertMessage}
             alertType={alertType}
             title={alertTitle}
+            id={`alert-${alertTitle}`}
           />
         </div>
       </form>

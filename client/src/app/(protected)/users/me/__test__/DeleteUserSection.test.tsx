@@ -69,12 +69,12 @@ describe('<DeleteUserSection />', () => {
     );
     await waitFor(
       () => {
-        expect(getByTestId('confirm-delete-button')).not.toBeDisabled();
+        expect(getByTestId('confirm-dialog-confirm-button')).not.toBeDisabled();
       },
       { timeout: 7000 }
     );
     // Click the confirm button in the dialog
-    fireEvent.click(getByTestId('confirm-delete-button'));
+    fireEvent.click(getByTestId('confirm-dialog-confirm-button'));
 
     await waitFor(() => {
       expect(getByText('No se pudo eliminar el perfil')).toBeInTheDocument();
@@ -96,12 +96,12 @@ describe('<DeleteUserSection />', () => {
     );
     await waitFor(
       () => {
-        expect(getByTestId('confirm-delete-button')).not.toBeDisabled();
+        expect(getByTestId('confirm-dialog-confirm-button')).not.toBeDisabled();
       },
       { timeout: 7000 }
     );
     // Click the confirm button in the dialog
-    fireEvent.click(getByTestId('confirm-delete-button'));
+    fireEvent.click(getByTestId('confirm-dialog-confirm-button'));
 
     await waitFor(() => {
       expect(getByText('Perfil eliminado')).toBeInTheDocument();

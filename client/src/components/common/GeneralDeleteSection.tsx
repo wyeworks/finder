@@ -76,7 +76,10 @@ export function GeneralDeleteSection({
       confirmIcon={<TrashCanIcon width={20} height={20} />}
     >
       <div className='mx-7 pt-2'>
-        <p className='flex justify-start font-poppins text-black'>
+        <p
+          data-testid={'delete-explanation'}
+          className='flex justify-start font-poppins text-black'
+        >
           {deleteExplanation}
         </p>
       </div>
