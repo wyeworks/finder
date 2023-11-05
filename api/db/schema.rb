@@ -94,7 +94,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_31_005625) do
     t.string "name", null: false
     t.text "description"
     t.string "location"
-    t.string "meeting_link"
+    t.string "meeting_link", null: false
     t.datetime "start_time", null: false
     t.datetime "end_time", null: false
     t.bigint "group_id", null: false
@@ -134,11 +134,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_31_005625) do
     t.datetime "birth_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "bio"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.json "social_networks"
-    t.text "bio"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
