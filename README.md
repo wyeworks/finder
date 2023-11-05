@@ -198,4 +198,5 @@ Backend using [Render](https://render.com/).
 
 ## API Endpoint Documentation
 
-All BE endpoints are detailed [here]() (Work in progress...)
+All backend endpoints are detailed [here](https://finder-backend-prod.onrender.com/api-docs).
+Includes information about the path, parameters and body for each request, and response examples.
