@@ -38,10 +38,10 @@
                 "examples": {
                   "update_attendances": {
                     "value": {
-                      "id": 1168,
+                      "id": 164,
                       "status": "accepted",
-                      "session_id": 612,
-                      "member_id": 1772
+                      "session_id": 86,
+                      "member_id": 291
                     }
                   }
                 }
@@ -93,7 +93,7 @@
                   "index_careers": {
                     "value": [
                       {
-                        "id": 175,
+                        "id": 23,
                         "name": "Career_1",
                         "code": "1",
                         "approved_on": "2023",
@@ -104,7 +104,7 @@
                         ]
                       },
                       {
-                        "id": 176,
+                        "id": 24,
                         "name": "Career_2",
                         "code": "2",
                         "approved_on": "2023",
@@ -119,6 +119,96 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/members/{id}": {
+      "patch": {
+        "summary": "Updates a member",
+        "tags": [
+          "Members"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Member ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "update_members": {
+                    "value": {
+                      "message": "El miembro ahora es administrador del grupo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "member"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a member",
+        "tags": [
+          "Members"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Member ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
           }
         }
       }
@@ -148,9 +238,9 @@
                   "index_subjects": {
                     "value": [
                       {
-                        "id": 1467,
-                        "name": "Subject_3",
-                        "code": "3",
+                        "id": 228,
+                        "name": "Subject_5",
+                        "code": "5",
                         "credits": 10,
                         "group_ids": [
 
@@ -160,9 +250,9 @@
                         ]
                       },
                       {
-                        "id": 1468,
-                        "name": "Subject_4",
-                        "code": "4",
+                        "id": 229,
+                        "name": "Subject_6",
+                        "code": "6",
                         "credits": 10,
                         "group_ids": [
 
@@ -213,9 +303,9 @@
                 "examples": {
                   "show_subjects": {
                     "value": {
-                      "id": 1469,
-                      "name": "Subject_5",
-                      "code": "5",
+                      "id": 230,
+                      "name": "Subject_7",
+                      "code": "7",
                       "credits": 10,
                       "group_ids": [
 
@@ -235,7 +325,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
+      "url": "http://localhost:3000/"
     }
   ]
 }
