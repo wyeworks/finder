@@ -50,27 +50,28 @@ export default function CreateSessionForm({
 
   return (
     <form
-      className='m-2 mt-6 grid grid-cols-[20px,auto] grid-rows-[50px,50px,50px,50px,auto,50px,125px] gap-x-3 gap-y-8 sm:gap-y-[10px] '
+      className='m-2 grid grid-cols-[20px,auto] grid-rows-[50px,50px,50px,50px,auto,50px,125px] gap-x-3 gap-y-8 sm:gap-y-[10px] '
       noValidate
       onSubmit={handleSubmit}
       data-testid='create-sesion'
     >
-      <div className='mr-2 mt-2 h-5 w-5'></div>
-      <input
-        name='title'
-        type='text'
-        className='peer h-fit w-full border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
-        placeholder={strings.createSession.form.placeholders.title}
-        value={formData.title}
-        onChange={handleChange}
-        maxLength={35}
-        required
-      />
-      {touched.title && (
-        <p className='invisible text-sm text-red-600 peer-invalid:visible'>
-          {strings.createSession.form.validateText.title}
-        </p>
-      )}
+      <div className='col-span-2'>
+        <input
+          name='title'
+          type='text'
+          className='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
+          placeholder={strings.createSession.form.placeholders.title}
+          value={formData.title}
+          onChange={handleChange}
+          maxLength={35}
+          required
+        />
+        {touched.title && (
+          <p className='invisible text-sm text-red-600 peer-invalid:visible'>
+            {strings.createSession.form.validateText.title}
+          </p>
+        )}
+      </div>
       <ClockIcon className='mr-2 mt-2 h-5 w-5' />
       <div className='flex items-baseline justify-center gap-3'>
         <Input
