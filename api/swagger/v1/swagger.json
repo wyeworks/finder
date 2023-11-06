@@ -38,10 +38,10 @@
                 "examples": {
                   "update_attendances": {
                     "value": {
-                      "id": 164,
+                      "id": 502,
                       "status": "accepted",
-                      "session_id": 86,
-                      "member_id": 291
+                      "session_id": 263,
+                      "member_id": 818
                     }
                   }
                 }
@@ -93,7 +93,7 @@
                   "index_careers": {
                     "value": [
                       {
-                        "id": 23,
+                        "id": 72,
                         "name": "Career_1",
                         "code": "1",
                         "approved_on": "2023",
@@ -104,7 +104,7 @@
                         ]
                       },
                       {
-                        "id": 24,
+                        "id": 73,
                         "name": "Career_2",
                         "code": "2",
                         "approved_on": "2023",
@@ -115,6 +115,30 @@
                         ]
                       }
                     ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Returns application status",
+        "tags": [
+          "Home"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "index_home": {
+                    "value": {
+                      "message": "Still alive"
+                    }
                   }
                 }
               }
@@ -238,7 +262,7 @@
                   "index_subjects": {
                     "value": [
                       {
-                        "id": 228,
+                        "id": 669,
                         "name": "Subject_5",
                         "code": "5",
                         "credits": 10,
@@ -250,7 +274,7 @@
                         ]
                       },
                       {
-                        "id": 229,
+                        "id": 670,
                         "name": "Subject_6",
                         "code": "6",
                         "credits": 10,
@@ -303,7 +327,7 @@
                 "examples": {
                   "show_subjects": {
                     "value": {
-                      "id": 230,
+                      "id": 671,
                       "name": "Subject_7",
                       "code": "7",
                       "credits": 10,
