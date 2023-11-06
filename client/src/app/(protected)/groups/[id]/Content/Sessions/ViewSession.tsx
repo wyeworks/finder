@@ -58,7 +58,7 @@ type ViewSessionProps = {
 };
 
 function validateUrl(url: string) {
-  if (url.startsWith('https://')) return url;
+  if (url.startsWith('https://') || url.startsWith('http://')) return url;
   else return `https://${url}`;
 }
 

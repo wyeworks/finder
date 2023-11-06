@@ -1,5 +1,7 @@
 import { Session } from '@/types/Session';
 import CardSession from './CardSession';
+import EmptyInboxImage from '@/assets/images/empty_inbox.png';
+import Image from 'next/image';
 
 type HistoryProps = {
   sessions: Session[];
@@ -16,6 +18,17 @@ type HistoryProps = {
 export default function History({ sessions, viewSession }: HistoryProps) {
   return (
     <div data-testid='session-history'>
+      {sessions.length === 0 && (
+        <div className='flex flex-col items-center justify-center text-gray-500'>
+          <Image
+            src={EmptyInboxImage}
+            alt='empty-session'
+            width={50}
+            height={50}
+          />
+          <p>Aún no ocurrieron sesiones.</p>
+        </div>
+      )}
       {sessions.map((session, index) => {
         return (
           <div
