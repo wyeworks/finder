@@ -1,5 +1,7 @@
 import { Session } from '@/types/Session';
 import CardSession from './CardSession';
+import EmptyInboxImage from '@/assets/images/empty_inbox.png';
+import Image from 'next/image';
 
 type NextSessionsProps = {
   sessions: Session[];
@@ -13,6 +15,18 @@ export default function NextSessions({
 }: NextSessionsProps) {
   return (
     <div data-testid='next-session'>
+      {sessions.length === 0 && (
+        <div className='flex flex-col items-center justify-center text-gray-500'>
+          <Image
+            src={EmptyInboxImage}
+            alt='empty-session'
+            width={50}
+            height={50}
+          />
+          <p>Aún no hay sesiones programadas.</p>
+          <p>!Organiza una!</p>
+        </div>
+      )}
       {sessions.map((session, index) => {
         return (
           <div
