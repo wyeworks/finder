@@ -102,6 +102,9 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  # Front base url
+  # BE base URL
+  config.api_base_url = 'https://finder-backend-qa.onrender.com/'
+
+  # FE base URL
   config.client_base_url = 'https://finder-git-develop-frodo2412.vercel.app/'
 end

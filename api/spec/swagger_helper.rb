@@ -24,7 +24,7 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: 'http://localhost:3000'
+          url: Rails.configuration.api_base_url
         }
       ]
     }
