@@ -24,8 +24,8 @@ RSpec.describe Users::PasswordsController, type: :request do
         post user_password_path, params: { user: { email: 'invalid_email@example.com' } }
       end
 
-      it 'returns http unprocessable_entity' do
-        expect(response).to have_http_status(:unprocessable_entity)
+      it 'returns http success' do
+        expect(response).to have_http_status(:ok)
       end
 
       it 'does not send reset password instructions' do
@@ -95,8 +95,8 @@ RSpec.describe Users::PasswordsController, type: :request do
         post user_password_path, params: { user: { email: user.email } }
       end
 
-      it 'returns http too_many_requests' do
-        expect(response).to have_http_status(:too_many_requests)
+      it 'returns http success' do
+        expect(response).to have_http_status(:ok)
       end
 
       it 'does not send another reset password instructions' do
@@ -151,19 +151,23 @@ RSpec.describe Users::PasswordsController, type: :request do
         post user_password_path, params: { user: { email: user.email } }
       end
 
-      it 'returns http unprocessable_entity' do
-        expect(response).to have_http_status(:unprocessable_entity)
+      it 'returns http success' do
+        expect(response).to have_http_status(:ok)
       end
 
-      it 'logs the failure' do
-        expect(Rails.logger).to have_received(:info).with(/Failed to send instructions/)
+      # Update this test to reflect the new logging behavior
+      it 'logs the attempt' do
+        expect(Rails.logger).to have_received(:info).with(/Attempted to send reset password instructions to/)
       end
 
-      it 'renders the error message in the response' do
+      # Update this test to expect the new success message
+      it 'renders a generic success message in the response' do
         expect(response.parsed_body['message']).to eq(
-          'No se pudieron enviar las instrucciones para reestablecer la contraseña.'
+          'Si tu correo electrónico existe en nuestra base de datos, ' \
+          'recibirás un correo con instrucciones para reestablecer tu contraseña.'
         )
-        expect(response.parsed_body['errors']).to include('base' => ['Error message'])
+        # Since you're always returning a success, you should not include errors in the response
+        expect(response.parsed_body).not_to have_key('errors')
       end
     end
   end
