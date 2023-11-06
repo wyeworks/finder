@@ -15,14 +15,30 @@ const preferences: Option[] = [
 ];
 
 function buildInitialValues(timePreferences?: TimePreference) {
+  const initalValues = {
+    Lunes: TimeOfDay.NoPreferences,
+    Martes: TimeOfDay.NoPreferences,
+    Miércoles: TimeOfDay.NoPreferences,
+    Jueves: TimeOfDay.NoPreferences,
+    Viernes: TimeOfDay.NoPreferences,
+    Sábado: TimeOfDay.NoPreferences,
+    Domingo: TimeOfDay.NoPreferences,
+  };
+
+  if (!timePreferences) return initalValues;
+
+  function getTimeVal(time: TimeOfDay | undefined) {
+    return time || TimeOfDay.No;
+  }
+
   return {
-    Lunes: timePreferences?.Monday ?? TimeOfDay.NoPreferences,
-    Martes: timePreferences?.Tuesday ?? TimeOfDay.NoPreferences,
-    Miércoles: timePreferences?.Wednesday ?? TimeOfDay.NoPreferences,
-    Jueves: timePreferences?.Thursday ?? TimeOfDay.NoPreferences,
-    Viernes: timePreferences?.Friday ?? TimeOfDay.NoPreferences,
-    Sábado: timePreferences?.Saturday ?? TimeOfDay.NoPreferences,
-    Domingo: timePreferences?.Sunday ?? TimeOfDay.NoPreferences,
+    Lunes: getTimeVal(timePreferences.Monday),
+    Martes: getTimeVal(timePreferences.Tuesday),
+    Miércoles: getTimeVal(timePreferences.Wednesday),
+    Jueves: getTimeVal(timePreferences.Thursday),
+    Viernes: getTimeVal(timePreferences.Friday),
+    Sábado: getTimeVal(timePreferences.Saturday),
+    Domingo: getTimeVal(timePreferences.Sunday),
   };
 }
 

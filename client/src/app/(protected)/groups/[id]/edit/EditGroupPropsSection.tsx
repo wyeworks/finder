@@ -133,8 +133,13 @@ export default function EditGroupPropsSection({
 
   function handleTimePreferencesChange(day: string, value: string) {
     const newTimePreferences = { ...groupData.time_preferences };
-    // @ts-ignore
-    newTimePreferences[translateSpanishDays[day]] = value;
+    if (value === '') {
+      // @ts-ignore
+      delete newTimePreferences[translateSpanishDays[day]];
+    } else {
+      // @ts-ignore
+      newTimePreferences[translateSpanishDays[day]] = value;
+    }
     setGroupData({ ...groupData, time_preferences: newTimePreferences });
     setTouched({ ...touched, time_preferences: true });
   }

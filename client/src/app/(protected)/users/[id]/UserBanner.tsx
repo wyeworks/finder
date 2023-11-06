@@ -60,7 +60,7 @@ function UserBio(props: { bio: string }) {
   return (
     <h1
       data-testid={'BioField'}
-      className='text-center text-xl text-gray-600 lg:mt-2 lg:text-left'
+      className='overflow-auto break-words text-center text-xl text-gray-600 lg:mt-2 lg:text-left'
     >
       {props.bio}
     </h1>
