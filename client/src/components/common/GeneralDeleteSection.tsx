@@ -11,6 +11,7 @@ export function GeneralDeleteSection({
   deleteExplanation,
   confirmDialogDescription,
   confirmDialogTitle,
+  confirmButtonText,
   onDelete,
   onSuccessfulDelete,
   onSuccessfulDeleteMessage,
@@ -21,6 +22,7 @@ export function GeneralDeleteSection({
   deleteExplanation: string;
   confirmDialogDescription: string;
   confirmDialogTitle: string;
+  confirmButtonText: string;
   onDelete: () => Promise<void>;
   onSuccessfulDelete: () => void;
   onSuccessfulDeleteMessage: string;
@@ -91,7 +93,7 @@ export function GeneralDeleteSection({
           title={confirmDialogTitle}
           onCancel={handleCancel}
           onConfirm={handleConfirm}
-          confirmText={strings.form.deleteUser.confirmDialogConfirmButtonText}
+          confirmText={confirmButtonText}
           cancelText={strings.form.deleteUser.confirmDialogCancelButtonText}
           delayDuration={5}
           confirmColor={'blue'}

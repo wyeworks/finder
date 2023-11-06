@@ -186,7 +186,6 @@
       "edit": {
         "title": "Información general",
         "confirmButton": "Guardar cambios",
-        "alertSuccess": "Grupo actualizado",
         "alertError": "No se pudo actualizar el grupo",
         "alertErrorLoadingSubjects": "No se pudieron cargar las materias",
         "fields": {

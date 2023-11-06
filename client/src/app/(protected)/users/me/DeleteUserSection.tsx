@@ -26,6 +26,7 @@ export function DeleteUserSection({ user }: { user: User }) {
       }
       onSuccessfulDeleteMessage={'Perfil eliminado'}
       onFailedDeleteErrorMessage={'No se pudo eliminar el perfil'}
+      confirmButtonText={strings.form.deleteUser.confirmDialogConfirmButtonText}
     />
   );
 }

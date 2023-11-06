@@ -168,7 +168,7 @@ export default function EditGroupPropsSection({
       };
       await GroupService.update(updatedGroup, session?.user.accessToken!);
 
-      setAlertMessage(strings.configGroup.form.edit.alertSuccess);
+      setAlertMessage(strings.common.success.changeSuccess);
       setAlertVisible(true);
       setAlertType('success');
       setAlertTitle(strings.common.success.defaultSuccess);
