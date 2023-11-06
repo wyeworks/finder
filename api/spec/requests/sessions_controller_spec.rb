@@ -167,7 +167,7 @@ RSpec.describe SessionsController, type: :request do
   # Update
   describe 'PATCH /sessions/:id' do
     let(:group) { create :group }
-    let(:creator_member) { create(:member, user:, group:) }
+    let(:creator_member) { create(:member, user:, group:, role: 'participant') }
     let(:session) { create :session, group:, creator: creator_member }
     let(:session_params) do
       {
