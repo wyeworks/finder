@@ -161,7 +161,9 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
         <p className='mb-3 font-poppins text-xl font-semibold'>
           {subject.name}
         </p>
-        <p className='font-regular mb-3'>{description}</p>
+        <p className='font-regular mb-3 overflow-auto break-words'>
+          {description}
+        </p>
         <div className='mb-3 flex flex-col items-center justify-center sm:flex-row sm:justify-start'>
           <div className='mr-2 flex items-center sm:mb-0'>
             <GroupSizeIconSolid className='mr-2 h-5 w-5' />

@@ -38,7 +38,7 @@ export function GroupCard({ group, className = '' }: GroupCardProps) {
           </h1>
           <p
             data-testid={`groupDescription-${group.description}`}
-            className='line-clamp-2 text-base font-light text-[#A0A0A0]'
+            className='line-clamp-2 hyphens-auto break-all text-base font-light text-[#A0A0A0]'
           >
             {group.description}
           </p>

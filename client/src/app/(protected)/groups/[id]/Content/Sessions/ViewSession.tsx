@@ -466,7 +466,8 @@ export default function ViewSession({
               value={editData.description ?? ''}
               classNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
             />,
-            <p className='font-poppins text-grayText'>
+
+            <p className='overflow-auto break-words font-poppins text-grayText'>
               {!sessionGroup.description
                 ? strings.viewSession.noDescription
                 : sessionGroup.description}
