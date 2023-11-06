@@ -102,6 +102,7 @@ export default function CreateSessionForm({
           validateText={validateHour(formData.startHour)}
           pattern='[0-2][0-9]:[0-5][0-9]'
           data-testid='startHour'
+          maxLength={5}
         />
       </div>
       <div />
@@ -135,6 +136,7 @@ export default function CreateSessionForm({
           pattern='[0-2][0-9]:[0-5][0-9]'
           disabled={formData.startTime === ''}
           data-testid='endHour'
+          maxLength={5}
         />
       </div>
       <LocationIcon className='mr-2 mt-2 h-5 w-5' />
