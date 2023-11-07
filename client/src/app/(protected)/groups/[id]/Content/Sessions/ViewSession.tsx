@@ -349,8 +349,9 @@ export default function ViewSession({
         className='m-2 grid grid-cols-[20px,auto]  gap-x-3 gap-y-8 sm:gap-y-[10px]'
         data-testid='view-sesion'
       >
-        <div className='col-span-2 my-3 flex h-6'>
-          <h1 className='peer mt-0 h-fit w-[90%] font-poppins text-xl text-primaryBlue'>
+        <div />
+        <div className='my-3 flex h-6'>
+          <h1 className='peer mt-0 h-fit w-[90%] font-poppins text-xl font-medium text-primaryBlue'>
             {handleEditMode(
               <Input
                 type='text'
@@ -402,6 +403,7 @@ export default function ViewSession({
                   touched={true}
                   pattern='[0-2][0-9]:[0-5][0-9]'
                   validateText={validateHour(editData.endTime)}
+                  maxLength={5}
                 />
               </div>,
               <h1 className='font-poppins font-semibold text-blackTextColor'>
@@ -433,6 +435,7 @@ export default function ViewSession({
                   touched={true}
                   pattern='[0-2][0-9]:[0-5][0-9]'
                   validateText={validateHour(editData.endHour)}
+                  maxLength={5}
                 />
               </div>,
               <h1 className='font-poppins font-semibold text-blackTextColor'>
