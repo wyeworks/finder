@@ -225,6 +225,7 @@ export default function EditGroupPropsSection({
           maxWidth={false}
           onChange={handleSubjectIdChange}
           classNameAll={'my-1'}
+          className='placeholder:text-blackTextColor'
         />
       </div>
       <TextArea
