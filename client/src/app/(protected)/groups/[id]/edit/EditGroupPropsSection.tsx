@@ -244,7 +244,7 @@ export default function EditGroupPropsSection({
         maxWidth={false}
         maxLength={200}
       />
-      <div className='flex w-full justify-center bg-gray-100'>
+      <div className='flex w-full justify-center bg-gray-100 py-1'>
         <h4 className='text-bg-primaryBlue font-poppins text-2xl font-medium'>
           {strings.configGroup.form.edit.fields.preferenciaHoraria.label}
         </h4>
