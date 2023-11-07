@@ -54,6 +54,8 @@ class GroupsController < ApplicationController
   end
 
   def destroy
+    @sessions_to_destroy = @group.sessions.where(creator_id: @group.members.pluck(:id))
+    @sessions_to_destroy.destroy_all
     if @group.destroy
       Rails.logger.info 'Group was successfully deleted'
 
