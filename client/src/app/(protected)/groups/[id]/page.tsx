@@ -14,6 +14,7 @@ import { useSession } from 'next-auth/react';
 import { Subject } from '@/types/Subject';
 import { User } from '@/types/User';
 import { Logger } from '@/services/Logger';
+import LoadingAsset from '@/components/common/LoadingAsset';
 
 type Props = {
   params: {
@@ -59,14 +60,7 @@ export default function Group({ params }: Props) {
   if (isLoading) {
     return (
       <div className='flex h-full flex-col items-center justify-center'>
-        <Image
-          src='/loading_groups.png'
-          alt='Banner'
-          width={100}
-          height={100}
-          className='animate-bounce object-cover'
-        />
-        <p className='mt-4'>Cargando grupo...</p>
+        <LoadingAsset message={'Cargando grupo...'} />
       </div>
     );
   }

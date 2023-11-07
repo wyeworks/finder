@@ -14,6 +14,7 @@ import { GroupService } from '@/services/GroupService';
 import { SubjectService } from '@/services/SubjectService';
 import { useSession } from 'next-auth/react';
 import EmptyBoxImage from '@/assets/images/empty_box.png';
+import LoadingAsset from '@/components/common/LoadingAsset';
 
 export default function InnerPage() {
   const { data: session } = useSession();
@@ -155,18 +156,7 @@ function GroupsFound({
         )}
         {(isLoading || noGroupsFound) && (
           <div className='mt-8 flex flex-col items-center justify-center md:fixed md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:transform'>
-            {isLoading && (
-              <>
-                <Image
-                  src='/loading_groups.png'
-                  alt='Banner'
-                  width={100}
-                  height={100}
-                  className='animate-bounce object-cover'
-                />
-                <p className='mt-4'>Cargando grupos...</p>
-              </>
-            )}
+            {isLoading && <LoadingAsset message={'Cargando grupos...'} />}
             {noGroupsFound && (
               <>
                 <Image src={EmptyBoxImage} alt='Caja vacia' />
