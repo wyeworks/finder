@@ -55,11 +55,12 @@ export default function CreateSessionForm({
       onSubmit={handleSubmit}
       data-testid='create-sesion'
     >
-      <div className='col-span-2'>
+      <div className='mr-2 mt-2 h-5 w-5' />
+      <div>
         <input
           name='title'
           type='text'
-          className='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
+          className='peer mt-3 h-fit w-full border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
           placeholder={strings.createSession.form.placeholders.title}
           value={formData.title}
           onChange={handleChange}
@@ -101,6 +102,7 @@ export default function CreateSessionForm({
           validateText={validateHour(formData.startHour)}
           pattern='[0-2][0-9]:[0-5][0-9]'
           data-testid='startHour'
+          maxLength={5}
         />
       </div>
       <div />
@@ -134,6 +136,7 @@ export default function CreateSessionForm({
           pattern='[0-2][0-9]:[0-5][0-9]'
           disabled={formData.startTime === ''}
           data-testid='endHour'
+          maxLength={5}
         />
       </div>
       <LocationIcon className='mr-2 mt-2 h-5 w-5' />
