@@ -274,7 +274,7 @@ export default function ViewSession({
   function renderModalFooter() {
     if (isEditMode) {
       return (
-        <div className='-mb-2 flex items-center border-t border-t-gray-300 pt-1'>
+        <div className='-mb-3 flex items-center border-t border-t-gray-300 pt-2'>
           <div className='flex w-full justify-center'>
             <Button
               text='Guardar'
@@ -288,7 +288,7 @@ export default function ViewSession({
     }
     if (showAttendanceRequest) {
       return (
-        <div className='-mb-2 flex items-center border-t border-t-gray-300 pt-1'>
+        <div className='-mb-3 flex items-center border-t border-t-gray-300 pt-2'>
           <h1 className='font-poppins'>{strings.viewSession.inviteQuestion}</h1>
           <div className='flex w-full justify-end'>
             <Button
