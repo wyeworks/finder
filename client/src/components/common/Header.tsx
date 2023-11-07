@@ -3,8 +3,6 @@
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import Image from 'next/image';
-import NotificationIcon from '@/assets/Icons/NotificationIcon';
-import MessageIcon from '@/assets/Icons/MessageIcon';
 import CrossIcon from '@/assets/Icons/CrossIcon';
 import MenuIcon from '@/assets/Icons/MenuIcon';
 import ArrowDownIcon from '@/assets/Icons/ArrowDownIcon';
@@ -36,16 +34,6 @@ const userNavigation = (user: User) => [
 ];
 
 const userNavigationMobile = (user: User) => [
-  {
-    name: strings.header.navOptions.notifications,
-    href: '#',
-    icon: <NotificationIcon className='mr-3 h-4 w-4' />,
-  },
-  {
-    name: strings.header.navOptions.messages,
-    href: '#',
-    icon: <MessageIcon className='mr-3 h-4 w-4' />,
-  },
   {
     name: strings.header.navOptions.viewProfile,
     href: `/users/${user.id}`,
@@ -92,19 +80,6 @@ export default function Header({ user }: HeaderProps) {
                 </div>
                 <div className='hidden w-full md:block'>
                   <div className='ml-4 flex items-center justify-end md:ml-6'>
-                    <a
-                      href='#'
-                      className='block shrink-0 rounded-lg p-2.5 text-iconTextHeader shadow-sm hover:text-white'
-                    >
-                      <NotificationIcon className='h-8 w-8 ' />
-                    </a>
-                    <a
-                      href='#'
-                      className='block shrink-0 rounded-lg p-2.5 text-iconTextHeader shadow-sm hover:text-white'
-                    >
-                      <MessageIcon className='h-8 w-8' />
-                    </a>
-
                     {/* Profile dropdown */}
                     <Menu as='div' className='relative ml-3'>
                       <div>

@@ -48,7 +48,7 @@ export default function AutoComplete({
   return (
     <div className='relative h-full'>
       <Combobox value={selectedOption} onChange={setSelectedOption} nullable>
-        <div className='relative h-full w-full cursor-default overflow-hidden text-left shadow-sm sm:text-sm'>
+        <div className='relative h-full w-full cursor-default text-left shadow-sm sm:text-sm'>
           <Combobox.Input
             className='focus:ring-primaryBlue relative h-full w-full rounded-lg border-0 border-gray-300 bg-backgroundInput py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-inset'
             displayValue={(option: Option) => option?.label}
