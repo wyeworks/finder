@@ -49,6 +49,7 @@ export default function DeleteGroupSection({ group }: { group: StudyGroup }) {
       }}
       onSuccessfulDeleteMessage={strings.configGroup.form.delete.alertSuccess}
       onFailedDeleteErrorMessage={strings.configGroup.form.delete.alertError}
+      confirmButtonText={strings.configGroup.form.delete.confirmButton}
     />
   );
 }
