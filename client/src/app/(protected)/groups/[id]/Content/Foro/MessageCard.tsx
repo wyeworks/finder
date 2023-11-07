@@ -18,7 +18,7 @@ export default function MessageCard({
         text-sm shadow-lg 
         ${
           isMeMessage
-            ? 'float-right w-auto bg-primaryBlue-300 text-white'
+            ? 'float-right w-auto bg-primaryBlue text-white'
             : 'w-fit bg-white'
         } 
         overflow-hidden whitespace-normal`}
