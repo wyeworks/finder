@@ -9,7 +9,7 @@ import { Session } from '@/types/Session';
 import {
   formatAttendanceQauntity,
   formatDateToSpanish,
-  getHour,
+  getHourWithoutZ,
 } from '@/utils/Formatter';
 import GroupSizeIcon from '@/assets/Icons/GroupSizeIconSolid';
 import Image from 'next/image';
@@ -76,8 +76,8 @@ export default function ViewSession({
 }: ViewSessionProps) {
   const { data: session } = useSession();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const startHour = getHour(sessionGroup.start_time);
-  const endHour = getHour(sessionGroup.end_time);
+  const startHour = getHourWithoutZ(sessionGroup.start_time);
+  const endHour = getHourWithoutZ(sessionGroup.end_time);
   const [editData, setEditData] = useState<any>({
     name: sessionGroup.name,
     startTime: sessionGroup.start_time.split('T')[0],
