@@ -86,7 +86,7 @@ export default function ViewSession({
     endHour: endHour,
     description: sessionGroup.description,
     location: sessionGroup.location,
-    metLink: sessionGroup.meeting_link,
+    meetLink: sessionGroup.meeting_link,
   });
 
   const [isAlertVisible, setIsAlertVisible] = useState(false);
@@ -134,7 +134,7 @@ export default function ViewSession({
       endHour: endHour,
       description: sessionGroup.description,
       location: sessionGroup.location,
-      metLink: sessionGroup.meeting_link,
+      meetLink: sessionGroup.meeting_link,
     });
   }, [
     endHour,
@@ -489,7 +489,7 @@ export default function ViewSession({
               touched={true}
               maxLength={60}
               validateText={strings.createSession.form.validateText.meetLink}
-              pattern='https?://[^.]+\.[^.]+'
+              pattern='https?://.*\..*'
             />,
             <>
               {!sessionGroup.meeting_link ? (
