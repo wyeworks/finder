@@ -24,7 +24,7 @@ export default function NextSessions({
             height={50}
           />
           <p>Aún no hay sesiones programadas.</p>
-          <p>!Organiza una!</p>
+          <p>¡Organiza una!</p>
         </div>
       )}
       {sessions.map((session, index) => {

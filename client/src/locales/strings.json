@@ -263,7 +263,7 @@
         "description": "Ingrese la descripción de la sesión",
         "location": "Ingrese la ubicación aquí",
         "hoursFormat": "hh:mm",
-        "title": "Añadí un titulo"
+        "title": "Añadí un título"
       }
     }
   },

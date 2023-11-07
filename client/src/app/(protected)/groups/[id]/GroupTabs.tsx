@@ -17,7 +17,7 @@ export default function GroupTabs({ group, fetchGroup }: GroupTabsProps) {
       <div className='col-span-4 sm:col-span-3'>
         <Tab.Group>
           <div className='border-b border-t border-gray-200'>
-            <Tab.List className='grid grid-cols-5 gap-4 text-xl'>
+            <Tab.List className='grid grid-cols-4 gap-4 text-xl'>
               {sections.map((section) => (
                 <Tab key={section.name} as={Fragment}>
                   {({ selected }) => (

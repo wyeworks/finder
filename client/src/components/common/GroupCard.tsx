@@ -26,13 +26,13 @@ export function GroupCard({ group, className = '' }: GroupCardProps) {
         <div className='bg-white p-5'>
           <h1
             data-testid={`groupSubject-${group.subject_id}`}
-            className='text-base font-bold text-[#242760]'
+            className='font-poppins text-base font-bold text-[#242760]'
           >
             {group.subject_name}
           </h1>
           <h1
             data-testid={`groupName-${group.name}`}
-            className='text-xl font-normal text-[#050838]'
+            className='font-regular font-poppins text-xl text-[#050838]'
           >
             {group.name}
           </h1>

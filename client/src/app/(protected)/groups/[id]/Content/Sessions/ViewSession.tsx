@@ -9,7 +9,7 @@ import { Session } from '@/types/Session';
 import {
   formatAttendanceQauntity,
   formatDateToSpanish,
-  getHour,
+  getHourWithoutZ,
 } from '@/utils/Formatter';
 import GroupSizeIcon from '@/assets/Icons/GroupSizeIconSolid';
 import Image from 'next/image';
@@ -76,8 +76,8 @@ export default function ViewSession({
 }: ViewSessionProps) {
   const { data: session } = useSession();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const startHour = getHour(sessionGroup.start_time);
-  const endHour = getHour(sessionGroup.end_time);
+  const startHour = getHourWithoutZ(sessionGroup.start_time);
+  const endHour = getHourWithoutZ(sessionGroup.end_time);
   const [editData, setEditData] = useState<any>({
     name: sessionGroup.name,
     startTime: sessionGroup.start_time.split('T')[0],
@@ -154,10 +154,10 @@ export default function ViewSession({
 
     if (isShowOption) {
       return (
-        <>
+        <div className='flex flex-row justify-end'>
           {!isHistorial && (
             <button
-              className='h-full'
+              className='mx-6 mt-[.15rem] h-full'
               onClick={() => setIsEditMode(!isEditMode)}
               type='button'
               data-testid='edit-button'
@@ -166,7 +166,7 @@ export default function ViewSession({
             </button>
           )}
           <button
-            className='mx-2 h-full'
+            className='mr-6 mt-[.15rem] h-full'
             type='button'
             onClick={() => setOpen(true)}
             data-testid={'delete-session-button'}
@@ -190,7 +190,7 @@ export default function ViewSession({
             confirmColor={'blue'}
             icon={<TrashCanIcon width={30} height={30} />}
           />
-        </>
+        </div>
       );
     }
   };
@@ -274,7 +274,7 @@ export default function ViewSession({
   function renderModalFooter() {
     if (isEditMode) {
       return (
-        <div className='-mb-2 flex items-center border-t border-t-gray-300 pt-1'>
+        <div className='-mb-3 flex items-center border-t border-t-gray-300 pt-2'>
           <div className='flex w-full justify-center'>
             <Button
               text='Guardar'
@@ -288,7 +288,7 @@ export default function ViewSession({
     }
     if (showAttendanceRequest) {
       return (
-        <div className='-mb-2 flex items-center border-t border-t-gray-300 pt-1'>
+        <div className='-mb-3 flex items-center border-t border-t-gray-300 pt-2'>
           <h1 className='font-poppins'>{strings.viewSession.inviteQuestion}</h1>
           <div className='flex w-full justify-end'>
             <Button
@@ -349,15 +349,19 @@ export default function ViewSession({
         className='m-2 grid grid-cols-[20px,auto]  gap-x-3 gap-y-8 sm:gap-y-[10px]'
         data-testid='view-sesion'
       >
-        <div />
-        <div className='my-3 flex h-6'>
-          <h1 className='peer mt-0 h-fit w-[90%] font-poppins text-xl font-medium text-primaryBlue'>
+        <div></div>
+        <div>{renderOptions()}</div>
+        <div></div>
+        <div className='mt-0 flex h-auto'>
+          <h1
+            className={`peer mt-0 w-[97%] overflow-hidden break-all font-poppins text-xl font-medium text-primaryBlue`}
+          >
             {handleEditMode(
               <Input
                 type='text'
                 id='name'
                 name='name'
-                newClassNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-blue-950 focus:outline-none'
+                newClassNameInput='peer h-fit w-[97%] border-b border-gray-300 text-xl focus:border-blue-950 focus:outline-none'
                 onChange={handleChange}
                 maxLength={35}
                 value={editData.name}
@@ -369,7 +373,6 @@ export default function ViewSession({
               <span>{sessionGroup.name}</span>
             )}
           </h1>
-          {renderOptions()}
         </div>
         <>
           <ClockIcon className='mr-2 mt-2 h-5 w-5' />

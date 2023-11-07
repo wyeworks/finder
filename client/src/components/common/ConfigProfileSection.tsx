@@ -31,7 +31,7 @@ export function ConfigProfileSection({
   alertTitle?: string;
 }) {
   return (
-    <div className='mt-3 sm:w-full'>
+    <div className='mt-6 sm:w-full '>
       <p
         data-testid='section-title'
         className='mb-4 pl-7 pr-7 font-poppins text-2xl font-medium text-black md:px-0'
