@@ -38,10 +38,10 @@
                 "examples": {
                   "update_attendances": {
                     "value": {
-                      "id": 2033,
+                      "id": 2551,
                       "status": "accepted",
-                      "session_id": 1082,
-                      "member_id": 3175
+                      "session_id": 1361,
+                      "member_id": 4017
                     }
                   }
                 }
@@ -93,7 +93,7 @@
                   "index_careers": {
                     "value": [
                       {
-                        "id": 358,
+                        "id": 447,
                         "name": "Career_1",
                         "code": "1",
                         "approved_on": "2023",
@@ -104,7 +104,7 @@
                         ]
                       },
                       {
-                        "id": 359,
+                        "id": 448,
                         "name": "Career_2",
                         "code": "2",
                         "approved_on": "2023",
@@ -113,6 +113,427 @@
                         "user_ids": [
 
                         ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups": {
+      "get": {
+        "summary": "Returns all groups that match the filters",
+        "tags": [
+          "Groups"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "value": "Name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subject_id",
+            "in": "query",
+            "value": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "my_groups",
+            "in": "query",
+            "value": "true",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "time_preferences",
+            "in": "query",
+            "value": "night,afternoon",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "index_groups": {
+                    "value": [
+                      {
+                        "id": 2894,
+                        "name": "Baz",
+                        "description": "Description",
+                        "size": 3,
+                        "time_preferences": {
+                          "Monday": "Night"
+                        },
+                        "subject_id": 3453,
+                        "subject_name": "Subject_4",
+                        "user_ids": [
+                          5690
+                        ],
+                        "admin_ids": [
+                          5690
+                        ],
+                        "requests": [
+
+                        ],
+                        "sessions": [
+
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a group",
+        "tags": [
+          "Groups"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "create_groups": {
+                    "value": {
+                      "id": 2895,
+                      "name": "Name",
+                      "description": "Description",
+                      "size": 5,
+                      "time_preferences": {
+                        "Monday": "Morning",
+                        "Tuesday": "Afternoon",
+                        "Wednesday": "Night",
+                        "Thursday": "None",
+                        "Friday": "Morning",
+                        "Saturday": "Afternoon",
+                        "Sunday": "Night"
+                      },
+                      "subject_id": 3454,
+                      "subject_name": "Subject_5",
+                      "user_ids": [
+                        5691
+                      ],
+                      "admin_ids": [
+                        5691
+                      ],
+                      "requests": [
+
+                      ],
+                      "sessions": [
+
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "integer"
+                  },
+                  "subject_id": {
+                    "type": "integer"
+                  },
+                  "time_preferences": {
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "group"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}": {
+      "get": {
+        "summary": "Returns a group",
+        "tags": [
+          "Groups"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "show_groups": {
+                    "value": {
+                      "id": 2896,
+                      "name": "Name_3",
+                      "description": "Description",
+                      "size": 3,
+                      "time_preferences": {
+                        "Monday": "Morning",
+                        "Tuesday": "Afternoon"
+                      },
+                      "subject_id": 3455,
+                      "subject_name": "Subject_6",
+                      "user_ids": [
+
+                      ],
+                      "admin_ids": [
+
+                      ],
+                      "requests": [
+
+                      ],
+                      "sessions": [
+
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates a group",
+        "tags": [
+          "Groups"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "update_groups": {
+                    "value": {
+                      "id": 2897,
+                      "name": "New Name",
+                      "description": "New Description",
+                      "size": 5,
+                      "time_preferences": {
+                        "Monday": "Morning",
+                        "Tuesday": "Afternoon",
+                        "Wednesday": "Night",
+                        "Thursday": "None",
+                        "Friday": "Morning",
+                        "Saturday": "Afternoon",
+                        "Sunday": "Night"
+                      },
+                      "subject_id": 3457,
+                      "subject_name": "Subject_8",
+                      "user_ids": [
+                        5693
+                      ],
+                      "admin_ids": [
+                        5693
+                      ],
+                      "requests": [
+
+                      ],
+                      "sessions": [
+
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "integer"
+                  },
+                  "subject_id": {
+                    "type": "integer"
+                  },
+                  "time_preferences": {
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "group"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a group",
+        "tags": [
+          "Groups"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/groups/{id}/members": {
+      "get": {
+        "summary": "Returns all members of a group",
+        "tags": [
+          "Groups"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "members_groups": {
+                    "value": [
+                      {
+                        "member_id": 4025,
+                        "id": 5695,
+                        "email": "email_10@email.com",
+                        "name": "Name_10",
+                        "role": "participant"
+                      },
+                      {
+                        "member_id": 4026,
+                        "id": 5696,
+                        "email": "email_11@email.com",
+                        "name": "Name_11",
+                        "role": "participant"
                       }
                     ]
                   }
@@ -261,25 +682,25 @@
                 "examples": {
                   "create_sessions": {
                     "value": {
-                      "id": 1083,
+                      "id": 1362,
                       "name": "Name",
                       "description": "Description",
                       "location": "Location",
                       "meeting_link": "Meeting Link",
                       "start_time": "2023-11-07T00:00:00.000Z",
                       "end_time": "2023-11-07T02:00:00.000Z",
-                      "group_id": 2255,
-                      "creator_user_id": 4494,
+                      "group_id": 2902,
+                      "creator_user_id": 5702,
                       "attendances": [
                         {
-                          "id": 2034,
-                          "session_id": 1083,
+                          "id": 2552,
+                          "session_id": 1362,
                           "status": "pending",
-                          "created_at": "2023-11-07T23:01:37.395Z",
-                          "updated_at": "2023-11-07T23:01:37.395Z",
-                          "member_id": 3183,
-                          "member_name": "Name_9",
-                          "user_id": 4494
+                          "created_at": "2023-11-08T21:27:23.723Z",
+                          "updated_at": "2023-11-08T21:27:23.723Z",
+                          "member_id": 4031,
+                          "member_name": "Name_17",
+                          "user_id": 5702
                         }
                       ]
                     }
@@ -359,25 +780,25 @@
                 "examples": {
                   "show_sessions": {
                     "value": {
-                      "id": 1084,
+                      "id": 1363,
                       "name": "Session_2",
                       "description": "Description",
                       "location": "Location",
                       "meeting_link": "https://zoom.us/meeting_link",
-                      "start_time": "2023-11-08T23:01:37.426Z",
-                      "end_time": "2023-11-09T01:01:37.426Z",
-                      "group_id": 2256,
-                      "creator_user_id": 4495,
+                      "start_time": "2023-11-09T21:27:23.752Z",
+                      "end_time": "2023-11-09T23:27:23.752Z",
+                      "group_id": 2903,
+                      "creator_user_id": 5703,
                       "attendances": [
                         {
-                          "id": 2035,
-                          "session_id": 1084,
+                          "id": 2553,
+                          "session_id": 1363,
                           "status": "pending",
-                          "created_at": "2023-11-07T23:01:37.432Z",
-                          "updated_at": "2023-11-07T23:01:37.432Z",
-                          "member_id": 3184,
-                          "member_name": "Name_10",
-                          "user_id": 4495
+                          "created_at": "2023-11-08T21:27:23.758Z",
+                          "updated_at": "2023-11-08T21:27:23.758Z",
+                          "member_id": 4032,
+                          "member_name": "Name_18",
+                          "user_id": 5703
                         }
                       ]
                     }
@@ -420,25 +841,25 @@
                 "examples": {
                   "update_sessions": {
                     "value": {
-                      "id": 1085,
+                      "id": 1364,
                       "name": "New Name",
                       "description": "New Description",
                       "location": "New Location",
                       "meeting_link": "New Meeting Link",
                       "start_time": "2023-11-07T00:00:00.000Z",
                       "end_time": "2023-11-07T02:00:00.000Z",
-                      "group_id": 2257,
-                      "creator_user_id": 4496,
+                      "group_id": 2904,
+                      "creator_user_id": 5704,
                       "attendances": [
                         {
-                          "id": 2036,
-                          "session_id": 1085,
+                          "id": 2554,
+                          "session_id": 1364,
                           "status": "pending",
-                          "created_at": "2023-11-07T23:01:37.495Z",
-                          "updated_at": "2023-11-07T23:01:37.495Z",
-                          "member_id": 3185,
-                          "member_name": "Name_11",
-                          "user_id": 4496
+                          "created_at": "2023-11-08T21:27:23.811Z",
+                          "updated_at": "2023-11-08T21:27:23.811Z",
+                          "member_id": 4033,
+                          "member_name": "Name_19",
+                          "user_id": 5704
                         }
                       ]
                     }
@@ -540,9 +961,9 @@
                   "index_subjects": {
                     "value": [
                       {
-                        "id": 2704,
-                        "name": "Subject_9",
-                        "code": "9",
+                        "id": 3466,
+                        "name": "Subject_17",
+                        "code": "17",
                         "credits": 10,
                         "group_ids": [
 
@@ -552,9 +973,9 @@
                         ]
                       },
                       {
-                        "id": 2705,
-                        "name": "Subject_10",
-                        "code": "10",
+                        "id": 3467,
+                        "name": "Subject_18",
+                        "code": "18",
                         "credits": 10,
                         "group_ids": [
 
@@ -605,9 +1026,9 @@
                 "examples": {
                   "show_subjects": {
                     "value": {
-                      "id": 2706,
-                      "name": "Subject_11",
-                      "code": "11",
+                      "id": 3468,
+                      "name": "Subject_19",
+                      "code": "19",
                       "credits": 10,
                       "group_ids": [
 
@@ -657,9 +1078,9 @@
                 "examples": {
                   "show_users": {
                     "value": {
-                      "id": 4500,
-                      "email": "email_15@email.com",
-                      "name": "Name_15",
+                      "id": 5708,
+                      "email": "email_23@email.com",
+                      "name": "Name_23",
                       "bio": null,
                       "social_networks": {
                         "facebook": "foo",
@@ -671,26 +1092,26 @@
                       ],
                       "careers": [
                         {
-                          "id": 360,
+                          "id": 449,
                           "code": "3",
                           "name": "Career_3"
                         },
                         {
-                          "id": 361,
+                          "id": 450,
                           "code": "4",
                           "name": "Career_4"
                         }
                       ],
                       "subjects": [
                         {
-                          "id": 2707,
-                          "code": "12",
-                          "name": "Subject_12"
+                          "id": 3469,
+                          "code": "20",
+                          "name": "Subject_20"
                         },
                         {
-                          "id": 2708,
-                          "code": "13",
-                          "name": "Subject_13"
+                          "id": 3470,
+                          "code": "21",
+                          "name": "Subject_21"
                         }
                       ]
                     }
@@ -733,8 +1154,8 @@
                 "examples": {
                   "update_users": {
                     "value": {
-                      "id": 4501,
-                      "email": "email_16@email.com",
+                      "id": 5709,
+                      "email": "email_24@email.com",
                       "name": "New Name",
                       "bio": "New Bio",
                       "social_networks": {
