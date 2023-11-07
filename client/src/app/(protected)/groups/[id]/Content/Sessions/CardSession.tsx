@@ -34,7 +34,7 @@ export default function CardSession({
           </div>
         )}
       </div>
-      <div className='cursor-pointer font-poppins text-xl text-primaryBlue'>
+      <div className='cursor-pointer overflow-auto break-all font-poppins text-xl text-primaryBlue'>
         {name}
       </div>
       <div className='flex text-gray-500'>
