@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import View from './View';
+import View from '../View';
 import strings from '@/locales/strings.json';
 
 describe('Confirmation View', () => {
