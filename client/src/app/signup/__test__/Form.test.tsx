@@ -2,10 +2,10 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@/__mocks__/next/router';
 import strings from '@/locales/strings.json';
-import Form from './Form';
+import Form from '../Form';
 
 global.fetch = jest.fn();
-jest.mock('../../services/Logger');
+jest.mock('../../../services/Logger');
 
 const fillAndSubmitForm = () => {
   // Fill the form

@@ -2,13 +2,13 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@/__mocks__/next/router';
 import strings from '@/locales/strings.json';
-import Form from './Form';
+import Form from '../Form';
 import * as nextAuthReact from 'next-auth/react';
 
 jest.mock('next-auth/react');
 const nextAuthReactMocked = nextAuthReact as jest.Mocked<typeof nextAuthReact>;
 
-jest.mock('../../services/Logger');
+jest.mock('../../../services/Logger');
 
 const fillAndSubmitForm = async () => {
   // Fill the form
