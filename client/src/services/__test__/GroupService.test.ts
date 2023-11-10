@@ -179,4 +179,104 @@ describe('GroupService', () => {
       accessToken: 'mockAccessToken',
     });
   });
+
+  // Testing changeRole
+  it('should change role from admin to participant', async () => {
+    // Mock API Call
+    mockedApiCommunicator.mockResolvedValueOnce(createMockResponse({}));
+
+    // Call the function
+    await GroupService.changeRole('member1', 'admin', 'mockToken');
+
+    // Assertions
+    expect(mockedApiCommunicator).toHaveBeenCalledWith({
+      url: '/members/member1',
+      method: 'PATCH',
+      accessToken: 'mockToken',
+      data: { role: 'participant' },
+    });
+  });
+
+  it('should change role from participant to admin', async () => {
+    // Mock API Call
+    mockedApiCommunicator.mockResolvedValueOnce(createMockResponse({}));
+
+    // Call the function
+    await GroupService.changeRole('member2', 'participant', 'mockToken');
+
+    // Assertions
+    expect(mockedApiCommunicator).toHaveBeenCalledWith({
+      url: '/members/member2',
+      method: 'PATCH',
+      accessToken: 'mockToken',
+      data: { role: 'admin' },
+    });
+  });
+
+  // Testing delete
+  it('should call delete group API', async () => {
+    // Mock API Call
+    mockedApiCommunicator.mockResolvedValueOnce(createMockResponse({}));
+
+    // Call the function
+    await GroupService.delete(123, 'mockToken');
+
+    // Assertions
+    expect(mockedApiCommunicator).toHaveBeenCalledWith({
+      url: '/groups/123',
+      method: 'DELETE',
+      accessToken: 'mockToken',
+    });
+  });
+
+  // Testing sendMessage
+  it('should send a message and return its ID', async () => {
+    const mockData = { id: 'message1' };
+    const messageContent = { content: 'Hello, World!' };
+    const groupId = 123;
+
+    // Mock API Call
+    mockedApiCommunicator.mockResolvedValueOnce(createMockResponse(mockData));
+
+    // Call the function
+    const messageId = await GroupService.sendMessage(
+      messageContent,
+      'mockToken',
+      groupId
+    );
+
+    // Assertions
+    expect(mockedApiCommunicator).toHaveBeenCalledWith({
+      url: '/groups/123/messages',
+      method: 'POST',
+      data: messageContent,
+      accessToken: 'mockToken',
+    });
+    expect(messageId).toEqual('message1');
+  });
+
+  // Testing getMessages
+  it('should retrieve messages for a group', async () => {
+    const mockMessages = [
+      { id: 'message1', content: 'Hello' },
+      { id: 'message2', content: 'World' },
+    ];
+    const groupId = 123;
+
+    // Mock API Call
+    mockedApiCommunicator.mockResolvedValueOnce(
+      createMockResponse(mockMessages)
+    );
+
+    // Call the function
+    const messages = await GroupService.getMessages(groupId, 'mockToken');
+
+    // Assertions
+    expect(mockedApiCommunicator).toHaveBeenCalledWith({
+      url: '/groups/123/messages',
+      method: 'GET',
+      accessToken: 'mockToken',
+    });
+    expect(messages).toEqual(mockMessages);
+  });
 });
