@@ -166,4 +166,27 @@ describe('UserBanner Component', () => {
 
     expect(screen.queryByTestId('editButton')).not.toBeInTheDocument();
   });
+
+  it('should display multiple careers correctly', () => {
+    // Create a user with multiple careers
+    const careers = [
+      { ...testCareer, name: 'Career 1' },
+      { ...testCareer, name: 'Career 2' },
+      { ...testCareer, name: 'Career 3' },
+    ];
+    const userWithMultipleCareers = UserBuilder.aUser()
+      .withCareers(careers)
+      .build();
+
+    // Render UserBanner with the user
+    render(<UserBanner user={userWithMultipleCareers} isLoggedUser={false} />);
+
+    // Check if the first career is displayed correctly
+    expect(screen.getByText('Career 1')).toBeInTheDocument();
+
+    // Check if the other careers are displayed correctly
+    careers.slice(1).forEach((career) => {
+      expect(screen.getByText(career.name)).toBeInTheDocument();
+    });
+  });
 });
