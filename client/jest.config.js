@@ -21,6 +21,7 @@ const customJestConfig = {
   ],
   coverageDirectory: 'coverage',
   coverageReporters: ['lcov', 'text'],
+  coveragePathIgnorePatterns: ['src/app/api/auth/'],
 };
 
 module.exports = createJestConfig(customJestConfig);
