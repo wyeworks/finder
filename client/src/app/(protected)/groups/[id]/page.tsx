@@ -91,7 +91,7 @@ export default function Group({ params }: Props) {
       <div className='flex-shrink-0 flex-grow'>
         {/* Displayed only on mobile */}
         <div className='md:hidden'>
-          <GroupDisclosure group={group} />
+          <GroupDisclosure group={group} fetchGroup={fetchGroup} />
         </div>
 
         {/* Displayed from medium screens and up */}
