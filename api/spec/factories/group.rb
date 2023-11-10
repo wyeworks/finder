@@ -18,5 +18,11 @@ FactoryBot.define do
         create_list(:session, 3, group:)
       end
     end
+
+    trait :with_requests do
+      after(:create) do |group|
+        create_list(:request, 2, group:)
+      end
+    end
   end
 end
