@@ -8,9 +8,11 @@ type DropdownProps = {
   options: Option[];
   required?: boolean;
   validateText?: string;
-  maxWidth?: boolean;
   // eslint-disable-next-line no-unused-vars
   onSelect?: (value: string) => void;
+  initialValue?: string;
+  maxWidth?: boolean;
+  paddingTB?: number;
 };
 
 export default function Dropdown({
@@ -18,10 +20,13 @@ export default function Dropdown({
   label,
   options,
   onSelect,
+  initialValue,
+  maxWidth = true,
+  paddingTB = 3,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string>(
-    options[0].label ?? 'Seleccione un valor...'
+    initialValue ?? options[0].label ?? 'Seleccione un valor...'
   );
 
   const handleOptionClick = (value: string, key: string) => {
@@ -31,11 +36,14 @@ export default function Dropdown({
   };
 
   return (
-    <div className='my-3 max-w-sm justify-center'>
+    <div
+      data-testid={id}
+      className={`${maxWidth && 'max-w-sm'} justify-center my-${paddingTB} `}
+    >
       {label && (
         <label
           htmlFor={id}
-          className='block text-sm font-medium leading-6 text-gray-900'
+          className='block font-poppins text-sm font-medium leading-6 text-gray-900'
         >
           {label}
         </label>
@@ -46,6 +54,7 @@ export default function Dropdown({
             role='dropdown'
             onClick={() => setIsOpen(!isOpen)}
             className='flex w-full cursor-pointer items-center justify-between rounded-md border px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6'
+            data-testid={id + '-' + selectedValue}
           >
             {selectedValue}
             <ArrowDownIcon

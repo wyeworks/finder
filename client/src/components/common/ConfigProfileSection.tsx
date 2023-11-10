@@ -13,6 +13,7 @@ export function ConfigProfileSection({
   alertMessage,
   alertType,
   alertTitle = '',
+  padding = 'pl-7 pr-7',
   children,
 }: {
   sectionTitle: string;
@@ -25,16 +26,20 @@ export function ConfigProfileSection({
   isAlertVisible: boolean;
   alertMessage: string;
   alertType: alertTypes;
+  padding?: string;
   children: React.ReactNode;
   alertTitle?: string;
 }) {
   return (
-    <div className='mt-3 sm:w-full'>
-      <p className='mb-4 pl-7 pr-7 font-poppins text-2xl font-medium text-black md:px-0'>
+    <div className='mt-6 sm:w-full '>
+      <p
+        data-testid='section-title'
+        className='mb-4 pl-7 pr-7 font-poppins text-2xl font-medium text-black md:px-0'
+      >
         {sectionTitle}
       </p>
       <form
-        className='grid gap-5 rounded-lg border border-gray-200 bg-white pl-7 pr-7 pt-2'
+        className={`flex w-full flex-col gap-3 rounded-lg border border-gray-200 bg-white md:mx-0 ${padding} pt-2`}
         onSubmit={handleSubmit}
         noValidate
       >
@@ -61,6 +66,7 @@ export function ConfigProfileSection({
             message={alertMessage}
             alertType={alertType}
             title={alertTitle}
+            id={`alert-${alertTitle}`}
           />
         </div>
       </form>

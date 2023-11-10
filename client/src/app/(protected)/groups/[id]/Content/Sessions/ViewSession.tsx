@@ -9,7 +9,7 @@ import { Session } from '@/types/Session';
 import {
   formatAttendanceQauntity,
   formatDateToSpanish,
-  getHour,
+  getHourWithoutZ,
 } from '@/utils/Formatter';
 import GroupSizeIcon from '@/assets/Icons/GroupSizeIconSolid';
 import Image from 'next/image';
@@ -35,6 +35,8 @@ import { validateHour } from '@/utils/validations';
 import { SessionService } from '@/services/SessionsService';
 import { Logger } from '@/services/Logger';
 import { NotOkError } from '@/types/NotOkError';
+import DelayedConfirmDialog from '@/app/(protected)/users/me/DelayedConfirmDialog';
+import { TrashCanIcon } from '@/assets/Icons/TrashCanIcon';
 
 type ViewSessionProps = {
   sessionGroup: Session;
@@ -51,11 +53,12 @@ type ViewSessionProps = {
   refetchSession: (id: number, showAttendance: boolean) => Promise<void>;
   isAdmin?: boolean;
   setOpenModal: Dispatch<SetStateAction<boolean>>;
+  close?: () => void;
   isHistorial?: boolean;
 };
 
 function validateUrl(url: string) {
-  if (url.startsWith('https://')) return url;
+  if (url.startsWith('https://') || url.startsWith('http://')) return url;
   else return `https://${url}`;
 }
 
@@ -68,12 +71,13 @@ export default function ViewSession({
   isAdmin = false,
   refetchSession,
   setOpenModal,
+  close,
   isHistorial = false,
 }: ViewSessionProps) {
   const { data: session } = useSession();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const startHour = getHour(sessionGroup.start_time);
-  const endHour = getHour(sessionGroup.end_time);
+  const startHour = getHourWithoutZ(sessionGroup.start_time);
+  const endHour = getHourWithoutZ(sessionGroup.end_time);
   const [editData, setEditData] = useState<any>({
     name: sessionGroup.name,
     startTime: sessionGroup.start_time.split('T')[0],
@@ -82,8 +86,40 @@ export default function ViewSession({
     endHour: endHour,
     description: sessionGroup.description,
     location: sessionGroup.location,
-    metLink: sessionGroup.meeting_link,
+    meetLink: sessionGroup.meeting_link,
   });
+
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState<'success' | 'error'>('success');
+  const [open, setOpen] = useState(false);
+
+  function handleCancelDelete() {
+    setOpen(false);
+    Logger.debug('Cancel');
+  }
+
+  async function handleConfirm() {
+    Logger.debug('Confirm');
+    setOpen(false);
+
+    try {
+      await SessionService.deleteSession(
+        sessionGroup.id,
+        session?.user?.accessToken!
+      );
+
+      setIsAlertVisible(true);
+      setAlertMessage('Sesión eliminada');
+      setAlertType('success');
+      close!();
+    } catch (error: any) {
+      Logger.error(error);
+      setIsAlertVisible(true);
+      setAlertMessage('No se pudo eliminar la sesión');
+      setAlertType('error');
+    }
+  }
 
   useEffect(() => {
     setAlertProps({ show: false });
@@ -98,7 +134,7 @@ export default function ViewSession({
       endHour: endHour,
       description: sessionGroup.description,
       location: sessionGroup.location,
-      metLink: sessionGroup.meeting_link,
+      meetLink: sessionGroup.meeting_link,
     });
   }, [
     endHour,
@@ -118,10 +154,10 @@ export default function ViewSession({
 
     if (isShowOption) {
       return (
-        <>
+        <div className='flex flex-row justify-end'>
           {!isHistorial && (
             <button
-              className='h-full'
+              className='mx-6 mt-[.15rem] h-full'
               onClick={() => setIsEditMode(!isEditMode)}
               type='button'
               data-testid='edit-button'
@@ -129,10 +165,32 @@ export default function ViewSession({
               <EditIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
             </button>
           )}
-          <button className='mx-2 h-full' type='button'>
+          <button
+            className='mr-6 mt-[.15rem] h-full'
+            type='button'
+            onClick={() => setOpen(true)}
+            data-testid={'delete-session-button'}
+          >
             <TrashIcon className='h-[20px] w-[20px] cursor-pointer text-primaryBlue hover:text-gray-700' />
           </button>
-        </>
+          <DelayedConfirmDialog
+            open={open}
+            setOpen={setOpen}
+            description={strings.form.deleteSession.confirmDialogDescription}
+            title={strings.form.deleteSession.confirmDialogTitle}
+            onCancel={handleCancelDelete}
+            onConfirm={handleConfirm}
+            confirmText={
+              strings.form.deleteSession.confirmDialogConfirmButtonText
+            }
+            cancelText={
+              strings.form.deleteSession.confirmDialogCancelButtonText
+            }
+            delayDuration={5}
+            confirmColor={'blue'}
+            icon={<TrashCanIcon width={30} height={30} />}
+          />
+        </div>
       );
     }
   };
@@ -216,13 +274,13 @@ export default function ViewSession({
   function renderModalFooter() {
     if (isEditMode) {
       return (
-        <div className='-mb-2 flex items-center border-t border-t-gray-300 pt-1'>
+        <div className='-mb-3 flex items-center border-t border-t-gray-300 pt-2'>
           <div className='flex w-full justify-center'>
             <Button
               text='Guardar'
               type='submit'
-              classNameWrapper='p-1'
-              className='h-8 w-1/3 items-center bg-primaryBlue hover:bg-hoverPrimaryBlue'
+              classNameWrapper='p-1 pb-0'
+              className='h-8 w-1/3 items-center bg-primaryBlue !p-5 hover:bg-hoverPrimaryBlue'
             />
           </div>
         </div>
@@ -230,7 +288,7 @@ export default function ViewSession({
     }
     if (showAttendanceRequest) {
       return (
-        <div className='-mb-2 flex items-center border-t border-t-gray-300 pt-1'>
+        <div className='-mb-3 flex items-center border-t border-t-gray-300 pt-2'>
           <h1 className='font-poppins'>{strings.viewSession.inviteQuestion}</h1>
           <div className='flex w-full justify-end'>
             <Button
@@ -291,15 +349,21 @@ export default function ViewSession({
         className='m-2 grid grid-cols-[20px,auto]  gap-x-3 gap-y-8 sm:gap-y-[10px]'
         data-testid='view-sesion'
       >
-        <div className='col-span-2 my-3 flex h-6'>
-          <h1 className='peer mt-0 h-fit w-[90%] font-poppins text-xl text-primaryBlue'>
+        <div></div>
+        <div>{renderOptions()}</div>
+        <div></div>
+        <div className='mt-0 flex h-auto'>
+          <h1
+            className={`peer mt-0 w-[97%] overflow-hidden break-all font-poppins text-xl font-medium text-primaryBlue`}
+          >
             {handleEditMode(
               <Input
                 type='text'
                 id='name'
                 name='name'
-                newClassNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-blue-950 focus:outline-none'
+                newClassNameInput='peer h-fit w-[97%] border-b border-gray-300 text-xl focus:border-blue-950 focus:outline-none'
                 onChange={handleChange}
+                maxLength={35}
                 value={editData.name}
                 required
                 touched={true}
@@ -309,7 +373,6 @@ export default function ViewSession({
               <span>{sessionGroup.name}</span>
             )}
           </h1>
-          {renderOptions()}
         </div>
         <>
           <ClockIcon className='mr-2 mt-2 h-5 w-5' />
@@ -343,6 +406,7 @@ export default function ViewSession({
                   touched={true}
                   pattern='[0-2][0-9]:[0-5][0-9]'
                   validateText={validateHour(editData.endTime)}
+                  maxLength={5}
                 />
               </div>,
               <h1 className='font-poppins font-semibold text-blackTextColor'>
@@ -374,6 +438,7 @@ export default function ViewSession({
                   touched={true}
                   pattern='[0-2][0-9]:[0-5][0-9]'
                   validateText={validateHour(editData.endHour)}
+                  maxLength={5}
                 />
               </div>,
               <h1 className='font-poppins font-semibold text-blackTextColor'>
@@ -389,6 +454,7 @@ export default function ViewSession({
               name='location'
               newClassNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-blue-950 focus:outline-none'
               onChange={handleChange}
+              maxLength={35}
               value={editData.location ?? ''}
               classNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
             />,
@@ -402,10 +468,12 @@ export default function ViewSession({
               name='description'
               newClassNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-blue-950 focus:outline-none'
               onChange={handleChange}
+              maxLength={200}
               value={editData.description ?? ''}
               classNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
             />,
-            <p className='font-poppins text-grayText'>
+
+            <p className='overflow-auto break-words font-poppins text-grayText'>
               {!sessionGroup.description
                 ? strings.viewSession.noDescription
                 : sessionGroup.description}
@@ -422,8 +490,9 @@ export default function ViewSession({
               value={editData.meetLink ?? ''}
               classNameInput='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
               touched={true}
+              maxLength={60}
               validateText={strings.createSession.form.validateText.meetLink}
-              pattern='https?://[^.]+\.[^.]+'
+              pattern='https?://.*\..*'
             />,
             <>
               {!sessionGroup.meeting_link ? (
@@ -483,6 +552,12 @@ export default function ViewSession({
           title={alertProps.title}
           alertType={alertProps.alertType}
           withTitle={Boolean(alertProps.title)}
+        />
+        <Alert
+          isVisible={isAlertVisible}
+          message={alertMessage}
+          alertType={alertType}
+          title={'Eliminar Sesion'}
         />
       </div>
     </form>

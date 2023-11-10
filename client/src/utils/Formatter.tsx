@@ -163,6 +163,23 @@ export function formatAttendanceQauntity(attendances: Attendance[]) {
 }
 
 export function getHour(date: string) {
-  const hours = date.split('T')[1].replace('Z', '').split(':');
-  return `${hours[0]}:${hours[1]}`;
+  const dateAux = new Date(date);
+  return `${dateAux.getHours().toString().padStart(2, '0')}:${dateAux
+    .getMinutes()
+    .toString()
+    .padStart(2, '0')}`;
+}
+
+export function getHourWithoutZ(date: string) {
+  const dateStringAux = date.replace('Z', '');
+  const dateAux = new Date(dateStringAux);
+  return `${dateAux.getHours().toString().padStart(2, '0')}:${dateAux
+    .getMinutes()
+    .toString()
+    .padStart(2, '0')}`;
+}
+
+export function formatDateYYYYMMDDToDDMMYYYY(date: string) {
+  const aux = date.split('-');
+  return `${aux[2]}/${aux[1]}/${aux[0]}`;
 }

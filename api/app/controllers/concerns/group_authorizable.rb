@@ -27,7 +27,7 @@ module GroupAuthorizable
 
   def authorize_creator_or_group_admin!
     is_admin = @session.group.admin?(current_user)
-    is_creator = @session.creator == current_user
+    is_creator = @session.creator.user == current_user
 
     return if is_admin || is_creator
 

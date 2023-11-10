@@ -13,18 +13,24 @@ import Alert, { alertTypes } from '@/components/common/Alert';
 import { GroupService } from '@/services/GroupService';
 import { useSession } from 'next-auth/react';
 import { NotOkError } from '@/types/NotOkError';
+import { StudyGroup } from '@/types/StudyGroup';
 
-export default function RequestJoinGroup() {
+type RequestJoinGroupProps = {
+  group: StudyGroup;
+};
+
+export default function RequestJoinGroup({ group }: RequestJoinGroupProps) {
   const { data: session } = useSession();
   const pathname = usePathname();
   const groupId = pathname.split('/')[2];
   const [filterText, setFilterText] = useState('');
   const [requestUsers, setRequestMembers] = useState<Member[]>([]);
-  const [forbiddenData, setForbiddenData] = useState<boolean>(false);
   const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState<alertTypes>('success');
   const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const isAdmin =
+    session?.user.id && group.admin_ids?.includes(Number(session?.user.id));
 
   function onError(error: string[]) {
     setIsAlertVisible(true);
@@ -39,12 +45,10 @@ export default function RequestJoinGroup() {
         groupId,
         session?.user.accessToken!
       );
-      setForbiddenData(true);
       setIsLoadingData(false);
       setRequestMembers(members);
     } catch (error) {
       if (error instanceof NotOkError) {
-        if (error.backendError.errors.group) setForbiddenData(false);
         setIsLoadingData(false);
         return;
       }
@@ -54,8 +58,10 @@ export default function RequestJoinGroup() {
   }, [groupId, session?.user.accessToken]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (isAdmin) {
+      fetchData();
+    }
+  }, [fetchData, isAdmin]);
 
   const handleFilterChange = (event: any) => {
     setFilterText(event.target.value);
@@ -67,21 +73,21 @@ export default function RequestJoinGroup() {
     )
   );
 
-  if (isLoadingData) {
-    return <></>;
-  }
-
-  if (!forbiddenData) {
+  if (!isAdmin) {
     return (
-      <div className='border border-solid p-10 text-center'>
+      <div className='border border-solid bg-white p-10 text-center'>
         Solo los administradores del grupo pueden ver las solicitudes
       </div>
     );
   }
 
+  if (isLoadingData) {
+    return <></>;
+  }
+
   if (requestUsers.length === 0) {
     return (
-      <div className='border border-solid p-10 text-center'>
+      <div className='border border-solid bg-white p-10 text-center'>
         No hay solicitudes
       </div>
     );
@@ -92,7 +98,7 @@ export default function RequestJoinGroup() {
       className='grid grid-rows-[60px,auto]'
       data-testid='request-join-group-component'
     >
-      <div className='max-w-[100%] border border-solid border-gray-200 sm:max-w-none'>
+      <div className='max-w-[100%] border border-solid border-gray-200 bg-white sm:max-w-none'>
         <Input
           id='filter-input-request'
           name='filter-input-request'

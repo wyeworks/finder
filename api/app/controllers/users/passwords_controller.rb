@@ -6,19 +6,21 @@ module Users
     skip_before_action :authenticate_user!, only: %i[create update]
 
     def create
-      self.resource = resource_class.send_reset_password_instructions(resource_params)
+      user = User.find_by(email: resource_params[:email])
 
-      if successfully_sent?(resource)
-        Rails.logger.info "Reset password instructions sent to '#{resource.email}' successfully."
-        render json: { message: "Instrucciones enviadas correctamente a #{resource.email}." },
-               status: :ok
-      else
-        Rails.logger.info "Failed to send instructions to '#{resource.email}' due to: #{resource.errors.full_messages}"
-        render json: {
-          message: 'No se pudieron enviar las instrucciones para reestablecer la contraseña.',
-          errors: resource.errors.messages
-        }, status: :unprocessable_entity
+      # Only attempt to send instructions if the user exists.
+      if user && cooldown_passed?(user.reset_password_sent_at)
+        self.resource = resource_class.send_reset_password_instructions(resource_params)
+        user.update(reset_password_sent_at: Time.current) if successfully_sent?(resource)
       end
+
+      # Log an attempt to request password reset instructions.
+      Rails.logger.info "Attempted to send reset password instructions to '#{resource_params[:email]}'."
+
+      # Always return a success message.
+      render json: { message: 'Si tu correo electrónico existe en nuestra base de datos, ' \
+                              'recibirás un correo con instrucciones para reestablecer tu contraseña.' },
+             status: :ok
     end
 
     def update
@@ -47,6 +49,19 @@ module Users
           errors: { email: ['El correo electrónico proporcionado no coincide con el token.'] }
         }, status: :unprocessable_entity
       end
+    end
+
+    private
+
+    def cooldown_passed?(last_sent_at)
+      return true unless last_sent_at
+
+      (Time.current - last_sent_at) > cooldown_period
+    end
+
+    # cooldown arbitrario
+    def cooldown_period
+      2.minutes
     end
   end
 end

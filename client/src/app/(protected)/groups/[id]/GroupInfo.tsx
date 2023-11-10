@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react';
 import Alert from '@/components/common/Alert';
 import { useSession } from 'next-auth/react';
 import { NotOkError } from '@/types/NotOkError';
+import Link from 'next/link';
+import { CogIcon } from '@/assets/Icons/CogIcon';
 
 type GroupInfoProps = {
   group: StudyGroup;
@@ -25,6 +27,8 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
   const [finishedLoading, setFinishedLoading] = useState<boolean>(false);
   const [reachedGroupLimit, setReachedGroupLimit] = useState<boolean>(false);
   const [inGroup, setInGroup] = useState<boolean>(false);
+  const isAdmin =
+    session?.user.id && group.admin_ids?.includes(Number(session?.user.id));
 
   const handleRequestGroup = async function () {
     if (id) {
@@ -91,8 +95,18 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
       setRequestPending(res);
       setFinishedLoading(true);
     };
-    isRequestPending();
-  }, [id, session?.user.accessToken, user.id, user_ids]);
+    if (!isAdmin) {
+      isRequestPending();
+    }
+  }, [
+    group.admin_ids,
+    id,
+    isAdmin,
+    session?.user.accessToken,
+    session?.user.id,
+    user.id,
+    user_ids,
+  ]);
 
   const buttonJoin = () => {
     return (
@@ -123,7 +137,7 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
     <div className='mt-4 grid grid-cols-1 sm:grid-cols-5'>
       <div className='col-span-1'></div>
       <div className='text-center sm:col-span-3 sm:text-left '>
-        <div className='flex'>
+        <div className='flex w-full flex-row justify-between'>
           <div className='block w-full items-center justify-center sm:justify-start md:flex md:w-[85%]'>
             <h1 className='font-regular mb-3 font-poppins text-4xl'>{name}</h1>
             <span className='mb-2 ml-2 rounded-full bg-primaryBlue px-2.5 py-0.5 text-xl text-white'>
@@ -136,12 +150,20 @@ export default function GroupInfo({ group, subject, user }: GroupInfoProps) {
               {buttonJoin()}
             </div>
           )}
+
+          {isAdmin && (
+            <Link href={`/groups/${id}/edit`}>
+              <CogIcon />
+            </Link>
+          )}
         </div>
 
         <p className='mb-3 font-poppins text-xl font-semibold'>
           {subject.name}
         </p>
-        <p className='font-regular mb-3'>{description}</p>
+        <p className='font-regular mb-3 overflow-auto break-words'>
+          {description}
+        </p>
         <div className='mb-3 flex flex-col items-center justify-center sm:flex-row sm:justify-start'>
           <div className='mr-2 flex items-center sm:mb-0'>
             <GroupSizeIconSolid className='mr-2 h-5 w-5' />

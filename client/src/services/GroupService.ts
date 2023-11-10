@@ -3,6 +3,7 @@ import { Logger } from '@/services/Logger';
 import { ApiCommunicator } from '@/services/ApiCommunicator';
 import { Member } from '@/types/Member';
 import { SearchGroup } from '@/app/(protected)/groups/page';
+import { MessagesGroup } from '@/types/MessagesGroup';
 
 export class GroupService {
   public static async getById(
@@ -21,33 +22,49 @@ export class GroupService {
     accessToken: string,
     searchParams: SearchGroup | null
   ): Promise<StudyGroup[]> {
-    let queryString = '';
+    function makeQueryString(searchParams: SearchGroup | null) {
+      function addParameter(parameterKey: string, parameterValue: any) {
+        if (queryString.length > 0) queryString += '&';
+        queryString += parameterKey + '=' + parameterValue;
+      }
 
-    function addParameter(parameterKey: string, parameterValue: any) {
-      if (queryString.length > 0) queryString += '&';
-      queryString += parameterKey + '=' + parameterValue;
+      let queryString = '';
+
+      if (searchParams) {
+        if (searchParams.name && searchParams.name.length > 0)
+          addParameter('name', searchParams.name);
+        if (searchParams.subject)
+          addParameter('subject_id', searchParams.subject);
+        if (searchParams.timeOfDay && searchParams.timeOfDay.length > 0)
+          addParameter('time_preferences', searchParams.timeOfDay.join(','));
+        if (searchParams.isMyGroup)
+          addParameter('my_groups', searchParams.isMyGroup);
+      }
+
+      return queryString;
     }
 
-    function handleAddParameter(searchParams: SearchGroup) {
-      if (searchParams.name && searchParams.name.length > 0)
-        addParameter('name', searchParams.name);
-      if (searchParams.subject)
-        addParameter('subject_id', searchParams.subject);
-      if (searchParams.timeOfDay && searchParams.timeOfDay.length > 0)
-        addParameter('time_preferences', searchParams.timeOfDay.join(','));
-      if (searchParams.isMyGroup)
-        addParameter('my_groups', searchParams.isMyGroup);
-    }
+    const queryString = makeQueryString(searchParams);
 
-    if (searchParams) {
-      handleAddParameter(searchParams);
-    }
     const response = await ApiCommunicator.commonFetch({
       url: `/groups${queryString.length > 0 ? '?' + queryString : ''}`,
       method: 'GET',
       accessToken,
     });
     return await response.json();
+  }
+
+  public static async update(
+    group: StudyGroup,
+    accessToken: string
+  ): Promise<void> {
+    await ApiCommunicator.commonFetch({
+      url: `/groups/${group.id}`,
+      method: 'PATCH',
+      data: group,
+      accessToken,
+    });
+    return;
   }
 
   public static async submitRequest(
@@ -146,6 +163,63 @@ export class GroupService {
   public static async exitGroup(memberId: string, accessToken: string) {
     await ApiCommunicator.commonFetch({
       url: `/members/${memberId}`,
+      method: 'DELETE',
+      accessToken,
+    });
+  }
+
+  public static async sendMessage(
+    data: {
+      content: string;
+    },
+    accessToken: string,
+    gorupId: number
+  ): Promise<string> {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/groups/' + gorupId + '/messages',
+      method: 'POST',
+      data,
+      accessToken,
+    });
+    const body = await response.json();
+    return body.id;
+  }
+
+  public static async getMessages(
+    id: number,
+    accessToken: string
+  ): Promise<MessagesGroup[]> {
+    const response = await ApiCommunicator.commonFetch({
+      url: '/groups/' + id + '/messages',
+      method: 'GET',
+      accessToken,
+    });
+    const body = await response.json();
+    return body;
+  }
+
+  static async changeRole(
+    member_id: string,
+    role: 'admin' | 'participant',
+    accessToken: string
+  ) {
+    let newRole = null;
+    if (role == 'admin') newRole = 'participant';
+    else newRole = 'admin';
+    return ApiCommunicator.commonFetch({
+      url: '/members/' + member_id,
+      method: 'PATCH',
+      accessToken: accessToken,
+      data: {
+        role: newRole,
+      },
+    });
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  public static async delete(groupId: number, accessToken: string) {
+    await ApiCommunicator.commonFetch({
+      url: `/groups/${groupId}`,
       method: 'DELETE',
       accessToken,
     });

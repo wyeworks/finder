@@ -25,8 +25,6 @@ export default function AuthView({ children }: AuthFlowProps) {
             src={studentsImage}
             alt='Grupo de estudiantes'
             className='h-full w-full object-cover'
-            width={600}
-            height={600}
             priority
           />
         </div>

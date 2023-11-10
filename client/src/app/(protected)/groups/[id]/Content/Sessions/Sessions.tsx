@@ -162,6 +162,26 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
     }
 
     try {
+      const Today = new Date();
+      const [year, month, day] = formData.endTime.split('-');
+      const [hour, min] = formData.endHour.split(':');
+      const sessionDate = new Date(
+        Number(year),
+        Number(month) - 1,
+        Number(day),
+        Number(hour),
+        Number(min)
+      );
+
+      if (sessionDate < Today) {
+        setAlertProps({
+          show: true,
+          message:
+            'No puede crear sesiones anteriores a la fecha y hora actual',
+          alertType: 'error',
+        });
+        return;
+      }
       await SessionService.createSession(
         {
           name: formData.title,
@@ -319,6 +339,10 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
         isAdmin={isAdminGroup}
         refetchSession={viewSession}
         setOpenModal={setOpenModal}
+        close={() => {
+          setOpenModal(false);
+          fetchGroup!();
+        }}
         isHistorial={isFromHistorial}
       />
     ) : (

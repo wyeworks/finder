@@ -80,7 +80,7 @@ export default function Members() {
       className='mb-10 grid grid-rows-[60px,auto]'
       data-testid='members-component'
     >
-      <div className='max-w-[100%] border border-solid border-gray-200 sm:max-w-none'>
+      <div className='max-w-[100%] border border-solid border-gray-200 bg-white sm:max-w-none'>
         <Input
           id='filter-input-members'
           name='filter-input-members'
@@ -93,7 +93,7 @@ export default function Members() {
           onChange={handleFilterChange}
         />
       </div>
-      <div className='max-h-72 overflow-auto border-b border-solid border-gray-200'>
+      <div className='max-h-72 overflow-auto border-b border-solid border-gray-200 bg-white'>
         {filteredUsers.length === 0 && (
           <div className='border-x border-solid p-10 text-center'>
             {strings.groups.membersTab.emptyMessage}

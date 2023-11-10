@@ -24,8 +24,8 @@ RSpec.describe Users::PasswordsController, type: :request do
         post user_password_path, params: { user: { email: 'invalid_email@example.com' } }
       end
 
-      it 'returns http unprocessable_entity' do
-        expect(response).to have_http_status(:unprocessable_entity)
+      it 'returns http success' do
+        expect(response).to have_http_status(:ok)
       end
 
       it 'does not send reset password instructions' do
@@ -82,6 +82,92 @@ RSpec.describe Users::PasswordsController, type: :request do
 
       it 'does not update the user password' do
         expect(user.reload.valid_password?(new_password)).to be_falsy
+      end
+    end
+  end
+
+  describe 'POST #create with cooldown' do
+    let(:user) { create(:user) }
+
+    context 'when a password reset has recently been requested' do
+      before do
+        user.update(reset_password_sent_at: Time.current)
+        post user_password_path, params: { user: { email: user.email } }
+      end
+
+      it 'returns http success' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'does not send another reset password instructions' do
+        expect(ActionMailer::Base.deliveries.size).to eq 0
+      end
+    end
+
+    context 'when the cooldown has passed' do
+      before do
+        user.update(reset_password_sent_at: 11.minutes.ago)
+        post user_password_path, params: { user: { email: user.email } }
+      end
+
+      it 'returns http success' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'sends reset password instructions' do
+        expect(ActionMailer::Base.deliveries.size).to eq 1
+      end
+    end
+
+    context 'when it is the first time requesting a password reset' do
+      before do
+        # Ensure reset_password_sent_at is nil
+        user.update(reset_password_sent_at: nil)
+        post user_password_path, params: { user: { email: user.email } }
+      end
+
+      it 'returns http success' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'sends reset password instructions' do
+        expect(ActionMailer::Base.deliveries.size).to eq 1
+      end
+    end
+  end
+
+  describe 'POST #create with send failure' do
+    let(:user) { create(:user) }
+
+    context 'when sending reset password instructions fails due to errors' do
+      before do
+        allow_any_instance_of(User).to receive(:send_reset_password_instructions) do |user_instance|
+          user_instance.errors.add(:base, 'Error message')
+          user_instance
+        end
+
+        allow(Rails.logger).to receive(:info)
+
+        post user_password_path, params: { user: { email: user.email } }
+      end
+
+      it 'returns http success' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      # Update this test to reflect the new logging behavior
+      it 'logs the attempt' do
+        expect(Rails.logger).to have_received(:info).with(/Attempted to send reset password instructions to/)
+      end
+
+      # Update this test to expect the new success message
+      it 'renders a generic success message in the response' do
+        expect(response.parsed_body['message']).to eq(
+          'Si tu correo electrónico existe en nuestra base de datos, ' \
+          'recibirás un correo con instrucciones para reestablecer tu contraseña.'
+        )
+        # Since you're always returning a success, you should not include errors in the response
+        expect(response.parsed_body).not_to have_key('errors')
       end
     end
   end
