@@ -24,5 +24,11 @@ FactoryBot.define do
         create_list(:request, 2, group:)
       end
     end
+
+    trait :with_messages do
+      after(:create) do |group|
+        create_list(:message, 2, group:)
+      end
+    end
   end
 end
