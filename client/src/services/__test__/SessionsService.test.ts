@@ -103,4 +103,66 @@ describe('SessionService', () => {
     const result = await SessionService.getSession('1', 'mockAccessToken');
     expect(result).toBeNull();
   });
+
+  it('should update attendance and return a success message', async () => {
+    const mockData = { message: 'Attendance updated successfully' };
+    const mockedApiCommunicator =
+      ApiCommunicator.commonFetch as jest.MockedFunction<
+        typeof ApiCommunicator.commonFetch
+      >;
+    mockedApiCommunicator.mockResolvedValueOnce(createMockResponse(mockData));
+
+    const attendanceData = { attendance: { status: 'present' } };
+    const result = await SessionService.updateAttendance(
+      '1',
+      'mockAccessToken',
+      attendanceData
+    );
+    expect(result).toEqual(mockData.message);
+    expect(mockedApiCommunicator).toHaveBeenCalledWith({
+      url: '/attendances/1',
+      method: 'PATCH',
+      data: attendanceData,
+      accessToken: 'mockAccessToken',
+    });
+  });
+
+  it('should edit a session and return a success message', async () => {
+    const mockData = { message: 'Session edited successfully' };
+    const sessionData = { name: 'Updated Session', location: 'Online' };
+
+    const mockedApiCommunicator =
+      ApiCommunicator.commonFetch as jest.MockedFunction<
+        typeof ApiCommunicator.commonFetch
+      >;
+    mockedApiCommunicator.mockResolvedValueOnce(createMockResponse(mockData));
+
+    const result = await SessionService.editSession(
+      sessionData,
+      1,
+      'mockAccessToken'
+    );
+    expect(result).toEqual(mockData.message);
+    expect(mockedApiCommunicator).toHaveBeenCalledWith({
+      url: '/sessions/1',
+      method: 'PATCH',
+      data: sessionData,
+      accessToken: 'mockAccessToken',
+    });
+  });
+
+  it('should delete a session', async () => {
+    const mockedApiCommunicator =
+      ApiCommunicator.commonFetch as jest.MockedFunction<
+        typeof ApiCommunicator.commonFetch
+      >;
+    mockedApiCommunicator.mockResolvedValueOnce(createMockResponse({}));
+
+    await SessionService.deleteSession(1, 'mockAccessToken');
+    expect(mockedApiCommunicator).toHaveBeenCalledWith({
+      url: '/sessions/1',
+      method: 'DELETE',
+      accessToken: 'mockAccessToken',
+    });
+  });
 });
