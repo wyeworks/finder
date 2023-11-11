@@ -163,8 +163,8 @@ export default function Sessions({ group, fetchGroup }: SessionsProps) {
 
     try {
       const Today = new Date();
-      const [year, month, day] = formData.endTime.split('-');
-      const [hour, min] = formData.endHour.split(':');
+      const [year, month, day] = formData.startTime.split('-');
+      const [hour, min] = formData.startHour.split(':');
       const sessionDate = new Date(
         Number(year),
         Number(month) - 1,
