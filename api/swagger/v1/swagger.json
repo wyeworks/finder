@@ -38,10 +38,10 @@
                 "examples": {
                   "update_attendances": {
                     "value": {
-                      "id": 3605,
+                      "id": 3951,
                       "status": "accepted",
-                      "session_id": 1923,
-                      "member_id": 5736
+                      "session_id": 2108,
+                      "member_id": 6297
                     }
                   }
                 }
@@ -93,7 +93,7 @@
                   "index_careers": {
                     "value": [
                       {
-                        "id": 623,
+                        "id": 680,
                         "name": "Career_1",
                         "code": "1",
                         "approved_on": "2023",
@@ -104,7 +104,7 @@
                         ]
                       },
                       {
-                        "id": 624,
+                        "id": 681,
                         "name": "Career_2",
                         "code": "2",
                         "approved_on": "2023",
@@ -157,22 +157,22 @@
                   "index_messages": {
                     "value": [
                       {
-                        "date": "2023-11-10",
+                        "date": "2023-11-11",
                         "messages": [
                           {
-                            "id": 691,
+                            "id": 765,
                             "content": "MyText",
-                            "created_at": "2023-11-10T23:53:50.592Z",
-                            "user_id": 8130,
-                            "group_id": 4189,
+                            "created_at": "2023-11-11T17:24:23.928Z",
+                            "user_id": 8957,
+                            "group_id": 4607,
                             "user_name": "Name_6"
                           },
                           {
-                            "id": 692,
+                            "id": 766,
                             "content": "MyText",
-                            "created_at": "2023-11-10T23:53:50.602Z",
-                            "user_id": 8131,
-                            "group_id": 4189,
+                            "created_at": "2023-11-11T17:24:23.939Z",
+                            "user_id": 8958,
+                            "group_id": 4607,
                             "user_name": "Name_7"
                           }
                         ]
@@ -217,11 +217,11 @@
                 "examples": {
                   "create_messages": {
                     "value": {
-                      "id": 693,
+                      "id": 767,
                       "content": "Foo",
-                      "created_at": "2023-11-10T23:53:50.672Z",
-                      "user_id": 8132,
-                      "group_id": 4190,
+                      "created_at": "2023-11-11T17:24:24.063Z",
+                      "user_id": 8959,
+                      "group_id": 4608,
                       "user_name": "Name_8"
                     }
                   }
@@ -291,11 +291,11 @@
                 "examples": {
                   "update_messages": {
                     "value": {
-                      "id": 694,
+                      "id": 768,
                       "content": "New Content",
-                      "created_at": "2023-11-10T23:53:50.704Z",
-                      "user_id": 8134,
-                      "group_id": 4191,
+                      "created_at": "2023-11-11T17:24:24.097Z",
+                      "user_id": 8961,
+                      "group_id": 4609,
                       "user_name": "Name_10"
                     }
                   }
@@ -407,20 +407,20 @@
                   "index_requests": {
                     "value": [
                       {
-                        "id": 543,
+                        "id": 602,
                         "status": "pending",
                         "reason": null,
-                        "group_id": 4193,
-                        "user_id": 8138,
+                        "group_id": 4611,
+                        "user_id": 8965,
                         "user_name": "Name_14",
                         "user_email": "email_14@email.com"
                       },
                       {
-                        "id": 544,
+                        "id": 603,
                         "status": "pending",
                         "reason": null,
-                        "group_id": 4193,
-                        "user_id": 8139,
+                        "group_id": 4611,
+                        "user_id": 8966,
                         "user_name": "Name_15",
                         "user_email": "email_15@email.com"
                       }
@@ -464,11 +464,11 @@
                 "examples": {
                   "create_requests": {
                     "value": {
-                      "id": 545,
+                      "id": 604,
                       "status": "pending",
                       "reason": null,
-                      "group_id": 4194,
-                      "user_id": 8140,
+                      "group_id": 4612,
+                      "user_id": 8967,
                       "user_name": "Name_16",
                       "user_email": "email_16@email.com"
                     }
@@ -522,11 +522,11 @@
                 "examples": {
                   "update_requests": {
                     "value": {
-                      "id": 546,
+                      "id": 605,
                       "status": "rejected",
                       "reason": "Not a fit for the group",
-                      "group_id": 4195,
-                      "user_id": 8142,
+                      "group_id": 4613,
+                      "user_id": 8969,
                       "user_name": "Name_18",
                       "user_email": "email_18@email.com"
                     }
@@ -600,11 +600,11 @@
                 "examples": {
                   "show_user_requests": {
                     "value": {
-                      "id": 547,
+                      "id": 606,
                       "status": "pending",
                       "reason": null,
-                      "group_id": 4196,
-                      "user_id": 8143,
+                      "group_id": 4614,
+                      "user_id": 8970,
                       "user_name": "Name_19",
                       "user_email": "email_19@email.com"
                     }
@@ -673,20 +673,20 @@
                   "index_groups": {
                     "value": [
                       {
-                        "id": 4199,
+                        "id": 4617,
                         "name": "Baz",
                         "description": "Description",
                         "size": 3,
                         "time_preferences": {
                           "Monday": "Night"
                         },
-                        "subject_id": 4975,
+                        "subject_id": 5464,
                         "subject_name": "Subject_12",
                         "user_ids": [
-                          8145
+                          8972
                         ],
                         "admin_ids": [
-                          8145
+                          8972
                         ],
                         "requests": [
 
@@ -726,7 +726,7 @@
                 "examples": {
                   "create_groups": {
                     "value": {
-                      "id": 4200,
+                      "id": 4618,
                       "name": "Name",
                       "description": "Description",
                       "size": 5,
@@ -739,13 +739,13 @@
                         "Saturday": "Afternoon",
                         "Sunday": "Night"
                       },
-                      "subject_id": 4976,
+                      "subject_id": 5465,
                       "subject_name": "Subject_13",
                       "user_ids": [
-                        8146
+                        8973
                       ],
                       "admin_ids": [
-                        8146
+                        8973
                       ],
                       "requests": [
 
@@ -824,7 +824,7 @@
                 "examples": {
                   "show_groups": {
                     "value": {
-                      "id": 4201,
+                      "id": 4619,
                       "name": "Name_11",
                       "description": "Description",
                       "size": 3,
@@ -832,7 +832,7 @@
                         "Monday": "Morning",
                         "Tuesday": "Afternoon"
                       },
-                      "subject_id": 4977,
+                      "subject_id": 5466,
                       "subject_name": "Subject_14",
                       "user_ids": [
 
@@ -886,7 +886,7 @@
                 "examples": {
                   "update_groups": {
                     "value": {
-                      "id": 4202,
+                      "id": 4620,
                       "name": "New Name",
                       "description": "New Description",
                       "size": 5,
@@ -899,13 +899,13 @@
                         "Saturday": "Afternoon",
                         "Sunday": "Night"
                       },
-                      "subject_id": 4979,
+                      "subject_id": 5468,
                       "subject_name": "Subject_16",
                       "user_ids": [
-                        8148
+                        8975
                       ],
                       "admin_ids": [
-                        8148
+                        8975
                       ],
                       "requests": [
 
@@ -1015,15 +1015,15 @@
                   "members_groups": {
                     "value": [
                       {
-                        "member_id": 5751,
-                        "id": 8150,
+                        "member_id": 6312,
+                        "id": 8977,
                         "email": "email_26@email.com",
                         "name": "Name_26",
                         "role": "participant"
                       },
                       {
-                        "member_id": 5752,
-                        "id": 8151,
+                        "member_id": 6313,
+                        "id": 8978,
                         "email": "email_27@email.com",
                         "name": "Name_27",
                         "role": "participant"
@@ -1175,25 +1175,25 @@
                 "examples": {
                   "create_sessions": {
                     "value": {
-                      "id": 1924,
+                      "id": 2109,
                       "name": "Name",
                       "description": "Description",
                       "location": "Location",
                       "meeting_link": "Meeting Link",
                       "start_time": "2023-11-07T00:00:00.000Z",
                       "end_time": "2023-11-07T02:00:00.000Z",
-                      "group_id": 4207,
-                      "creator_user_id": 8157,
+                      "group_id": 4625,
+                      "creator_user_id": 8984,
                       "attendances": [
                         {
-                          "id": 3606,
-                          "session_id": 1924,
+                          "id": 3952,
+                          "session_id": 2109,
                           "status": "pending",
-                          "created_at": "2023-11-10T23:53:51.630Z",
-                          "updated_at": "2023-11-10T23:53:51.630Z",
-                          "member_id": 5757,
+                          "created_at": "2023-11-11T17:24:24.819Z",
+                          "updated_at": "2023-11-11T17:24:24.819Z",
+                          "member_id": 6318,
                           "member_name": "Name_33",
-                          "user_id": 8157
+                          "user_id": 8984
                         }
                       ]
                     }
@@ -1273,25 +1273,25 @@
                 "examples": {
                   "show_sessions": {
                     "value": {
-                      "id": 1925,
+                      "id": 2110,
                       "name": "Session_2",
                       "description": "Description",
                       "location": "Location",
                       "meeting_link": "https://zoom.us/meeting_link",
-                      "start_time": "2023-11-11T23:53:51.659Z",
-                      "end_time": "2023-11-12T01:53:51.659Z",
-                      "group_id": 4208,
-                      "creator_user_id": 8158,
+                      "start_time": "2023-11-12T17:24:24.845Z",
+                      "end_time": "2023-11-12T19:24:24.845Z",
+                      "group_id": 4626,
+                      "creator_user_id": 8985,
                       "attendances": [
                         {
-                          "id": 3607,
-                          "session_id": 1925,
+                          "id": 3953,
+                          "session_id": 2110,
                           "status": "pending",
-                          "created_at": "2023-11-10T23:53:51.664Z",
-                          "updated_at": "2023-11-10T23:53:51.664Z",
-                          "member_id": 5758,
+                          "created_at": "2023-11-11T17:24:24.849Z",
+                          "updated_at": "2023-11-11T17:24:24.849Z",
+                          "member_id": 6319,
                           "member_name": "Name_34",
-                          "user_id": 8158
+                          "user_id": 8985
                         }
                       ]
                     }
@@ -1334,25 +1334,25 @@
                 "examples": {
                   "update_sessions": {
                     "value": {
-                      "id": 1926,
+                      "id": 2111,
                       "name": "New Name",
                       "description": "New Description",
                       "location": "New Location",
                       "meeting_link": "New Meeting Link",
                       "start_time": "2023-11-07T00:00:00.000Z",
                       "end_time": "2023-11-07T02:00:00.000Z",
-                      "group_id": 4209,
-                      "creator_user_id": 8159,
+                      "group_id": 4627,
+                      "creator_user_id": 8986,
                       "attendances": [
                         {
-                          "id": 3608,
-                          "session_id": 1926,
+                          "id": 3954,
+                          "session_id": 2111,
                           "status": "pending",
-                          "created_at": "2023-11-10T23:53:51.721Z",
-                          "updated_at": "2023-11-10T23:53:51.721Z",
-                          "member_id": 5759,
+                          "created_at": "2023-11-11T17:24:24.901Z",
+                          "updated_at": "2023-11-11T17:24:24.901Z",
+                          "member_id": 6320,
                           "member_name": "Name_35",
-                          "user_id": 8159
+                          "user_id": 8986
                         }
                       ]
                     }
@@ -1454,7 +1454,7 @@
                   "index_subjects": {
                     "value": [
                       {
-                        "id": 4988,
+                        "id": 5477,
                         "name": "Subject_25",
                         "code": "25",
                         "credits": 10,
@@ -1466,7 +1466,7 @@
                         ]
                       },
                       {
-                        "id": 4989,
+                        "id": 5478,
                         "name": "Subject_26",
                         "code": "26",
                         "credits": 10,
@@ -1519,7 +1519,7 @@
                 "examples": {
                   "show_subjects": {
                     "value": {
-                      "id": 4990,
+                      "id": 5479,
                       "name": "Subject_27",
                       "code": "27",
                       "credits": 10,
@@ -1532,6 +1532,309 @@
                     }
                   }
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/confirmation": {
+      "get": {
+        "summary": "Finds a user with their confirmation token",
+        "tags": [
+          "Devise"
+        ],
+        "parameters": [
+          {
+            "name": "confirmation_token",
+            "in": "query",
+            "value": "Token",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Found"
+          }
+        }
+      }
+    },
+    "/users/password": {
+      "post": {
+        "summary": "Creates a recover password request",
+        "tags": [
+          "Devise"
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "create_password_users": {
+                    "value": {
+                      "message": "Si tu correo electrónico existe en nuestra base de datos, recibirás un correo con instrucciones para reestablecer tu contraseña."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "user"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates a user password",
+        "tags": [
+          "Devise"
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "update_password_users": {
+                    "value": {
+                      "message": "Contraseña reestablecida correctamente."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reset_password_token": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "password_confirmation": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "user"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/signup": {
+      "post": {
+        "summary": "Signup of a new user",
+        "tags": [
+          "Devise"
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "signup_users": {
+                    "value": {
+                      "message": "El usuario fue creado correctamente",
+                      "user": {
+                        "id": 8993,
+                        "email": "test_user@email.com",
+                        "name": "Test User",
+                        "bio": null,
+                        "social_networks": null,
+                        "birth_date": null,
+                        "groups": [
+
+                        ],
+                        "careers": [
+
+                        ],
+                        "subjects": [
+
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "user"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "Login of a user",
+        "tags": [
+          "Devise"
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "login_users": {
+                    "value": {
+                      "message": "Sesión iniciada correctamente",
+                      "user": {
+                        "id": 8994,
+                        "email": "email_42@email.com",
+                        "name": "Name_42",
+                        "bio": null,
+                        "social_networks": null,
+                        "birth_date": "2023-01-01",
+                        "groups": [
+
+                        ],
+                        "careers": [
+
+                        ],
+                        "subjects": [
+
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "user"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "delete": {
+        "summary": "Logout of a user",
+        "tags": [
+          "Devise"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "logout_users": {
+                    "value": {
+                      "message": "Sesión cerrada correctamente"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "user"
+                ]
               }
             }
           }
@@ -1571,9 +1874,9 @@
                 "examples": {
                   "show_users": {
                     "value": {
-                      "id": 8163,
-                      "email": "email_39@email.com",
-                      "name": "Name_39",
+                      "id": 8996,
+                      "email": "email_44@email.com",
+                      "name": "Name_44",
                       "bio": null,
                       "social_networks": {
                         "facebook": "foo",
@@ -1585,24 +1888,24 @@
                       ],
                       "careers": [
                         {
-                          "id": 625,
+                          "id": 682,
                           "code": "3",
                           "name": "Career_3"
                         },
                         {
-                          "id": 626,
+                          "id": 683,
                           "code": "4",
                           "name": "Career_4"
                         }
                       ],
                       "subjects": [
                         {
-                          "id": 4991,
+                          "id": 5480,
                           "code": "28",
                           "name": "Subject_28"
                         },
                         {
-                          "id": 4992,
+                          "id": 5481,
                           "code": "29",
                           "name": "Subject_29"
                         }
@@ -1647,8 +1950,8 @@
                 "examples": {
                   "update_users": {
                     "value": {
-                      "id": 8164,
-                      "email": "email_40@email.com",
+                      "id": 8997,
+                      "email": "email_45@email.com",
                       "name": "New Name",
                       "bio": "New Bio",
                       "social_networks": {
