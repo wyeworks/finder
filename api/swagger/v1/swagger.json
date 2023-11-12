@@ -1,0 +1,2054 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API V1",
+    "version": "v1"
+  },
+  "paths": {
+    "/attendances/{id}": {
+      "patch": {
+        "summary": "Updates an attendance",
+        "tags": [
+          "Attendances"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Attendance ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "update_attendances": {
+                    "value": {
+                      "id": 3951,
+                      "status": "accepted",
+                      "session_id": 2108,
+                      "member_id": 6297
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "attendance"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/careers": {
+      "get": {
+        "summary": "Returns all careers",
+        "tags": [
+          "Careers"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "index_careers": {
+                    "value": [
+                      {
+                        "id": 680,
+                        "name": "Career_1",
+                        "code": "1",
+                        "approved_on": "2023",
+                        "years": 5,
+                        "credits": 450,
+                        "user_ids": [
+
+                        ]
+                      },
+                      {
+                        "id": 681,
+                        "name": "Career_2",
+                        "code": "2",
+                        "approved_on": "2023",
+                        "years": 5,
+                        "credits": 450,
+                        "user_ids": [
+
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}/messages": {
+      "get": {
+        "summary": "Returns all messages of a specific group",
+        "tags": [
+          "Messages"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "index_messages": {
+                    "value": [
+                      {
+                        "date": "2023-11-11",
+                        "messages": [
+                          {
+                            "id": 765,
+                            "content": "MyText",
+                            "created_at": "2023-11-11T17:24:23.928Z",
+                            "user_id": 8957,
+                            "group_id": 4607,
+                            "user_name": "Name_6"
+                          },
+                          {
+                            "id": 766,
+                            "content": "MyText",
+                            "created_at": "2023-11-11T17:24:23.939Z",
+                            "user_id": 8958,
+                            "group_id": 4607,
+                            "user_name": "Name_7"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a message",
+        "tags": [
+          "Messages"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "create_messages": {
+                    "value": {
+                      "id": 767,
+                      "content": "Foo",
+                      "created_at": "2023-11-11T17:24:24.063Z",
+                      "user_id": 8959,
+                      "group_id": 4608,
+                      "user_name": "Name_8"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "message"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}/messages/{message_id}": {
+      "patch": {
+        "summary": "Updates a message",
+        "tags": [
+          "Messages"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "message_id",
+            "in": "path",
+            "required": true,
+            "description": "Message ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "update_messages": {
+                    "value": {
+                      "id": 768,
+                      "content": "New Content",
+                      "created_at": "2023-11-11T17:24:24.097Z",
+                      "user_id": 8961,
+                      "group_id": 4609,
+                      "user_name": "Name_10"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "message"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a message",
+        "tags": [
+          "Messages"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "message_id",
+            "in": "path",
+            "required": true,
+            "description": "Message ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "delete_messages": {
+                    "value": {
+                      "success": "El mensaje fue eliminado exitosamente."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}/requests": {
+      "get": {
+        "summary": "Returns all requests of a specific group",
+        "tags": [
+          "Requests"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "index_requests": {
+                    "value": [
+                      {
+                        "id": 602,
+                        "status": "pending",
+                        "reason": null,
+                        "group_id": 4611,
+                        "user_id": 8965,
+                        "user_name": "Name_14",
+                        "user_email": "email_14@email.com"
+                      },
+                      {
+                        "id": 603,
+                        "status": "pending",
+                        "reason": null,
+                        "group_id": 4611,
+                        "user_id": 8966,
+                        "user_name": "Name_15",
+                        "user_email": "email_15@email.com"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a request",
+        "tags": [
+          "Requests"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "create_requests": {
+                    "value": {
+                      "id": 604,
+                      "status": "pending",
+                      "reason": null,
+                      "group_id": 4612,
+                      "user_id": 8967,
+                      "user_name": "Name_16",
+                      "user_email": "email_16@email.com"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}/requests/{request_id}": {
+      "patch": {
+        "summary": "Updates a request",
+        "tags": [
+          "Requests"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "description": "Request ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "update_requests": {
+                    "value": {
+                      "id": 605,
+                      "status": "rejected",
+                      "reason": "Not a fit for the group",
+                      "group_id": 4613,
+                      "user_id": 8969,
+                      "user_name": "Name_18",
+                      "user_email": "email_18@email.com"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "request"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}/requests/users/{user_id}": {
+      "get": {
+        "summary": "Returns a user request for a specific group",
+        "tags": [
+          "Requests"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "show_user_requests": {
+                    "value": {
+                      "id": 606,
+                      "status": "pending",
+                      "reason": null,
+                      "group_id": 4614,
+                      "user_id": 8970,
+                      "user_name": "Name_19",
+                      "user_email": "email_19@email.com"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups": {
+      "get": {
+        "summary": "Returns all groups that match the filters",
+        "tags": [
+          "Groups"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "value": "Name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subject_id",
+            "in": "query",
+            "value": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "my_groups",
+            "in": "query",
+            "value": "true",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "time_preferences",
+            "in": "query",
+            "value": "night,afternoon",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "index_groups": {
+                    "value": [
+                      {
+                        "id": 4617,
+                        "name": "Baz",
+                        "description": "Description",
+                        "size": 3,
+                        "time_preferences": {
+                          "Monday": "Night"
+                        },
+                        "subject_id": 5464,
+                        "subject_name": "Subject_12",
+                        "user_ids": [
+                          8972
+                        ],
+                        "admin_ids": [
+                          8972
+                        ],
+                        "requests": [
+
+                        ],
+                        "sessions": [
+
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a group",
+        "tags": [
+          "Groups"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "create_groups": {
+                    "value": {
+                      "id": 4618,
+                      "name": "Name",
+                      "description": "Description",
+                      "size": 5,
+                      "time_preferences": {
+                        "Monday": "Morning",
+                        "Tuesday": "Afternoon",
+                        "Wednesday": "Night",
+                        "Thursday": "None",
+                        "Friday": "Morning",
+                        "Saturday": "Afternoon",
+                        "Sunday": "Night"
+                      },
+                      "subject_id": 5465,
+                      "subject_name": "Subject_13",
+                      "user_ids": [
+                        8973
+                      ],
+                      "admin_ids": [
+                        8973
+                      ],
+                      "requests": [
+
+                      ],
+                      "sessions": [
+
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "integer"
+                  },
+                  "subject_id": {
+                    "type": "integer"
+                  },
+                  "time_preferences": {
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "group"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}": {
+      "get": {
+        "summary": "Returns a group",
+        "tags": [
+          "Groups"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "show_groups": {
+                    "value": {
+                      "id": 4619,
+                      "name": "Name_11",
+                      "description": "Description",
+                      "size": 3,
+                      "time_preferences": {
+                        "Monday": "Morning",
+                        "Tuesday": "Afternoon"
+                      },
+                      "subject_id": 5466,
+                      "subject_name": "Subject_14",
+                      "user_ids": [
+
+                      ],
+                      "admin_ids": [
+
+                      ],
+                      "requests": [
+
+                      ],
+                      "sessions": [
+
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates a group",
+        "tags": [
+          "Groups"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "update_groups": {
+                    "value": {
+                      "id": 4620,
+                      "name": "New Name",
+                      "description": "New Description",
+                      "size": 5,
+                      "time_preferences": {
+                        "Monday": "Morning",
+                        "Tuesday": "Afternoon",
+                        "Wednesday": "Night",
+                        "Thursday": "None",
+                        "Friday": "Morning",
+                        "Saturday": "Afternoon",
+                        "Sunday": "Night"
+                      },
+                      "subject_id": 5468,
+                      "subject_name": "Subject_16",
+                      "user_ids": [
+                        8975
+                      ],
+                      "admin_ids": [
+                        8975
+                      ],
+                      "requests": [
+
+                      ],
+                      "sessions": [
+
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "integer"
+                  },
+                  "subject_id": {
+                    "type": "integer"
+                  },
+                  "time_preferences": {
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "group"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a group",
+        "tags": [
+          "Groups"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/groups/{id}/members": {
+      "get": {
+        "summary": "Returns all members of a group",
+        "tags": [
+          "Groups"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "members_groups": {
+                    "value": [
+                      {
+                        "member_id": 6312,
+                        "id": 8977,
+                        "email": "email_26@email.com",
+                        "name": "Name_26",
+                        "role": "participant"
+                      },
+                      {
+                        "member_id": 6313,
+                        "id": 8978,
+                        "email": "email_27@email.com",
+                        "name": "Name_27",
+                        "role": "participant"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Returns application status",
+        "tags": [
+          "Home"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "index_home": {
+                    "value": {
+                      "message": "Still alive"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/members/{id}": {
+      "patch": {
+        "summary": "Updates a member",
+        "tags": [
+          "Members"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Member ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "update_members": {
+                    "value": {
+                      "message": "El miembro ahora es administrador del grupo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "member"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a member",
+        "tags": [
+          "Members"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Member ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "post": {
+        "summary": "Creates a session",
+        "tags": [
+          "Sessions"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "create_sessions": {
+                    "value": {
+                      "id": 2109,
+                      "name": "Name",
+                      "description": "Description",
+                      "location": "Location",
+                      "meeting_link": "Meeting Link",
+                      "start_time": "2023-11-07T00:00:00.000Z",
+                      "end_time": "2023-11-07T02:00:00.000Z",
+                      "group_id": 4625,
+                      "creator_user_id": 8984,
+                      "attendances": [
+                        {
+                          "id": 3952,
+                          "session_id": 2109,
+                          "status": "pending",
+                          "created_at": "2023-11-11T17:24:24.819Z",
+                          "updated_at": "2023-11-11T17:24:24.819Z",
+                          "member_id": 6318,
+                          "member_name": "Name_33",
+                          "user_id": 8984
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "meeting_link": {
+                    "type": "string"
+                  },
+                  "start_time": {
+                    "type": "string"
+                  },
+                  "end_time": {
+                    "type": "string"
+                  },
+                  "group_id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "session"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sessions/{id}": {
+      "get": {
+        "summary": "Returns a session",
+        "tags": [
+          "Sessions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Session ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "show_sessions": {
+                    "value": {
+                      "id": 2110,
+                      "name": "Session_2",
+                      "description": "Description",
+                      "location": "Location",
+                      "meeting_link": "https://zoom.us/meeting_link",
+                      "start_time": "2023-11-12T17:24:24.845Z",
+                      "end_time": "2023-11-12T19:24:24.845Z",
+                      "group_id": 4626,
+                      "creator_user_id": 8985,
+                      "attendances": [
+                        {
+                          "id": 3953,
+                          "session_id": 2110,
+                          "status": "pending",
+                          "created_at": "2023-11-11T17:24:24.849Z",
+                          "updated_at": "2023-11-11T17:24:24.849Z",
+                          "member_id": 6319,
+                          "member_name": "Name_34",
+                          "user_id": 8985
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates a session",
+        "tags": [
+          "Sessions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Session ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "update_sessions": {
+                    "value": {
+                      "id": 2111,
+                      "name": "New Name",
+                      "description": "New Description",
+                      "location": "New Location",
+                      "meeting_link": "New Meeting Link",
+                      "start_time": "2023-11-07T00:00:00.000Z",
+                      "end_time": "2023-11-07T02:00:00.000Z",
+                      "group_id": 4627,
+                      "creator_user_id": 8986,
+                      "attendances": [
+                        {
+                          "id": 3954,
+                          "session_id": 2111,
+                          "status": "pending",
+                          "created_at": "2023-11-11T17:24:24.901Z",
+                          "updated_at": "2023-11-11T17:24:24.901Z",
+                          "member_id": 6320,
+                          "member_name": "Name_35",
+                          "user_id": 8986
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "meeting_link": {
+                    "type": "string"
+                  },
+                  "start_time": {
+                    "type": "string"
+                  },
+                  "end_time": {
+                    "type": "string"
+                  },
+                  "group_id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "session"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a session",
+        "tags": [
+          "Sessions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Session ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/subjects": {
+      "get": {
+        "summary": "Returns all subjects",
+        "tags": [
+          "Subjects"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "index_subjects": {
+                    "value": [
+                      {
+                        "id": 5477,
+                        "name": "Subject_25",
+                        "code": "25",
+                        "credits": 10,
+                        "group_ids": [
+
+                        ],
+                        "user_ids": [
+
+                        ]
+                      },
+                      {
+                        "id": 5478,
+                        "name": "Subject_26",
+                        "code": "26",
+                        "credits": 10,
+                        "group_ids": [
+
+                        ],
+                        "user_ids": [
+
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subjects/{id}": {
+      "get": {
+        "summary": "Returns a subject",
+        "tags": [
+          "Subjects"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Subject ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "show_subjects": {
+                    "value": {
+                      "id": 5479,
+                      "name": "Subject_27",
+                      "code": "27",
+                      "credits": 10,
+                      "group_ids": [
+
+                      ],
+                      "user_ids": [
+
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/confirmation": {
+      "get": {
+        "summary": "Finds a user with their confirmation token",
+        "tags": [
+          "Devise"
+        ],
+        "parameters": [
+          {
+            "name": "confirmation_token",
+            "in": "query",
+            "value": "Token",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Found"
+          }
+        }
+      }
+    },
+    "/users/password": {
+      "post": {
+        "summary": "Creates a recover password request",
+        "tags": [
+          "Devise"
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "create_password_users": {
+                    "value": {
+                      "message": "Si tu correo electrónico existe en nuestra base de datos, recibirás un correo con instrucciones para reestablecer tu contraseña."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "user"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates a user password",
+        "tags": [
+          "Devise"
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "update_password_users": {
+                    "value": {
+                      "message": "Contraseña reestablecida correctamente."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reset_password_token": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "password_confirmation": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "user"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/signup": {
+      "post": {
+        "summary": "Signup of a new user",
+        "tags": [
+          "Devise"
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "signup_users": {
+                    "value": {
+                      "message": "El usuario fue creado correctamente",
+                      "user": {
+                        "id": 8993,
+                        "email": "test_user@email.com",
+                        "name": "Test User",
+                        "bio": null,
+                        "social_networks": null,
+                        "birth_date": null,
+                        "groups": [
+
+                        ],
+                        "careers": [
+
+                        ],
+                        "subjects": [
+
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "user"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "Login of a user",
+        "tags": [
+          "Devise"
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "login_users": {
+                    "value": {
+                      "message": "Sesión iniciada correctamente",
+                      "user": {
+                        "id": 8994,
+                        "email": "email_42@email.com",
+                        "name": "Name_42",
+                        "bio": null,
+                        "social_networks": null,
+                        "birth_date": "2023-01-01",
+                        "groups": [
+
+                        ],
+                        "careers": [
+
+                        ],
+                        "subjects": [
+
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "user"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "delete": {
+        "summary": "Logout of a user",
+        "tags": [
+          "Devise"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "logout_users": {
+                    "value": {
+                      "message": "Sesión cerrada correctamente"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "user"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Returns a user",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "show_users": {
+                    "value": {
+                      "id": 8996,
+                      "email": "email_44@email.com",
+                      "name": "Name_44",
+                      "bio": null,
+                      "social_networks": {
+                        "facebook": "foo",
+                        "instagram": "bar"
+                      },
+                      "birth_date": "2023-01-01",
+                      "groups": [
+
+                      ],
+                      "careers": [
+                        {
+                          "id": 682,
+                          "code": "3",
+                          "name": "Career_3"
+                        },
+                        {
+                          "id": 683,
+                          "code": "4",
+                          "name": "Career_4"
+                        }
+                      ],
+                      "subjects": [
+                        {
+                          "id": 5480,
+                          "code": "28",
+                          "name": "Subject_28"
+                        },
+                        {
+                          "id": 5481,
+                          "code": "29",
+                          "name": "Subject_29"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates a user",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "update_users": {
+                    "value": {
+                      "id": 8997,
+                      "email": "email_45@email.com",
+                      "name": "New Name",
+                      "bio": "New Bio",
+                      "social_networks": {
+                        "facebook": "updated_facebook_link",
+                        "instagram": "updated_instagram_link"
+                      },
+                      "birth_date": "2000-01-01",
+                      "groups": [
+
+                      ],
+                      "careers": [
+
+                      ],
+                      "subjects": [
+
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "bio": {
+                    "type": "string"
+                  },
+                  "birth_date": {
+                    "type": "string"
+                  },
+                  "social_networks": {
+                    "type": "object"
+                  },
+                  "career_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  },
+                  "subject_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "required": [
+                  "user"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a user",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "value": "Bearer <JWT Token>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/"
+    }
+  ]
+}

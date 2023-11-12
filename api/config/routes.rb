@@ -15,15 +15,18 @@ Rails.application.routes.draw do
 
   resources :attendances, only: :update
   resources :careers, only: :index
-  resources :groups, except: [:new, :edit] do
+  resources :groups do
     get :members, on: :member
+    resources :messages, module: :groups, except: :show
     resources :requests, only: [:create, :index, :update], module: :groups do
       get 'users/:user_id', to: 'requests#show_for_user', on: :collection
     end
-    resources :messages, module: :groups, except: :show
   end
   resources :members, only: [:update, :destroy]
   resources :sessions, only: [:create, :show, :update, :destroy]
   resources :subjects, only: [:index, :show]
   resources :users, only: [:show, :update, :destroy]
+
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
 end
