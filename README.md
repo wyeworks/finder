@@ -113,6 +113,13 @@ $ cd finder/api
 $ bundle exec rails db:create db:migrate db:seed
 ```
 
+`Users`, `groups`, and test study `sessions` can also be created with the following commands:
+
+```
+$ cd finder/api
+$ bundle exec rake db:seed:resources
+```
+
 ### Start App Locally
 
 Run `api` (BE) and `client` (FE) separately.
