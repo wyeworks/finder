@@ -46,6 +46,10 @@
       "validateText": "Ingresa una contraseña válida",
       "passwordInfo": "Asegúrate de que tu contraseña tenga al menos 8 caracteres y contenga: \n- Una letra mayúscula \n- Una letra minúscula \n- Un número \n- Al menos un caracter especial (#?!@$%^&*._-) \n\n Evita usar contraseñas con patrones simples como \"Abcd-12345\", con tu nombre y/o fecha de cumpleaños."
     },
+    "tokenInput": {
+      "label": "Código de verificación",
+      "placeholder": "Ingresa tu código"
+    },
     "createAccountButton": {
       "text": "Crear cuenta"
     },
@@ -64,6 +68,12 @@
       "newPasswordLabel": "Nueva contraseña",
       "newPasswordPlaceholder": "Ingresa tu nueva contraseña"
     },
+    "recoverPassword": {
+      "title": "Recuperar contraseña",
+      "confirmButtonText": "Siguiente",
+      "newPasswordLabel": "Nueva contraseña",
+      "newPasswordPlaceholder": "Ingresa tu nueva contraseña"
+    },
     "deleteUser": {
       "title": "Eliminar perfil",
       "confirmButtonText": "Eliminar perfil",
@@ -71,6 +81,15 @@
       "confirmDialogDescription": "¿Estás seguro que deseas eliminar tu perfil? Esta acción no se puede deshacer.",
       "confirmDialogTitle": "Eliminar perfil",
       "confirmDialogConfirmButtonText": "Eliminar perfil",
+      "confirmDialogCancelButtonText": "Cancelar"
+    },
+    "deleteSession": {
+      "title": "Eliminar sesión",
+      "confirmButtonText": "Eliminar sesión",
+      "deleteExplanation": "Si eliminas la sesión, se eliminarán todos los datos vinculados a la misma. Esta acción no se puede deshacer.",
+      "confirmDialogDescription": "¿Estás seguro que deseas eliminar la sesión? Esta acción no se puede deshacer.",
+      "confirmDialogTitle": "Eliminar sesión",
+      "confirmDialogConfirmButtonText": "Eliminar sesión",
       "confirmDialogCancelButtonText": "Cancelar"
     },
     "descriptionGroupInput": {
@@ -161,6 +180,42 @@
       }
     }
   },
+  "configGroup": {
+    "title": "Ajustes de grupo",
+    "form": {
+      "edit": {
+        "title": "Información general",
+        "confirmButton": "Guardar cambios",
+        "alertError": "No se pudo actualizar el grupo",
+        "alertErrorLoadingSubjects": "No se pudieron cargar las materias",
+        "fields": {
+          "name": {
+            "label": "Nombre del grupo",
+            "placeholder": "Ingresa el nombre del grupo"
+          },
+          "materia": {
+            "label": "Materia"
+          },
+          "description": {
+            "label": "Descripción",
+            "placeholder": "Ingresa una descripción"
+          },
+          "preferenciaHoraria": {
+            "label": "Preferencia horaria"
+          }
+        }
+      },
+      "delete": {
+        "title": "Eliminar grupo",
+        "confirmButton": "Eliminar grupo",
+        "explanation": "Todos los datos serán eliminados permanentemente",
+        "confirmationDialogText": "¿Estás seguro que deseas eliminar el grupo? Esta acción no se puede deshacer.",
+        "confirmationDialogTitle": "Eliminar grupo",
+        "alertSuccess": "Grupo eliminado",
+        "alertError": "No se pudo eliminar el grupo"
+      }
+    }
+  },
   "createGroup": {
     "step1": {
       "description": "Primero elige la materia del grupo",
@@ -199,7 +254,7 @@
         "default": "No puede ser vacío",
         "title": "La sesion debe tener título",
         "hourFormat": "formato válido: hh:mm",
-        "meetLink": "Debe ser un link válido",
+        "meetLink": "Debe ser un link válido, ejemplo http://meet.com",
         "date": "Fecha inválida"
       },
       "submitText": "Guardar",
@@ -208,8 +263,14 @@
         "description": "Ingrese la descripción de la sesión",
         "location": "Ingrese la ubicación aquí",
         "hoursFormat": "hh:mm",
-        "title": "Añadí un titulo"
+        "title": "Añadí un título"
       }
     }
+  },
+  "viewSession": {
+    "noLocation": "Sin ubicación",
+    "noDescription": "Sin descripción",
+    "noMeetLink": "Sin enlace",
+    "inviteQuestion": "¿Asistirás?"
   }
 }

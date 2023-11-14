@@ -174,7 +174,7 @@ export default function Form() {
         <Button
           type='submit'
           text={strings.form.createAccountButton.text}
-          className='mt-5'
+          className='mt-6'
           disabled={isDisabled}
         />
         <Alert

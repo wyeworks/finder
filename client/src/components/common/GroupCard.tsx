@@ -9,7 +9,7 @@ type GroupCardProps = {
 
 export function GroupCard({ group, className = '' }: GroupCardProps) {
   return (
-    <Link href={'/groups/' + group.id}>
+    <Link href={'/groups/' + group.id} className='flex w-fit'>
       <div
         data-testid={`groupCard-${group.name}`}
         className={`flex-col overflow-hidden rounded-2xl bg-white shadow-lg ${className}`}
@@ -21,23 +21,24 @@ export function GroupCard({ group, className = '' }: GroupCardProps) {
           width={891}
           height={306}
           className='w-full'
+          priority
         />
         <div className='bg-white p-5'>
           <h1
             data-testid={`groupSubject-${group.subject_id}`}
-            className='text-base font-bold text-[#242760]'
+            className='font-poppins text-base font-bold text-[#242760]'
           >
             {group.subject_name}
           </h1>
           <h1
             data-testid={`groupName-${group.name}`}
-            className='text-xl font-normal text-[#050838]'
+            className='font-regular font-poppins text-xl text-[#050838]'
           >
             {group.name}
           </h1>
           <p
             data-testid={`groupDescription-${group.description}`}
-            className='line-clamp-2 text-base font-light text-[#A0A0A0]'
+            className='line-clamp-2 hyphens-auto break-all text-base font-light text-[#A0A0A0]'
           >
             {group.description}
           </p>

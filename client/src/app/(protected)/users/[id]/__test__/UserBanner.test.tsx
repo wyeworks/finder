@@ -6,9 +6,19 @@ import {
   UserBuilder,
 } from '../../../../../../tests/builders/UserBuilder';
 import React from 'react';
+import { Career } from '@/types/Career';
+
+const testCareer: Career = {
+  id: 101,
+  name: 'Test career',
+  code: 'CS101',
+  approved_on: '2023-01-01',
+  years: 4,
+  credits: 120,
+};
 
 describe('UserBanner Component', () => {
-  const usuarioTipico = UserBuilder.aUser().build();
+  const usuarioTipico = UserBuilder.aUser().withCareers([testCareer]).build();
 
   it('should render without crashing', () => {
     render(<UserBanner user={usuarioTipico} isLoggedUser={false} />);
@@ -155,5 +165,28 @@ describe('UserBanner Component', () => {
     render(<UserBanner user={usuario} isLoggedUser={false} />);
 
     expect(screen.queryByTestId('editButton')).not.toBeInTheDocument();
+  });
+
+  it('should display multiple careers correctly', () => {
+    // Create a user with multiple careers
+    const careers = [
+      { ...testCareer, name: 'Career 1' },
+      { ...testCareer, name: 'Career 2' },
+      { ...testCareer, name: 'Career 3' },
+    ];
+    const userWithMultipleCareers = UserBuilder.aUser()
+      .withCareers(careers)
+      .build();
+
+    // Render UserBanner with the user
+    render(<UserBanner user={userWithMultipleCareers} isLoggedUser={false} />);
+
+    // Check if the first career is displayed correctly
+    expect(screen.getByText('Career 1')).toBeInTheDocument();
+
+    // Check if the other careers are displayed correctly
+    careers.slice(1).forEach((career) => {
+      expect(screen.getByText(career.name)).toBeInTheDocument();
+    });
   });
 });

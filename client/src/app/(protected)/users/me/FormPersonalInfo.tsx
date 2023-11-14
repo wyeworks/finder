@@ -18,8 +18,8 @@ import { Subject } from '@/types/Subject';
 import { Career } from '@/types/Career';
 import { SocialNetworks } from '@/types/SocialNetworks';
 import { useSession } from 'next-auth/react';
-import { ConfigProfileSection } from '@/app/(protected)/users/me/ConfigProfileSection';
-import { mustBePhoneNumer, mustBeURLWithUsername } from '@/utils/Pattern';
+import { ConfigProfileSection } from '@/components/common/ConfigProfileSection';
+import { mustBePhoneNumber, mustBeURLWithUsername } from '@/utils/Pattern';
 import { UserService } from '@/services/UserService';
 
 type PersonalInfoFormData = {
@@ -236,6 +236,7 @@ export default function FormPersonalInfo({
         onChange={handleChange}
         touched={touched.name}
         Icon={<UserIcon className='h-5 w-5 text-gray-400' />}
+        classNameWrapper='h-[55px]'
         classNameInput='bg-backgroundInput max-w-sm'
         maxLength={40}
       />
@@ -250,6 +251,7 @@ export default function FormPersonalInfo({
         value={formData.birthdate}
         onChange={handleChange}
         classNameInput='bg-backgroundInput max-w-sm'
+        classNameWrapper='h-[55px]'
         max={
           new Date(
             currentDate.getFullYear() - 17,
@@ -308,7 +310,7 @@ export default function FormPersonalInfo({
                 pattern={
                   key != 'whatsapp'
                     ? mustBeURLWithUsername(key)
-                    : mustBePhoneNumer()
+                    : mustBePhoneNumber()
                 }
                 name={key}
                 Icon={returnSocialNetworkIcon(key)}

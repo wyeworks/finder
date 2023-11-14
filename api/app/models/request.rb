@@ -9,7 +9,7 @@ class Request < ApplicationRecord
   # Validations
   validates :status, presence: true, inclusion: { in: statuses.keys }
   validates :reason, presence: true, if: :rejected?
-  validate :no_duplicate_pending_or_accepted_requests, :user_not_group_member, on: :create
+  validate :no_existing_pending_request, :user_not_group_member, on: :create
   validate :group_capacity
 
   # Before
@@ -20,18 +20,10 @@ class Request < ApplicationRecord
 
   private
 
-  def no_duplicate_pending_or_accepted_requests
-    existing_request = Request.where(user_id:, group_id:)
-                              .exists?(status: %w[pending accepted])
+  def no_existing_pending_request
+    existing_request = Request.where(user_id:, group_id:).exists?(status: :pending)
 
-    errors.add(:general, 'Ya hay una solicitud pendiente o aceptada para este usuario y grupo') if existing_request
-  end
-
-  def ensure_status_is_modifiable
-    return unless status_changed? && (status_was == 'accepted' || status_was == 'rejected')
-
-    errors.add(:status, 'No se puede modificar una solicitud que ya ha sido aceptada o rechazada')
-    throw(:abort)
+    errors.add(:general, 'Ya hay una solicitud pendiente para este usuario y grupo') if existing_request
   end
 
   def user_not_group_member
@@ -44,6 +36,13 @@ class Request < ApplicationRecord
     return unless group && group.members.count >= group.size
 
     errors.add(:group, 'El grupo ya ha alcanzado su capacidad máxima')
+  end
+
+  def ensure_status_is_modifiable
+    return unless status_changed? && (status_was == 'accepted' || status_was == 'rejected')
+
+    errors.add(:status, 'No se puede modificar una solicitud que ya ha sido aceptada o rechazada')
+    throw(:abort)
   end
 
   def add_user_to_group

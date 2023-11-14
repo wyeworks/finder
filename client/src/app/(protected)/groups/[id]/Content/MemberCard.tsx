@@ -75,8 +75,8 @@ export default function MemberCard({
     }
   }
 
-  const showTagOptions = function (memberId: string) {
-    if (isAdmin && memberId !== session?.user.id) return true;
+  const showTagOptions = function (userId: string) {
+    if (isAdmin && userId !== session?.user.id) return true;
     return false;
   };
 
@@ -94,9 +94,29 @@ export default function MemberCard({
     }
   }
 
+  async function handleRoleChange() {
+    try {
+      if (role != '') {
+        await GroupService.changeRole(
+          member_id,
+          role,
+          session?.user.accessToken!
+        );
+        fetchData!();
+      } else throw new Error('El rol actual es inválido.');
+    } catch (error) {
+      if (error instanceof NotOkError) {
+        if (onError)
+          onError(error.backendError.errors.group ?? ['Error inesperado']);
+        return;
+      }
+      Logger.debug('Error trying accepted or removed user' + { error });
+    }
+  }
+
   return (
     <div
-      className='grid w-full max-w-[100%] grid-cols-[40px,160px,auto] items-center 
+      className='grid w-full max-w-[100%] grid-cols-[40px,160px,auto] items-center
         border border-solid border-gray-200 p-2 hover:bg-gray-100 sm:max-w-none sm:grid-cols-[10%,55%,35%]'
     >
       <Link href={`/users/${id}`}>
@@ -146,16 +166,16 @@ export default function MemberCard({
                   <div className='absolute z-20'>
                     <div className='z-20 float-left'>
                       <Menu.Items className='fixed right-0 z-20 mt-2 block w-56 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none lg:right-auto'>
-                        {role === 'participant' && (
-                          <Menu.Item>
-                            <button className='group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900'>
-                              Designar como{' '}
-                              {role === 'participant'
-                                ? 'administrador'
-                                : 'miembro'}
-                            </button>
-                          </Menu.Item>
-                        )}
+                        <Menu.Item>
+                          <button
+                            className='group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900'
+                            onClick={handleRoleChange}
+                          >
+                            {role === 'participant'
+                              ? 'Designar como administrador'
+                              : 'Remover como administrador'}
+                          </button>
+                        </Menu.Item>
                         <Menu.Item>
                           <button
                             className={`group flex w-full items-center rounded-md px-2 py-2 text-sm text-[#DC3545]`}

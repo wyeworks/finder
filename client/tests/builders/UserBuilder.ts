@@ -1,5 +1,7 @@
+import { Career } from '@/types/Career';
 import { SocialNetworks } from '@/types/SocialNetworks';
-import { GroupDetails, User } from '@/types/User';
+import { User } from '@/types/User';
+import { StudyGroup } from '@/types/StudyGroup';
 
 export class UserBuilder {
   private readonly id: string;
@@ -9,7 +11,8 @@ export class UserBuilder {
   private readonly bio?: string;
   private readonly socialNetworks?: SocialNetworksBuilder;
   private readonly accessToken: string;
-  private readonly groups?: GroupDetails[];
+  private readonly groups?: StudyGroup[];
+  private readonly careers?: Career[];
 
   constructor(
     id: string,
@@ -19,7 +22,8 @@ export class UserBuilder {
     profileImage?: string,
     bio?: string,
     socialNetworks?: SocialNetworksBuilder,
-    groups?: GroupDetails[]
+    groups?: StudyGroup[],
+    careers?: Career[]
   ) {
     this.id = id;
     this.name = name;
@@ -29,6 +33,7 @@ export class UserBuilder {
     this.socialNetworks = socialNetworks;
     this.accessToken = accessToken;
     this.groups = groups;
+    this.careers = careers;
   }
 
   static aUser() {
@@ -38,6 +43,7 @@ export class UserBuilder {
       'juan.peres@fing.com.uy',
       '123456789',
       'https://www.gravatar.com/av',
+      undefined,
       undefined,
       undefined,
       undefined
@@ -135,6 +141,20 @@ export class UserBuilder {
     );
   }
 
+  withCareers(careers?: Career[]): UserBuilder {
+    return new UserBuilder(
+      this.id,
+      this.name,
+      this.email,
+      this.accessToken,
+      this.profileImage,
+      this.bio,
+      this.socialNetworks,
+      this.groups,
+      careers
+    );
+  }
+
   build(): User {
     return {
       id: this.id,
@@ -145,6 +165,7 @@ export class UserBuilder {
       social_networks: this.socialNetworks?.build(),
       accessToken: this.accessToken,
       groups: this.groups,
+      careers: this.careers,
     };
   }
 }

@@ -4,11 +4,12 @@ import LinkIcon from '@/assets/Icons/LinkIcon';
 import LocationIcon from '@/assets/Icons/LocationIcon';
 import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
-import { CreateSessionAlertProps, CreateSessionData } from './Sessions';
+import { ModalSessionAlertProps, CreateSessionData } from './Sessions';
 import Button from '@/components/common/Button';
 import strings from '@/locales/strings.json';
 import { Dispatch, SetStateAction } from 'react';
 import Alert from '@/components/common/Alert';
+import { validateHour } from '@/utils/validations';
 
 type CreateSessionModalProps = {
   formData: CreateSessionData;
@@ -16,7 +17,7 @@ type CreateSessionModalProps = {
   // eslint-disable-next-line no-unused-vars
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
   touched: any;
-  alertProps: CreateSessionAlertProps;
+  alertProps: ModalSessionAlertProps;
 };
 
 export default function CreateSessionForm({
@@ -47,14 +48,6 @@ export default function CreateSessionForm({
     }));
   };
 
-  const validateHour = (value: any) => {
-    const pattern = /^[0-2][0-9]:[0-5][0-9]$/;
-    if (value !== '' && !pattern.test(value)) {
-      return strings.createSession.form.validateText.hourFormat;
-    }
-    return strings.createSession.form.validateText.default;
-  };
-
   return (
     <form
       className='m-2 grid grid-cols-[20px,auto] grid-rows-[50px,50px,50px,50px,auto,50px,125px] gap-x-3 gap-y-8 sm:gap-y-[10px] '
@@ -62,14 +55,16 @@ export default function CreateSessionForm({
       onSubmit={handleSubmit}
       data-testid='create-sesion'
     >
-      <div className='col-span-2'>
+      <div className='mr-2 mt-2 h-5 w-5' />
+      <div>
         <input
           name='title'
           type='text'
-          className='peer h-fit w-[90%] border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
+          className='peer mt-3 h-fit w-full border-b border-gray-300 text-xl focus:border-gray-600 focus:outline-none'
           placeholder={strings.createSession.form.placeholders.title}
           value={formData.title}
           onChange={handleChange}
+          maxLength={35}
           required
         />
         {touched.title && (
@@ -107,6 +102,7 @@ export default function CreateSessionForm({
           validateText={validateHour(formData.startHour)}
           pattern='[0-2][0-9]:[0-5][0-9]'
           data-testid='startHour'
+          maxLength={5}
         />
       </div>
       <div />
@@ -140,6 +136,7 @@ export default function CreateSessionForm({
           pattern='[0-2][0-9]:[0-5][0-9]'
           disabled={formData.startTime === ''}
           data-testid='endHour'
+          maxLength={5}
         />
       </div>
       <LocationIcon className='mr-2 mt-2 h-5 w-5' />
@@ -152,6 +149,7 @@ export default function CreateSessionForm({
         value={formData.location}
         onChange={handleChange}
         touched={touched.location}
+        maxLength={35}
         validateText={strings.createSession.form.validateText.default}
       />
       <BarsIcon className='mr-2 mt-1 h-5 w-5' />
@@ -165,6 +163,7 @@ export default function CreateSessionForm({
         onChange={handleChange}
         touched={touched.description}
         validateText={strings.createSession.form.validateText.default}
+        maxLength={200}
       />
       <LinkIcon className='mr-2 mt-2 h-5 w-5' />
       <Input
@@ -177,7 +176,8 @@ export default function CreateSessionForm({
         onChange={handleChange}
         touched={touched.meetLink}
         validateText={strings.createSession.form.validateText.meetLink}
-        pattern='.*\..*'
+        maxLength={60}
+        pattern='https?://.*\..*'
       />
       <div className='col-span-2 flex flex-col justify-center gap-1'>
         <Alert

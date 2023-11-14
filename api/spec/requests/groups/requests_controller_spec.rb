@@ -59,7 +59,7 @@ RSpec.describe 'Groups::Requests', type: :request do
 
         it 'returns JSON containing error messages' do
           json_response = response.parsed_body
-          expected_error = 'Ya hay una solicitud pendiente o aceptada para este usuario y grupo'
+          expected_error = 'Ya hay una solicitud pendiente para este usuario y grupo'
           expect(json_response['errors']['general']).to include(expected_error)
         end
       end
@@ -220,7 +220,7 @@ RSpec.describe 'Groups::Requests', type: :request do
     end
   end
 
-  # Show group request
+  # Index
   describe 'GET /groups/:group_id/requests' do
     let(:user) { create(:user) }
     let(:group) { create(:group) }

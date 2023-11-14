@@ -10,7 +10,7 @@ RSpec.describe GroupsController, type: :request do
 
   # Index
   describe 'GET /groups' do
-    let(:groups) { create_list :group, 2 }
+    let(:groups) { create_list(:group, 2, :with_sessions) }
 
     before do
       get groups_path(groups), headers:
@@ -31,6 +31,15 @@ RSpec.describe GroupsController, type: :request do
         expect(json_response[0]['time_preferences']).to be_a(Hash)
         expect(json_response[0]['subject_id']).to be_a(Integer)
         expect(json_response[0]['subject_name']).to be_a(String)
+        expect(json_response[0]['user_ids']).to be_a(Array)
+      end
+
+      it 'returns JSON containing sessions data for each group' do
+        json_response = response.parsed_body
+
+        expect(json_response[0]['sessions']).to be_a(Array)
+        expect(json_response[0]['sessions'][0]['id']).to be_a(Integer)
+        expect(json_response[0]['sessions'][0]['name']).to be_a(String)
       end
     end
 
@@ -100,14 +109,22 @@ RSpec.describe GroupsController, type: :request do
 
   # Show
   describe 'GET /groups/:id' do
-    let(:group) { create(:group) }
-    let(:group_id) { group.id }
+    let!(:group) { create(:group, :with_sessions, size: 5) }
+    let!(:admin) { create :user }
+    let!(:admin_member) { create(:member, role: 'admin', group:, user: admin) }
+    let!(:request) { create(:request, group:) }
+    let!(:group_id) { group.id }
 
-    before do
-      get group_path(group_id), headers:
+    let(:headersAdmin) do
+      post user_session_path, params: { user: { email: admin.email, password: admin.password } }
+      { 'Authorization' => response.headers['Authorization'] }
     end
 
-    context 'when user is not authenticated' do
+    before do
+      get group_path(group_id), headers: headersAdmin
+    end
+
+    context 'when user is authenticated' do
       context 'when the group exists' do
         it 'returns a successful response' do
           expect(response).to be_successful
@@ -123,7 +140,19 @@ RSpec.describe GroupsController, type: :request do
           expect(json_response['time_preferences']).to eq(group.time_preferences)
           expect(json_response['subject_id']).to eq(group.subject_id)
           expect(json_response['subject_name']).to eq(group.subject.name)
+          expect(json_response['admin_ids']).to include(admin_member.user.id)
+          expect(json_response['requests']).to be_an(Array)
+          expect(json_response['requests'][0]['id']).to eq(request.id)
+          expect(json_response['requests'][0]['status']).to eq(request.status)
         end
+      end
+
+      it 'returns JSON containing sessions data for the group' do
+        json_response = response.parsed_body
+
+        expect(json_response['sessions']).to be_a(Array)
+        expect(json_response['sessions'][0]['id']).to be_a(Integer)
+        expect(json_response['sessions'][0]['name']).to be_a(String)
       end
 
       context 'when the group does not exist' do

@@ -23,7 +23,7 @@ type UserBannerProps = {
 function EditButton() {
   return (
     <Link data-testid={'editButton'} href={`/users/me`}>
-      <button className='flex w-fit items-center rounded-md bg-[#2B2D54] p-2 lg:self-end'>
+      <button className='flex w-max items-center rounded-md bg-[#2B2D54] p-2 lg:self-end'>
         <EditIcon className={'m-2 h-5 w-5 fill-white'} />
         <p className={'mr-2 text-lg font-medium text-white'}>Editar perfil</p>
       </button>
@@ -60,7 +60,7 @@ function UserBio(props: { bio: string }) {
   return (
     <h1
       data-testid={'BioField'}
-      className='text-center text-xl text-gray-600 lg:mt-2 lg:text-left'
+      className='overflow-auto break-words text-center text-xl text-gray-600 lg:mt-2 lg:text-left'
     >
       {props.bio}
     </h1>
@@ -97,7 +97,7 @@ function UserCareers(props: { careers: string[] }) {
     const careers = props.careers;
     const firstCareer = careers.shift();
     return (
-      <div className='mb-5 mt-5 flex h-min w-fit flex-col items-center justify-center self-center text-center lg:flex-row lg:self-start lg:text-left'>
+      <div className='mb-5 mt-5 flex h-min w-fit flex-col flex-wrap items-center justify-center self-center text-center lg:flex-row lg:justify-start lg:self-start lg:text-left'>
         <svg
           width='35'
           height='35'
@@ -113,13 +113,13 @@ function UserCareers(props: { careers: string[] }) {
             fill='#2B2D54'
           />
         </svg>
-        <h1 className={'text-2xl/6 text-[#212B36] lg:text-3xl/6'}>
+        <h1 className={'text-2xl/6 text-[#212B36] lg:text-2xl/6'}>
           {firstCareer}
         </h1>
         {careers.map((career) => (
           <>
             <div className='invisible text-2xl/6 lg:visible lg:ml-2'> |</div>
-            <h1 className={'text-2xl/6 text-[#212B36] lg:ml-2 lg:text-3xl/6'}>
+            <h1 className='text-2xl/6 text-[#212B36] lg:ml-2 lg:text-2xl/6'>
               {career}
             </h1>
           </>
@@ -147,16 +147,16 @@ function UserProfileImage({ profileImage }: { profileImage?: string }) {
       alt='Foto de perfil'
       width={250}
       height={250}
-      className='mb-5 rounded-full border-8 border-white lg:mb-10 lg:border-[#FAFAFA]'
+      className='mb-5 scale-75 rounded-full border-8 border-white lg:mb-10 lg:scale-100 lg:border-[#FAFAFA]'
     />
   );
 }
 
 function Careers({ careers }: { careers: Career[] }) {
-  if (careers.length === 0) return <></>;
+  if (!careers || careers.length === 0) return <></>;
   else
     return (
-      <div className='flex h-min w-fit flex-col items-center justify-center lg:flex-row'>
+      <div className='flex h-min w-full flex-col items-center justify-center lg:w-fit lg:flex-row'>
         <UserCareers careers={careers.map((c) => c.name)} />
       </div>
     );

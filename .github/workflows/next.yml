@@ -1,0 +1,31 @@
+name: React Tests and Coverage
+
+on:
+  # Runs on pushes and pull requests targeting main or develop branches
+  push:
+    branches: [main, develop]
+    paths:
+    - 'client/**'
+  pull_request:
+    branches: [main, develop]
+    paths:
+    - 'client/**'
+
+jobs:
+  react-tests:
+    # Set the action to run in the `client` sub directory
+    defaults:
+      run:
+        working-directory: ./client
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'  # You can choose your preferred Node.js version
+    - name: Install dependencies
+      run: npm ci
+    - name: Run Jest tests
+      run: npm run test:ci

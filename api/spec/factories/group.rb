@@ -11,5 +11,24 @@ FactoryBot.define do
         create_list(:member, 2, group:, role: 'participant')
       end
     end
+
+    trait :with_sessions do
+      with_members
+      after(:create) do |group|
+        create_list(:session, 3, group:)
+      end
+    end
+
+    trait :with_requests do
+      after(:create) do |group|
+        create_list(:request, 2, group:)
+      end
+    end
+
+    trait :with_messages do
+      after(:create) do |group|
+        create_list(:message, 2, group:)
+      end
+    end
   end
 end

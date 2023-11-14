@@ -11,6 +11,17 @@ const customJestConfig = {
   moduleNameMapper: {
     'modularize-import-loader.*!(@headlessui/react)': '@headlessui/react',
   },
+
+  // Add coverage configurations
+  collectCoverage: true,
+  collectCoverageFrom: [
+    'src/**/*.{js,jsx,ts,tsx}',
+    '!src/**/*.d.ts', // Exclude TypeScript declaration files
+    '!src/app/layout.tsx', // Exclude problematic file
+  ],
+  coverageDirectory: 'coverage',
+  coverageReporters: ['lcov', 'text'],
+  coveragePathIgnorePatterns: ['src/app/api/auth/'],
 };
 
 module.exports = createJestConfig(customJestConfig);

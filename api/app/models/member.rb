@@ -7,18 +7,45 @@ class Member < ApplicationRecord
 
   # Validations
   validates :role, presence: true, inclusion: { in: %w[admin participant] }
+  validates :user_id, uniqueness: { scope: :group_id }
+
+  # After
+  after_create :add_to_upcoming_sessions
 
   # Before
-  before_destroy :destroy_associated_sessions
+  before_destroy :assign_new_session_creator
 
   def promote!
     update!(role: 'admin')
   end
 
+  def demote!
+    update!(role: 'participant')
+  end
+
+  def admin?
+    role == 'admin'
+  end
+
+  def participant?
+    role == 'participant'
+  end
+
   private
 
-  def destroy_associated_sessions
+  def assign_new_session_creator
     sessions_created_by_member = Session.where(creator_id: id)
-    sessions_created_by_member.destroy_all
+    admin_member = group.admins.where.not(id:).first
+
+    # At this point, it is certain that an administrator exists in the group
+    sessions_created_by_member.each do |session|
+      session.update(creator_id: admin_member.id)
+    end
+  end
+
+  def add_to_upcoming_sessions
+    group.sessions.each do |session|
+      Attendance.create!(member: self, session:) if session.end_time > DateTime.now
+    end
   end
 end

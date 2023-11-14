@@ -8,9 +8,12 @@ class GroupSerializer
              :time_preferences,
              :subject_id,
              :subject_name,
-             :user_ids
+             :user_ids,
+             :admin_ids
 
   belongs_to :subject
+
+  has_many :sessions
 
   attribute :subject_name do |group|
     group.subject.name
@@ -32,5 +35,15 @@ class GroupSerializer
     else
       []  # Return an empty array if the user isn't an admin.
     end
+  end
+
+  attribute :sessions do |group|
+    group.sessions.map do |session|
+      SessionSerializer.new(session).serializable_hash[:data][:attributes]
+    end
+  end
+
+  attribute :admin_ids do |group|
+    group.admins.pluck(:user_id)
   end
 end

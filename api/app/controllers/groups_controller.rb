@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  include GroupAdminConcern
+  include GroupAuthorizable
 
   before_action :set_group, only: %i[show update destroy members]
   before_action :authorize_group_admin!, only: %i[update destroy]
@@ -54,6 +54,7 @@ class GroupsController < ApplicationController
   end
 
   def destroy
+    @group.sessions.destroy_all
     if @group.destroy
       Rails.logger.info 'Group was successfully deleted'
 

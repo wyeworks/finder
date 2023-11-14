@@ -3,9 +3,6 @@
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import Image from 'next/image';
-import InputSearch from './InputSearch';
-import NotificationIcon from '@/assets/Icons/NotificationIcon';
-import MessageIcon from '@/assets/Icons/MessageIcon';
 import CrossIcon from '@/assets/Icons/CrossIcon';
 import MenuIcon from '@/assets/Icons/MenuIcon';
 import ArrowDownIcon from '@/assets/Icons/ArrowDownIcon';
@@ -37,16 +34,6 @@ const userNavigation = (user: User) => [
 ];
 
 const userNavigationMobile = (user: User) => [
-  {
-    name: strings.header.navOptions.notifications,
-    href: '#',
-    icon: <NotificationIcon className='mr-3 h-4 w-4' />,
-  },
-  {
-    name: strings.header.navOptions.messages,
-    href: '#',
-    icon: <MessageIcon className='mr-3 h-4 w-4' />,
-  },
   {
     name: strings.header.navOptions.viewProfile,
     href: `/users/${user.id}`,
@@ -93,23 +80,6 @@ export default function Header({ user }: HeaderProps) {
                 </div>
                 <div className='hidden w-full md:block'>
                   <div className='ml-4 flex items-center justify-end md:ml-6'>
-                    <div className='w-[50%]'>
-                      <InputSearch />
-                    </div>
-
-                    <a
-                      href='#'
-                      className='block shrink-0 rounded-lg p-2.5 text-iconTextHeader shadow-sm hover:text-white'
-                    >
-                      <NotificationIcon className='h-8 w-8 ' />
-                    </a>
-                    <a
-                      href='#'
-                      className='block shrink-0 rounded-lg p-2.5 text-iconTextHeader shadow-sm hover:text-white'
-                    >
-                      <MessageIcon className='h-8 w-8' />
-                    </a>
-
                     {/* Profile dropdown */}
                     <Menu as='div' className='relative ml-3'>
                       <div>
@@ -174,9 +144,6 @@ export default function Header({ user }: HeaderProps) {
 
             {/* options for mobile menu */}
             <Disclosure.Panel className='md:hidden'>
-              <div className='space-y-1 px-2 pb-3 pt-2 sm:px-3'>
-                <InputSearch />
-              </div>
               <div className='border-t border-gray-700 pb-3 pt-4'>
                 <div className='flex items-center px-5'>
                   <div className='flex-shrink-0'>

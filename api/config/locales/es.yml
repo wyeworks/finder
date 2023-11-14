@@ -5,6 +5,11 @@ es:
         invalid: "La validación falló y el record no es válido"
         record_invalid: "La validación falló: %{errors}"
       models:
+        attendance:
+          attributes:
+            status:
+              blank: "El estado de la asistencia no puede ser vacío"
+              inclusion: "El estado utilizado no es una opción válida"
         career:
           attributes:
             code:
@@ -34,6 +39,10 @@ es:
               inclusion: "El rol utilizado no es una opción válida"
             user:
               required: "El miembro debe estar asociado a un usuario"
+        message:
+          attributes:
+            content:
+              blank: "El contenido del mensaje no puede ser vacío"
         request:
           attributes:
             user:

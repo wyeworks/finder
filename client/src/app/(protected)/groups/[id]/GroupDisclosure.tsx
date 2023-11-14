@@ -8,9 +8,13 @@ import sections from './Sections';
 
 type GroupDisclosureProps = {
   group: StudyGroup;
+  fetchGroup?: () => void;
 };
 
-export default function GroupDisclosure({ group }: GroupDisclosureProps) {
+export default function GroupDisclosure({
+  group,
+  fetchGroup,
+}: GroupDisclosureProps) {
   return (
     <div>
       {sections.map((section) => (
@@ -29,7 +33,7 @@ export default function GroupDisclosure({ group }: GroupDisclosureProps) {
                 />
               </Disclosure.Button>
               <Disclosure.Panel className='px-4 pb-2 pt-4 text-sm'>
-                {section.content(group)}
+                {section.content(group, fetchGroup)}
               </Disclosure.Panel>
             </>
           )}

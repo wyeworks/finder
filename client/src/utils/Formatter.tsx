@@ -1,6 +1,6 @@
 import { Subject } from '@/types/Subject';
 import { Option } from '@/types/Option';
-
+import { Attendance } from '@/types/Attendance';
 import DiscordIcon from '@/assets/Icons/DiscordIcon';
 import FacebookIcon from '@/assets/Icons/FacebookIcon';
 import InstagramIcon from '@/assets/Icons/InstagramIcon';
@@ -84,40 +84,102 @@ export const translateEnglishDays: { [key: string]: string } = {
   Sunday: 'Domingo',
 };
 
-// recive times in the format "2023-12-10T19:00:00.000Z" and return the new format "11 Diciembre 2023 18:00"
-export function dateFormat(
+export function formatDateToSpanish(date: string) {
+  const dateAux = new Date(date.replace('Z', ''));
+  const months = [
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre',
+  ];
+  const days = [
+    'Domingo',
+    'Lunes',
+    'Martes',
+    'Miércoles',
+    'Jueves',
+    'Viernes',
+    'Sábado',
+  ];
+  return (
+    days[dateAux.getDay()] +
+    ', ' +
+    dateAux.getDate() +
+    ' de ' +
+    months[dateAux.getMonth()] +
+    ' de ' +
+    dateAux.getUTCFullYear() +
+    ' - ' +
+    dateAux.getHours().toString().padStart(2, '0') +
+    ':' +
+    dateAux.getMinutes().toString().padStart(2, '0')
+  );
+}
+
+export function formatDateToSpanishWithEndTime(
   startTime: string,
-  endTime: string,
-  isShowEndHour: boolean
+  endTime: string
 ) {
   const startDate = startTime.split('T')[0];
   const endDate = endTime.split('T')[0];
   const endHour = endTime.split('T')[1].split(':');
   const startHour = startTime.split('T')[1].split(':');
 
-  const day = startDate.split('-')[2];
-  const month = Number(startDate.split('-')[1]);
-  const year = startDate.split('-')[0];
-
   const showEndHour =
-    isShowEndHour && startDate === endDate && endHour[0] !== startHour[0]
+    startDate === endDate && endHour[0] !== startHour[0]
       ? `/ ${endHour[0]}:${endHour[1]}`
       : '';
 
-  const months: { [key: number]: string } = {
-    1: 'Enero',
-    2: 'Febrero',
-    3: 'Marzo',
-    4: 'Abril',
-    5: 'Mayo',
-    6: 'Junio',
-    7: 'Julio',
-    8: 'Agosto',
-    9: 'Septiembre',
-    10: 'Octubre',
-    11: 'Noviembre',
-    12: 'Diciembre',
-  };
+  return `${formatDateToSpanish(startTime)} ${showEndHour}`;
+}
 
-  return `${day} ${months[month]} ${year} ${startHour[0]}:${startHour[1]} ${showEndHour}`;
+export function formatAttendanceQauntity(attendances: Attendance[]) {
+  let yes = 0,
+    no = 0,
+    pending = 0;
+
+  for (const attendance of attendances) {
+    switch (attendance.status) {
+      case 'pending':
+        pending = pending + 1;
+        break;
+      case 'accepted':
+        yes = yes + 1;
+        break;
+      case 'rejected':
+        no = no + 1;
+        break;
+    }
+  }
+  return yes + ' si, ' + no + ' no, ' + pending + ' pendientes';
+}
+
+export function getHour(date: string) {
+  const dateAux = new Date(date);
+  return `${dateAux.getHours().toString().padStart(2, '0')}:${dateAux
+    .getMinutes()
+    .toString()
+    .padStart(2, '0')}`;
+}
+
+export function getHourWithoutZ(date: string) {
+  const dateStringAux = date.replace('Z', '');
+  const dateAux = new Date(dateStringAux);
+  return `${dateAux.getHours().toString().padStart(2, '0')}:${dateAux
+    .getMinutes()
+    .toString()
+    .padStart(2, '0')}`;
+}
+
+export function formatDateYYYYMMDDToDDMMYYYY(date: string) {
+  const aux = date.split('-');
+  return `${aux[2]}/${aux[1]}/${aux[0]}`;
 }
