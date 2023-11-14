@@ -203,6 +203,25 @@ Backend using [Render](https://render.com/).
 * [QA BE](https://finder-backend-qa.onrender.com/)
 * [QA FE](https://finder-git-develop-frodo2412.vercel.app/)
 
+For configuration, the following Environment Variables must be set:
+
+**Backend**
+
+* `DB_HOST`: host of the database server
+* `DB_PORT`: port where the db server is exposed
+* `DB_NAME`: name of the database
+* `DB_USER`: the user the app should use to log into the DB
+* `DB_PASSWORD`: the password to be used for authentication against the DB
+* `RAILS_MASTER_KEY`: the key used to decrypt the configuration files
+* `SECRET_KEY_BASE`: key to be used as salt for JWT token generation
+
+**Frontend**
+
+* `RAILS_API_URL`: URL of the backemnd API deployment
+* `NEXT_PUBLIC_RAILS_API_URL`: same as `RAILS_API_URL` but visible from client side
+* `NEXTAUTH_SECRET`: secret to be used as salt for next auth
+* `NEXTAUTH_URL`: URL of the next auth server
+
 ## API Endpoint Documentation
 
 All backend endpoints are detailed [here](https://finder-backend-prod.onrender.com/api-docs).
